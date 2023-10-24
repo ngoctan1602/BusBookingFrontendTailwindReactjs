@@ -1,0 +1,48 @@
+import { Link } from "react-router-dom";
+import logo from "../../../assets/images/logotrip.png"
+import Button from "./Button";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
+// import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
+const Header = () => {
+    return (
+
+        <header className="flex justify-center bg-button">
+            <div className="w-100% h-[80px] flex items-center justify-between w-[90%]">
+                <Link className="hover:opacity-95" to="/">
+                    <img src={logo} className="w-[120px] h-[60px] rounded-8 object-cover" />
+                </Link>
+                <div className="my-4">
+                    <div className="flex items-center justify-between text-bg text-16">
+                        {/* <Link className="hoverLink" to="/introduce">
+                            Giới thiệu
+                        </Link> */}
+                        <Link className="hoverLink" to="/introduce">
+                            Trở thành đối tác
+                        </Link>
+                        <Link className="hoverLink" to="/introduce">
+                            Chính sách của Y-Trip
+                        </Link>
+                        <div className="h-[20px] bg-bg w-[0.1px]">
+
+                        </div>
+                        <Link className="flex items-center justify-center" to="/contact">
+                            <FontAwesomeIcon icon={faPhone} beat className="p-sm m-sm" />
+                            <p className="hover:underline cursor-pointer">0923140493</p>
+                        </Link>
+
+                        <Link to={"/login"}>
+                            <Button type="border" content="Đăng nhập">
+
+                            </Button>
+                        </Link>
+
+                    </div>
+                </div>
+            </div >
+        </header >
+    );
+}
+
+export default Header;
