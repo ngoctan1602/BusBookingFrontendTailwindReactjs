@@ -200,12 +200,12 @@ const Search = () => {
         {
             id: 1,
             img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
-            company: "Thanh Thủy",
-            category: "Limousine 32 chỗ ngồi có WC",
+            company: "Phương Trang",
+            category: "Limousine 64 chỗ ngồi có WC",
             star: 4,
             totalComment: 370,
             startTime: "7:30",
-            startLocation: "Bến xe Vạn Giã",
+            startLocation: "Bến xe Ninh Hòa",
             destination: "Bến xe Nông Lâm",
             intendTime: 12,
             price: 450000,
@@ -494,7 +494,8 @@ const Search = () => {
                         <BusCard item={busInfo[0]}></BusCard>
                         <BusCard item={busInfo[0]}></BusCard> */}
 
-                        <PaginatedItems itemsPerPage={2} items={busInfo}></PaginatedItems>
+                        {/* <PaginatedItems itemsPerPage={2} items={busInfo}></PaginatedItems> */}
+                        <PaginatedItems itemsPerPage={2} items={busInfo} componentToRender={BusCard}></PaginatedItems>
                     </div>
 
                 </div>

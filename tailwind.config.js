@@ -31,7 +31,7 @@ module.exports = {
       content: '90%',
       input: '40%',
       search: '70%',
-      wrapper: '80%'
+      wrapper: '80%',
     },
     extend: {
       backgroundImage: {

@@ -106,13 +106,24 @@
     }
 
     .button-hover {
-        /* border-[1px] border-button p-md
-                     hover:bg-button rounded-md ease-in-out duration-300
-                     hover:text-bg text-16 */
+
         border: 1px solid theme('colors.button');
         border-radius: 8px;
         padding: 12px;
         transition: ease-in-out 0.3s;
+    }
+
+    .confirm-button {
+        border: 1px solid theme('colors.button');
+        border-radius: 6px;
+        padding: 8px;
+        transition: ease-in-out 0.3s;
+    }
+
+    .confirm-button:hover {
+        background-color: theme('colors.button');
+        color: theme('colors.bg');
+        /* border-radius: 8px; */
     }
 
     .button-hover:hover {
@@ -150,5 +161,11 @@
         /* border-radius: 8px; */
     }
 
+    .widthDate {
+        width: calc(90% - 100px);
+    }
 
+    .widthName {
+        width: calc(90% - 100px);
+    }
 }

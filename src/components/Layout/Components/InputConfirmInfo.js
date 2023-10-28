@@ -25,10 +25,8 @@ const InputConfirmInfo = ({ item, onChange }) => {
                 // onFocus={() => setType()}
                 onBlur={handleOutFocus}
                 onChange={(e) => onChange(e.target.value)}
-                style={{ borderColor: checkEmty && !isFocus ? "red" : "" }}
-
-
-
+                style={{ borderColor: checkEmty && !isFocus ? "red" : "", background: item.background }}
+                value={item.value}
             >
             </input>
             {
@@ -44,7 +42,7 @@ const InputConfirmInfo = ({ item, onChange }) => {
 
 
                     }
-                    style={{ width: item.spanWidth }}>
+                    style={{ width: item.spanWidth, background: item.background }}>
 
                     {item.placeholder}
                 </span>

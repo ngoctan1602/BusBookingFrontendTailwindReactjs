@@ -7,7 +7,7 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 
 const InfoLayout = ({ children }) => {
     const [info, setInfo] = useState([
@@ -18,34 +18,32 @@ const InfoLayout = ({ children }) => {
             id: 2, content: "Thông báo của tôi", icon: faBell, active: false, path: '/notification'
         },
         {
-            id: 3, content: "Quản lý đơn hàng", icon: faCartShopping, active: false, path: '/notification'
+            id: 3, content: "Quản lý đơn hàng", icon: faCartShopping, active: false, path: '/order'
         },
         {
-            id: 4, content: "Chuyến đi yêu thích", icon: faHeart, active: false, path: '/history'
+            id: 4, content: "Chuyến đi yêu thích", icon: faHeart, active: false, path: '/favourite'
         },
         {
             id: 5, content: "Đánh giá của tôi", icon: faStar, active: false, path: '/his-review'
         }
     ])
-    useEffect(() => {
-        // const ii = listImg.filter(item => item.id == imgId);
-        // setCurrentImg(ii);
-        // return () => {
-        //     console.log(ii[0])
-        // };
-    }, [info]);
 
-    const seatActive = (id) => {
-        const updatedItems = info.map(item => {
-            if (item.id === id) {
-                return { ...item, active: true };
-            }
 
-            return { ...item, active: false };
+    const seatActive = useCallback((id) => {
+        return () => {
+            const updatedItems = info.map(item => {
+                if (item.id === id) {
+                    return { ...item, active: true };
+                }
 
-        });
-        setInfo(updatedItems);
-    }
+                return { ...item, active: false };
+
+            });
+            setInfo(updatedItems);
+        }
+    }, [info])
+
+
 
     return (
 
@@ -57,7 +55,7 @@ const InfoLayout = ({ children }) => {
                 <div class='w-content min-h-[600px] my-xl flex text-txt text-16'>
 
                     <div class='w-[20%] shrink-0 flex flex-col'>
-                        <div class='w-full min-h-[80px] flex justify-center items-center'>
+                        <div class='w-full min-h-[80px] flex justify-center items-center mb-md'>
                             <div class='w-[80px] h-[80px] shrink-0 rounded-full overflow-hidden '>
                                 <img src="https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg"
                                     class='object-cover '></img>

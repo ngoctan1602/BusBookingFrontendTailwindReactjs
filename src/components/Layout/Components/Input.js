@@ -12,7 +12,9 @@ const Input = (props) => {
     let isOpen = props.isOpen;
     let sit = props.sit;
     let name = props.name;
-    console.log()
+    let checked = props.checked;
+    let onChange = props.onChange;
+
     return (
         <>
             {
@@ -29,7 +31,10 @@ const Input = (props) => {
                     : type === 'radio'
                         ?
                         <div key={id} class='w-full my-[4px] flex'>
-                            <input type={type} id={id} value={content} name={name} class='w-[20px] h-[20px] border-none outline-none cursor-pointer' />
+                            <input
+                                checked={checked} type={type} id={id} value={content} name={name}
+                                onChange={() => onChange(id)}
+                                class='w-[20px] h-[20px] border-none outline-none cursor-pointer' />
                             <label htmlFor={id} class='text-txt text-16 mx-sm'>{content}</label>
                         </div>
                         : type === 'checkbox'
