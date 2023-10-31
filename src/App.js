@@ -1,7 +1,7 @@
 import "normalize.css"
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { publicRoutes, privateRoutes } from "./routers/router"
+import { publicRoutes, privateRoutes, adminRoutes } from "./routers/router"
 import DefaultLayout from './components/Layout/DefaultLayout/DefaultLayout';
 import InfoLayout from "./components/Layout/InfoLayout/Infolayout";
 function App() {
@@ -33,6 +33,20 @@ function App() {
                   <InfoLayout>
                     <route.component />
                   </InfoLayout>
+                }
+              />
+            })
+          }
+
+          {
+            adminRoutes.map((route, index) => {
+              return <Route
+                key={index}
+                path={route.path}
+                element={
+                  <route.layout>
+                    <route.component/>
+                  </route.layout>
                 }
               />
             })
