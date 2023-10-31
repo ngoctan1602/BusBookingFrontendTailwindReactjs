@@ -7,6 +7,12 @@ import Search from "../pages/Search/search"
 import Order from "../pages/Info/order"
 import Favourite from "../pages/Info/favourite"
 import HisReview from "../pages/Info/hisreview"
+import configs from "../configs"
+
+// Admin pages
+import {AdminLogin} from "../pages/Admin"
+import {AdminLayout} from "../components/Layout"
+import routes from "../configs/routes"
 const publicRoutes = [
     //Không cần đăng nhập vẫn xem được
 
@@ -45,7 +51,20 @@ const privateRoutes = [
     },
     {
         path: "/his-review", component: HisReview
-    }
+    },
+
+   
+
 ]
 
-export { publicRoutes, privateRoutes } 
+ /**
+ * @since [Admin]
+ */
+//#region Admin routes
+const adminRoutes = [
+    {path: configs.routes.adminLogin, component: AdminLogin, layout: AdminLayout},
+]
+//#endregion
+
+
+export { publicRoutes, privateRoutes,adminRoutes } 
