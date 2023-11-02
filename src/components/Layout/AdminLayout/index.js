@@ -1,15 +1,24 @@
 import Header from "./Header"
 import Footer from "./Footer"
-import RightSideBar from "./RightSideBar"
+import LeftSideBar from "./LeftSideBar"
+import "./main.css"
+
 
 export default function AdminLayout({children}) {
     return (
-        <div>
-            <Header ></Header>
-            <RightSideBar>
-                {children}    
-            </RightSideBar>
-            <Footer></Footer>
+        <div className="layout">
+            <section className="header">
+                <Header/>
+            </section>
+            <section className="main">
+                <section className="left-sidebar">
+                    <LeftSideBar/>
+                </section>
+                <section  className="content">
+                    {children}
+                </section>   
+            </section> 
+            <Footer className="footer"/>
         </div>
     )
 }

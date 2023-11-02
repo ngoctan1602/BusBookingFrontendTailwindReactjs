@@ -2,4 +2,4 @@
 # Create By MDung0807
 
 /node_modules/
-./package-lock.json
+package-lock.json
