@@ -11,7 +11,8 @@ module.exports = {
     colors: {
       'txt': '#474554',
       'button': '#00B873',
-      'bg': '#F2ECFF'
+      'bg': '#F2ECFF',
+      'hover-txt': '#75718a'
     },
     fontSize: {
       '12': '12px',
