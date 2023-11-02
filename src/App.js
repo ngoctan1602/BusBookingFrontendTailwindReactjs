@@ -37,20 +37,6 @@ function App() {
               />
             })
           }
-
-          {
-            adminRoutes.map((route, index) => {
-              return <Route
-                key={index}
-                path={route.path}
-                element={
-                  <route.layout>
-                    <route.component/>
-                  </route.layout>
-                }
-              />
-            })
-          }
         </Routes>
       </div>
     </Router>
