@@ -1,6 +1,5 @@
 footer {
-    background-color: #ebdfdf;
-    padding: 60px 0;
+    height: 20px;
 }
 footer h3 {
     margin-bottom: 30px;
@@ -10,10 +9,10 @@ footer ul li {
 }
 footer ul li i {
     margin-right: 10px;
-    color: #fbb710;
+    color: #5f5335;
 }
 footer ul.list-inline li a i {
     font-size: 20px;
     margin-right: 20px;
-    color: #fbb710;
+    color: #777369;
 }
