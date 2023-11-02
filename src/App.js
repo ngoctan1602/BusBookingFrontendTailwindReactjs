@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { publicRoutes, privateRoutes, adminRoutes } from "./routers/router"
 import DefaultLayout from './components/Layout/DefaultLayout/DefaultLayout';
 import InfoLayout from "./components/Layout/InfoLayout/Infolayout";
-import AdminLayout from "./components/Layout/AdminLayoutSidebar/AdminLayout";
 function App() {
   return (
     <Router>
@@ -39,25 +38,15 @@ function App() {
             })
           }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 33249420c08fad41b194556fc497c6a5235b4532
           {
             adminRoutes.map((route, index) => {
               return <Route
                 key={index}
                 path={route.path}
                 element={
-<<<<<<< HEAD
-                  <AdminLayout>
-                    <route.component />
-                  </AdminLayout>
-=======
                   <route.layout>
                     <route.component/>
                   </route.layout>
->>>>>>> 33249420c08fad41b194556fc497c6a5235b4532
                 }
               />
             })
