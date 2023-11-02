@@ -39,16 +39,25 @@ function App() {
             })
           }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 33249420c08fad41b194556fc497c6a5235b4532
           {
             adminRoutes.map((route, index) => {
               return <Route
                 key={index}
                 path={route.path}
                 element={
+<<<<<<< HEAD
                   <AdminLayout>
                     <route.component />
                   </AdminLayout>
+=======
+                  <route.layout>
+                    <route.component/>
+                  </route.layout>
+>>>>>>> 33249420c08fad41b194556fc497c6a5235b4532
                 }
               />
             })
