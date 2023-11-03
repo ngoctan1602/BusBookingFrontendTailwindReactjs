@@ -1,4 +1,4 @@
-import instance from "./config/instanceAxios"
+import instance from "./Configs/instanceAxios"
 
 export const getItems = async (url, params)=>{
     try{
