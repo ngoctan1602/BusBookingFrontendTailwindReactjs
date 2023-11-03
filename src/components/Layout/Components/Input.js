@@ -14,6 +14,7 @@ const Input = (props) => {
     let name = props.name;
     let checked = props.checked;
     let onChange = props.onChange;
+    let value = props.value;
 
     return (
         <>
@@ -25,7 +26,7 @@ const Input = (props) => {
                             {content}
                         </label>
 
-                        <input type={type} placeholder={placeholder} onChange={props.onChange} className="bg-bg p-sm rounded-md border-[0.3px] border-txt outline-none focus:border-black focus:border-[2px]">
+                        <input name={name} value={value} type={type} placeholder={placeholder} onChange={props.onChange} className="bg-bg p-sm rounded-md border-[0.3px] border-txt outline-none focus:border-black focus:border-[2px]">
                         </input>
                     </div >
                     : type === 'radio'
@@ -58,7 +59,7 @@ const Input = (props) => {
                                         <label>
                                             {content}
                                         </label>
-                                        <input type={type} placeholder={placeholder} onChange={props.onChange} className="w-[20px] h-[20px] bg-bg p-sm rounded-md border-[0.3px] border-txt outline-none focus:border-black focus:border-[2px]">
+                                        <input name={name} value={value} type={type} placeholder={placeholder} onChange={props.onChange} className="w-[20px] h-[20px] bg-bg p-sm rounded-md border-[0.3px] border-txt outline-none focus:border-black focus:border-[2px]">
                                         </input>
                                     </div >
                                     :
@@ -72,7 +73,7 @@ const Input = (props) => {
                                     {content}
                                 </label>
 
-                                <input type={type} placeholder={placeholder} onChange={props.onChange} className="bg-bg p-sm rounded-md border-[0.3px] border-txt outline-none focus:border-black focus:border-[2px]">
+                                <input name={name} value={value} type={type} placeholder={placeholder} onChange={props.onChange} className="bg-bg p-sm rounded-md border-[0.3px] border-txt outline-none focus:border-black focus:border-[2px]">
                                 </input>
                             </div >
             }
