@@ -24,7 +24,7 @@ const InputConfirmInfo = ({ item, onChange }) => {
                 onFocus={() => setIsFocus(!isFocus)}
                 // onFocus={() => setType()}
                 onBlur={handleOutFocus}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => onChange(item.id, e.target.value)}
                 style={{ borderColor: checkEmty && !isFocus ? "red" : "", background: item.background }}
                 value={item.value}
             >

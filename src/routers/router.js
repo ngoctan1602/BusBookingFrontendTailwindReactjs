@@ -7,7 +7,12 @@ import Search from "../pages/Search/search"
 import Order from "../pages/Info/order"
 import Favourite from "../pages/Info/favourite"
 import HisReview from "../pages/Info/hisreview"
+
+import ManageTypeBus from "../pages/Admin/manageTypeBus"
+import ManageBusStation from "../pages/Admin/manageBusStation"
+
 import configs from "../configs"
+
 const publicRoutes = [
     //Không cần đăng nhập vẫn xem được
 
@@ -49,4 +54,24 @@ const privateRoutes = [
     }
 ]
 
-export { publicRoutes, privateRoutes } 
+
+
+const adminRoutes = [
+    {
+        path: "/manage-typebus", component: ManageTypeBus
+    },
+    {
+        path: "/manage-busstation", component: ManageBusStation
+    },
+    // {
+    //     path: "/order", component: Order
+    // },
+    // {
+    //     path: "/favourite", component: Favourite
+    // },
+    // {
+    //     path: "/his-review", component: HisReview
+    // }
+]
+
+export { publicRoutes, privateRoutes, adminRoutes } 

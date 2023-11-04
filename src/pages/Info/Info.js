@@ -21,10 +21,10 @@ const Info = () => {
     const [idGender, setIdGender] = useState(1);
     const [gender, setGender] = useState([
         {
-            id: 1, name: "gender", type: "radio", content: "Nam", isChoose: true
+            id: 1, name: "gender", type: "radio", content: "Nam", isChoose: false
         },
         {
-            id: 2, name: "gender", type: "radio", content: "Nữ", isChoose: false
+            id: 2, name: "gender", type: "radio", content: "Nữ", isChoose: true
         },
         {
             id: 3, name: "gender", type: "radio", content: "Khác", isChoose: false
