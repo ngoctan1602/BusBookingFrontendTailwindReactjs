@@ -7,8 +7,12 @@ import Search from "../pages/Search/search"
 import Order from "../pages/Info/order"
 import Favourite from "../pages/Info/favourite"
 import HisReview from "../pages/Info/hisreview"
+
 import ManageTypeBus from "../pages/Admin/manageTypeBus"
 import ManageBusStation from "../pages/Admin/manageBusStation"
+
+import configs from "../configs"
+
 const publicRoutes = [
     //Không cần đăng nhập vẫn xem được
 
@@ -17,12 +21,12 @@ const publicRoutes = [
     },
 
     {
-        path: "/register", component: Register
+        path: configs.routers.register, component: Register
     },
 
 
     {
-        path: "/Login", component: Login
+        path: configs.routers.login, component: Login
     },
 
     {
