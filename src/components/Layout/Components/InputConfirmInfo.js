@@ -27,6 +27,7 @@ const InputConfirmInfo = ({ item, onChange }) => {
                 onChange={(e) => onChange(item.id, e.target.value)}
                 style={{ borderColor: checkEmty && !isFocus ? "red" : "", background: item.background }}
                 value={item.value}
+                disabled={item.disable}
             >
             </input>
             {

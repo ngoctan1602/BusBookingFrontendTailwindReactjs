@@ -3,44 +3,29 @@ import TypeBusRow from "../../components/Layout/Components/Admin/TypeBusRow";
 import PopupAdd from "../../components/Layout/Components/Admin/PopupAdd";
 import { useCallback, useEffect, useState } from "react";
 import Paginate from "../../components/Layout/Components/Paginate"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 const ManageTypeBus = () => {
 
 
-    const notifySuccess = () => toast.success('Thêm thành công!', {
-        position: "bottom-right",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+    const [addTypeBus, setAddTypeBus] = useState({
+        name: '',
+        description: '',
+        totalSeat: '',
+        status: ''
     });
 
-    const notifyError = () => toast.error('Thêm thất bại!', {
-        position: "bottom-right",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-    });
     const [itemAdd, setItemAdd] = useState(
         {
             title: "Thêm mới loại xe",
             item: [
                 {
-                    id: 1, content: "Tên loại xe", spanWidth: 120, placeholder: "Tên loại xe", value: ""
+                    id: 1, name: "name", content: "Tên loại xe", spanWidth: 120, placeholder: "Tên loại xe", value: addTypeBus.name
                 },
                 {
-                    id: 2, content: "Mô tả", spanWidth: 100, placeholder: "Thêm mô tả", value: ""
+                    id: 2, name: "description", content: "Mô tả", spanWidth: 100, placeholder: "Thêm mô tả", value: addTypeBus.description
                 },
                 {
-                    id: 3, content: "Số chỗ ngồi", spanWidth: 160, placeholder: "Số chỗ ngồi", value: ""
+                    id: 3, name: "totalSeat", content: "Số chỗ ngồi", spanWidth: 160, placeholder: "Số chỗ ngồi", value: addTypeBus.totalSeat
                 }
             ]
         }
@@ -49,7 +34,9 @@ const ManageTypeBus = () => {
 
         const updatedItem = itemAdd.item.map(item => {
             if (item.id === id) {
+                setAddTypeBus({ ...addTypeBus, [item.name]: newValue })
                 return { ...item, value: newValue };
+
             }
             return item;
         });
@@ -65,10 +52,11 @@ const ManageTypeBus = () => {
         let isSuccess = true;
         itemAdd.item.map(item => {
             if (item.value === "") {
-
                 isSuccess = false
             }
+            // setAddTypeBus({ ...addTypeBus, [item.name]: item.value })
         });
+        console.log(addTypeBus)
         return isSuccess
     }, [itemAdd])
 
@@ -110,7 +98,7 @@ const ManageTypeBus = () => {
         ]
     );
 
-
+    // Hàm cập nhật trạng thái item
     const changeStatus = (id, value) => {
         const updatedItems = typeBus.map(item => {
             if (item.id === id) {
@@ -121,7 +109,6 @@ const ManageTypeBus = () => {
 
         });
         setTypeBus(updatedItems);
-        console.log(typeBus)
     }
 
     return (
@@ -131,7 +118,7 @@ const ManageTypeBus = () => {
                 <p class='col-span-2 font-bold text-20'>Quản lý nhà xe</p>
                 <input placeholder="Tìm kiếm" class='col-span-6 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
 
-                <PopupAdd item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAdd>
+                <PopupAdd addTypeBus={addTypeBus} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAdd>
             </div>
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
                 <thead>
@@ -148,18 +135,7 @@ const ManageTypeBus = () => {
                     <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus}></Paginate>
                 </tbody>
             </table>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={2500}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover={false}
-                theme="light"
-            />
+
         </div>
     );
 }
