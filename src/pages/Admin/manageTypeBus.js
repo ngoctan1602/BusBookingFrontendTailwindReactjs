@@ -1,24 +1,92 @@
 
 import TypeBusRow from "../../components/Layout/Components/Admin/TypeBusRow";
 import PopupAdd from "../../components/Layout/Components/Admin/PopupAdd";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Paginate from "../../components/Layout/Components/Paginate"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const ManageTypeBus = () => {
 
-    const itemAdd = {
-        title: "Thêm mới loại xe",
-        item: [
-            {
-                id: 1, content: "Tên loại xe", spanWidth: 120, placeholder: "Tên loại xe"
-            },
-            {
-                id: 2, content: "Mô tả", spanWidth: 100, placeholder: "Thêm mô tả"
-            },
-            {
-                id: 3, content: "Số chỗ ngồi", spanWidth: 160, placeholder: "Số chỗ ngồi"
+
+    const notifySuccess = () => toast.success('Thêm thành công!', {
+        position: "bottom-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+    const notifyError = () => toast.error('Thêm thất bại!', {
+        position: "bottom-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+    const [itemAdd, setItemAdd] = useState(
+        {
+            title: "Thêm mới loại xe",
+            item: [
+                {
+                    id: 1, content: "Tên loại xe", spanWidth: 120, placeholder: "Tên loại xe", value: ""
+                },
+                {
+                    id: 2, content: "Mô tả", spanWidth: 100, placeholder: "Thêm mô tả", value: ""
+                },
+                {
+                    id: 3, content: "Số chỗ ngồi", spanWidth: 160, placeholder: "Số chỗ ngồi", value: ""
+                }
+            ]
+        }
+    )
+    const updateItemValue = (id, newValue) => {
+
+        const updatedItem = itemAdd.item.map(item => {
+            if (item.id === id) {
+                return { ...item, value: newValue };
             }
-        ]
-    }
+            return item;
+        });
+
+
+        setItemAdd({
+            ...itemAdd,
+            item: updatedItem
+        });
+    };
+
+    const success = useCallback(() => {
+        let isSuccess = true;
+        itemAdd.item.map(item => {
+            if (item.value === "") {
+
+                isSuccess = false
+            }
+        });
+        return isSuccess
+    }, [itemAdd])
+
+    const emtyItemValue = () => {
+        // Tạo một bản sao mới của mảng item với giá trị được cập nhật
+        const updatedItem = itemAdd.item.map(item => {
+
+            return { ...item, value: "" };
+
+        });
+
+        // Cập nhật state bằng mảng mới đã được cập nhật
+        setItemAdd({
+            ...itemAdd,
+            item: updatedItem
+        });
+    };
+
     const [typeBus, setTypeBus] = useState(
         [
             {
@@ -63,7 +131,7 @@ const ManageTypeBus = () => {
                 <p class='col-span-2 font-bold text-20'>Quản lý nhà xe</p>
                 <input placeholder="Tìm kiếm" class='col-span-6 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
 
-                <PopupAdd item={itemAdd}></PopupAdd>
+                <PopupAdd item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAdd>
             </div>
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
                 <thead>
@@ -80,6 +148,18 @@ const ManageTypeBus = () => {
                     <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus}></Paginate>
                 </tbody>
             </table>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
         </div>
     );
 }
