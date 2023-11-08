@@ -15,7 +15,7 @@ const AdminLayout = ({ children }) => {
             id: 1, content: "Quản lý tài khoản khách hàng", icon: faUser, active: true, path: '/manage-account'
         },
         {
-            id: 2, content: "Quản lý nhà xe", icon: faBusinessTime, active: false,/* path: '/manage-company' */
+            id: 2, content: "Quản lý nhà xe", icon: faBusinessTime, active: false, path: '/manage-company'
         },
         {
             id: 3, content: "Quản lý loại xe", icon: faBusSimple, active: false, path: '/manage-typebus'

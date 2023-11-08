@@ -5,7 +5,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
-const PopupAdd = ({ addTypeBus, item, onChange, success, emtyItemValue }) => {
+const PopupAdd = ({ objectAdd, item, onChange, success, emtyItemValue }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
 
     const notifySuccess = () => toast.success('Thêm thành công!', {
@@ -35,7 +35,8 @@ const PopupAdd = ({ addTypeBus, item, onChange, success, emtyItemValue }) => {
         if (success()) {
             //Call api thêm addTypeBus
             notifySuccess()
-            console.log(addTypeBus);
+            console.log(objectAdd);
+            emtyItemValue()
         }
         else {
 

@@ -168,4 +168,10 @@
     .widthName {
         width: calc(90% - 100px);
     }
+
+    .closeButton {
+        position: absolute;
+        top: 0;
+        right: 0px;
+    }
 }

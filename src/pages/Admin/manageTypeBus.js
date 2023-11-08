@@ -115,10 +115,10 @@ const ManageTypeBus = () => {
         <div class='w-full text-txt txt-16'>
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý nhà xe</p>
+                <p class='col-span-2 font-bold text-20'>Quản lý loại xe</p>
                 <input placeholder="Tìm kiếm" class='col-span-6 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
 
-                <PopupAdd addTypeBus={addTypeBus} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAdd>
+                <PopupAdd objectAdd={addTypeBus} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAdd>
             </div>
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
                 <thead>
@@ -132,7 +132,7 @@ const ManageTypeBus = () => {
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>
-                    <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus}></Paginate>
+                    <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus} emtyItemValue={emtyItemValue}></Paginate>
                 </tbody>
             </table>
 

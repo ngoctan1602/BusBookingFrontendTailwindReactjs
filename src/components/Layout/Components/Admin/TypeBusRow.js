@@ -47,15 +47,16 @@ const TypeBusRow = ({ item, onChangeStatus, onUpdate }) => {
         });
     };
 
+
     const success = useCallback(() => {
         let isSuccess = true;
         itemUpdate.item.map(item => {
             if (item.value === "") {
                 isSuccess = false
             }
-            // setAddTypeBus({ ...addTypeBus, [item.name]: item.value })
+
         });
-        // console.log(addTypeBus)
+
         return isSuccess
     }, [itemUpdate])
 
