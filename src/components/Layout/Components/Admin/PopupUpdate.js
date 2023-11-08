@@ -9,7 +9,7 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
     const notifySuccess = () => toast.success('Cập nhật thành công!', {
         position: "bottom-right",
-        autoClose: 2500,
+        autoClose: 15000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
@@ -20,7 +20,7 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success }) => {
 
     const notifyError = () => toast.error('Cập nhật thất bại!', {
         position: "bottom-right",
-        autoClose: 2500,
+        autoClose: 15000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
@@ -31,9 +31,10 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success }) => {
 
     const getItemValue = () => {
         if (success()) {
-            //Call api thêm addTypeBus
-            notifySuccess()
+            //Call api updatetypus
             console.log(updateTypeBus);
+
+            notifySuccess()
         }
         else {
 
@@ -42,6 +43,7 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success }) => {
 
     };
     return (
+
         <Popup trigger={<button class="w-full flex justify-center "> <FontAwesomeIcon icon={faPenToSquare} color="#00B873" class='cursor-pointer confirm-button w-[30px] h-[30px]'></FontAwesomeIcon></button>} position="right center"
             modal
             nested
@@ -77,23 +79,26 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success }) => {
                         <div class='w-full my-md gap-sm grid grid-cols-10'>
                             <button class='col-start-4 col-span-3 col confirm-button ' onClick={getItemValue}>Xác nhận</button>
                             <button class='col-span-3 confirm-button' onClick={close}>Hủy</button>
+                            <ToastContainer
+                                position="bottom-right"
+                                autoClose={2500}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover={false}
+                                theme="light"
+                            />
                         </div>
-                        <ToastContainer
-                            position="bottom-right"
-                            autoClose={2500}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover={false}
-                            theme="light"
-                        />
+
                     </div>
                 )
             }
+
         </Popup>
+
     );
 }
 

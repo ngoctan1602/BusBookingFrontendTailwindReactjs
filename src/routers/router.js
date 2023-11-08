@@ -12,6 +12,7 @@ import ManageTypeBus from "../pages/Admin/manageTypeBus"
 import ManageBusStation from "../pages/Admin/manageBusStation"
 
 import configs from "../configs"
+import manageCompany from "../pages/Admin/manageCompany"
 
 const publicRoutes = [
     //Không cần đăng nhập vẫn xem được
@@ -62,6 +63,9 @@ const adminRoutes = [
     },
     {
         path: "/manage-busstation", component: ManageBusStation
+    },
+    {
+        path: "/manage-company", component: manageCompany
     },
     // {
     //     path: "/order", component: Order

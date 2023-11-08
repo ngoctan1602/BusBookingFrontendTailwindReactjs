@@ -1,7 +1,7 @@
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useState } from "react";
-import PopupUpdate from "./PopupUpdate";
+import PopupUpdate from "../PopupUpdate";
 
 const TypeBusRow = ({ item, onChange }) => {
     const itemUpdate = {
