@@ -5,6 +5,8 @@ import { publicRoutes, privateRoutes, adminRoutes } from "./routers/router"
 import DefaultLayout from './components/Layout/DefaultLayout/DefaultLayout';
 import InfoLayout from "./components/Layout/InfoLayout/Infolayout";
 import AdminLayoutSidebar from "./components/Layout/AdminLayoutSidebar/AdminLayout";
+
+import AdminLogin from "./pages/Admin/login";
 function App() {
   return (
     <Router>
@@ -45,9 +47,12 @@ function App() {
                 key={index}
                 path={route.path}
                 element={
-                  <AdminLayoutSidebar>
-                    <route.component />
-                  </AdminLayoutSidebar>
+                  route.path === "/admin/login" ?
+                    <AdminLogin></AdminLogin>
+                    :
+                    <AdminLayoutSidebar>
+                      <route.component />
+                    </AdminLayoutSidebar>
                 }
               />
             })
