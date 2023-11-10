@@ -1,5 +1,5 @@
 # Skip all file and folder names that push code to git
 # Create By MDung0807
-
+.idea/
 /node_modules/
 package-lock.json
