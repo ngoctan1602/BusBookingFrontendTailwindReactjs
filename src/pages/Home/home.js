@@ -124,7 +124,7 @@ const Home = () => {
 
                     {
                         cards.map((item, index) => (
-                            <Card price={item.price} location={item.location} src={item.src}>
+                            <Card key={index} price={item.price} location={item.location} src={item.src}>
                             </Card>
                         ))
                     }
@@ -137,7 +137,7 @@ const Home = () => {
                 <div className="flex min-h-[80%] w-full ">
                     {
                         discounts.map((item, index) => (
-                            <Card content={item.content} src={item.src} type={item.type}>
+                            <Card key={index} content={item.content} src={item.src} type={item.type}>
                             </Card>
                         ))
                     }
@@ -145,21 +145,21 @@ const Home = () => {
             </div>
 
 
-            <div class='min-h-[420px] w-[80%] my-md'>
-                <p class='font-bold text-[24px] my-md'>Khách hàng nói gì về Y-Trip</p>
+            <div className='min-h-[420px] w-[80%] my-md'>
+                <p className='font-bold text-[24px] my-md'>Khách hàng nói gì về Y-Trip</p>
                 <Slider {...settings}>
                     {
                         comments.map((item, index) => (
-                            <Card content={item.content} name={item.name} src={item.src} type={item.type}>
+                            <Card key={index} content={item.content} name={item.name} src={item.src} type={item.type}>
                             </Card>
                         ))
                     }
                 </Slider>
             </div>
 
-            <div class='w-wrapper min-h-[200px] my-md flex flex-col'>
+            <div className='w-wrapper min-h-[200px] my-md flex flex-col'>
                 <p className="font-bold text-[24px] my-md">Nền tảng kết nối người dùng và nhà xe</p>
-                <div class='flex justify-between w-full h-[80%]'>
+                <div className='flex justify-between w-full h-[80%]'>
                     {/* <Card type="introduce">
                     </Card>
                     <Card type="introduce">
@@ -170,7 +170,7 @@ const Home = () => {
                     </Card> */}
                     {
                         introduce.map((item, index) => (
-                            <Card content={item.content} intro={item.intro} src={item.src} type={item.type}>
+                            <Card key={index} content={item.content} intro={item.intro} src={item.src} type={item.type}>
                             </Card>
                         ))
                     }
