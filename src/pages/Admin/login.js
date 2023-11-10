@@ -1,0 +1,137 @@
+import { useCallback, useState } from "react";
+import adminlogo from "../../assets/images/AdminLogo.png"
+import InputConfirmInfo from "../../components/Layout/Components/InputConfirmInfo";
+import { useNavigate } from "react-router-dom";
+const AdminLogin = () => {
+    const navigate = useNavigate();
+    document.title = "Đăng nhập người quản trị"
+    const [account, setAccount] = useState(
+        {
+            username: '',
+            password: '',
+        }
+    )
+
+    const handleClick = useCallback(() => {
+        let success = false;
+        if (account.username != "" && account.password != "") {
+            //gọi api đăng nhập
+            success = true;
+        }
+        success && navigate('/manage-user-account')
+    }, [account])
+
+
+    const onChange = (id, value) => {
+        const updatedItems = item.map(item => {
+            if (item.id === id) {
+                setAccount({ ...account, [item.id]: value })
+                return { ...item, value: value };
+
+            }
+            return { ...item };
+        });
+        setItem(updatedItems)
+    }
+
+    const onChangeShowPassword = (isShow) => {
+        const updatedItems = item.map(item => {
+            if (item.id === "password" && isShow) {
+                return { ...item, type: "password" };
+            }
+            if (item.id === "password" && !isShow) {
+                return { ...item, type: "text" };
+            }
+            return { ...item };
+        });
+        setItem(updatedItems)
+    }
+
+    const [item, setItem] = useState(
+        [
+            {
+                id: "username",
+                content: "Tên đăng nhập:",
+                type: "text",
+                placeholder: "Nhập tên đăng nhập",
+                value: account.username,
+                spanWidth: 150,
+                background: "#e1e1e1"
+            },
+            {
+                id: "password",
+                content: "Mật khẩu:",
+                type: "password",
+                pw: "password",
+                placeholder: "Nhập mật khẩu",
+                value: account.password,
+                spanWidth: 120,
+                background: "#e1e1e1"
+            }
+        ]
+    );
+
+    return (
+        <div class='w-full h-[100vh] bg-gradient-to-br from-button to-[#B0D9B1] flex justify-center items-center'>
+            <div class='w-2/3 h-2/3 border-none shadow-2xl rounded-md overflow-hidden flex'>
+                <div class='w-[40%] h-full bg-bgLogin bg-cover bg-no-repeat text-bg flex flex-col items-center'>
+                    <img src={adminlogo} class='mt-md shrink-0 w-[100px] h-[100px] rounded-full'></img>
+                    <p class='text-[30px] font-semibold shrink-0'>
+                        Chào mừng quay trở lại !
+                    </p>
+                    <p class='text-18 shrink-0'>
+                        Đăng nhập để quản lý hệ thống
+                    </p>
+                    <p class='text-14 m-md'>
+                        Những chuyến đi dài của bạn hãy để chúng mình lo nhé.
+                        Chỉ cần một cú click chuột mọi thứ đều trong tầm tay
+                    </p>
+
+                </div>
+
+                <div class='w-[60%] h-full text-txt flex items-center bg-[#e1e1e1]'>
+                    <div class='w-full h-2/3 items-center flex flex-col'>
+                        <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-sm'>
+                            <p class='col-start-4 col-span-6 font-bold text-[26px]'>Đăng nhập vào hệ thống</p>
+                        </div>
+                        {
+                            item.map((item, index) => (
+                                <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-[4px]'>
+                                    <p class='text-16 mx-md col-span-3 font-semibold'>{item.content} </p>
+                                    <div class='col-span-6'>
+                                        <InputConfirmInfo item={
+                                            {
+                                                type: item.type,
+                                                placeholder: item.placeholder,
+                                                value: item.value,
+                                                spanWidth: item.spanWidth,
+                                                id: item.id,
+                                                pw: item.pw,
+                                                background: "#e1e1e1"
+                                            }}
+                                            onChange={onChange}
+                                            onChangeShowPassword={onChangeShowPassword}
+                                        />
+                                    </div>
+                                </div>
+                            ))
+                        }
+                        <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-md'>
+                            <button class='confirm-button col-start-4 col-span-6' onClick={handleClick}>
+                                Đăng nhập
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div >
+    );
+}
+
+export default AdminLogin;

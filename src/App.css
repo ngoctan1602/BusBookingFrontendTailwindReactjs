@@ -168,4 +168,29 @@
     .widthName {
         width: calc(90% - 100px);
     }
+
+    .closeButton {
+        position: absolute;
+        top: 0;
+        right: 0px;
+    }
+
+
+    .menu {
+
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .menu-item {
+        cursor: pointer;
+        padding: 5px;
+        height: 28px;
+
+    }
+
+    .menu-item:hover {
+        color: #2980b9;
+    }
 }

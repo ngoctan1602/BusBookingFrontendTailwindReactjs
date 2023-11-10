@@ -12,6 +12,7 @@ module.exports = {
       'txt': '#474554',
       'button': '#00B873',
       'bg': '#F2ECFF',
+      'bgPopup': '#e1e1e1',
       'hover-txt': '#75718a'
     },
     fontSize: {
@@ -37,6 +38,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         footerImg: "url('/src/assets/images/footer.jpg')",
+        bgLogin: "url('/src/assets/images/backgroundlogin.jpg')",
         searchImg: "url('/src/assets/images/bustrip.jpg')"
       },
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import ReactPaginate from 'react-paginate';
 
-const PaginatedItems = ({ itemsPerPage, items, componentToRender, updateStatus }) => {
+const PaginatedItems = ({ itemsPerPage, items, componentToRender, updateStatus, onUpdate }) => {
     const [itemOffset, setItemOffset] = useState(0);
     // const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
     const endOffset = itemOffset + itemsPerPage;
@@ -19,7 +19,7 @@ const PaginatedItems = ({ itemsPerPage, items, componentToRender, updateStatus }
         <>
             {currentItems &&
                 currentItems.map((item) => {
-                    return React.createElement(componentToRender, { item: item, onChange: updateStatus });
+                    return React.createElement(componentToRender, { item: item, onChangeStatus: updateStatus, onUpdate: onUpdate });
                 }
                 )
             }

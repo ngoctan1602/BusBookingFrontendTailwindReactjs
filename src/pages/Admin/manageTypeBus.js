@@ -1,24 +1,80 @@
 
 import TypeBusRow from "../../components/Layout/Components/Admin/TypeBusRow";
 import PopupAdd from "../../components/Layout/Components/Admin/PopupAdd";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Paginate from "../../components/Layout/Components/Paginate"
+
 const ManageTypeBus = () => {
 
-    const itemAdd = {
-        title: "Thêm mới loại xe",
-        item: [
-            {
-                id: 1, content: "Tên loại xe", spanWidth: 120, placeholder: "Tên loại xe"
-            },
-            {
-                id: 2, content: "Mô tả", spanWidth: 100, placeholder: "Thêm mô tả"
-            },
-            {
-                id: 3, content: "Số chỗ ngồi", spanWidth: 160, placeholder: "Số chỗ ngồi"
+
+    const [addTypeBus, setAddTypeBus] = useState({
+        name: '',
+        description: '',
+        totalSeat: '',
+        status: ''
+    });
+
+    const [itemAdd, setItemAdd] = useState(
+        {
+            title: "Thêm mới loại xe",
+            item: [
+                {
+                    id: 1, name: "name", content: "Tên loại xe", spanWidth: 120, placeholder: "Tên loại xe", value: addTypeBus.name
+                },
+                {
+                    id: 2, name: "description", content: "Mô tả", spanWidth: 100, placeholder: "Thêm mô tả", value: addTypeBus.description
+                },
+                {
+                    id: 3, name: "totalSeat", content: "Số chỗ ngồi", spanWidth: 160, placeholder: "Số chỗ ngồi", value: addTypeBus.totalSeat
+                }
+            ]
+        }
+    )
+    const updateItemValue = (id, newValue) => {
+
+        const updatedItem = itemAdd.item.map(item => {
+            if (item.id === id) {
+                setAddTypeBus({ ...addTypeBus, [item.name]: newValue })
+                return { ...item, value: newValue };
+
             }
-        ]
-    }
+            return item;
+        });
+
+
+        setItemAdd({
+            ...itemAdd,
+            item: updatedItem
+        });
+    };
+
+    const success = useCallback(() => {
+        let isSuccess = true;
+        itemAdd.item.map(item => {
+            if (item.value === "") {
+                isSuccess = false
+            }
+            // setAddTypeBus({ ...addTypeBus, [item.name]: item.value })
+        });
+        console.log(addTypeBus)
+        return isSuccess
+    }, [itemAdd])
+
+    const emtyItemValue = () => {
+        // Tạo một bản sao mới của mảng item với giá trị được cập nhật
+        const updatedItem = itemAdd.item.map(item => {
+
+            return { ...item, value: "" };
+
+        });
+
+        // Cập nhật state bằng mảng mới đã được cập nhật
+        setItemAdd({
+            ...itemAdd,
+            item: updatedItem
+        });
+    };
+
     const [typeBus, setTypeBus] = useState(
         [
             {
@@ -42,7 +98,7 @@ const ManageTypeBus = () => {
         ]
     );
 
-
+    // Hàm cập nhật trạng thái item
     const changeStatus = (id, value) => {
         const updatedItems = typeBus.map(item => {
             if (item.id === id) {
@@ -53,17 +109,16 @@ const ManageTypeBus = () => {
 
         });
         setTypeBus(updatedItems);
-        console.log(typeBus)
     }
 
     return (
         <div class='w-full text-txt txt-16'>
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý nhà xe</p>
+                <p class='col-span-2 font-bold text-20'>Quản lý loại xe</p>
                 <input placeholder="Tìm kiếm" class='col-span-6 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
 
-                <PopupAdd item={itemAdd}></PopupAdd>
+                <PopupAdd objectAdd={addTypeBus} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAdd>
             </div>
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
                 <thead>
@@ -77,9 +132,10 @@ const ManageTypeBus = () => {
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>
-                    <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus}></Paginate>
+                    <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus} emtyItemValue={emtyItemValue}></Paginate>
                 </tbody>
             </table>
+
         </div>
     );
 }
