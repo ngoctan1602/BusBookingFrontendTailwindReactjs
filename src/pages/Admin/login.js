@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import adminlogo from "../../assets/images/AdminLogo.png"
 import InputConfirmInfo from "../../components/Layout/Components/InputConfirmInfo";
 import { useNavigate } from "react-router-dom";
+import * as authServices from "../../services/AuthServices";
 const AdminLogin = () => {
     const navigate = useNavigate();
     document.title = "Đăng nhập người quản trị"
@@ -12,14 +13,28 @@ const AdminLogin = () => {
         }
     )
 
-    const handleClick = useCallback(() => {
-        let success = false;
-        if (account.username != "" && account.password != "") {
-            //gọi api đăng nhập
-            success = true;
+    // const handleClick = useCallback(() => {
+    //     let success = false;
+    //     if (account.username != "" && account.password != "") {
+    //         //gọi api đăng nhập
+    //         success = true;
+    //     }
+    //     success && navigate('/manage-user-account')
+    // }, [account])
+
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        const response = await authServices.adminLogin(account)
+        if (!response.isError) {
+            // setError('')
+            localStorage.setItem('token', response.data.token);
+            navigate('/manage-user-account')
         }
-        success && navigate('/manage-user-account')
-    }, [account])
+        else {
+            // setError(response.data)
+        }
+    }
 
 
     const onChange = (id, value) => {
@@ -117,7 +132,7 @@ const AdminLogin = () => {
                             ))
                         }
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-md'>
-                            <button class='confirm-button col-start-4 col-span-6' onClick={handleClick}>
+                            <button class='confirm-button col-start-4 col-span-6' onClick={onSubmit}>
                                 Đăng nhập
                             </button>
 

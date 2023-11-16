@@ -17,6 +17,8 @@ import ManageCompany from "../pages/Admin/manageCompany"
 import ManageUserAccount from "../pages/Admin/manageUserAccount"
 import AdminLogin from "../pages/Admin/login"
 
+import ManageOrder from "../pages/Company/manageOrder"
+
 const publicRoutes = [
     //Không cần đăng nhập vẫn xem được
 
@@ -79,4 +81,23 @@ const adminRoutes = [
 
 ]
 
-export { publicRoutes, privateRoutes, adminRoutes } 
+const companyRoutes = [
+    {
+        path: "/company/bus/order", component: ManageOrder
+    },
+    // {
+    //     path: "/manage-busstation", component: ManageBusStation
+    // },
+    // {
+    //     path: "/manage-company", component: ManageCompany
+    // },
+    // {
+    //     path: "/manage-user-account", component: ManageUserAccount
+    // },
+    // {
+    //     path: "/admin/login", component: AdminLogin
+    // },
+
+]
+
+export { publicRoutes, privateRoutes, adminRoutes, companyRoutes } 

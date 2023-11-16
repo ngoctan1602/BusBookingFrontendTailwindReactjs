@@ -1,9 +1,13 @@
 
 import busStationRow from "../../components/Layout/Components/Admin/manageBusStation/BusStationRow";
 import PopupAdd from "../../components/Layout/Components/Admin/PopupAdd";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Paginate from "../../components/Layout/Components/Paginate"
 import PopupAddBusStation from "../../components/Layout/Components/Admin/manageBusStation/PopupAddBusStation";
+import * as XLSX from 'xlsx'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 const ManageBusStation = () => {
 
     const [addBusStation, setAddBusStation] = useState({
@@ -177,15 +181,26 @@ const ManageBusStation = () => {
         setbusStation(updatedItems);
         console.log(busStation)
     }
+    const exportToExcel = () => {
+        const ws = XLSX.utils.json_to_sheet(busStation);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
+        XLSX.writeFile(wb, 'exported_data.xlsx');
+    };
     return (
         <div class='w-full text-txt txt-16'>
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                 <p class='col-span-2 font-bold text-20'>Quản lý bến bãi</p>
-                <input placeholder="Tìm kiếm" class='col-span-6 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
-                <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} province={province} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation>
-                {/* <PopupAdd objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAdd> */}
+                <input placeholder="Tìm kiếm" class='col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                <div class='flex justify-evenly'>
+                    <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} province={province} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation>
+                    <button class="flex justify-center" onClick={exportToExcel}>
+                        <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
+                        </FontAwesomeIcon>
+                    </button>
+                </div>
             </div>
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
                 <thead>

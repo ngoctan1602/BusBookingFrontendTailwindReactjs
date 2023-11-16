@@ -3,9 +3,17 @@ import TypeBusRow from "../../components/Layout/Components/Admin/TypeBusRow";
 import PopupAdd from "../../components/Layout/Components/Admin/PopupAdd";
 import { useCallback, useEffect, useState } from "react";
 import Paginate from "../../components/Layout/Components/Paginate"
-
+import * as XLSX from 'xlsx'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 const ManageTypeBus = () => {
+    const exportToExcel = () => {
+        const ws = XLSX.utils.json_to_sheet(typeBus);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
+        XLSX.writeFile(wb, 'exported_data.xlsx');
+    };
 
     const [addTypeBus, setAddTypeBus] = useState({
         name: '',
@@ -116,9 +124,15 @@ const ManageTypeBus = () => {
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                 <p class='col-span-2 font-bold text-20'>Quản lý loại xe</p>
-                <input placeholder="Tìm kiếm" class='col-span-6 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                <input placeholder="Tìm kiếm" class='col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                <div class='flex col-span-1 col-start-8 justify-evenly'>
 
-                <PopupAdd objectAdd={addTypeBus} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAdd>
+                    <PopupAdd objectAdd={addTypeBus} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAdd>
+                    <button class="flex justify-center" onClick={exportToExcel}>
+                        <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
+                        </FontAwesomeIcon>
+                    </button>
+                </div>
             </div>
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
                 <thead>
