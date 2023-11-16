@@ -27,11 +27,12 @@ const Login = () => {
             password: password,
         }
         const response = await authServices.login(account)
-        if (!response.isError){
+        if (!response.isError) {
             setError('')
+            localStorage.setItem('token', JSON.stringify(response.data.token));
             window.location.href = configs.routers.home
         }
-        else{
+        else {
             setError(response.data)
         }
     }
