@@ -1,7 +1,8 @@
-import * as BaseAPI from './BaseAPI';
-import routes from '../configs/routes';
 
-export const SignOut = async () => {
+import { useNavigate } from "react-router-dom";
+
+export const SignOut = async (path) => {
+    const navigate = useNavigate();
     localStorage.clear();
-    window.location.href = routes.home 
+    navigate(path)
 }

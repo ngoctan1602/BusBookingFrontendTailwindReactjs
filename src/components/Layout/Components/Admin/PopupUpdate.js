@@ -3,8 +3,10 @@ import InputConfirmInfo from "../InputConfirmInfo"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
+import * as TypeBusSv from "../../../../services/TypeBusServices"
 import 'react-toastify/dist/ReactToastify.css';
-const PopupUpdate = ({ item, status, onChange, updateTypeBus, success }) => {
+import { useState } from "react";
+const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopup }) => {
 
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
     const notifySuccess = () => toast.success('Cập nhật thành công!', {
@@ -29,12 +31,24 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success }) => {
         theme: "light",
     });
 
-    const getItemValue = () => {
+    const getItemValue = async (close) => {
         if (success()) {
-            //Call api updatetypus
-            console.log(updateTypeBus);
-
+            let update = ""
+            setTimeout(async () => {
+                update = await TypeBusSv.updateTypeBus(updateTypeBus)
+            }, 3000);
+            if (update === "") {
+                alert("Lỗi kết nối mạng")
+                return
+            }
+            if (update.isError) {
+                notifyError()
+                return
+            }
             notifySuccess()
+            setTimeout(() => {
+                close()
+            }, 1500);
         }
         else {
 
@@ -42,6 +56,11 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success }) => {
         }
 
     };
+
+    const closePop = (close) => {
+        closePopup();
+        close();
+    }
     return (
 
         <Popup trigger={<button class="w-full flex justify-center "> <FontAwesomeIcon icon={faPenToSquare} color="#00B873" class='cursor-pointer confirm-button w-[30px] h-[30px]'></FontAwesomeIcon></button>} position="right center"
@@ -67,8 +86,8 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success }) => {
                                         }
                                         {
                                             item.id === 1 ?
-                                                <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, id: item.id, value: item.value, spanWidth: Number(item.spanWidth), background: "#e1e1e1" }}></InputConfirmInfo> :
-                                                <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, id: item.id, value: item.value, spanWidth: Number(item.spanWidth), background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                                <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, id: updateTypeBus[item.name], value: updateTypeBus.id, spanWidth: Number(item.spanWidth), background: "#e1e1e1" }}></InputConfirmInfo> :
+                                                <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, id: item.id, value: updateTypeBus[item.name], spanWidth: Number(item.spanWidth), background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
                                         }
                                     </div>
                                 </div>
@@ -77,8 +96,8 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success }) => {
 
 
                         <div class='w-full my-md gap-sm grid grid-cols-10'>
-                            <button class='col-start-4 col-span-3 col confirm-button ' onClick={getItemValue}>Xác nhận</button>
-                            <button class='col-span-3 confirm-button' onClick={close}>Hủy</button>
+                            <button class='col-start-4 col-span-3 col confirm-button ' onClick={(e) => getItemValue(close)}>Xác nhận</button>
+                            <button class='col-span-3 confirm-button' onClick={(e) => closePop(close)}>Hủy</button>
                             <ToastContainer
                                 position="bottom-right"
                                 autoClose={2500}

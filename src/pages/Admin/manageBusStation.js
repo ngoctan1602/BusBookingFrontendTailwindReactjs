@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+// import { SignOut } from "../../services/SignOut";
 const ManageBusStation = () => {
 
     const [addBusStation, setAddBusStation] = useState({
@@ -214,7 +215,7 @@ const ManageBusStation = () => {
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>
-                    <Paginate itemsPerPage={5} items={busStation} componentToRender={busStationRow} updateStatus={changeStatus}></Paginate>
+                    {/* <Paginate itemsPerPage={5} items={busStation} componentToRender={busStationRow} updateStatus={changeStatus}></Paginate> */}
                 </tbody>
             </table>
         </div>
