@@ -3,6 +3,8 @@ import adminlogo from "../../assets/images/AdminLogo.png"
 import InputConfirmInfo from "../../components/Layout/Components/InputConfirmInfo";
 import { useNavigate } from "react-router-dom";
 import * as authServices from "../../services/AuthServices";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AdminLogin = () => {
     const navigate = useNavigate();
     document.title = "Đăng nhập người quản trị"
@@ -13,14 +15,27 @@ const AdminLogin = () => {
         }
     )
 
-    // const handleClick = useCallback(() => {
-    //     let success = false;
-    //     if (account.username != "" && account.password != "") {
-    //         //gọi api đăng nhập
-    //         success = true;
-    //     }
-    //     success && navigate('/manage-user-account')
-    // }, [account])
+    const notifySuccess = () => toast.success('Đăng nhập thành công!', {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+    const notifyError = () => toast.error('Đăng nhập thất bại! Nhập đúng tài khoản và mật khẩu', {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
 
 
     const onSubmit = async (e) => {
@@ -29,10 +44,14 @@ const AdminLogin = () => {
         if (!response.isError) {
             // setError('')
             localStorage.setItem('token', response.data.token);
-            navigate('/manage-user-account')
+            notifySuccess()
+            setTimeout(() => {
+                navigate('/manage-user-account');
+            }, 1500);
+
         }
         else {
-            // setError(response.data)
+            notifyError()
         }
     }
 
@@ -145,6 +164,19 @@ const AdminLogin = () => {
 
                 </div>
             </div>
+
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
         </div >
     );
 }

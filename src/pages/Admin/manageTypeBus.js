@@ -6,20 +6,44 @@ import Paginate from "../../components/Layout/Components/Paginate"
 import * as XLSX from 'xlsx'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
+import * as TypeBusSv from "../../services/TypeBusServices"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const ManageTypeBus = () => {
     const exportToExcel = () => {
         const ws = XLSX.utils.json_to_sheet(typeBus);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
         XLSX.writeFile(wb, 'exported_data.xlsx');
     };
+
+    const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+    const notifyError = () => toast.error('Cập nhật trạng thái thất bại', {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
 
     const [addTypeBus, setAddTypeBus] = useState({
         name: '',
         description: '',
-        totalSeat: '',
-        status: ''
+        totalSeats: 0,
+        status: 1
     });
 
     const [itemAdd, setItemAdd] = useState(
@@ -33,22 +57,26 @@ const ManageTypeBus = () => {
                     id: 2, name: "description", content: "Mô tả", spanWidth: 100, placeholder: "Thêm mô tả", value: addTypeBus.description
                 },
                 {
-                    id: 3, name: "totalSeat", content: "Số chỗ ngồi", spanWidth: 160, placeholder: "Số chỗ ngồi", value: addTypeBus.totalSeat
+                    id: 3, name: "totalSeats", content: "Số chỗ ngồi", spanWidth: 160, placeholder: "Số chỗ ngồi", value: addTypeBus.totalSeats
                 }
             ]
         }
     )
+
     const updateItemValue = (id, newValue) => {
 
         const updatedItem = itemAdd.item.map(item => {
             if (item.id === id) {
+                if (item.name === "totalSeats") {
+                    setAddTypeBus({ ...addTypeBus, [item.name]: parseInt(newValue) })
+                    return { ...item, value: parseInt(newValue) };
+                }
+
                 setAddTypeBus({ ...addTypeBus, [item.name]: newValue })
                 return { ...item, value: newValue };
-
             }
             return item;
         });
-
 
         setItemAdd({
             ...itemAdd,
@@ -59,64 +87,68 @@ const ManageTypeBus = () => {
     const success = useCallback(() => {
         let isSuccess = true;
         itemAdd.item.map(item => {
-            if (item.value === "") {
+            if (item.value === "" || (item.name === "totalSeats" && item.value === 0)) {
                 isSuccess = false
             }
-            // setAddTypeBus({ ...addTypeBus, [item.name]: item.value })
+
         });
         console.log(addTypeBus)
         return isSuccess
     }, [itemAdd])
 
     const emtyItemValue = () => {
-        // Tạo một bản sao mới của mảng item với giá trị được cập nhật
-        const updatedItem = itemAdd.item.map(item => {
 
+        const updatedItem = itemAdd.item.map(item => {
+            if (item.name === "totalSeats")
+                return { ...item, value: 0 };
             return { ...item, value: "" };
 
         });
-
-        // Cập nhật state bằng mảng mới đã được cập nhật
         setItemAdd({
             ...itemAdd,
             item: updatedItem
         });
     };
 
-    const [typeBus, setTypeBus] = useState(
-        [
-            {
-                id: 1, name: "Limousine 32 chỗ", totalSeat: 30, status: 1, description: "Đây là xe Limousine 32 chỗ"
-            },
-            {
-                id: 2, name: "Limousine 24 chỗ", totalSeat: 24, status: 0, description: "Đây là xe Limousine 24 chỗ"
-            },
-            {
-                id: 3, name: "Limousine 28 chỗ", totalSeat: 28, status: 1, description: "Đây là xe Limousine 28 chỗ"
-            },
-            {
-                id: 4, name: "Limousine 32 chỗ", totalSeat: 30, status: 1, description: "Đây là xe Limousine 32 chỗ"
-            },
-            {
-                id: 5, name: "Limousine 24 chỗ", totalSeat: 24, status: 0, description: "Đây là xe Limousine 24 chỗ"
-            },
-            {
-                id: 6, name: "Limousine 28 chỗ", totalSeat: 28, status: 1, description: "Đây là xe Limousine 28 chỗ"
+
+
+    const [typeBus, setTypeBus] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await TypeBusSv.getAllTypeBus();
+                console.log(response.data)
+                setTypeBus(response.data);
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
             }
-        ]
-    );
+        };
+
+        fetchData();
+
+
+    }, [typeBus]);
 
     // Hàm cập nhật trạng thái item
     const changeStatus = (id, value) => {
-        const updatedItems = typeBus.map(item => {
+        const updatedItems = typeBus.map(async (item, index) => {
             if (item.id === id) {
-                return { ...item, status: value };
+                const a = {
+                    ...item,
+                    status: value
+                }
+                const update = await TypeBusSv.updateTypeBus(a)
+                if (!update.isError) {
+                    notifySuccess()
+                    return
+                }
+                else {
+                    notifyError()
+                    return
+                }
             }
-
-            return { ...item };
-
         });
-        setTypeBus(updatedItems);
     }
 
     return (
@@ -137,9 +169,9 @@ const ManageTypeBus = () => {
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
                 <thead>
                     <tr class='grid bg-button grid-cols-12 p-sm text-left'>
-                        <th class='col-span-2'>Id</th>
+                        <th class='col-span-1'>Id</th>
                         <th class='col-span-3'>Tên</th>
-                        <th class='col-span-3'>Mô tả</th>
+                        <th class='col-span-4'>Mô tả</th>
                         <th class='col-span-2'>Tổng chỗ ngồi</th>
                         <th class='col-span-1'>Trạng thái</th>
                         <th class='col-span-1'></th>
@@ -149,7 +181,18 @@ const ManageTypeBus = () => {
                     <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus} emtyItemValue={emtyItemValue}></Paginate>
                 </tbody>
             </table>
-
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
         </div>
     );
 }

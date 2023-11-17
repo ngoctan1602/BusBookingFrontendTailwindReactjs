@@ -1,10 +1,10 @@
-    import * as BaseAPI from './BaseAPI';
+import * as BaseAPI from './BaseAPI';
 
-export const getProfile = async() => {
+export const getProfile = async () => {
     return await BaseAPI.getItems(profileService.profile);
 }
 
-export const updateProfile = async(data) =>{
+export const updateProfile = async (data) => {
     return await BaseAPI.postItem(profileService.updateProfile, data)
 }
 const profileService = {
