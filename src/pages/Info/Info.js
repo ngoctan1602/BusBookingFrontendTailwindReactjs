@@ -7,12 +7,47 @@ import Input from "../../components/Layout/Components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faEnvelope, faPhone, faShieldBlank } from "@fortawesome/free-solid-svg-icons";
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import * as addressService from "../../services/AddressService"
+import * as customerServices from "../../services/CustomerServices";
 
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 const Info = () => {
-
+    const [error, setError] = useState('')
+    const [customer, setCustomer] = useState({
+        avatar: '',
+        fullName: '',
+        dateOfBirth: '',
+        address: '',
+        email: '',
+        phoneNumber: '',
+        gender: '',
+        dateCreate: '',
+        roleName: '',
+        username: '',
+        rank: '',
+        wardId: '',
+    });
+    useEffect(() => {
+        const fetchData = async () => {
+            try{
+                const response = await customerServices.GetProfile();
+                if (!response.isError){
+                    setCustomer(response.data)
+                    console.log(response)
+                    setError('')
+                }
+                else{
+                    setError(response.data)
+                }
+            }
+            catch(err){
+                setError(err.message)
+            }
+        };
+        fetchData();
+    }, [])
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
 
     const [type, setType] = useState("text")
@@ -202,7 +237,7 @@ const Info = () => {
                 <p class='font-bold m-md'>Thông tin cá nhân</p>
                 <div class='flex my-lg items-center mx-md'>
                     <div class='w-[100px] h-[80px] shrink-0  overflow-hidden z-1 relative '>
-                        <img src="https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg"
+                        <img src={customer.avatar}
                             class=' w-[80px] h-[80px] object-cover rounded-full'></img>
                         {/* <input type={type} class='bg-[black]  z-10 cursor-pointer w-[10px] h-[10px] absolute right-[0px] bottom-[20%]' onFocus={() => setType("file")}></input> */}
                     </div>
@@ -220,8 +255,7 @@ const Info = () => {
                     <div class=' flex items-center'>
                         {/* <p class='w-[80px]'>Họ và tên</p> */}
                         <div class='w-[320px] shrink-0'>
-
-                            <InputConfirmInfo item={{ placeholder: "Nhập họ và tên", value: "Nguyễn Thái Ngọc Tân", spanWidth: 120, type: "text", background: "#e1e1e1" }}></InputConfirmInfo>
+                            <InputConfirmInfo item={{ placeholder: "Nhập họ và tên", value: customer.fullName, spanWidth: 120, type: "text", background: "#e1e1e1" }}></InputConfirmInfo>
                         </div>
                     </div>
                 </div>
@@ -229,16 +263,17 @@ const Info = () => {
                 <div class='flex items-center mx-md my-xl'>
                     <p class='text-16 w-[100px] shrink-0'>Ngày sinh</p>
                     <div class='widthDate shrink-0'>
-                        <InputConfirmInfo item={{ type: "date", value: birthDate, background: "#e1e1e1" }} onChange={changeBirthDate}></InputConfirmInfo>
+                        <InputConfirmInfo item={{ type: "date", value: customer.dateOfBirth.split('T', [1]), background: "#e1e1e1" }} onChange={changeBirthDate}></InputConfirmInfo>
                     </div>
                 </div>
                 {/* Đây là phần giới tính */}
                 <div class='flex items-center mx-md my-xl'>
                     <p class='text-16 w-[100px] shrink-0'>Giới tính</p>
                     {
-                        gender.map((item, index) => (
-                            <Input id={item.id} name={item.name} type="radio" content={item.content} onChange={changeIdGender} checked={item.isChoose}></Input>
-                        ))
+                        <p className='text-13'> {customer.gender}</p>
+                        // gender.map((item, index) => (
+                        //     <Input id={item.id} name={item.name} type="radio" content={item.content} onChange={changeIdGender} checked={item.isChoose}></Input>
+                        // ))
                     }
                 </div>
 
@@ -316,7 +351,7 @@ const Info = () => {
 
                         <div class='mx-md flex items-center text-txt text-16'>
                             <FontAwesomeIcon icon={faPhone} ></FontAwesomeIcon>
-                            <p class='mx-md'>Số điện thoại <br />0923140493</p>
+                            <p class='mx-md'>Số điện thoại <br />{customer.phoneNumber}</p>
                         </div>
                         <Popup trigger={<button class="confirm-button"> Cập nhật</button>} position="right center"
                             modal
@@ -334,7 +369,7 @@ const Info = () => {
                                             <p class='w-[80px] shrink-0'>Số điện thoại</p>
                                             <div class='w-1/2'>
 
-                                                <InputConfirmInfo item={{ type: "text", placeholder: "Nhập số điện thoại", value: "0923140493", spanWidth: 140, background: "#e1e1e1" }}></InputConfirmInfo>
+                                                <InputConfirmInfo item={{ type: "text", placeholder: "Nhập số điện thoại", value: customer.phoneNumber , spanWidth: 140, background: "#e1e1e1" }}></InputConfirmInfo>
                                             </div>
                                         </div>
 
@@ -352,7 +387,7 @@ const Info = () => {
 
                         <div class='mx-md flex items-center text-txt text-16'>
                             <FontAwesomeIcon icon={faEnvelope} ></FontAwesomeIcon>
-                            <p class='mx-md'>Email <br />nguyenthaingoctan16@gmail.com</p>
+                            <p class='mx-md'>Email <br />{customer.email}</p>
                         </div>
                         <Popup trigger={<button class="confirm-button"> Cập nhật</button>} position="right center"
                             modal
@@ -370,7 +405,7 @@ const Info = () => {
                                             <p class='w-[60px] shrink-0'>Email</p>
                                             <div class='w-1/2'>
 
-                                                <InputConfirmInfo item={{ type: "text", placeholder: "Nhập email", value: "nguyenthaingoctan16@gmail.com", spanWidth: 90, background: "#e1e1e1" }}></InputConfirmInfo>
+                                                <InputConfirmInfo item={{ type: "text", placeholder: "Nhập email", value: customer.email, spanWidth: 90, background: "#e1e1e1" }}></InputConfirmInfo>
                                             </div>
                                         </div>
 
@@ -469,14 +504,7 @@ const Info = () => {
                         <button class=' button-hover p-sm'>Liên kết</button>
                     </div>
                 </div>
-
-
             </div>
-
-
-
-
-
         </div >
     );
 }

@@ -8,6 +8,7 @@ import Footer from "../Components/Footer";
 import Header from "../Components/Header";
 import { Link } from "react-router-dom";
 import { useEffect, useCallback, useState } from "react";
+import avatarDefault from '../../../assets/images/avatar.png'
 
 const InfoLayout = ({ children }) => {
     const [info, setInfo] = useState([
@@ -28,6 +29,8 @@ const InfoLayout = ({ children }) => {
         }
     ])
 
+    const avatar = localStorage.getItem('avatar') ?? avatarDefault;
+    const username = localStorage.getItem('username')
 
     const seatActive = useCallback((id) => {
         return () => {
@@ -56,11 +59,12 @@ const InfoLayout = ({ children }) => {
 
                     <div class='w-[20%] shrink-0 flex flex-col'>
                         <div class='w-full min-h-[80px] flex justify-center items-center mb-md'>
-                            <div class='w-[80px] h-[80px] shrink-0 rounded-full overflow-hidden '>
-                                <img src="https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg"
-                                    class='object-cover '></img>
+                            <div class='w-[100px] h-[80px] shrink-0  overflow-hidden z-1 relative '>
+                                <img src={avatar}
+                                    class=' w-[80px] h-[80px] object-cover rounded-full'></img>
+                                {/* <input type={type} class='bg-[black]  z-10 cursor-pointer w-[10px] h-[10px] absolute right-[0px] bottom-[20%]' onFocus={() => setType("file")}></input> */}
                             </div>
-                            <p class='w-[80%] shrink-0'>Tài khoản của <br></br> Nguyễn Thái Ngọc Tân</p>
+                            <p class='w-[80%] shrink-0'>Tài khoản của <br></br> {username}</p>
                         </div>
                         {
                             info.map((item, index) => (
