@@ -2,6 +2,9 @@ import { useCallback, useState } from "react";
 import adminlogo from "../../assets/images/AdminLogo.png"
 import InputConfirmInfo from "../../components/Layout/Components/InputConfirmInfo";
 import { useNavigate } from "react-router-dom";
+import * as authServices from "../../services/AuthServices";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AdminLogin = () => {
     const navigate = useNavigate();
     document.title = "Đăng nhập người quản trị"
@@ -12,14 +15,45 @@ const AdminLogin = () => {
         }
     )
 
-    const handleClick = useCallback(() => {
-        let success = false;
-        if (account.username != "" && account.password != "") {
-            //gọi api đăng nhập
-            success = true;
+    const notifySuccess = () => toast.success('Đăng nhập thành công!', {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+    const notifyError = () => toast.error('Đăng nhập thất bại! Nhập đúng tài khoản và mật khẩu', {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        const response = await authServices.adminLogin(account)
+        if (!response.isError) {
+            // setError('')
+            localStorage.setItem('token', response.data.token);
+            notifySuccess()
+            setTimeout(() => {
+                navigate('/manage-user-account');
+            }, 1500);
+
         }
-        success && navigate('/manage-user-account')
-    }, [account])
+        else {
+            notifyError()
+        }
+    }
 
 
     const onChange = (id, value) => {
@@ -117,7 +151,7 @@ const AdminLogin = () => {
                             ))
                         }
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-md'>
-                            <button class='confirm-button col-start-4 col-span-6' onClick={handleClick}>
+                            <button class='confirm-button col-start-4 col-span-6' onClick={onSubmit}>
                                 Đăng nhập
                             </button>
 
@@ -130,6 +164,19 @@ const AdminLogin = () => {
 
                 </div>
             </div>
+
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
         </div >
     );
 }

@@ -11,15 +11,11 @@ const InputConfirmInfo = ({ item, onChange, onChangeShowPassword }) => {
 
     const handleOutFocus = () => {
         setIsFocus(!isFocus)
-
-        if (item.value)
-            setCheckEmty(false)
-        else
+        if (!item.value || (item.type === "number" && item.value === 0))
             setCheckEmty(true)
-
+        else
+            setCheckEmty(false)
     }
-
-
 
     const handleSetTypePassword = () => {
         onChangeShowPassword(isShow)
@@ -71,7 +67,12 @@ const InputConfirmInfo = ({ item, onChange, onChangeShowPassword }) => {
                 </span>
             }
             {
-                !isFocus && checkEmty && <p class='text-16 text-[red]'>Vui lòng {item.placeholder}</p>
+                !isFocus && checkEmty
+                && item.type === "number" && <p class='text-16 text-[red]'>{item.placeholder} khác 0</p>
+            }
+
+            {
+                !isFocus && checkEmty && item.type === "text" && <p p class='text-16 text-[red]'>Vui lòng nhập {item.placeholder}</p>
             }
         </div >
 

@@ -34,7 +34,7 @@ const Login = () => {
             localStorage.setItem('avatar', response.data.avatar);
             window.location.href = configs.routers.home
         }
-        else{
+        else {
             setError(response.data)
         }
             }

@@ -7,6 +7,8 @@ import { faBusinessTime } from "@fortawesome/free-solid-svg-icons";
 import adminlogo from "../../../assets/images/AdminLogo.png"
 import { Link } from "react-router-dom";
 import { useEffect, useCallback, useState } from "react";
+// import { useNavigate } from "react-router-dom";
+import { SignOut } from "../../../services/SignOut";
 import Popup from "reactjs-popup";
 const AdminLayout = ({ children }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "400px" };
@@ -90,7 +92,8 @@ const AdminLayout = ({ children }) => {
                                 </div>
                                 <div class='w-full h-[1px] bg-txt my-sm' ></div>
                                 <div class='w-full my-md gap-sm grid grid-cols-10'>
-                                    <Link class='col-start-3 col-span-3 col confirm-button text-center' to='/admin/login'>Xác nhận</Link>
+                                    {/* <Link class='col-start-3 col-span-3 col confirm-button text-center' to='/admin/login'>Xác nhận</Link> */}
+                                    <button class='col-span-3 confirm-button' >Xác nhận</button>
                                     <button class='col-span-3 confirm-button' onClick={close}>Hủy</button>
 
                                 </div>
