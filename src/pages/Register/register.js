@@ -16,6 +16,7 @@ const Register = () => {
         gender: '',
         dateOfBirth: '',
         username: '',
+        wardID: ''
     });
 
     const onChange = (e) => {
