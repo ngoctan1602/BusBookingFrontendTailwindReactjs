@@ -193,4 +193,15 @@
     .menu-item:hover {
         color: #2980b9;
     }
+
+    .skeleton-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .skeleton-circle {
+        border-radius: 50%;
+        margin-right: 10px;
+    }
 }

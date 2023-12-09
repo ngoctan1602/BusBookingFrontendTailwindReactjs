@@ -178,7 +178,10 @@ const ManageTypeBus = () => {
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>
-                    <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus} emtyItemValue={emtyItemValue}></Paginate>
+                    {
+                        typeBus.data ??
+                        <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus} emtyItemValue={emtyItemValue}></Paginate>
+                    }
                 </tbody>
             </table>
             <ToastContainer
