@@ -6,14 +6,14 @@ module.exports = {
   theme: {
     fontFamily: {
       // FiraSans: ['Fira Sans']
-      robo: ['Roboto', 'sans-serif']
+      robo: ['Raleway', 'sans-serif']
     },
     colors: {
-      'txt': '#474554',
-      'button': '#00B873',
+      'txt': '#090808',
+      'button': '#88c194',
       'bg': '#F2ECFF',
-      'bgPopup': '#e1e1e1',
-      'hover-txt': '#75718a'
+      'bgPopup': '#7f4343',
+      'hover-txt': '#4d4c4f'
     },
     fontSize: {
       '12': '12px',

@@ -8,6 +8,7 @@ import ReactStars from "react-rating-stars-component";
 import BusCard from "../../components/Layout/Components/BusCard";
 import PaginatedItems from "../../components/Layout/Components/Paginate";
 import SearchHeader from "../../components/Layout/Components/SearchHeader";
+import ticketService from "../../services/TicketService";
 const Search = () => {
 
     const [sort, setSort] = useState([
@@ -287,13 +288,17 @@ const Search = () => {
         console.log(newRating);
     };
 
+    const handSearch = async (search) => {
+        console.log(search);
+        const response = await ticketService.findTicket(search)
+        console.log(response);
 
-
+    }
 
     return (
-        <div class='min-h-[1000px] w-content flex flex-col items-center my-xl'>
+            <div class='min-h-[1000px] w-content flex flex-col items-center my-xl'>
             <div class='h-[120px] bg-[#e1e1e1] border-none outline-none w-search rounded-lg my-md grid items-center justify-items-center'>
-                <SearchHeader></SearchHeader>
+                <SearchHeader onSearch={handSearch}></SearchHeader>
             </div>
             <div class='h-full w-full flex'>
                 <div class='sidebar m-sm'>
@@ -486,7 +491,7 @@ const Search = () => {
                 </div>
                 <div class='content my-sm ml-0 mr-sm flex flex-col items-center'>
                     <div class='bg-bg w-content min-h-[10px] mx-sm'>
-                        Đây là search tag
+                        Kết quả
                     </div>
                     <div class='w-content h-content mt-sm'>
                         {/* <BusCard item={busInfo[0]}></BusCard>
