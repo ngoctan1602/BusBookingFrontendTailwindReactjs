@@ -8,6 +8,7 @@ import AdminLayoutSidebar from "./components/Layout/AdminLayoutSidebar/AdminLayo
 
 import AdminLogin from "./pages/Admin/login";
 import CompanyLayout from "./components/Layout/CompanyLayout/CompanyLayout";
+import CompanyLogin from "./pages/Company/login";
 function App() {
   return (
     <Router>
@@ -65,10 +66,11 @@ function App() {
                 key={index}
                 path={route.path}
                 element={
-
-                  <CompanyLayout>
-                    <route.component />
-                  </CompanyLayout>
+                  route.path === "/company/login" ?
+                    <CompanyLogin></CompanyLogin> :
+                    <CompanyLayout>
+                      <route.component />
+                    </CompanyLayout>
                 }
               />
             })

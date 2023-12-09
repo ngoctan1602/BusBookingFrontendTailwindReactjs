@@ -8,97 +8,121 @@ import adminlogo from "../../../assets/images/AdminLogo.png"
 import { Link } from "react-router-dom";
 import { useEffect, useCallback, useState } from "react";
 import Popup from "reactjs-popup";
+
+import { useNavigate } from "react-router-dom";
 const CompanyLayout = ({ children }) => {
+    const navigate = useNavigate();
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "400px" };
     const [info, setInfo] = useState([
         {
-            id: 1, content: "Quản lý xe", icon: faBus, active: true, path: '',
+            id: 1, content: "Quản lý điểm đón trả khách", icon: faCartFlatbed, active: false, path: '',
+            children: [
+
+            ]
+        },
+        {
+            id: 2, content: "Quản lý xe", icon: faBus, active: true, path: '',
             children: [
                 {
-                    id: "c1", content: "Quản lý đơn hàng", icon: faCartFlatbed, active: true, path: 'company/bus/order',
+                    id: "c1", content: "Tổng quan", icon: faLocationCrosshairs, active: false, path: '/company/bus/overview'
                 },
                 {
                     id: "c2", content: "Quản lý điểm đón trả khách", icon: faLocationCrosshairs, active: false, path: ''
+                },
+                {
+                    id: "c3", content: "Quản lý loại xe", icon: faLocationCrosshairs, active: false, path: ''
+                },
+                {
+                    id: "c4", content: "Quản lý loại chỗ ngồi", icon: faLocationCrosshairs, active: false, path: ''
                 }
             ]
         },
         {
-            id: 2, content: "Thống kê", icon: faChartLine, active: false, path: '',
+            id: 3, content: "Quản lý đơn hàng", icon: faCartFlatbed, active: false, path: '',
+            children: [
+
+            ]
+        },
+
+        {
+            id: 4, content: "Thống kê", icon: faChartLine, active: false, path: '',
             children: [
                 {
-                    id: "c3", content: "Thống kê doanh thu", active: false, path: '', icon: faTicket
+                    id: "c2", content: "Thống kê doanh thu", active: false, path: '', icon: faTicket
                 },
                 {
-                    id: "c4", content: "Thống kê số lượng vé", active: false, path: '', icon: faChartColumn
+                    id: "c3", content: "Thống kê số lượng vé", active: false, path: '', icon: faChartColumn
                 }
             ]
         },
+
     ])
 
-    const [isShowChildren, setIsShowChildren] = useState(
-        [
-            { id: 1, active: false },
-            { id: 2, active: false },
-        ]
-    );
+    // const [isShowChildren, setIsShowChildren] = useState(
+    //     [
+    //         { id: 1, active: false },
+    //         { id: 2, active: false },
+    //         { id: 3, active: false }
+    //     ]
+    // );
     // const [content, setContent] = useState("Quản đơn hàng")
 
-    const updateParent = useCallback((id) => {
+    // const updateParent = useCallback((id) => {
 
-        return () => {
-            const updatedItem = info.map(item => {
-                let hasActiveChild = false;
+    //     return () => {
+    //         const updatedItem = info.map(item => {
+    //             let hasActiveChild = false;
 
-                return {
-                    ...item,
-                    children: item.children.map(i => {
-                        if (i.id === id) {
-                            document.title = i.content
-                            // setContent(i.content)
-                            hasActiveChild = true
-                            return {
-                                ...i,
-                                active: true,
-                            };
-                        }
-                        return {
-                            ...i,
-                            active: false,
-                        };
-                    }),
-                    active: hasActiveChild
-                }
-            });
+    //             return {
+    //                 ...item,
+    //                 children: item.children.map(i => {
+    //                     if (i.id === id) {
+    //                         document.title = i.content
+    //                         // setContent(i.content)
+    //                         hasActiveChild = true
+    //                         return {
+    //                             ...i,
+    //                             active: true,
+    //                         };
+    //                     }
+    //                     return {
+    //                         ...i,
+    //                         active: false,
+    //                     };
+    //                 }),
+    //                 active: hasActiveChild
+    //             }
+    //         });
 
-            setInfo(updatedItem);
-        }
-    }, [info])
-
-
+    //         setInfo(updatedItem);
+    //     }
+    // }, [info])
 
 
-    const clickParent = useCallback((id) => {
-        return () => {
-            const updatedItems = isShowChildren.map(item => {
-                if (item.id === id) {
-                    return { ...item, active: !item.active };
-                }
-
-                return { ...item };
-
-            });
-            setIsShowChildren(updatedItems);
 
 
-        }
-    }, [isShowChildren])
+    // const clickParent = useCallback((id) => {
+    //     return () => {
+    //         const updatedItems = isShowChildren.map(item => {
+    //             if (item.id === id) {
+    //                 return { ...item, active: !item.active };
+    //             }
+
+    //             return { ...item };
+
+    //         });
+    //         setIsShowChildren(updatedItems);
+
+
+    //     }
+    // }, [isShowChildren])
 
 
 
 
     return (
 
-        <div class='flex flex-col w-full h-[100vh] bg-bg'>
+        <div class='flex flex-col w-full min-h-full bg-bg'>
 
 
             <div class='h-[60px] shrink-0 bg-gradient-to-br from-button to-[#B0D9B1] grid grid-flow-row grid-cols-11 items-center text-txt text-16'>
@@ -155,13 +179,13 @@ const CompanyLayout = ({ children }) => {
             </div>
             <div class='flex w-full h-[100vh] bg-bg'>
 
-                <div class='flex flex-col w-[20%] shrink-0 bg-txt text-bg'>
+                <div class='flex flex-col h-[700px] w-[20%] shrink-0 bg-txt text-bg'>
                     {
                         info.map((item, index) => (
                             <div>
                                 <Link key={item.id}
-                                    onClick={clickParent(item.id)}
-                                    style={{ backgroundColor: (item.active && !isShowChildren[index].active) ? "#75718a" : "", transitionTimingFunction: "esea-in-out", transitionDuration: "2000ms", transitionProperty: "backgroundColor" }}
+                                    // onClick={clickParent(item.id)}
+                                    // style={{ backgroundColor: (item.active && !isShowChildren[index].active) ? "#75718a" : "", transitionTimingFunction: "esea-in-out", transitionDuration: "2000ms", transitionProperty: "backgroundColor" }}
                                     class='px-md flex items-center w-full h-[50px] hover:bg-[#75718a] cursor-pointer ease-in-out duration-200' to={item.path}>
                                     <FontAwesomeIcon class='w-[20px] h-[20px] shrink-0' icon={item.icon}></FontAwesomeIcon>
                                     <p class='mx-sm shrink-0'> {item.content}</p>
@@ -169,13 +193,14 @@ const CompanyLayout = ({ children }) => {
                                 </Link>
 
                                 {
-                                    (isShowChildren[index].active && item.id === isShowChildren[index].id) &&
+                                    // (isShowChildren[index].active && item.id === isShowChildren[index].id) &&
                                     (item.children).map((i, index) => (
 
                                         <Link key={i.id}
-                                            onClick={updateParent(i.id)}
-                                            style={i.active ? { backgroundColor: "#75718a" } : { backgroundColor: "" }}
-                                            class='px-xl flex items-center w-full h-[50px] hover:bg-[#75718a] cursor-pointer ease-in-out duration-150' to={item.path}>
+                                            // onClick={() => navigate(i.path)}
+                                            // onClick={updateParent(i.id)}
+                                            // style={i.active ? { backgroundColor: "#75718a" } : { backgroundColor: "" }}
+                                            class='px-xl flex items-center w-full h-[50px] hover:bg-[#75718a] cursor-pointer ease-in-out duration-150' to={i.path}>
                                             <FontAwesomeIcon class='w-[20px] h-[20px] shrink-0' icon={i.icon}></FontAwesomeIcon>
                                             <p class='mx-sm shrink-0'> {i.content}</p>
                                         </Link>
@@ -187,7 +212,7 @@ const CompanyLayout = ({ children }) => {
                         ))
                     }
                 </div>
-                <div class='flex w-[80%] shrink-0 h-full' >
+                <div class='flex w-[80%] h-full shrink-0 ' >
                     <div class='w-full p-md h-full'>
                         {children}
                     </div>

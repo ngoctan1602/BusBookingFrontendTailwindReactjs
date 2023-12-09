@@ -9,14 +9,71 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 // import { SignOut } from "../../services/SignOut";
+import * as BusStationSV from "../../services/BusStationSv"
+import * as AddrressSV from "../../services/AddressSv"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Skeleton from 'react-loading-skeleton';
+import BusStationRow from "../../components/Layout/Components/Admin/manageBusStation/BusStationRow";
 const ManageBusStation = () => {
 
+    const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+    const notifyError = () => toast.error('Cập nhật trạng thái thất bại', {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
     const [addBusStation, setAddBusStation] = useState({
         name: '',
         description: '',
         address: '',
-        status: ''
+        status: 1,
+        wardId: 0,
     });
+
+    const [busStations, setBusStations] = useState([])
+    const [address, setAddress] = useState();
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await BusStationSV.getAllBusStation();
+                setBusStations(response.data);
+                const addressPromises = response.data.map(async (item) => {
+
+                    const wa = await AddrressSV.getWardById({ id: item.wardId });
+                    return wa.data;
+
+                });
+
+                const addresses = await Promise.all(addressPromises);
+                setAddress(addresses);
+                setLoading(false);
+
+                console.log('Updated Address State:', addresses);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [busStations]);
 
 
     const [itemAdd, setItemAdd] = useState({
@@ -29,7 +86,7 @@ const ManageBusStation = () => {
                 id: 2, name: "description", content: "Mô tả", spanWidth: 100, placeholder: "Thêm mô tả", value: addBusStation.description
             },
             {
-                id: 3, name: "address", content: "Địa chỉ", spanWidth: 160, placeholder: "Địa chỉ", value: addBusStation.address
+                id: 3, name: "address", content: "Thôn/Đường/Số nhà", spanWidth: 160, placeholder: "Thôn/Đường/Số nhà", value: addBusStation.address
             }
         ]
     })
@@ -41,7 +98,6 @@ const ManageBusStation = () => {
             if (item.id === id) {
                 setAddBusStation({ ...addBusStation, [item.name]: newValue })
                 return { ...item, value: newValue };
-
             }
             return item;
         });
@@ -57,6 +113,9 @@ const ManageBusStation = () => {
         let isSuccess = true;
         itemAdd.item.map(item => {
             if (item.value === "") {
+                isSuccess = false
+            }
+            if (item.name === "wardId" && item.value === 0) {
                 isSuccess = false
             }
             // setAddTypeBus({ ...addTypeBus, [item.name]: item.value })
@@ -81,109 +140,27 @@ const ManageBusStation = () => {
         });
     };
 
-
-
-    const [busStation, setbusStation] = useState(
-        [
-            {
-                id: 1, name: "BX Miền Đông", description: "Đây là xe Limousine 32 chỗ", address: "Thôn Tân Phú, xã Vạn Phú", status: 1
-            },
-            {
-                id: 2, name: "BX Nha Trang", description: "Đây là xe Limousine 32 chỗ", address: "Thôn Tân Phú, xã Vạn Phú", status: 1
-            },
-            {
-                id: 3, name: "BX Miền Tây", description: "Đây là xe Limousine 32 chỗ", address: "Thôn Tân Phú, xã Vạn Phú", status: 1
-            },
-            {
-                id: 4, name: "BX Hà Nam", description: "Đây là xe Limousine 32 chỗ", address: "Thôn Tân Phú, xã Vạn Phú", status: 1
-            },
-
-        ]
-    );
-
-    const [province, setProvince] = useState(
-        [
-            {
-                id: 0, name: "Chọn tỉnh", isChoose: true,
-            },
-            {
-                id: 1, name: "Khánh Hòa", isChoose: false,
-                district: [
-
-                    {
-                        id: 3, name: "Vạn Ninh", isChoose: true,
-                        commune: [
-                            {
-                                id: 3, name: "Vạn Phú", isChoose: true,
-                            },
-                            {
-
-                                id: 3, name: "Vạn Khánh", isChoose: false,
-                            }
-                        ]
-                    },
-                    {
-                        id: 4, name: "Ninh Hòa", isChoose: false,
-                        commune: [
-                            {
-                                id: 3, name: "Ninh Ích", isChoose: true,
-                            },
-                            {
-
-                                id: 3, name: "Ninh Diêm", isChoose: false,
-                            }
-                        ]
-                    },
-
-                ]
-            },
-            {
-                id: 2, name: "Vĩnh Long", isChoose: false,
-                district: [
-                    {
-                        id: 3, name: "Vĩnh Mõ", isChoose: true,
-                        commune: [
-                            {
-                                id: 3, name: "Vĩnh Bắc", isChoose: true,
-                            },
-                            {
-
-                                id: 3, name: "Vĩnh Nam", isChoose: false,
-                            }
-                        ]
-                    },
-                    {
-                        id: 4, name: "Vĩnh Hồ", isChoose: false,
-                        commune: [
-                            {
-                                id: 3, name: "Vĩnh Lợi", isChoose: true,
-                            },
-                            {
-
-                                id: 3, name: "Vĩnh Hằng", isChoose: false,
-                            }
-                        ]
-                    },
-
-                ]
-            },
-        ]
-    );
-
     const changeStatus = (id, value) => {
-        const updatedItems = busStation.map(item => {
+        busStations.map(async (item, index) => {
             if (item.id === id) {
-                return { ...item, status: value };
+                const a = {
+                    ...item,
+                    status: value
+                }
+                const update = await BusStationSV.updateBusStation(a)
+                if (!update.isError) {
+                    notifySuccess()
+                    return
+                }
+                else {
+                    notifyError()
+                    return
+                }
             }
-
-            return { ...item };
-
         });
-        setbusStation(updatedItems);
-        console.log(busStation)
     }
     const exportToExcel = () => {
-        const ws = XLSX.utils.json_to_sheet(busStation);
+        const ws = XLSX.utils.json_to_sheet(busStations);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
@@ -196,7 +173,7 @@ const ManageBusStation = () => {
                 <p class='col-span-2 font-bold text-20'>Quản lý bến bãi</p>
                 <input placeholder="Tìm kiếm" class='col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
                 <div class='flex justify-evenly'>
-                    <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} province={province} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation>
+                    <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation>
                     <button class="flex justify-center" onClick={exportToExcel}>
                         <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                         </FontAwesomeIcon>
@@ -206,18 +183,38 @@ const ManageBusStation = () => {
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
                 <thead>
                     <tr class='grid bg-button grid-cols-12 p-sm text-left'>
-                        <th class='col-span-2'>Id</th>
+                        <th class='col-span-1'>Id</th>
                         <th class='col-span-3'>Tên</th>
-                        <th class='col-span-3'>Mô tả</th>
-                        <th class='col-span-2'>Địa chỉ</th>
+
+                        <th class='col-span-6 '>Địa chỉ</th>
                         <th class='col-span-1'>Trạng thái</th>
                         <th class='col-span-1'></th>
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>
-                    {/* <Paginate itemsPerPage={5} items={busStation} componentToRender={busStationRow} updateStatus={changeStatus}></Paginate> */}
+                    {
+                        !loading && busStations &&
+                        <Paginate itemsPerPage={5} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus} address={address}></Paginate>
+                    }
+                    {loading &&
+                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+
+                        </div>
+                    }
                 </tbody>
             </table>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
         </div>
     );
 }
