@@ -44,6 +44,8 @@ const CompanyLogin = () => {
         if (!response.isError) {
             // setError('')
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem('username', response.data.username);
+            localStorage.setItem('avatar', response.data.avatar);
             notifySuccess()
             setTimeout(() => {
                 navigate('/company/bus');
