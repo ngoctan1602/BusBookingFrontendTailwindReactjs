@@ -28,7 +28,7 @@ const Overview = () => {
 
         fetchData();
 
-    }, [bus]);
+    }, []);
     const [itemAdd, setItemAdd] = useState(
         {
             seatTypeID: 0,

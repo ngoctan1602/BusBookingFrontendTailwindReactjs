@@ -43,7 +43,18 @@ const Ticket = () => {
 
     const [itemSelected, setItemSelected] = useState([]);
 
-
+    /**
+     * Check DepartureTime must graeter than ArrivalTime
+     * @param {*} data1 is DepartureTime
+     * @param {*} data2 is ArrivalTime
+     * @returns 
+     */
+    function checkDepartureTimeAndArrivalTime (data1,data2) {
+        if (data1.getTime() > data2.getTime()) {
+            return true;
+        }
+        return false;
+    }
 
     const updateTicketStations = (id, newValue, name) => {
 
@@ -220,17 +231,21 @@ const Ticket = () => {
                                         <td class='col-span-2'>{item.name}</td>
                                         <td class='col-span-3'>
                                             <input type="datetime-local" class=' outline-none bg-bgPopup rounded-md'
-                                                value={item.departureTime.toISOString().slice(0, 16)}
-                                                onChange={(e) => updateTicketStations(item.busStopId, new Date(e.target.value), "departureTime")}
+                                                value={new Date(item.arrivalTime - item.arrivalTime.getTimezoneOffset() * 60000)
+                                                    .toISOString()
+                                                    .slice(0, 16)}
+                                                onChange={(e) => updateTicketStations(item.busStopId, new Date(e.target.value), "arrivalTime")}
                                             >
                                             </input>
                                         </td>
                                         <td class='col-span-3'>
                                             <input type="datetime-local"
                                                 class=' outline-none bg-bgPopup rounded-md'
-                                                value={item.arrivalTime.toISOString().slice(0, 16)}
+                                                value={new Date(item.departureTime - item.departureTime.getTimezoneOffset() * 60000)
+                                                    .toISOString()
+                                                    .slice(0, 16)}
 
-                                                onChange={(e) => updateTicketStations(item.busStopId, new Date(e.target.value), "arrivalTime")}
+                                                onChange={(e) => updateTicketStations(item.busStopId, new Date(e.target.value), "departureTime")}
 
                                             >
                                             </input>
@@ -249,7 +264,6 @@ const Ticket = () => {
                                     </tr>
                                 )
                         }
-
                     </tbody>
                 </table>
             </div>
