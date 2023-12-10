@@ -43,11 +43,17 @@ const Ticket = () => {
 
     const [itemSelected, setItemSelected] = useState([]);
 
+    /**
+     * Check DepartureTime must graeter than ArrivalTime
+     * @param {*} data1 is DepartureTime
+     * @param {*} data2 is ArrivalTime
+     * @returns 
+     */
     function checkDepartureTimeAndArrivalTime (data1,data2) {
-        if (data1 > data2) {
-            return false;
+        if (data1.getTime() > data2.getTime()) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     const updateTicketStations = (id, newValue, name) => {
