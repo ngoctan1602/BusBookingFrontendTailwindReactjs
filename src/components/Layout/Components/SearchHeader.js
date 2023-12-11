@@ -3,14 +3,32 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import Input from "../Components/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InputConfirmInfo from "./InputConfirmInfo";
 const SearchHeader = ({ onSearch }) => {
 
+    const search = JSON.parse(localStorage.getItem('formSearch'));
+    console.log(search)
+
+    useEffect(() => {
+        const fetchData = () => {
+            if (search)
+                onSearch(search)
+        };
+
+        fetchData();
+
+
+    }, []);
+
     const [formSearch, setFormSearch] = useState({
-        stationStart:'',
-        stationEnd:'',
-        dateTime: ''
+        // stationStart: search.stationStart,
+        // stationEnd: search.stationEnd,
+        // dateTime: search.dateTime
+
+        stationStart: search ? search.stationStart : '',
+        stationEnd: search ? search.stationEnd : '',
+        dateTime: search ? search.dateTime : '',
     });
 
     const onChange = (e) => {
@@ -19,6 +37,7 @@ const SearchHeader = ({ onSearch }) => {
     }
 
     const btnClick = () => {
+        localStorage.setItem("formSearch", JSON.stringify(formSearch));
         onSearch(formSearch)
     }
 

@@ -228,7 +228,7 @@ const BusDetail = () => {
                                                 secondFloor &&
                                                 secondFloor.map((item, index) => (
                                                     <div
-                                                        onPointerOver={(e) => setContentTooltip("Mã ghế" + item.id + ", Giá tiền: " + item.price)}
+                                                        onPointerOver={(e) => setContentTooltip({ id: item.id, price: item.price })}
                                                         data-tooltip-id="my-tooltip"
                                                     >
                                                         <PopupUpdateSeat

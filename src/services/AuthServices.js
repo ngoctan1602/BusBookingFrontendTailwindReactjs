@@ -15,7 +15,7 @@ export const companyLogin = async (data) => {
 export const AuthAPI = {
     login: 'auth/login',
     adminLogin: 'auth/admin/login',
-    companyLogin: 'auth/company/login',
+    companyLogin: 'auth/companies/login',
 }
 
 const authServices = {

@@ -9,6 +9,7 @@ import BusCard from "../../components/Layout/Components/BusCard";
 import PaginatedItems from "../../components/Layout/Components/Paginate";
 import SearchHeader from "../../components/Layout/Components/SearchHeader";
 import ticketService from "../../services/TicketService";
+import ReactLoading from 'react-loading';
 const Search = () => {
 
     const [sort, setSort] = useState([
@@ -169,92 +170,93 @@ const Search = () => {
 
     ])
 
-    const [busInfo, setBusInfo] = useState([
-        {
-            id: 1,
-            img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
-            company: "Thanh Thủy",
-            category: "Limousine 32 chỗ ngồi có WC",
-            star: 4,
-            totalComment: 370,
-            startTime: "7:30",
-            startLocation: "Bến xe Vạn Giã",
-            destination: "Bến xe Nông Lâm",
-            intendTime: 12,
-            price: 450000,
-            emtySit: 35,
-        },
-        {
-            id: 2,
-            img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
-            company: "Ngọc Tân",
-            category: "Limousine 24 chỗ ngồi có WC",
-            star: 3,
-            totalComment: 220,
-            startTime: "8:30",
-            startLocation: "Bến xe Vạn Giã",
-            destination: "Bến xe Nông Lâm",
-            intendTime: 12,
-            price: 200000,
-            emtySit: 20,
-        },
-        {
-            id: 1,
-            img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
-            company: "Phương Trang",
-            category: "Limousine 64 chỗ ngồi có WC",
-            star: 4,
-            totalComment: 370,
-            startTime: "7:30",
-            startLocation: "Bến xe Ninh Hòa",
-            destination: "Bến xe Nông Lâm",
-            intendTime: 12,
-            price: 450000,
-            emtySit: 35,
-        },
-        {
-            id: 2,
-            img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
-            company: "Ngọc Tân",
-            category: "Limousine 24 chỗ ngồi có WC",
-            star: 3,
-            totalComment: 220,
-            startTime: "8:30",
-            startLocation: "Bến xe Vạn Giã",
-            destination: "Bến xe Nông Lâm",
-            intendTime: 12,
-            price: 200000,
-            emtySit: 20,
-        },
-        {
-            id: 1,
-            img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
-            company: "Thanh Thủy",
-            category: "Limousine 32 chỗ ngồi có WC",
-            star: 4,
-            totalComment: 370,
-            startTime: "7:30",
-            startLocation: "Bến xe Vạn Giã",
-            destination: "Bến xe Nông Lâm",
-            intendTime: 12,
-            price: 450000,
-            emtySit: 35,
-        },
-        {
-            id: 2,
-            img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
-            company: "Ngọc Tân",
-            category: "Limousine 24 chỗ ngồi có WC",
-            star: 3,
-            totalComment: 220,
-            startTime: "8:30",
-            startLocation: "Bến xe Vạn Giã",
-            destination: "Bến xe Nông Lâm",
-            intendTime: 12,
-            price: 200000,
-            emtySit: 20,
-        }
-    ])
+    // const [busInfo, setBusInfo] = useState([
+    //     {
+    //         id: 1,
+    //         img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
+    //         company: "Thanh Thủy",
+    //         category: "Limousine 32 chỗ ngồi có WC",
+    //         star: 4,
+    //         totalComment: 370,
+    //         startTime: "7:30",
+    //         startLocation: "Bến xe Vạn Giã",
+    //         destination: "Bến xe Nông Lâm",
+    //         intendTime: 12,
+    //         price: 450000,
+    //         emtySit: 35,
+    //     },
+    //     {
+    //         id: 2,
+    //         img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
+    //         company: "Ngọc Tân",
+    //         category: "Limousine 24 chỗ ngồi có WC",
+    //         star: 3,
+    //         totalComment: 220,
+    //         startTime: "8:30",
+    //         startLocation: "Bến xe Vạn Giã",
+    //         destination: "Bến xe Nông Lâm",
+    //         intendTime: 12,
+    //         price: 200000,
+    //         emtySit: 20,
+    //     },
+    //     {
+    //         id: 1,
+    //         img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
+    //         company: "Phương Trang",
+    //         category: "Limousine 64 chỗ ngồi có WC",
+    //         star: 4,
+    //         totalComment: 370,
+    //         startTime: "7:30",
+    //         startLocation: "Bến xe Ninh Hòa",
+    //         destination: "Bến xe Nông Lâm",
+    //         intendTime: 12,
+    //         price: 450000,
+    //         emtySit: 35,
+    //     },
+    //     {
+    //         id: 2,
+    //         img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
+    //         company: "Ngọc Tân",
+    //         category: "Limousine 24 chỗ ngồi có WC",
+    //         star: 3,
+    //         totalComment: 220,
+    //         startTime: "8:30",
+    //         startLocation: "Bến xe Vạn Giã",
+    //         destination: "Bến xe Nông Lâm",
+    //         intendTime: 12,
+    //         price: 200000,
+    //         emtySit: 20,
+    //     },
+    //     {
+    //         id: 1,
+    //         img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
+    //         company: "Thanh Thủy",
+    //         category: "Limousine 32 chỗ ngồi có WC",
+    //         star: 4,
+    //         totalComment: 370,
+    //         startTime: "7:30",
+    //         startLocation: "Bến xe Vạn Giã",
+    //         destination: "Bến xe Nông Lâm",
+    //         intendTime: 12,
+    //         price: 450000,
+    //         emtySit: 35,
+    //     },
+    //     {
+    //         id: 2,
+    //         img: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
+    //         company: "Ngọc Tân",
+    //         category: "Limousine 24 chỗ ngồi có WC",
+    //         star: 3,
+    //         totalComment: 220,
+    //         startTime: "8:30",
+    //         startLocation: "Bến xe Vạn Giã",
+    //         destination: "Bến xe Nông Lâm",
+    //         intendTime: 12,
+    //         price: 200000,
+    //         emtySit: 20,
+    //     }
+    // ])
+
 
     const toggleStartLocation = (id) => {
         const updatedItems = startLocation.map(item => {
@@ -288,17 +290,30 @@ const Search = () => {
         console.log(newRating);
     };
 
+    const [busInfo, setBusInfo] = useState();
+    const [loading, setLoading] = useState();
+
+
+
     const handSearch = async (search) => {
         console.log(search);
-        const response = await ticketService.findTicket(search)
-        console.log(response);
+        setLoading(true)
+        try {
+            const response = await ticketService.findTicket(search)
+            setBusInfo(response.data.items)
+            setLoading(false)
+        }
+        catch (error) {
+            console.log(error)
+            setLoading(false)
+        }
 
     }
 
     return (
-            <div class='min-h-[1000px] w-content flex flex-col items-center my-xl'>
+        <div class='min-h-[1000px] w-content flex flex-col items-center my-xl'>
             <div class='h-[120px] bg-[#e1e1e1] border-none outline-none w-search rounded-lg my-md grid items-center justify-items-center'>
-                <SearchHeader onSearch={handSearch}></SearchHeader>
+                <SearchHeader onSearch={handSearch} ></SearchHeader>
             </div>
             <div class='h-full w-full flex'>
                 <div class='sidebar m-sm'>
@@ -490,17 +505,26 @@ const Search = () => {
 
                 </div>
                 <div class='content my-sm ml-0 mr-sm flex flex-col items-center'>
-                    <div class='bg-bg w-content min-h-[10px] mx-sm'>
+                    {/* <div class='bg-bg w-content min-h-[10px] mx-sm'>
                         Kết quả
-                    </div>
-                    <div class='w-content h-content mt-sm'>
-                        {/* <BusCard item={busInfo[0]}></BusCard>
-                        <BusCard item={busInfo[0]}></BusCard>
-                        <BusCard item={busInfo[0]}></BusCard>
-                        <BusCard item={busInfo[0]}></BusCard> */}
+                    </div> */}
+                    <div class='w-content h-content mt-sm relative'>
+                        {
+                            loading ?
+                                <div class='absolute bg-hover-txt w-full h-[100px] z-20 opacity-40'>
+                                    <ReactLoading
+                                        type="spinningBubbles" color="#ffffff"
+                                        height={'5%'} width={'5%'}
+                                        className="absolute bg-hover-txt left-1/2 top-[30%]  "
+                                    />
+                                </div>
+                                :
 
-                        {/* <PaginatedItems itemsPerPage={2} items={busInfo}></PaginatedItems> */}
-                        <PaginatedItems itemsPerPage={2} items={busInfo} componentToRender={BusCard}></PaginatedItems>
+                                !busInfo && !loading ?
+                                    <p>Không tìm thấy chuyến đi</p>
+                                    :
+                                    <PaginatedItems itemsPerPage={2} items={busInfo} componentToRender={BusCard}></PaginatedItems>
+                        }
                     </div>
 
                 </div>

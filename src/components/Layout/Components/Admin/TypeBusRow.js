@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import PopupUpdate from "./PopupUpdate";
 
 const TypeBusRow = ({ item, onChangeStatus, onUpdate }) => {
+
     const [itemUpdate, setItemUpdate] = useState({
         title: "Cập nhật loại xe",
         item: [

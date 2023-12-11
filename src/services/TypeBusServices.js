@@ -12,7 +12,7 @@ export const updateTypeBus = async (data) => {
 }
 
 const typeBusServices = {
-    getAllTypeBus: 'bustype/getAll',
-    createTypeBus: 'bustype/admin/create',
-    updateTypeBus: 'bustype/admin/update'
+    getAllTypeBus: 'bustypes/getAll',
+    createTypeBus: 'bustypes/admin/create',
+    updateTypeBus: 'bustypes/admin/update'
 }

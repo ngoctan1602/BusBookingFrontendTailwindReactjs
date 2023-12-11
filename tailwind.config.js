@@ -12,7 +12,7 @@ module.exports = {
       'txt': '#090808',
       'button': '#88c194',
       'bg': '#F2ECFF',
-      'bgPopup': '#7f4343',
+      'bgPopup': '#e1e1e1',
       'hover-txt': '#4d4c4f'
     },
     fontSize: {

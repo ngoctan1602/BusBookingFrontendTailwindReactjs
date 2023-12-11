@@ -300,7 +300,6 @@ const BusCard = ({ item }) => {
             if (item.status == "isChoosing") {
 
                 total += item.price;
-                console.log("choosing")
             }
             return { ...item };
         });

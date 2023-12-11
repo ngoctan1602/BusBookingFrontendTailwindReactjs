@@ -10,29 +10,31 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import PopupAddBusStation from "../../components/Layout/Components/Company/Bus/PopupAddBusStation";
 import { useNavigate } from "react-router-dom";
 import * as busStationSV from "../../services/BusStationSv";
+import * as ticketServices from "../../services/Company/Ticket";
 import CurrencyFormat from "react-currency-format";
 const Ticket = () => {
     let { id } = useParams();
     let navigate = useNavigate();
     const [status, setStatus] = useState(1);
     const [date, setDate] = useState(new Date());
-    const createTicket = () => {
-        console.log(date)
-        console.log(selectedIds);
-        console.log(price)
-        console.log(itemSelected);
-        // const [result, setResult] = useState();
 
-        itemSelected.map((item, index) =>
-            // setResult(
-            //     { ...item, index: newValue }
-            // )
-            console.log(item)
-        )
+    const createTicket = async () => {
+        const submit = {
+            date: date,
+            busId: Number(id),
+            ticketStations: itemSelected,
+        }
 
-        // console.log(result)
+        try {
+            const resp = await ticketServices.createTicket(submit);
+            console.log(resp)
+        }
+        catch (error) {
+            console.log(error);
+        }
+        console.log(submit)
 
-        setStatus(0)
+        // setStatus(0)
     }
     const [price, setPrice] = useState(2000);
     const [busStationOfBus, setBusStationOfBus] = useState()
@@ -68,7 +70,14 @@ const Ticket = () => {
         } else {
             // Nếu không được chọn, loại bỏ ID khỏi mảng
             setSelectedIds(prevIds => prevIds.filter(prevId => prevId !== id));
-            setItemSelected(prevItem => prevItem.filter(prevItem => prevItem.busStopId !== id));
+            // setItemSelected(prevItem => prevItem.filter(prevItem => prevItem.busStopId !== id));
+            setItemSelected(prevItem => {
+                const updatedItems = prevItem
+                    .filter(item => item.busStopId !== id)
+                    .map((item, index) => ({ ...item, index }));
+
+                return updatedItems;
+            });
         }
 
     };
@@ -161,12 +170,12 @@ const Ticket = () => {
                                             <input type="checkbox" class='col-span-1'
                                                 onChange={(e) => handleCheckboxChange(e, item.id,
                                                     item = {
-                                                        index: 0,
-                                                        busStopId: item.id,
+                                                        index: selectedIds.length,
+                                                        busStopId: item.busStopId,
                                                         name: item.name,
                                                         price: 0,
-                                                        departureTime: new Date(new Date().toLocaleString('en', { timeZone: 'Asia/Ho_Chi_Minh' })),
-                                                        arrivalTime: new Date(new Date().toLocaleString('en', { timeZone: 'Asia/Ho_Chi_Minh' })),
+                                                        departureTime: new Date(),
+                                                        arrivalTime: new Date(),
                                                     })}
                                                 checked={selectedIds.includes(item.id)}
                                             >
