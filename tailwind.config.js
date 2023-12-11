@@ -39,7 +39,8 @@ module.exports = {
       backgroundImage: {
         footerImg: "url('/src/assets/images/footer.jpg')",
         bgLogin: "url('/src/assets/images/backgroundlogin.jpg')",
-        searchImg: "url('/src/assets/images/bustrip.jpg')"
+        searchImg: "url('/src/assets/images/bustrip.jpg')",
+        notfound: "url('/src/assets/images/notfound.png')"
       },
 
       animation: {

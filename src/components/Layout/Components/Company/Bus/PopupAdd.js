@@ -18,9 +18,9 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
     const [busStation, setBusStation] = useState();
 
     // const [showId, setShowId] = useState([])
-    const [selectedIds, setSelectedIds] = useState([]);
 
     const [submit, setSubmit] = useState(false);
+    const [selectedIds, setSelectedIds] = useState([]);
 
     const handleCheckboxChange = (event, id) => {
         if (event.target.checked) {

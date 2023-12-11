@@ -170,7 +170,7 @@ const Ticket = () => {
                                             <input type="checkbox" class='col-span-1'
                                                 onChange={(e) => handleCheckboxChange(e, item.id,
                                                     item = {
-                                                        index: selectedIds.length,
+                                                        indexStation: selectedIds.length,
                                                         busStopId: item.busStopId,
                                                         name: item.name,
                                                         price: 0,
