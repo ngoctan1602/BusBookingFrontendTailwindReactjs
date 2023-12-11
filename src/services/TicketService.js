@@ -6,7 +6,7 @@ export const findTicket = async (data) => {
 }
 
 const ticketServicesAPI = {
-    findTicketAPI: 'ticket/find',
+    findTicketAPI: 'tickets/find',
 }
 
 const ticketService = {

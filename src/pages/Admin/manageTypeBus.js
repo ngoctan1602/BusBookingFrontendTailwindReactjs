@@ -110,25 +110,28 @@ const ManageTypeBus = () => {
         });
     };
 
-
+    const [loading, setLoading] = useState(false);
 
     const [typeBus, setTypeBus] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true)
             try {
                 const response = await TypeBusSv.getAllTypeBus();
                 console.log(response.data)
-                setTypeBus(response.data);
+                setTypeBus(response.data.items);
+                setLoading(false)
 
             } catch (error) {
                 console.error('Error fetching data:', error);
+                setLoading(false)
             }
         };
 
         fetchData();
 
 
-    }, [typeBus]);
+    }, []);
 
     // Hàm cập nhật trạng thái item
     const changeStatus = (id, value) => {
@@ -178,9 +181,19 @@ const ManageTypeBus = () => {
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>
-                    {
-                        typeBus.data ??
-                        <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus} emtyItemValue={emtyItemValue}></Paginate>
+
+
+                    {loading ?
+                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                        </div>
+                        :
+                        !loading && typeBus
+                            ?
+                            <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus} emtyItemValue={emtyItemValue}></Paginate>
+                            :
+                            <tr>
+                                Không có loại buýt nào
+                            </tr>
                     }
                 </tbody>
             </table>

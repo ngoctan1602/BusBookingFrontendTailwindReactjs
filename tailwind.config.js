@@ -12,7 +12,7 @@ module.exports = {
       'txt': '#090808',
       'button': '#88c194',
       'bg': '#F2ECFF',
-      'bgPopup': '#7f4343',
+      'bgPopup': '#e1e1e1',
       'hover-txt': '#4d4c4f'
     },
     fontSize: {
@@ -39,7 +39,8 @@ module.exports = {
       backgroundImage: {
         footerImg: "url('/src/assets/images/footer.jpg')",
         bgLogin: "url('/src/assets/images/backgroundlogin.jpg')",
-        searchImg: "url('/src/assets/images/bustrip.jpg')"
+        searchImg: "url('/src/assets/images/bustrip.jpg')",
+        notfound: "url('/src/assets/images/notfound.png')"
       },
 
       animation: {

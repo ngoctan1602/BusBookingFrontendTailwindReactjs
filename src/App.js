@@ -1,7 +1,7 @@
 import "normalize.css"
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { publicRoutes, privateRoutes, adminRoutes, companyRoutes } from "./routers/router"
+import { publicRoutes, privateRoutes, adminRoutes, companyRoutes, optAuth } from "./routers/router"
 import DefaultLayout from './components/Layout/DefaultLayout/DefaultLayout';
 import InfoLayout from "./components/Layout/InfoLayout/Infolayout";
 import AdminLayoutSidebar from "./components/Layout/AdminLayoutSidebar/AdminLayout";
@@ -9,6 +9,7 @@ import AdminLayoutSidebar from "./components/Layout/AdminLayoutSidebar/AdminLayo
 import AdminLogin from "./pages/Admin/login";
 import CompanyLayout from "./components/Layout/CompanyLayout/CompanyLayout";
 import CompanyLogin from "./pages/Company/login";
+import NotFound from "./pages/NotFound";
 function App() {
   return (
     <Router>
@@ -75,6 +76,8 @@ function App() {
               />
             })
           }
+          <Route path={optAuth.path} element={<optAuth.component />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </Router>

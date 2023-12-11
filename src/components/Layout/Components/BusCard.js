@@ -22,6 +22,7 @@ import InputConfirmInfo from "./InputConfirmInfo";
 
 
 const BusCard = ({ item }) => {
+    // console.log(item.itemResponses.slice(0, item.itemResponses.length / 2))
 
     const [about, setAbout] = useState(false);
 
@@ -155,87 +156,51 @@ const BusCard = ({ item }) => {
     )
     const [seatHover, setSeatHover] = useState();
     const [oneStFloor, setOneStFloor] = useState(
-        [
-            {
-                id: 1, status: "blank", price: 2000
-            },
-            {
-                id: 2, status: "blank", price: 2000
-            },
-            {
-                id: 3, status: "selected", price: 2000
-            },
-            {
-                id: 4, status: "blank", price: 2000
-            },
-            {
-                id: 5, status: "blank", price: 2000
-            },
-            {
-                id: 6, status: "selected", price: 2000
-            },
-            {
-                id: 7, status: "blank", price: 2000
-            },
-            {
-                id: 8, status: "blank", price: 2000
-            },
-            {
-                id: 9, status: "selected", price: 2000
-            },
-            {
-                id: 10, status: "blank", price: 2000
-            },
-            {
-                id: 11, status: "blank", price: 2000
-            },
-            {
-                id: 12, status: "selected", price: 2000
-            },
-
-        ]
-    )
+        item.itemResponses.slice(0, item.itemResponses.length / 2))
     const [secondFloor, setSecond] = useState(
-        [
-            {
-                id: 13, status: "blank", price: 2000
-            },
-            {
-                id: 14, status: "blank", price: 2000
-            },
-            {
-                id: 15, status: "selected", price: 2000
-            },
-            {
-                id: 16, status: "blank", price: 2000
-            },
-            {
-                id: 17, status: "blank", price: 2000
-            },
-            {
-                id: 18, status: "selected", price: 2000
-            },
-            {
-                id: 19, status: "blank", price: 2000
-            },
-            {
-                id: 20, status: "blank", price: 2000
-            },
-            {
-                id: 21, status: "selected", price: 2000
-            },
-            {
-                id: 22, status: "blank", price: 2000
-            },
-            {
-                id: 23, status: "blank", price: 2000
-            },
-            {
-                id: 24, status: "selected", price: 2000
-            },
+        item.itemResponses.slice(item.itemResponses.length / 2)
+        // [
+        //     {
+        //         id: 13, status: "blank", price: 2000
+        //     },
+        //     {
+        //         id: 14, status: "blank", price: 2000
+        //     },
+        //     {
+        //         id: 15, status: "selected", price: 2000
+        //     },
+        //     {
+        //         id: 16, status: "blank", price: 2000
+        //     },
+        //     {
+        //         id: 17, status: "blank", price: 2000
+        //     },
+        //     {
+        //         id: 18, status: "selected", price: 2000
+        //     },
+        //     {
+        //         id: 19, status: "blank", price: 2000
+        //     },
+        //     {
+        //         id: 20, status: "blank", price: 2000
+        //     },
+        //     {
+        //         id: 21, status: "selected", price: 2000
+        //     },
+        //     {
+        //         id: 22, status: "blank", price: 2000
+        //     },
+        //     {
+        //         id: 23, status: "blank", price: 2000
+        //     },
+        //     {
+        //         id: 24, status: "selected", price: 2000
+        //     },
 
-        ]
+        // ]
     )
+
+
 
 
     const [stepBooking, setStepBooking] = useState(
@@ -266,6 +231,7 @@ const BusCard = ({ item }) => {
                 return { ...item, active: false };
 
             });
+            console.log(selectedIdSeats)
             setStepBooking(updatedItems);
         }
         console.log(stepBooking);
@@ -287,20 +253,24 @@ const BusCard = ({ item }) => {
     }
     const [totalPrice1, setTotalPrice1] = useState(0);
     const [totalPrice2, setTotalPrice2] = useState(0);
+
+    const [selectedIdSeats, setSelectedIdSeats] = useState([]);
+
     const handleClickSeatOneFloor = (id) => {
         let total = 0;
         const updatedItems = oneStFloor.map(item => {
             if (item.id === id) {
-                if (item.status === "blank") {
+                if (item.status === 1) { // 1 là đang trống
                     total += item.price;
-                    return { ...item, status: "isChoosing" };
+                    setSelectedIdSeats(prevIds => [...prevIds, id]);
+                    return { ...item, status: 2 }; // 2 là đang chọn
                 }
-                return { ...item, status: "blank" };
+                setSelectedIdSeats(prevIds => prevIds.filter(prevId => prevId !== id));
+                return { ...item, status: 1 };
             }
-            if (item.status == "isChoosing") {
+            if (item.status == 2) {
 
                 total += item.price;
-                console.log("choosing")
             }
             return { ...item };
         });
@@ -313,16 +283,15 @@ const BusCard = ({ item }) => {
         let total = 0;
         const updatedItems = secondFloor.map(item => {
             if (item.id === id) {
-                if (item.status === "blank") {
+                if (item.status === 1) {
                     total += item.price;
-                    return { ...item, status: "isChoosing" };
+                    return { ...item, status: 2 };
                 }
-                return { ...item, status: "blank" };
+                return { ...item, status: 1 };
             }
-            if (item.status == "isChoosing") {
+            if (item.status == 2) {
 
                 total += item.price;
-                console.log("choosing")
             }
             return { ...item };
         });
@@ -660,18 +629,18 @@ const BusCard = ({ item }) => {
                                             oneStFloor.map((item, index) => (
                                                 <div
                                                     onPointerOver={(e) => setSeatHover("Mã ghế: " + item.id + " ,Giá: " + item.price)}
-                                                    onClick={(e) => { item.status != "selected" && handleClickSeatOneFloor(item.id) }}
+                                                    onClick={(e) => { (item.status === 1 || item.status === 2) && handleClickSeatOneFloor(item.id) }}
                                                     data-tooltip-id="my-tooltip"
-                                                    class={item.status === "selected" ?
+                                                    class={item.status === 3 ?
                                                         'w-[50px] h-[80px] flex justify-center items-center my-sm cursor-not-allowed hover:scale-105' :
                                                         'w-[50px] h-[80px] flex justify-center items-center my-sm cursor-pointer hover:scale-105'
                                                     }
                                                 >
                                                     {
-                                                        item.status === "blank"
+                                                        item.status === 1
                                                             ?
                                                             <img class='w-[40px] h-[40px]' src={seatBooking[0].icon}></img>
-                                                            : item.status === "isChoosing" ?
+                                                            : item.status === 2 ?
                                                                 <img class='w-[40px] h-[40px]' src={seatBooking[1].icon}></img>
                                                                 :
                                                                 <img class='w-[40px] h-[40px]' src={seatBooking[2].icon}></img>
@@ -702,18 +671,18 @@ const BusCard = ({ item }) => {
                                             secondFloor.map((item, index) => (
                                                 <div
                                                     onPointerOver={(e) => setSeatHover("Mã ghế: " + item.id + " ,Giá: " + item.price)}
-                                                    onClick={(e) => { item.status != "selected" && handleClickSeatSecondFloor(item.id) }}
+                                                    onClick={(e) => { (item.status === 1 || item.status === 2) && handleClickSeatSecondFloor(item.id) }}
                                                     data-tooltip-id="my-tooltip"
-                                                    class={item.status === "selected" ?
+                                                    class={item.status === 3 ?
                                                         'w-[50px] h-[80px] flex justify-center items-center my-sm cursor-not-allowed hover:scale-105' :
                                                         'w-[50px] h-[80px] flex justify-center items-center my-sm cursor-pointer hover:scale-105'
                                                     }
                                                 >
                                                     {
-                                                        item.status === "blank"
+                                                        item.status === 1
                                                             ?
                                                             <img class='w-[40px] h-[40px]' src={seatBooking[0].icon}></img>
-                                                            : item.status === "isChoosing" ?
+                                                            : item.status === 2 ?
                                                                 <img class='w-[40px] h-[40px]' src={seatBooking[1].icon}></img>
                                                                 :
                                                                 <img class='w-[40px] h-[40px]' src={seatBooking[2].icon}></img>
@@ -882,7 +851,7 @@ const BusCard = ({ item }) => {
                     {
                         stepBooking[2].active ?
                             <button class='w-[120px] button-position button-hover text-16 text-txt'
-                                onClick={(e) => alert("Đặt vé")}
+                                onClick={(e) => alert(selectedIdSeats)}
                             >
                                 Đặt vé
                             </button>

@@ -24,6 +24,7 @@
     "react-drag-drop-files": "^2.3.10",
     "react-dropzone": "^14.2.3",
     "react-icons": "^4.11.0",
+    "react-loading": "^2.0.3",
     "react-loading-skeleton": "^3.3.1",
     "react-multilevel-dropdown": "^4.0.0",
     "react-number-format": "^5.3.1",

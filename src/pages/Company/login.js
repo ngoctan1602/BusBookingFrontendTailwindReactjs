@@ -91,7 +91,7 @@ const CompanyLogin = () => {
                 type: "text",
                 placeholder: "Nhập tên đăng nhập",
                 value: account.username,
-                spanWidth: 150,
+                spanWidth: 170,
                 background: "#e1e1e1"
             },
             {

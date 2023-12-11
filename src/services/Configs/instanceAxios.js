@@ -3,7 +3,7 @@ import axios from "axios";
 const instance = () => {
     const instance = axios.create({
         baseURL: "http://localhost:5107/api/",
-        timeout: 10000,
+        timeout: 10000000,
     });
 
     instance.interceptors.request.use(
