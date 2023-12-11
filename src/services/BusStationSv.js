@@ -1,7 +1,7 @@
 import * as BaseAPI from './BaseAPI';
 
-export const getAllBusStation = async () => {
-    return await BaseAPI.getItems(busStationSV.allBusStation);
+export const getAllBusStation = async (pageSize) => {
+    return await BaseAPI.getItems(busStationSV.allBusStation, pageSize);
 }
 
 export const getByLocation = async (location) => {

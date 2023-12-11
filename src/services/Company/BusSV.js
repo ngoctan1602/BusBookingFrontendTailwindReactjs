@@ -21,11 +21,17 @@ export const changeIsActive = async (id) => {
     return await BaseAPI.getItems(busServices.changeIsActive, id);
 }
 
+
+export const addBusStops = async (data) => {
+    return await BaseAPI.putItem(busServices.addBusStops, data);
+}
+
+
 const busServices = {
     allBusOfCompany: 'buses/getAll',
     getById: 'buses/get',
     createNewBus: 'buses/create',
-    getSeatOfBus: '',
+    addBusStops: 'buses/addBusStops',
     changeIsDisable: 'buses/changeIsDisable',
     changeIsActive: 'buses/changeIsActive'
 }

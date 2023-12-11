@@ -51,7 +51,7 @@ const Ticket = () => {
      * @param {*} data2 is ArrivalTime
      * @returns 
      */
-    function checkDepartureTimeAndArrivalTime (data1,data2) {
+    function checkDepartureTimeAndArrivalTime(data1, data2) {
         if (data1.getTime() > data2.getTime()) {
             return true;
         }
@@ -85,7 +85,7 @@ const Ticket = () => {
             setItemSelected(prevItem => {
                 const updatedItems = prevItem
                     .filter(item => item.busStopId !== id)
-                    .map((item, index) => ({ ...item, index }));
+                    .map((item, index) => ({ ...item, indexStation: index }));
 
                 return updatedItems;
             });

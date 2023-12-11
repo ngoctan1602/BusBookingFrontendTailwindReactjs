@@ -5,40 +5,37 @@ import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
 // import * as TypeBusSv from "../../../../services/TypeBusServices"
 import 'react-toastify/dist/ReactToastify.css';
-import { useState, useCallback } from "react";
+import { useState, useEffect } from "react";
+import * as BusStationSv from "../../../../../services/BusStationSv"
+import * as BusSV from "../../../../../services/Company/BusSV"
 import seat from "../../../../../assets/images/seat.png"
-
+import { useParams } from "react-router-dom";
 const PopupAddBusStation = () => {
-
+    let { id } = useParams();
 
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "60%" };
+    const [busStation, setBusStation] = useState();
 
-    const busStation = [
-        {
-            id: 1, name: "Bến lỏ", address: "Tân phú, vạn phú, vạn ninh, khánh hòa"
-        },
-        {
-            id: 2, name: "Bến lỏ 1", address: "Tân phú, vạn phú, vạn ninh, khánh hòa"
-        },
-        {
-            id: 3, name: "Bến lỏ 2", address: "Tân phú, vạn phú, vạn ninh, khánh hòa"
-        },
-        {
-            id: 4, name: "Bến lỏ 3", address: "Tân phú, vạn phú, vạn ninh, khánh hòa"
-        },
-        {
-            id: 5, name: "Bến lỏ", address: "Tân phú, vạn phú, vạn ninh, khánh hòa"
-        },
-        {
-            id: 6, name: "Bến lỏ 1", address: "Tân phú, vạn phú, vạn ninh, khánh hòa"
-        },
-        {
-            id: 7, name: "Bến lỏ 2", address: "Tân phú, vạn phú, vạn ninh, khánh hòa"
-        },
-        {
-            id: 8, name: "Bến lỏ 3", address: "Tân phú, vạn phú, vạn ninh, khánh hòa"
-        }
-    ]
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const restBusStation = await BusStationSv.getAllBusStation({ pageSize: 200 });
+                const resp = await BusStationSv.getAllInBus({ busId: id });
+                const difference = restBusStation.data.items.filter(restBusStation =>
+                    !resp.data.items.some(resp => restBusStation.id === resp.id)
+                );
+                setBusStation(difference)
+                console.log(difference)
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+
+    }, []);
+
 
     const [selectedIds, setSelectedIds] = useState([]);
     const handleCheckboxChange = (event, id) => {
@@ -77,13 +74,24 @@ const PopupAddBusStation = () => {
         console.log(selectedIds);
         if (selectedIds) {
             //Gọi api thêm vào 
+            const objectAdd = { Id: id, BusStopIds: selectedIds }
+            console.log(objectAdd)
+            try {
+                const resp = await BusSV.addBusStops(objectAdd);
+                if (!resp.isError) {
 
-            notifySuccess()
+                    notifySuccess()
 
-            setTimeout(() => {
-                setSelectedIds([])
-                close()
-            }, 1500);
+                    setTimeout(() => {
+                        setSelectedIds([])
+                        close()
+                    }, 1500);
+                }
+            }
+            catch (error) {
+                console.log(error)
+            }
+
         }
 
 
@@ -131,17 +139,20 @@ const PopupAddBusStation = () => {
                                 </thead>
                                 <tbody class='bg-[#e1e1e1]'>
                                     {
-                                        busStation.map((item, index) =>
-                                            <tr class='grid bg-bgPopup grid-cols-12 p-sm text-left gap-md'>
-                                                <td><input type="checkbox"
-                                                    onChange={(e) => handleCheckboxChange(e, item.id)}
-                                                    checked={selectedIds.includes(item.id)}
-                                                /></td>
-                                                <td class='col-span-2 col-start-2'>{item.id}</td>
-                                                <td class='col-span-4'>{item.name}</td>
-                                                <td class='col-span-5'>{item.address}</td>
-                                            </tr>
-                                        )
+                                        busStation ?
+                                            busStation.map((item, index) =>
+                                                <tr class='grid bg-bgPopup grid-cols-12 p-sm text-left gap-md'>
+                                                    <td><input type="checkbox"
+                                                        onChange={(e) => handleCheckboxChange(e, item.id)}
+                                                        checked={selectedIds.includes(item.id)}
+                                                    /></td>
+                                                    <td class='col-span-2 col-start-2'>{item.id}</td>
+                                                    <td class='col-span-4'>{item.name}</td>
+                                                    <td class='col-span-5'>{item.addressDb}</td>
+                                                </tr>
+                                            )
+                                            :
+                                            "Không có bến xe trong hệ thống"
                                     }
                                 </tbody>
                             </table>

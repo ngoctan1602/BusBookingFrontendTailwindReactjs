@@ -16,6 +16,7 @@ import CurrencyFormat from "react-currency-format";
 
 const BusDetail = () => {
     let { id } = useParams();
+
     let navigate = useNavigate();
     const location = useLocation();
 
