@@ -7,10 +7,26 @@ import { faBusinessTime, faBus, faLocationCrosshairs } from "@fortawesome/free-s
 import adminlogo from "../../../assets/images/AdminLogo.png"
 import { Link } from "react-router-dom";
 import { useEffect, useCallback, useState } from "react";
+import Button from "../Components/Button";
+import SignOut from "../../../services/SignOut";
 import Popup from "reactjs-popup";
 
 import { useNavigate } from "react-router-dom";
 const CompanyLayout = ({ children }) => {
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const avatar = localStorage.getItem('avatar') == 'null' ? adminlogo: localStorage.getItem('avatar');
+    const username = localStorage.getItem('username');
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(token !== null);
+    }, []);
+
+    const handleConfirmClick = () => {
+        // Gọi hàm SignOut ở đây
+        SignOut();
+    };
+
     const navigate = useNavigate();
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "400px" };
     const [info, setInfo] = useState([
@@ -133,12 +149,22 @@ const CompanyLayout = ({ children }) => {
                     </img>
                     <p class='ml-sm font-bold uppercase'>Company Page</p>
                 </div>
-                <div class='col-span-1 col-start-10 flex items-center'>
-                    <img class='h-[40px] w-[40px] rounded-full' src={adminlogo} >
+
+                {isLoggedIn ? (
+                    <div class='col-span-1 col-start-10 flex items-center'>
+                    <img class='h-[40px] w-[40px] rounded-full' src={avatar} >
 
                     </img>
-                    <p>Ngọc Tân</p>
+                    <p className="p-[20px]">{username}</p>
                 </div>
+                ): (
+                    <Link to={"/login"} className="px-4" id="Login">
+                    <Button type="border" content="Đăng nhập">
+
+                    </Button>
+                </Link>
+                )}
+                
 
                 <Popup trigger={<button class="flex justify-center cursor-default">
                     <FontAwesomeIcon icon={faRightFromBracket} color="#474554"
@@ -165,7 +191,7 @@ const CompanyLayout = ({ children }) => {
                                 </div>
                                 <div class='w-full h-[1px] bg-txt my-sm' ></div>
                                 <div class='w-full my-md gap-sm grid grid-cols-10'>
-                                    <Link class='col-start-3 col-span-3 col confirm-button text-center' to='/admin/login'>Xác nhận</Link>
+                                    <Link class='col-start-3 col-span-3 col confirm-button text-center' onClick={handleConfirmClick} >Xác nhận</Link>
                                     <button class='col-span-3 confirm-button' onClick={close}>Hủy</button>
 
                                 </div>
