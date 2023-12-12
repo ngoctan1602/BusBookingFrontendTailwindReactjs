@@ -52,6 +52,7 @@ const Login = () => {
             username: usernam,
             password: password,
         }
+
         try {
             setLoading(true)
             const response = await authServices.login(account)
@@ -63,9 +64,7 @@ const Login = () => {
                 localStorage.setItem('avatar', response.data.avatar);
                 notifySuccess();
                 setTimeout(() => navigate("/"), 1500)
-
             }
-
         }
         catch (error) {
             setLoading(false)

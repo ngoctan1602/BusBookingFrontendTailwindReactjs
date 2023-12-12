@@ -44,6 +44,7 @@ const AdminLogin = () => {
         if (!response.isError) {
             // setError('')
             localStorage.setItem('token', response.data.token);
+            localStorage.setItem("refreshToken", response.data.refreshToken);
             notifySuccess()
             setTimeout(() => {
                 navigate('/manage-user-account');
