@@ -294,7 +294,6 @@ const Info = () => {
                     </Dropzone> */}
 
                     <div class='grid grid-cols-8 w-[700px]'>
-                        <p class='col-span-2 p-sm'>Họ và tên</p>
                         <div class='col-span-6 shrink-0'>
                             {
                                 !loading &&
@@ -310,10 +309,11 @@ const Info = () => {
                 </div>
                 {/* Đây là phần ngày sinh */}
                 <div class='flex items-center mx-md my-xl'>
-                    <p class='text-16 w-[100px] shrink-0'>Ngày sinh</p>
-                    {/* <div class='widthDate shrink-0'>
-                        <InputConfirmInfo item={{ type: "date", value: customer.dateOfBirth.split('T', [1]), background: "#e1e1e1" }} onChange={changeBirthDate}></InputConfirmInfo>
-                    </div> */}
+                    <p class='text-16 w-[100px] shrink-0'>Ngày sinh</p>
+                    <div class='widthDate shrink-0'>
+                        {!loading &&
+                        <InputConfirmInfo item={{ type: "date", value: customer.dateOfBirth === null ? null : customer.dateOfBirth.split('T', [1]), background: "#e1e1e1" }} onChange={changeBirthDate}></InputConfirmInfo>}
+                    </div>
                 </div>
                 {/* Đây là phần giới tính */}
                 <div class='flex items-center mx-md my-xl'>
