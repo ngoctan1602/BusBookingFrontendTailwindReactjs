@@ -4,12 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useNavigate } from "react-router-dom";
 import ReactLoading from 'react-loading';
 import { useState } from "react";
-const PopupOTP = ({ objectConfirm, open }) => {
+const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
-
+    let navigate = useNavigate();
     const notifySuccess = () => toast.success('Thêm thành công xe mới!', {
         position: "bottom-right",
         autoClose: 2500,
@@ -43,13 +43,19 @@ const PopupOTP = ({ objectConfirm, open }) => {
             theme: "light",
         });
 
-    const [item, setItem] = useState(
-        {
-            email: objectConfirm ? objectConfirm.email : ""
-        }
-    )
-    const onChangeItem = (name, value) => {
-        setItem({ ...item, [name]: value })
+    // const [item, setItem] = useState(
+    //     {
+    //         email: objectConfirm ? objectConfirm.email : ""
+    //     }
+    // )
+    // const onChangeItem = (name, value) => {
+    //     setItem({ ...item, [name]: value })
+    // }
+    const handleSubmit = () => {
+        onChangeOpen();
+        navigate(
+            "/login"
+        )
     }
     return (
 
@@ -72,17 +78,19 @@ const PopupOTP = ({ objectConfirm, open }) => {
                             <div class='col-span-7'>
 
                                 <InputConfirmInfo
-                                    onChange={onChangeItem}
+                                    onChange={onChangeConfirm}
                                     item={{
                                         type: "text", placeholder: "OTP",
-                                        name: "email",
-                                        value: item.value, spanWidth: 60, background: "#e1e1e1"
+                                        name: "otp",
+                                        value: confirm.otp, spanWidth: 60, background: "#e1e1e1"
                                     }}></InputConfirmInfo>
                             </div>
                         </div>
                         <div class='flex justify-center my-md'>
-                            <button class='w-[100px] shrink-0 confirm-button mx-md'>Xác nhận</button>
-                            <button class='w-[100px] shrink-0 confirm-button' onClick={close}>Hủy</button>
+                            <button class='w-[100px] shrink-0 confirm-button mx-md'
+                                onClick={handleSubmit}
+                            >Xác nhận</button>
+                            <button class='w-[100px] shrink-0 confirm-button' onClick={onChangeOpen}>Hủy</button>
                         </div>
                     </div>
                 )

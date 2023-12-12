@@ -14,6 +14,10 @@ import Card from "../../components/Layout/Components/Card";
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import ReactLoading from 'react-loading';
 const Home = () => {
     var settings = {
         dots: true,
@@ -28,6 +32,7 @@ const Home = () => {
         // autoplaySpeed: 3500
     };
 
+    let navigate = useNavigate();
     const [cards, setCards] = useState([
         { id: 1, location: 'Đà Nẵng- Sài Gòn', src: bgSearch, price: '120.000đ' },
         { id: 2, location: 'Nha Trang - Sài Gòn', src: bgSearch, price: '200.000đ' },
@@ -83,33 +88,86 @@ const Home = () => {
         },
 
     ])
+    const search = JSON.parse(localStorage.getItem('formSearch'));
+    const [loading, setLoading] = useState(false)
+    const [formSearch, setFormSearch] = useState({
+        stationStart: search ? search.stationStart : '',
+        stationEnd: search ? search.stationEnd : '',
+        dateTime: search ? search.dateTime : '',
+    });
+
+    const onChange = (e) => {
+        const { name, value } = e.target;
+        setFormSearch({ ...formSearch, [name]: value });
+    }
+
+    const btnClick = () => {
+        localStorage.setItem("formSearch", JSON.stringify(formSearch));
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+            navigate("/search")
+        }, 1500);
+        // onSearch(formSearch)
+    }
 
     return (
-        <div className="w-screen min-h-[700px] flex flex-col items-center">
+        <div className="w-screen min-h-[700px] flex flex-col items-center relative">
+            {
+                loading &&
+                <div class='absolute bg-hover-txt w-[100%] h-full z-50 opacity-40'>
+                    <ReactLoading
+                        type="spinningBubbles" color="#e1e1e1"
+                        height={'5%'} width={'5%'}
+                        className="absolute left-1/2 top-[30%]  "
+                    />
+                </div>
+            }
             <div className="w-[100%] h-[400px] flex relative">
                 <div className="z-20 items-center justify-center flex flex-col w-[100%] h-[100%]">
-                    <h4 className="mb-md font-bold text-bg text-[32px]">
-                        Nơi nào đang chờ bạn khám phá ?
-                    </h4>
-                    <div className="bg-bg w-search rounded-xl h-[180px] opacity-70 flex items-center justify-center">
-                        <div className="flex w-[80%] rounded-md border-txt border-[0.5px] h-1/2  m-sm">
-                            <div className="flex items-center border-r-[0.5px] px-sm">
-                                <FontAwesomeIcon icon={faLocationDot} size="2xl" className="p-sm"></FontAwesomeIcon>
-                                <Input content="Nơi xuất phát" width="search" />
-                            </div>
-                            <div className="flex items-center border-r-[0.5px] px-sm">
-                                <FontAwesomeIcon icon={faLocationArrow} size="2xl" className="p-sm"></FontAwesomeIcon>
-                                <Input content="Nơi đến" width="search" />
-                            </div>
-                            <div className="flex items-center">
-                                <FontAwesomeIcon icon={faLocationDot} size="2xl" className="p-sm"></FontAwesomeIcon>
-                                <Input content="Chọn ngày đi" type="date" width="search" />
-                            </div>
 
+
+                    <div className='w-content grid grid-cols-12 h-full  grid-rows-5 '>
+
+                        <div class=' col-span-8 col-start-3'>
+                            <p className="h-full font-bold text-bg text-24 flex items-center justify-center">
+                                Nơi nào đang chờ bạn khám phá ?
+                            </p>
                         </div>
-                        <Button type="search" content="Tìm chuyến">
+                        <div className=" 
+                        border-[1px] border-txt outline-none
+                        col-span-8 col-start-3 row-start-2 row-span-3 opacity-90 bg-bgPopup grid grid-cols-12 grid-flow-row p-md rounded-md shadow-lg">
+                            <div className='col-span-3 col-start-1 h-full text-hover-txt grid grid-cols-6 grid-flow-row'>
+                                <div className="col-span-1 flex items-center">
+                                    <FontAwesomeIcon icon={faLocationDot} className='w-full h-[20px]' />
+                                </div>
+                                <div className="col-span-5 flex items-center ">
+                                    <Input placeholder={'Nơi đi'} content='Nơi đi' onChange={onChange} name="stationStart" value={formSearch.stationStart}></Input>
+                                </div>
+                            </div>
 
-                        </Button>
+                            <div className='col-span-3  h-full text-hover-txt grid grid-cols-6 grid-flow-row'>
+                                <div className="col-span-1 flex items-center">
+                                    <FontAwesomeIcon icon={faLocationCrosshairs} className='w-full h-[20px]' />
+                                </div>
+                                <div className="col-span-5 flex items-center ">
+                                    <Input placeholder={'Nơi đến'} content='Nơi đến' onChange={onChange} name="stationEnd" value={formSearch.stationEnd}></Input>
+                                </div>
+                            </div>
+
+                            <div className='col-span-3  h-full text-hover-txt grid grid-cols-6 grid-flow-row'>
+                                <div className="col-span-1 flex items-center">
+                                    <FontAwesomeIcon icon={faCalendarDays} className='w-full h-[20px]' />
+                                </div>
+                                <div className="col-span-5 flex items-center  ">
+                                    <Input type="date" placeholder={'01/01/2000'} content='Ngày xuất phát' onChange={onChange} name="dateTime" value={formSearch.dateTime}></Input>
+                                </div>
+                            </div>
+
+                            <div className='col-span-2 col-start-10 h-full text-hover-txt  flex items-center'>
+                                <button className='w-full button-hover ml-md mt-lg' onClick={btnClick} >Tìm chuyến</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <img src={bgSearch} className="w-[100%] object-cover h-[100%] z-1 absolute">

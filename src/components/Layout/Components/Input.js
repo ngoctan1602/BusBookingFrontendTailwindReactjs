@@ -31,12 +31,19 @@ const Input = (props) => {
                     </div >
                     : type === 'radio'
                         ?
-                        <div key={id} class='w-full my-[4px] flex'>
+                        // <div key={id} class=' my-[4px] col-span-3 flex'>
+                        //     <input
+                        //         checked={checked} type={type} id={id} value={content} name={name}
+                        //         onChange={() => onChange(content)}
+                        //         class='w-[20px] h-[20px] border-none cursor-pointer' />
+                        //     <label htmlFor={id} class='text-txt text-16 mx-sm'>{content}</label>
+                        // </div>
+                        <div key={content} class=' my-[4px] col-span-3 flex'>
                             <input
-                                checked={checked} type={type} id={id} value={content} name={name}
-                                onChange={() => onChange(id)}
-                                class='w-[20px] h-[20px] border-none outline-none cursor-pointer' />
-                            <label htmlFor={id} class='text-txt text-16 mx-sm'>{content}</label>
+                                checked={checked} type={type} value={content} name={name}
+                                onChange={() => onChange(content)}
+                                class='w-[20px] h-[20px] border-none cursor-pointer' />
+                            <label htmlFor={content} class='text-txt text-16 mx-sm'>{content}</label>
                         </div>
                         : type === 'checkbox'
                             ? toggle === 'true'
