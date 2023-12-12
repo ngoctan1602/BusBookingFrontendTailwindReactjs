@@ -312,8 +312,13 @@ const Search = () => {
 
     return (
         <div class='min-h-[1000px] w-content flex flex-col items-center my-xl'>
-            <div class='h-[120px] bg-[#e1e1e1] border-none outline-none w-search rounded-lg my-md grid items-center justify-items-center'>
+            {/* <div class='h-[120px] bg-[#e1e1e1] border-none outline-none w-search rounded-lg my-md grid items-center justify-items-center'>
                 <SearchHeader onSearch={handSearch} ></SearchHeader>
+            </div> */}
+            <div className="h-[120px] grid grid-flow-row grid-cols-12 w-full">
+                <div className=" bg-[#e1e1e1] shadow-md rounded-md col-span-8 col-start-4">
+                    <SearchHeader onSearch={handSearch} ></SearchHeader>
+                </div>
             </div>
             <div class='h-full w-full flex'>
                 <div class='sidebar m-sm'>
@@ -333,7 +338,7 @@ const Search = () => {
                     </div>
 
                     {/* Đây là phần lọc */}
-                    <div class='h-[1450px] bg-transparent border-[1px] rounded-lg shadow-md my-lg'>
+                    <div class='h-[700px] bg-transparent border-[1px] rounded-lg shadow-md my-lg'>
                         {/* Đây là button xóa lọc */}
                         <div class='flex justify-between items-center'>
                             <p class='text-txt text-18 font-bold mt-sm mx-md'>Lọc</p>
@@ -394,91 +399,6 @@ const Search = () => {
                             </div>
 
 
-                        </div>
-
-
-                        {/* Đây là điểm đón*/}
-                        <div class='w-full h-[250px] my-xl flex flex-col'>
-                            <div class='h-[30%] w-ful '>
-                                <p class='text-txt text-16 mt-sm mx-md w-content'>Điểm đón</p>
-                                <input type='text' placeholder="Tìm trong danh sách"
-                                    class='text-16 text-txt w-[90%] mx-sm bg-bg outline-none border-[1px] border-txt opacity-70 p-[4px] ease-in-out duration-300 rounded-md hover:border-button'>
-                                </input>
-                            </div>
-                            <div class='h-[70%] overflow-y-auto overflow-x-hidden text-txt'>
-
-
-                                {
-                                    startLocation.map((item, idex) => (
-                                        <>
-                                            <Input toggle='true' isOpen={item.isOpen} type="checkbox" id={item.id} content={item.content} onClick={() => toggleStartLocation(item.id)}>
-                                            </Input>
-                                            <>
-                                                {
-                                                    item.children.map((subitem, i) => (
-                                                        <div class={item.isOpen ? 'ml-[50px] w-[80%] flex justify-center' : 'hidden'}>
-
-                                                            <Input type="checkbox" id={subitem.id} content={subitem.content}>
-                                                            </Input>
-
-                                                            {/* {subitem.label} */}
-                                                        </div>
-                                                    ))
-                                                }
-                                            </>
-                                        </>
-                                    ))
-                                }
-                            </div>
-                        </div>
-
-                        {/* Đây là điểm trả */}
-                        <div class='w-full h-[250px] my-xl flex flex-col'>
-                            <div class='h-[30%] w-ful '>
-                                <p class='text-txt text-16 mt-sm mx-md w-content'>Điểm trả</p>
-                                <input type='text' placeholder="Tìm trong danh sách"
-                                    class='text-16 text-txt w-[90%] mx-sm bg-bg outline-none border-[1px] border-txt opacity-70 p-[4px] ease-in-out duration-300 rounded-md hover:border-button'>
-                                </input>
-                            </div>
-                            <div class='h-[70%] overflow-y-auto overflow-x-hidden text-txt'>
-
-
-                                {
-                                    destination.map((item, idex) => (
-                                        <>
-                                            <Input toggle='true' isOpen={item.isOpen} type="checkbox" id={item.id} content={item.content} onClick={() => toggleDestination(item.id)}>
-                                            </Input>
-                                            <>
-                                                {
-                                                    item.children.map((subitem, i) => (
-                                                        <div class={item.isOpen ? 'ml-[50px] w-[80%] flex justify-center' : 'hidden'}>
-
-                                                            <Input type="checkbox" id={subitem.id} content={subitem.content}>
-                                                            </Input>
-
-                                                            {/* {subitem.label} */}
-                                                        </div>
-                                                    ))
-                                                }
-                                            </>
-                                        </>
-                                    ))
-                                }
-                            </div>
-                        </div>
-                        {/* đây là loại ghế */}
-                        <div class='w-full h-[180px]'>
-                            <p class='text-txt text-16 mt-sm mx-md w-content'>Vị trí ghế</p>
-                            <div class='w-full'>
-                                {
-                                    sit.map((item, index) => (
-                                        <div class='flex flex-col items-center'>
-                                            <div class={index === 0 ? '' : 'bg-txt w-content h-[1px]'}></div>
-                                            <Input sit='true' type='checkbox' content={item.content}></Input>
-                                        </div>
-                                    ))
-                                }
-                            </div>
                         </div>
 
                         {/* Đây là xếp hạng */}

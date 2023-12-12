@@ -58,6 +58,7 @@ const Ticket = () => {
         return false;
     }
 
+
     const updateTicketStations = (id, newValue, name) => {
 
         setItemSelected((prevItems) =>

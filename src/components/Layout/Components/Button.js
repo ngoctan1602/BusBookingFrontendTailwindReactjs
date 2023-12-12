@@ -17,12 +17,21 @@ const Button = (props) => {
             {
                 type === "solid"
                     ?
-                    <div className="h-[50px] rounded-md w-[30%] bg-button hover:opacity-80 hover:scale-90 cursor-pointer flex justify-center items-center">
-                        <FontAwesomeIcon icon={faGoogle} size="sm" className="text-bg px-sm h-[30px]"></FontAwesomeIcon>
-                        <button className=" button text-bg ease-in-out duration-200" onClick={onClick}>
+                    <div className="grid grid-flow-row grid-cols-12 w-[30%] h-[50px] relative
+                     bg-button hover:opacity-80 hover:scale-90 
+                     cursor-pointer rounded-lg 
+                     duration-200
+                     ">
+                        <button className="col-span-12 h-full  text-bg ease-in-out duration-200" onClick={onClick}>
                             {content}
                         </button>
                     </div>
+                    // <div className="h-[50px] rounded-md w-[30%] bg-button hover:opacity-80 hover:scale-90 cursor-pointer flex justify-center items-center">
+                    //     <FontAwesomeIcon icon={faGoogle} size="sm" className="text-bg px-sm h-[30px]"></FontAwesomeIcon>
+                    //     <button className=" button text-bg ease-in-out duration-200" onClick={onClick}>
+                    //         {content}
+                    //     </button>
+                    // </div>
                     : type === "search"
                         ?
                         <div className=" rounded-md bg-button hover:opacity-80 hover:scale-90 cursor-pointer flex justify-center items-center">
