@@ -23,7 +23,7 @@ import Overview from "../pages/Company/overview"
 import BusDetail from "../pages/Company/busDetail"
 import Ticket from "../pages/Company/ticket"
 import CompanyLogin from "../pages/Company/login"
-import OTPAuth from "../pages/OTPauth"
+
 
 
 
@@ -109,8 +109,6 @@ const companyRoutes = [
 
 ]
 
-const optAuth = {
-    path: "/otpauth", component: OTPAuth
-}
 
-export { publicRoutes, privateRoutes, adminRoutes, companyRoutes, optAuth } 
+
+export { publicRoutes, privateRoutes, adminRoutes, companyRoutes } 

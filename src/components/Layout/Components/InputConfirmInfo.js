@@ -29,7 +29,11 @@ const InputConfirmInfo = ({ item, onChange, onChangeShowPassword }) => {
                 focus:border-[3px] focus:border-button focus:border-solid'
                 onFocus={() => setIsFocus(!isFocus)}
                 onBlur={handleOutFocus}
-                onChange={(e) => onChange(item.id, e.target.value)}
+                onChange={
+                    item.name ?
+                        (e) => onChange(item.name, e.target.value) :
+                        (e) => onChange(item.id, e.target.value)
+                }
                 style={{ borderColor: checkEmty && !isFocus ? "red" : "", background: item.background, paddingRight: item.type === "password" ? "50px" : "0px" }}
                 value={item.value}
                 disabled={item.disable}

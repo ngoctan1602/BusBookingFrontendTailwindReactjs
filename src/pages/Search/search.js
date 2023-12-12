@@ -523,7 +523,7 @@ const Search = () => {
                                 !busInfo && !loading ?
                                     <p>Không tìm thấy chuyến đi</p>
                                     :
-                                    <PaginatedItems itemsPerPage={2} items={busInfo} componentToRender={BusCard}></PaginatedItems>
+                                    <PaginatedItems itemsPerPage={5} items={busInfo} componentToRender={BusCard}></PaginatedItems>
                         }
                     </div>
 

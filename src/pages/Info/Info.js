@@ -29,28 +29,53 @@ const Info = () => {
         rank: '',
         wardId: '',
     });
+
+    const [updateCustomer, setUpdateCustomer] = useState(
+        {
+            avatar: '',
+            fullName: '',
+            dateOfBirth: '',
+            address: '',
+            email: '',
+            phoneNumber: '',
+            gender: '',
+            dateCreate: '',
+            roleName: '',
+            username: '',
+            rank: '',
+            wardId: '',
+        }
+    )
+
+    console.log(updateCustomer)
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
-            try{
+            setLoading(true)
+            try {
                 const response = await customerServices.GetProfile();
-                if (!response.isError){
+                if (!response.isError) {
                     setCustomer(response.data)
-                    console.log(response)
+                    setUpdateCustomer(response.data)
+
                     setError('')
+                    setLoading(false)
                 }
-                else{
+                else {
                     setError(response.data)
+                    setLoading(false)
                 }
             }
-            catch(err){
+            catch (err) {
                 setError(err.message)
             }
         };
         fetchData();
     }, [])
+
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
 
-    const [type, setType] = useState("text")
+
     const [birthDate, setBirthDate] = useState("2023-09-16");
 
     const [idGender, setIdGender] = useState(1);
@@ -228,17 +253,31 @@ const Info = () => {
 
     }, [idCommune]);
 
+    const onChangeCustomer = (name, value) => {
+        setUpdateCustomer({ ...updateCustomer, [name]: value })
+    }
+    const updateProfile = async () => {
+        try {
+            const resp = customerServices.UpdateProfile(updateCustomer)
+            // if(!resp.isError){
 
-
-    console.log(birthDate)
+            // }
+            console.log(resp)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <div class='w-full h-full flex border-none outline-none  rounded-lg overflow-hidden'>
             <div class='w-1/2 shrink-0 bg-[#e1e1e1] '>
                 <p class='font-bold m-md'>Thông tin cá nhân</p>
                 <div class='flex my-lg items-center mx-md'>
                     <div class='w-[100px] h-[80px] shrink-0  overflow-hidden z-1 relative '>
-                        <img src={customer.avatar}
-                            class=' w-[80px] h-[80px] object-cover rounded-full'></img>
+                        {
+                            !loading &&
+                            <img src={customer.avatar}
+                                class=' w-[80px] h-[80px] object-cover rounded-full'></img>
+                        }
                         {/* <input type={type} class='bg-[black]  z-10 cursor-pointer w-[10px] h-[10px] absolute right-[0px] bottom-[20%]' onFocus={() => setType("file")}></input> */}
                     </div>
                     {/* <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
@@ -252,25 +291,36 @@ const Info = () => {
                         )}
                     </Dropzone> */}
 
-                    <div class=' flex items-center'>
-                        {/* <p class='w-[80px]'>Họ và tên</p> */}
-                        <div class='w-[320px] shrink-0'>
-                            <InputConfirmInfo item={{ placeholder: "Nhập họ và tên", value: customer.fullName, spanWidth: 120, type: "text", background: "#e1e1e1" }}></InputConfirmInfo>
+                    <div class='grid grid-cols-8 w-[700px]'>
+                        <p class='col-span-2 p-sm'>Họ và tên</p>
+                        <div class='col-span-6 shrink-0'>
+                            {
+                                !loading &&
+                                <InputConfirmInfo onChange={onChangeCustomer}
+                                    item={{
+                                        placeholder: "Họ và tên",
+                                        value: updateCustomer.fullName, spanWidth: 80, type: "text", background: "#e1e1e1",
+                                        name: "fullName"
+                                    }}></InputConfirmInfo>
+                            }
                         </div>
                     </div>
                 </div>
                 {/* Đây là phần ngày sinh */}
                 <div class='flex items-center mx-md my-xl'>
                     <p class='text-16 w-[100px] shrink-0'>Ngày sinh</p>
-                    <div class='widthDate shrink-0'>
+                    {/* <div class='widthDate shrink-0'>
                         <InputConfirmInfo item={{ type: "date", value: customer.dateOfBirth.split('T', [1]), background: "#e1e1e1" }} onChange={changeBirthDate}></InputConfirmInfo>
-                    </div>
+                    </div> */}
                 </div>
                 {/* Đây là phần giới tính */}
                 <div class='flex items-center mx-md my-xl'>
                     <p class='text-16 w-[100px] shrink-0'>Giới tính</p>
                     {
-                        <p className='text-13'> {customer.gender}</p>
+                        !loading &&
+                        <p className='text-13'>
+                            {customer.gender === "male" ? "Nam" : "Nữ"}
+                        </p>
                         // gender.map((item, index) => (
                         //     <Input id={item.id} name={item.name} type="radio" content={item.content} onChange={changeIdGender} checked={item.isChoose}></Input>
                         // ))
@@ -333,7 +383,10 @@ const Info = () => {
                     </div>
                 </div>
                 <div class='flex w-full justify-center mr-xl'>
-                    <button class='button-hover'>Lưu thay đổi</button>
+                    <button class='button-hover'
+                        onClick={(e) => alert(customer.fullName)}
+                    >
+                        Lưu thay đổi</button>
                 </div>
             </div>
 
@@ -351,7 +404,11 @@ const Info = () => {
 
                         <div class='mx-md flex items-center text-txt text-16'>
                             <FontAwesomeIcon icon={faPhone} ></FontAwesomeIcon>
-                            <p class='mx-md'>Số điện thoại <br />{customer.phoneNumber}</p>
+                            <p class='mx-md'>Số điện thoại <br />
+                                {!loading &&
+                                    customer.phoneNumber
+                                }
+                            </p>
                         </div>
                         <Popup trigger={<button class="confirm-button"> Cập nhật</button>} position="right center"
                             modal
@@ -365,17 +422,25 @@ const Info = () => {
                                     <div class='p-md text-16 text-txt'>
                                         <p class='text-20 text-center font-bold'>Cập nhật số điện thoại</p>
                                         <div class='w-full h-[1px] bg-txt my-sm' ></div>
-                                        <div class='flex items-center justify-center'>
-                                            <p class='w-[80px] shrink-0'>Số điện thoại</p>
-                                            <div class='w-1/2'>
+                                        <div class='grid grid-cols-12 w-full grid-flow-row'>
+                                            <p class='col-span-3 col-start-2 flex items-center justify-center '>Số điện thoại</p>
+                                            <div class='col-span-7'>
 
-                                                <InputConfirmInfo item={{ type: "text", placeholder: "Nhập số điện thoại", value: customer.phoneNumber , spanWidth: 140, background: "#e1e1e1" }}></InputConfirmInfo>
+                                                <InputConfirmInfo
+                                                    onChange={onChangeCustomer}
+                                                    item={{
+                                                        type: "text", placeholder: "Nhập số điện thoại",
+                                                        name: "phoneNumber",
+                                                        value: updateCustomer.phoneNumber, spanWidth: 140, background: "#e1e1e1"
+                                                    }}></InputConfirmInfo>
                                             </div>
                                         </div>
 
-                                        <div class='flex justify-center my-md'>
-                                            <button class='w-[100px] shrink-0 confirm-button mx-md'>Xác nhận</button>
-                                            <button class='w-[100px] shrink-0 confirm-button' onClick={close}>Hủy</button>
+                                        <div class='grid grid-cols-12 w-full grid-flow-row'>
+                                            <button class='col-span-3  col-start-5 confirm-button'
+                                                onClick={updateProfile}
+                                            >Xác nhận</button>
+                                            <button class='col-span-3 col-start-9 confirm-button' onClick={close}>Hủy</button>
                                         </div>
                                     </div>
                                 )
@@ -387,7 +452,12 @@ const Info = () => {
 
                         <div class='mx-md flex items-center text-txt text-16'>
                             <FontAwesomeIcon icon={faEnvelope} ></FontAwesomeIcon>
-                            <p class='mx-md'>Email <br />{customer.email}</p>
+                            <p class='mx-md'>Email <br />
+                                {
+                                    !loading &&
+                                    customer.email
+                                }
+                            </p>
                         </div>
                         <Popup trigger={<button class="confirm-button"> Cập nhật</button>} position="right center"
                             modal
@@ -401,14 +471,26 @@ const Info = () => {
                                     <div class='p-md text-16 text-txt'>
                                         <p class='text-20 text-center font-bold'>Cập nhật email</p>
                                         <div class='w-full h-[1px] bg-txt my-sm' ></div>
-                                        <div class='flex items-center justify-center'>
+                                        {/* <div class='flex items-center justify-center'>
                                             <p class='w-[60px] shrink-0'>Email</p>
                                             <div class='w-1/2'>
 
                                                 <InputConfirmInfo item={{ type: "text", placeholder: "Nhập email", value: customer.email, spanWidth: 90, background: "#e1e1e1" }}></InputConfirmInfo>
                                             </div>
-                                        </div>
+                                        </div> */}
+                                        <div class='grid grid-cols-12 w-full grid-flow-row'>
+                                            <p class='col-span-3 col-start-2 flex items-center justify-center '>Email</p>
+                                            <div class='col-span-7'>
 
+                                                <InputConfirmInfo
+                                                    onChange={onChangeCustomer}
+                                                    item={{
+                                                        type: "text", placeholder: "Email",
+                                                        name: "email",
+                                                        value: updateCustomer.email, spanWidth: 60, background: "#e1e1e1"
+                                                    }}></InputConfirmInfo>
+                                            </div>
+                                        </div>
                                         <div class='flex justify-center my-md'>
                                             <button class='w-[100px] shrink-0 confirm-button mx-md'>Xác nhận</button>
                                             <button class='w-[100px] shrink-0 confirm-button' onClick={close}>Hủy</button>

@@ -19,7 +19,7 @@ import { Tooltip as ReactTooltip, Tooltip } from "react-tooltip";
 import Location from "./Location";
 import Input from "./Input";
 import InputConfirmInfo from "./InputConfirmInfo";
-
+import LogoCompanyNull from "../../../../src/assets/images/logocompanynull.png"
 
 const BusCard = ({ item }) => {
     // console.log(item.itemResponses.slice(0, item.itemResponses.length / 2))
@@ -300,33 +300,33 @@ const BusCard = ({ item }) => {
 
     }
 
-    const [startLocation, setStartLocation] = useState(
-        [
-            {
-                id: 1, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
-            },
-            {
-                id: 2, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
-            },
-            {
-                id: 3, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
-            }
-        ]
-    );
+    // const [startLocation, setStartLocation] = useState(
+    //     [
+    //         {
+    //             id: 1, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
+    //         },
+    //         {
+    //             id: 2, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
+    //         },
+    //         {
+    //             id: 3, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
+    //         }
+    //     ]
+    // );
 
-    const [destination, setDestination] = useState(
-        [
-            {
-                id: 1, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
-            },
-            {
-                id: 2, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
-            },
-            {
-                id: 3, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
-            }
-        ]
-    );
+    // const [destination, setDestination] = useState(
+    //     [
+    //         {
+    //             id: 1, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
+    //         },
+    //         {
+    //             id: 2, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
+    //         },
+    //         {
+    //             id: 3, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
+    //         }
+    //     ]
+    // );
 
     const [inputName, setInputName] = useState(
         {
@@ -373,7 +373,7 @@ const BusCard = ({ item }) => {
             {/* Đây là phần chính của card */}
             <div class='w-full h-[200px] flex'>
                 <div class='m-sm w-[120px]'>
-                    <img class='w-[120px] h-[120px] object-cover rounded-md' src={item.img}>
+                    <img class='w-[120px] h-[120px] object-cover rounded-md' src={item.companyLogo ? item.companyLogo : LogoCompanyNull}>
 
                     </img>
                 </div>
@@ -387,7 +387,7 @@ const BusCard = ({ item }) => {
                             <p>({item.totalComment})</p>
                         </button>
                     </div>
-                    <p class='m-sm'>{item.category}</p>
+                    <p class='m-sm'>{item.busType}</p>
                     <div class='m-sm flex text-txt items-center'>
                         <FontAwesomeIcon icon={faCircleDot} class='text-txt w-[14px] h-[14px]' />
                         <p class='mx-sm'>{item.startTime}</p>
@@ -417,10 +417,10 @@ const BusCard = ({ item }) => {
                     </button>
                     <div class='price-position flex flex-col items-end text-txt text-16'>
                         <p class='text-button font-bold text-[20px] my-sm' >
-                            Chỉ từ <CurrencyFormat value={item.price} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
+                            Chỉ từ <CurrencyFormat value={item.itemResponses[0].price} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
                         </p>
                         <CurrencyFormat class='line-through my-sm' value={item.price} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
-                        <p >Còn {item.emtySit} chỗ trống</p>
+                        <p >Còn {item.totalEmptySeat} chỗ trống</p>
                         <button class='my-sm border-[1px] rounded-md border-button opacity-90 p-sm
                      hover:bg-button hover:shadow-md hover:text-bg ease-in-out duration-300'
                             onClick={() => toggleChooseTrip()}>Chọn chuyến</button>
@@ -713,7 +713,7 @@ const BusCard = ({ item }) => {
                                 <p class='font-bold  text-16'>Điểm đón</p>
                                 <div class='h-[200px] flex flex-col overflow-x-hidden overflow-y-auto'>
                                     {
-                                        startLocation.map((item, index) => (
+                                        item.listStation.map((item, index) => (
                                             <Location item={item}></Location>
                                         ))
                                     }
@@ -722,11 +722,11 @@ const BusCard = ({ item }) => {
                             <div class=' w-[270px]'>
                                 <p class='font-bold  text-16'>Điểm trả</p>
                                 <div class='h-[200px] flex flex-col overflow-x-hidden overflow-y-auto'>
-                                    {
+                                    {/* {
                                         startLocation.map((item, index) => (
                                             <Location item={item}></Location>
                                         ))
-                                    }
+                                    } */}
                                 </div>
                             </div>
                         </div>

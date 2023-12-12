@@ -8,7 +8,7 @@ const Location = ({ item }) => {
                 <div class='w-full flex items-center'>
                     <input name="chooseLocation" class='w-[20px] h-[20px]' type="radio"></input>
 
-                    <p class='p-sm mx-sm text-16'>{item.time} - {item.location}</p>
+                    <p class='p-sm mx-sm text-16'>{item.time} - {item.station}</p>
                 </div>
                 <div class='w-full ml-md flex justify-center items-center text-12 text-txt'>
                     <FontAwesomeIcon icon={faLocationDot} />
