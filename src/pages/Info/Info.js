@@ -308,13 +308,13 @@ const Info = () => {
                     </div>
                 </div>
                 {/* Đây là phần ngày sinh */}
-                <div class='flex items-center mx-md my-xl'>
+                {/* <div class='flex items-center mx-md my-xl'>
                     <p class='text-16 w-[100px] shrink-0'>Ngày sinh</p>
                     <div class='widthDate shrink-0'>
-                        {!loading &&
-                        <InputConfirmInfo item={{ type: "date", value: customer.dateOfBirth === null ? null : customer.dateOfBirth.split('T', [1]), background: "#e1e1e1" }} onChange={changeBirthDate}></InputConfirmInfo>}
+                        {customer.dateOfBirth !== null &&
+                        <InputConfirmInfo item={{ type: "date", value:customer.dateOfBirth.split('T', [1]), background: "#e1e1e1" }} onChange={changeBirthDate}></InputConfirmInfo>}
                     </div>
-                </div>
+                </div> */}
                 {/* Đây là phần giới tính */}
                 <div class='flex items-center mx-md my-xl'>
                     <p class='text-16 w-[100px] shrink-0'>Giới tính</p>
