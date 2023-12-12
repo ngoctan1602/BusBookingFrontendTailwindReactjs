@@ -17,7 +17,7 @@ const API = {
     register: 'customers/register',
     getProfile: 'customers/profile',
     updateProfile: 'customers/updateProfile'
-}
+
 
 const customerServices = {
     ...GetProfile,
