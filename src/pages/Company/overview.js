@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
 const Overview = () => {
-
+    document.title = "Quản lý xe";
     const [loading, setLoading] = useState(true);
     const [bus, setBus] = useState(
     )

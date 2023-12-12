@@ -33,10 +33,12 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
         }
 
     };
-
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true)
             try {
+
                 const response = await SeatService.getAllSeatCompany();
 
                 setTypeSeat(response.data.items);
@@ -47,8 +49,11 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
                 const restBusStation = await BusStationSv.getAllBusStation();
                 setBusStation(restBusStation.data.items);
                 console.log(restBusStation.data)
+
+                setLoading(false)
             } catch (error) {
                 console.error('Error fetching data:', error);
+                setLoading(false)
             }
         };
 
@@ -59,13 +64,16 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
 
     const searchByLocation = useCallback(
         async (value) => {
-            try {
-                const response = await BusStationSv.getByLocation({ location: value });
 
+            try {
+                setLoading(true)
+                const response = await BusStationSv.getByLocation({ location: value });
                 setBusStation(response.data.items);
+                setLoading(false)
             }
             catch (error) {
                 console.error('Error fetching data:', error);
+                setLoading(false)
             }
 
         }, [busStation]
@@ -184,13 +192,13 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
                                     {
                                         propsAdd.item.map((item, index) => (
                                             item.name != "seatTypeID" && item.name != "busTypeID" &&
-                                            <div class='grid grid-cols-12 my-md'>
-                                                <p class='col-span-3 col-start-1 font-bold p-[5px]'>
+                                            <div class='grid grid-cols-12 w-full grid-flow-row'>
+                                                <p class='col-span-3 col-start-2 flex items-center font-bold '>
                                                     {item.content}
                                                 </p>
                                                 {
                                                     <div
-                                                        // onChange={(e) => onChange(propsAdd.item[1].id, Number(e.target.value))}
+
                                                         class='col-span-7 col-start-5 bg-bgPopup  rounded-md '>
                                                         {
                                                             <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, value: items[item.name], spanWidth: Number(item.spanWidth), id: item.id, background: "#e1e1e1" }} onChange={onChange} ></InputConfirmInfo>
@@ -230,7 +238,7 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
                                         }
                                     </div>
                                     <div class='grid grid-cols-12'>
-                                        <p class='col-span-3 col-start-1 font-bold p-[5px]'>
+                                        <p class='col-span-4 col-start-1 font-bold p-[5px]'>
                                             Loại chỗ ngồi
                                         </p>
                                         {
@@ -287,8 +295,8 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
                                     onChange={(e) => searchByLocation(e.target.value)}
                                 />
                             </div>
-                            <div class='w-full h-[200px] overflow-y-auto overflow-x-auto mb-lg '>
-                                <table class="w-full my-sm rounded-md border-collapse  text-txt text-16 ">
+                            <div class='w-full h-[200px] overflow-y-auto overflow-x-auto mb-lg relative '>
+                                <table class="w-full my-sm rounded-md border-collapse  text-txt text-16  ">
                                     <thead>
                                         <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
                                             <th class='col-start-2 col-span-2'>Id</th>
@@ -299,18 +307,27 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
                                     </thead>
                                     <tbody class='bg-[#e1e1e1]'>
                                         {
-                                            busStation &&
-                                            busStation.map((item, index) =>
-                                                <tr class='grid bg-bgPopup grid-cols-12 p-sm text-left gap-md'>
-                                                    <td><input type="checkbox"
-                                                        onChange={(e) => handleCheckboxChange(e, item.id)}
-                                                        checked={selectedIds.includes(item.id)}
-                                                    /></td>
-                                                    <td class='col-span-2 col-start-2'>{item.id}</td>
-                                                    <td class='col-span-4'>{item.name}</td>
-                                                    <td class='col-span-5'>{item.addressDb}</td>
+                                            !loading ?
+                                                <tr class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
+                                                    <ReactLoading
+                                                        type="spinningBubbles" color="#e1e1e1"
+                                                        height={'20&'} width={'20%'}
+                                                        className="absolute bg-hover-txt left-1/2 top-[20%]  "
+                                                    />
                                                 </tr>
-                                            )
+                                                :
+                                                busStation &&
+                                                busStation.map((item, index) =>
+                                                    <tr class='grid bg-bgPopup grid-cols-12 p-sm text-left gap-md'>
+                                                        <td><input type="checkbox"
+                                                            onChange={(e) => handleCheckboxChange(e, item.id)}
+                                                            checked={selectedIds.includes(item.id)}
+                                                        /></td>
+                                                        <td class='col-span-2 col-start-2'>{item.id}</td>
+                                                        <td class='col-span-4'>{item.name}</td>
+                                                        <td class='col-span-5'>{item.addressDb}</td>
+                                                    </tr>
+                                                )
                                         }
                                     </tbody>
                                 </table>

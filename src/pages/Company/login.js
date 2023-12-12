@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import * as authServices from "../../services/AuthServices";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PopupOTP from "../../components/Layout/Components/PopupOTP";
 const CompanyLogin = () => {
     const navigate = useNavigate();
     document.title = "Đăng nhập người quản trị"
@@ -109,6 +110,7 @@ const CompanyLogin = () => {
 
     return (
         <div class='w-full h-[100vh] bg-gradient-to-br from-button to-[#B0D9B1] flex justify-center items-center'>
+
             <div class='w-2/3 h-2/3 border-none shadow-2xl rounded-md overflow-hidden flex'>
                 <div class='w-[40%] h-full bg-bgLogin bg-cover bg-no-repeat text-bg flex flex-col items-center'>
                     <img src={adminlogo} class='mt-md shrink-0 w-[100px] h-[100px] rounded-full'></img>
