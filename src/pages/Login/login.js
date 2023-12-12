@@ -60,6 +60,7 @@ const Login = () => {
             if (!response.isError) {
                 setError('');
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('refreshToken', response.data.refreshToken);
                 localStorage.setItem('username', response.data.username);
                 localStorage.setItem('avatar', response.data.avatar);
                 notifySuccess();
