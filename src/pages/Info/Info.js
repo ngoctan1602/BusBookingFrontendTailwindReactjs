@@ -9,6 +9,8 @@ import { faLock, faEnvelope, faPhone, faShieldBlank } from "@fortawesome/free-so
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import * as addressService from "../../services/AddressService"
 import * as customerServices from "../../services/CustomerServices";
+import avatarDefault from '../../assets/images/avatar.png'
+
 
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -275,7 +277,7 @@ const Info = () => {
                     <div class='w-[100px] h-[80px] shrink-0  overflow-hidden z-1 relative '>
                         {
                             !loading &&
-                            <img src={customer.avatar}
+                            <img src={customer.avatar === null ? avatarDefault: customer.avatar}
                                 class=' w-[80px] h-[80px] object-cover rounded-full'></img>
                         }
                         {/* <input type={type} class='bg-[black]  z-10 cursor-pointer w-[10px] h-[10px] absolute right-[0px] bottom-[20%]' onFocus={() => setType("file")}></input> */}
