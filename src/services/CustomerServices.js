@@ -10,8 +10,8 @@ export const GetProfile = async () => {
 }
 
 const API  = {
-    register: 'customer/register',
-    getProfile: 'customer/profile',
+    register: 'customes/register',
+    getProfile: 'customers/profile',
 }
 
 const customerServices = {
