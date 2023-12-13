@@ -20,7 +20,7 @@ import Location from "./Location";
 import Input from "./Input";
 import InputConfirmInfo from "./InputConfirmInfo";
 import LogoCompanyNull from "../../../../src/assets/images/logocompanynull.png"
-
+import * as BillSV from "../../../services/BillServices"
 const BusCard = ({ item }) => {
     // console.log(item.itemResponses.slice(0, item.itemResponses.length / 2))
 
@@ -339,19 +339,24 @@ const BusCard = ({ item }) => {
 
 
     const createBill = async () => {
+        const items =
+            selectedIdSeats.map((item,) => {
+                return { ticketItemId: item }
+            })
+
         const objectAdd = {
             busStationStartId: selectedBusStop.busStationStartId,
             busStationEndId: selectedBusStop.busStationEndId,
-            ...selectedIdSeats
+            itemsRequest: items
         }
-        // Object.keys(selectedIdSeats).forEach(prop => {
-        //     // Use the current property (prop) to update the corresponding property in updateCustomer
-        //     // setSeat1(prevState => ({
-        //     //     ...prevState,
-        //     //     [prop]: response.data[prop]
-        //     // }));
-        //     console.log(prop)
-        // });
+
+        try {
+            const resp = BillSV.getAllBusStation(objectAdd);
+            console.log(resp)
+        } catch (error) {
+
+        }
+        console.log(items)
         console.log(objectAdd)
     }
     return (
