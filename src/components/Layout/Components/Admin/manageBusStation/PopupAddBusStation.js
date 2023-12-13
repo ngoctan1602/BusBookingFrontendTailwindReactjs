@@ -49,7 +49,7 @@ const PopupAddBusStation = ({ objectAdd, item, onChange, success, emtyItemValue 
         };
 
         fetchData();
-    });
+    }, []);
 
 
     const getItemValue = async (close) => {

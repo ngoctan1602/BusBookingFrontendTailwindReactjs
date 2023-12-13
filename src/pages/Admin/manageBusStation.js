@@ -52,20 +52,18 @@ const ManageBusStation = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await BusStationSV.getAllBusStation();
-                setBusStations(response.data);
-                const addressPromises = response.data.map(async (item) => {
+                const response = await BusStationSV.getAllBusStation({ pageSize: 200 });
+                setBusStations(response.data.items);
+                // const addressPromises = response.data.items.map(async (item) => {
 
-                    const wa = await AddrressSV.getWardById({ id: item.wardId });
-                    return wa.data;
+                //     const wa = await AddrressSV.getWardById({ id: item.wardId });
+                //     return wa.data;
 
-                });
+                // });
 
-                const addresses = await Promise.all(addressPromises);
-                setAddress(addresses);
+                // const addresses = await Promise.all(addressPromises);
+                // setAddress(addresses);
                 setLoading(false);
-
-                console.log('Updated Address State:', addresses);
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setLoading(false);
@@ -73,7 +71,7 @@ const ManageBusStation = () => {
         };
 
         fetchData();
-    }, [busStations]);
+    }, []);
 
 
     const [itemAdd, setItemAdd] = useState({
@@ -194,7 +192,7 @@ const ManageBusStation = () => {
                 <tbody class='bg-[#e1e1e1]'>
                     {
                         !loading && busStations &&
-                        <Paginate itemsPerPage={5} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus} address={address}></Paginate>
+                        <Paginate itemsPerPage={5} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus}></Paginate>
                     }
                     {loading &&
                         <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">

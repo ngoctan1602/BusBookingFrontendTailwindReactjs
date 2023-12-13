@@ -34,17 +34,12 @@ const Info = () => {
 
     const [updateCustomer, setUpdateCustomer] = useState(
         {
-            avatar: '',
             fullName: '',
             dateOfBirth: '',
             address: '',
             email: '',
             phoneNumber: '',
             gender: '',
-            dateCreate: '',
-            roleName: '',
-            username: '',
-            rank: '',
             wardId: '',
         }
     )
@@ -58,8 +53,14 @@ const Info = () => {
                 const response = await customerServices.GetProfile();
                 if (!response.isError) {
                     setCustomer(response.data)
-                    setUpdateCustomer(response.data)
 
+                    Object.keys(updateCustomer).forEach(prop => {
+                        // Use the current property (prop) to update the corresponding property in updateCustomer
+                        setUpdateCustomer(prevState => ({
+                            ...prevState,
+                            [prop]: response.data[prop]
+                        }));
+                    });
                     setError('')
                     setLoading(false)
                 }
@@ -259,11 +260,9 @@ const Info = () => {
         setUpdateCustomer({ ...updateCustomer, [name]: value })
     }
     const updateProfile = async () => {
+        console.log(updateCustomer)
         try {
             const resp = customerServices.UpdateProfile(updateCustomer)
-            // if(!resp.isError){
-
-            // }
             console.log(resp)
         } catch (error) {
             console.log(error)

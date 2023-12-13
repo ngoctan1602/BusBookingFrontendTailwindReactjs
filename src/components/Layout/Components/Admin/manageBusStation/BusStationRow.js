@@ -30,12 +30,12 @@ const BusStationRow = ({ item, onChangeStatus, address }) => {
             content: "Trạng thái:"
         },
         {
-            name: "address",
-            content: "Địa chỉ:"
-        },
-        {
             name: "description",
             content: "Giới thiệu:"
+        },
+        {
+            name: "addressDb",
+            content: "Địa chỉ:"
         },
     ]
 
@@ -47,8 +47,9 @@ const BusStationRow = ({ item, onChangeStatus, address }) => {
             <td class='col-span-3'>{item.name}</td>
             {/* <td class='col-span-3'>{item.description}</td> */}
 
-            <td class='col-span-6'>{address &&
-                item.address + ", " + address.fullName + ", " + address.district + ", " + address.province}</td>
+            <td class='col-span-6'>
+                {item.addressDb}
+            </td>
             <td class='col-span-1'>
                 {/* onChange={() => onChange(item.id, value)} */}
                 <select class='bg-[#e1e1e1]' style={{ background: item.status === 0 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>

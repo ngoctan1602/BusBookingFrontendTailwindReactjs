@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 const SearchHeader = ({ onSearch }) => {
 
     const search = JSON.parse(localStorage.getItem('formSearch'));
-    console.log(search)
+
 
     useEffect(() => {
         const fetchData = () => {

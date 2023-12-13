@@ -301,6 +301,7 @@ const Search = () => {
         try {
             const response = await ticketService.findTicket(search)
             setBusInfo(response.data.items)
+            console.log(response)
             setLoading(false)
         }
         catch (error) {
@@ -440,7 +441,7 @@ const Search = () => {
                                 </div>
                                 :
 
-                                !busInfo && !loading ?
+                                (!busInfo || busInfo.length === 0) && !loading ?
                                     <p>Không tìm thấy chuyến đi</p>
                                     :
                                     <PaginatedItems itemsPerPage={5} items={busInfo} componentToRender={BusCard}></PaginatedItems>

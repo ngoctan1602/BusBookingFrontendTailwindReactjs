@@ -40,20 +40,26 @@ const AdminLogin = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        const response = await authServices.adminLogin(account)
-        if (!response.isError) {
-            // setError('')
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem("refreshToken", response.data.refreshToken);
-            notifySuccess()
-            setTimeout(() => {
-                navigate('/manage-user-account');
-            }, 1500);
+        try {
+            const response = await authServices.adminLogin(account)
+            if (!response.isError) {
+                // setError('')
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem("refreshToken", response.data.refreshToken);
+                localStorage.setItem('adminUsername', response.data.username);
+                notifySuccess()
+                setTimeout(() => {
+                    navigate('/manage-user-account');
+                }, 1500);
 
-        }
-        else {
+            }
+            else {
+                notifyError()
+            }
+        } catch (error) {
             notifyError()
         }
+
     }
 
 
@@ -90,7 +96,7 @@ const AdminLogin = () => {
                 type: "text",
                 placeholder: "Nhập tên đăng nhập",
                 value: account.username,
-                spanWidth: 190,
+                spanWidth: 170,
                 background: "#e1e1e1"
             },
             {

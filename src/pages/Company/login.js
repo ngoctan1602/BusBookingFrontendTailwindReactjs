@@ -6,6 +6,7 @@ import * as authServices from "../../services/AuthServices";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PopupOTP from "../../components/Layout/Components/PopupOTP";
+import ImageUploadPopup from '../../components/Layout/Components/ImagePopup';
 const CompanyLogin = () => {
     const navigate = useNavigate();
     document.title = "Đăng nhập người quản trị"
@@ -40,21 +41,23 @@ const CompanyLogin = () => {
 
 
     const onSubmit = async (e) => {
-        e.preventDefault();
-        const response = await authServices.companyLogin(account)
-        if (!response.isError) {
-            // setError('')
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem("refreshToken", response.data.refreshToken);
-            localStorage.setItem('username', response.data.username);
-            localStorage.setItem('avatar', response.data.avatar);
-            notifySuccess()
-            setTimeout(() => {
-                navigate('/company/bus');
-            }, 1500);
-
-        }
-        else {
+        // e.preventDefault();
+        try {
+            const response = await authServices.companyLogin(account)
+            if (!response.isError) {
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem("refreshToken", response.data.refreshToken);
+                localStorage.setItem('usernameCompany', response.data.username);
+                localStorage.setItem('avatar', response.data.avatar);
+                notifySuccess()
+                setTimeout(() => {
+                    navigate('/company/bus');
+                }, 1500);
+            }
+            else {
+                notifyError()
+            }
+        } catch (error) {
             notifyError()
         }
     }
@@ -108,9 +111,26 @@ const CompanyLogin = () => {
             }
         ]
     );
+    const [isImagePopupOpen, setImagePopupOpen] = useState(false);
+
+    const handleImageUpload = (file) => {
+        // Xử lý file hình ảnh ở đây, ví dụ: tải lên server, lưu trữ URL, vv.
+        console.log('File uploaded:', file);
+    };
+
 
     return (
         <div class='w-full h-[100vh] bg-gradient-to-br from-button to-[#B0D9B1] flex justify-center items-center'>
+            {/* <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <button type="button" onClick={open}>
+                    Open
+                </button>
+            </div> */}
+            <div>
+                <button onClick={() => setImagePopupOpen(true)}>Mở popup thêm hình ảnh</button>
+                <ImageUploadPopup isOpen={isImagePopupOpen} onClose={() => setImagePopupOpen(false)} onImageUpload={handleImageUpload} />
+            </div>
 
             <div class='w-2/3 h-2/3 border-none shadow-2xl rounded-md overflow-hidden flex'>
                 <div class='w-[40%] h-full bg-bgLogin bg-cover bg-no-repeat text-bg flex flex-col items-center'>
