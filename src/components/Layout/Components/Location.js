@@ -1,14 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom"
-const Location = ({ item, onChange, name }) => {
+const Location = ({ item, onChange, name, selectedBusStop }) => {
     return (
         <>
             <div class='w-full'>
                 <div class='w-full flex items-center'>
-                    <input name="chooseLocation" class='w-[20px] h-[20px]' type="radio"
+                    <input name={name} class='w-[20px] h-[20px]' type="radio"
                         onClick={(e) => onChange(name, item.ticketStopId)}
-
+                        checked={item.ticketStopId === selectedBusStop[name]}
                     ></input>
 
                     <p class='p-sm mx-sm text-16'>{new Date(item.arrivalTime).toLocaleString("en-CA", {
