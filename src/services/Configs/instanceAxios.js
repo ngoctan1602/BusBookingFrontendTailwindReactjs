@@ -44,15 +44,15 @@ const instance = () => {
                     } catch (error) {
                         // Handle refresh token error
                         window.location.href = "/login";
-                        return Promise.reject(error);
+                        // return Promise.reject(error);
                     }
                 } else {
                     window.location.href = "/login";
                     // Handle missing refresh token error
-                    return Promise.reject(error);
+                    // return Promise.reject(error);
                 }
             }
-            return Promise.reject(error);
+            // return Promise.reject(error);
         }
     );
 
