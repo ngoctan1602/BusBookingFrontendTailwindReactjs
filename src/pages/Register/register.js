@@ -164,22 +164,16 @@ const Register = () => {
             try {
                 setLoading(true)
                 const response = await CustomerServices.Register(addUser)
-                setLoading(false)
                 console.log(response)
-                if (!response.isError) {
-                    // window.location.href = Configs.routers.login
+                if (!response.isError && response !== undefined) {
                     setConfirm({ ...confirm, email: user.email })
-                    const response = await CustomerServices.Register(user)
-
-                    if (!response.isError && response !== undefined) {
-                        setLoading(false)
-                        notifySuccess("Hãy xác thực OTP")
-                        setOpenPopUp(true)
-                    }
-                    else {
-                        setLoading(false)
-                        notifyError(response.data)
-                    }
+                    setLoading(false)
+                    notifySuccess("Hãy xác thực OTP")
+                    setOpenPopUp(true)
+                }
+                else {
+                    setLoading(false)
+                    notifyError(response.data)
                 }
             } catch (error) {
                 setLoading(false)
