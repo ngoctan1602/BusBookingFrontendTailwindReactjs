@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import Input from "../../components/Layout/Components/Input";
 import Button from "../../components/Layout/Components/Button";
 import PopupOTP from "../../components/Layout/Components/PopupOTP"
@@ -31,7 +31,7 @@ const Register = () => {
         progress: undefined,
         theme: "light",
     });
-    const notifyError = () => toast.error('Đăng nhập thất bại', {
+    const notifyError = (message) => toast.error('Đăng nhập thất bại', {
         position: "bottom-right",
         autoClose: 1500,
         hideProgressBar: false,
@@ -53,6 +53,8 @@ const Register = () => {
         username: '',
         wardID: ''
     });
+
+    
 
     const onChange = (e) => {
         const { name, value } = e.target;
@@ -81,12 +83,14 @@ const Register = () => {
     const [confirm, setConfirm] = useState(
         {
             email: user.email,
-            otp: '',
+            code: '',
         }
     )
 
-    const onChangeConfirm = (name, value) => {
+    const onChangeConfirm = async(name, value) => {
         setConfirm({ ...confirm, [name]: value })
+        console.log(confirm)
+        
     }
     const onChangeOpen = () => {
         setOpenPopUp(false)
@@ -98,31 +102,177 @@ const Register = () => {
             if (user[prop] === null || user[prop] === undefined)
                 warning = true
         });
+        user.wardID = 3473
         if (warning) {
             notifyWarning()
         }
         else {
             try {
                 setLoading(true)
-                // const response = await CustomerServices.Register(user)
+                setConfirm({ ...confirm, email: user.email })
+                const response = await CustomerServices.Register(user)
 
-                // if (!response.isError) {
-                //     window.location.href = Configs.routers.login
-                // }
-
-                setLoading(false)
-                notifySuccess("Hãy xác thực OTP")
-                setOpenPopUp(true)
+                if (!response.isError && response !== undefined) {
+                    setLoading(false)
+                    notifySuccess("Hãy xác thực OTP")
+                    setOpenPopUp(true)
+                }
+                else {
+                    setLoading(false)
+                    notifyError(response.data)
+                }
             } catch (error) {
+                setLoading(false)
                 notifyError()
             }
         }
+        setLoading(false)
 
         // else {
         //     setError(response.data)
         // }
         console.log(user);
     }
+
+    const [province, setProvince] = useState(
+        [
+            {
+                id: 1, name: "Khánh Hòa", isChoose: true,
+                district: [
+
+                    {
+                        id: 3, name: "Vạn Ninh", isChoose: true,
+                        commune: [
+                            {
+                                id: 3, name: "Vạn Phú", isChoose: true,
+                            },
+                            {
+
+                                id: 3, name: "Vạn Khánh", isChoose: false,
+                            }
+                        ]
+                    },
+                    {
+                        id: 4, name: "Ninh Hòa", isChoose: false,
+                        commune: [
+                            {
+                                id: 3, name: "Ninh Ích", isChoose: true,
+                            },
+                            {
+
+                                id: 3, name: "Ninh Diêm", isChoose: false,
+                            }
+                        ]
+                    },
+
+                ]
+            },
+            {
+                id: 2, name: "Vĩnh Long", isChoose: false,
+                district: [
+                    {
+                        id: 3, name: "Vĩnh Mõ", isChoose: true,
+                        commune: [
+                            {
+                                id: 3, name: "Vĩnh Bắc", isChoose: true,
+                            },
+                            {
+
+                                id: 3, name: "Vĩnh Nam", isChoose: false,
+                            }
+                        ]
+                    },
+                    {
+                        id: 4, name: "Vĩnh Hồ", isChoose: false,
+                        commune: [
+                            {
+                                id: 3, name: "Vĩnh Lợi", isChoose: true,
+                            },
+                            {
+
+                                id: 3, name: "Vĩnh Hằng", isChoose: false,
+                            }
+                        ]
+                    },
+
+                ]
+            },
+        ]
+    );
+
+    console.log(province)
+    const [idProvince, setIdProvince] = useState("");
+    useEffect(() => {
+
+        const updatedItems = province.map(item => {
+            if (item.id === idProvince) {
+
+                return { ...item, isChoose: true };
+            }
+            return { ...item, isChoose: false };
+        });
+        setProvince(updatedItems);
+
+    }, [idProvince]);
+
+    const [idDistrict, setIdDistrict] = useState("");
+    useEffect(() => {
+        const updatedProvince = province.map(prov => {
+            return {
+                ...prov,
+                district: prov.district.map(dist => {
+                    if (dist.id === idDistrict)
+                        return {
+                            ...dist, isChoose: true
+                            // // Update the properties you want here
+                            // // For example, if you want to set isChoose to true for all districts, you can do:
+                            // isChoose: true,
+                            // commune: dist.commune.map(comm => {
+                            //     return {
+                            //         ...comm,
+                            //         // Update the properties you want here
+                            //     };
+                            // })
+                        };
+                    return { ...dist, isChoose: false }
+                })
+            };
+        });
+
+        setProvince(updatedProvince);
+
+        console.log(updatedProvince)
+
+    }, [idDistrict]);
+
+    const [idCommune, setIdCommune] = useState("");
+    useEffect(() => {
+        const updatedProvince = province.map(prov => {
+            return {
+                ...prov,
+                district: prov.district.map(dist => {
+                    return {
+                        ...dist,
+                        commune: dist.commune.map(comm => {
+                            if (comm.id === idCommune)
+                                return {
+                                    ...comm,
+                                    isChoose: true,
+                                };
+
+                            return {
+                                ...comm,
+                                isChoose: false,
+                            };
+                        })
+                    };
+                })
+            }
+        });
+
+        setProvince(updatedProvince);
+
+    }, [idCommune]);
     return (
         <div className="w-content min-h-[700px] flex items-center flex-col relative">
             {
@@ -164,6 +314,62 @@ const Register = () => {
                             </Input>
                         ))
                     }
+                </div>
+
+                 {/* Đây là phần địa chỉ */}
+                 <div class='flex items-center mx-md my-xl h-[40px] '>
+                    <p class='text-16 w-[100px] shrink-0'>Địa chỉ</p>
+                    <div class='min-w-[100px] shrink-0'>
+                        <select class=' h-[36px] bg-[#e1e1e1] border-[1px] rounded-md mr-sm' onChange={(e) => setIdCommune(Number(e.target.value))}>
+                        <option>Chọn tỉnh</option>
+                            {
+                                province.map((item, index) => (
+                                    <option class='text-center' selected={item.isChoose} value={item.id} >{item.name}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                    <div class='min-w-[100px] shrink-0'>
+                        <select class='h-[36px] bg-[#e1e1e1] border-[1px] rounded-md mr-sm' onChange={(e) => setIdDistrict(Number(e.target.value))}>
+                            <option>Chọn huyện</option>
+                            {
+                                province.map((item, index) => (
+                                    item.id === idProvince &&
+                                    item.district.map((di, i) =>
+                                    (
+                                        <option class='text-center' selected={di.isChoose} value={di.id} >{di.name}</option>
+                                    )
+                                    )
+
+                                ))
+
+                            }
+                        </select>
+                    </div>
+                    <div class=' min-w-[100px] shrink-0'>
+                        <select class='bg-[#e1e1e1] h-[36px] border-[1px]  rounded-md mr-sm ease-in-out' onChange={(e) => setIdProvince(Number(e.target.value))}>
+                        <option>
+                                Chọn xã
+                            </option>
+                            {
+                                province.map((item, index) => (
+                                    item.id === idProvince &&
+                                    item.district.map((di, i) =>
+                                    (
+                                        di.id === idDistrict &&
+                                        di.commune.map((co, j) =>
+                                        (
+                                            <option class='text-center' selected={co.isChoose} value={co.id} >{co.name}</option>
+                                        )
+                                        )
+                                    )
+                                    )
+
+                                ))
+
+                            }
+                        </select>
+                    </div>
                 </div>
 
                 <Input type="text" placeholder={'0923 140 493'} content='Số điện thoại' onChange={onChange} name="phoneNumber" value={user.phoneNumber}></Input>

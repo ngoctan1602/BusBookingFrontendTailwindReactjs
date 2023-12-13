@@ -22,8 +22,8 @@ export const createFormData = async (url, data) => {
         return response
     }
     catch (e) {
-        console.log("errors: ", e.message())
-        return null;
+       // console.log("errors: ", e.message())
+        return e;
     }
 }
 

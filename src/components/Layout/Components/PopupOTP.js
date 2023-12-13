@@ -7,10 +7,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import ReactLoading from 'react-loading';
 import { useState } from "react";
+import * as CustomerServices from "../../../services/CustomerServices"
+
 const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
     let navigate = useNavigate();
-    const notifySuccess = () => toast.success('Thêm thành công xe mới!', {
+    const notifySuccess = (message) => toast.success(message, {
         position: "bottom-right",
         autoClose: 2500,
         hideProgressBar: false,
@@ -51,11 +53,16 @@ const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
     // const onChangeItem = (name, value) => {
     //     setItem({ ...item, [name]: value })
     // }
-    const handleSubmit = () => {
-        onChangeOpen();
-        navigate(
-            "/login"
-        )
+    const handleSubmit = async () => {
+        const responseAuth = await CustomerServices.AuthOTP(confirm)
+        if (!responseAuth.isError && responseAuth !== undefined && responseAuth.isError !== undefined) {
+            notifySuccess("Đăng ký thành công")
+            setTimeout(() => navigate('/login'), 1500);
+            onChangeOpen();
+        }
+        else{
+            console.log(responseAuth.data)
+        }
     }
     return (
 
@@ -81,8 +88,8 @@ const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
                                     onChange={onChangeConfirm}
                                     item={{
                                         type: "text", placeholder: "OTP",
-                                        name: "otp",
-                                        value: confirm.otp, spanWidth: 60, background: "#e1e1e1"
+                                        name: "code",
+                                        value: confirm.code, spanWidth: 60, background: "#e1e1e1"
                                     }}></InputConfirmInfo>
                             </div>
                         </div>
