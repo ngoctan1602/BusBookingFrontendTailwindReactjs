@@ -422,7 +422,7 @@ const BusCard = ({ item }) => {
 
         try {
             setLoading(true)
-            const resp = BillSV.getAllBusStation(objectAdd);
+            const resp = BillSV.createBill(objectAdd);
             setTimeout(
                 () => setLoading(false), 2000)
             // setLoading(false)
