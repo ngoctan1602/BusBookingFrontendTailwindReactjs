@@ -10,12 +10,62 @@ import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import * as addressService from "../../services/AddressService"
 import * as customerServices from "../../services/CustomerServices";
 import avatarDefault from '../../assets/images/avatar.png'
+import * as AddressSV from "../../services/AddressSv"
 
 
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 const Info = () => {
+
+    const [provinces, setProvinces] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await AddressSV.getAllProvinces();
+
+                setProvinces(response.data);
+                console.log(response.data)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+    const [idWard, setIdWard] = useState(0);
+    const [idDistrict, setIdDistrict] = useState(0);
+    const [idProvince, setIdProvince] = useState(0);
+
+    const [districts, setDistricts] = useState([]);
+    const getDistricts = useCallback(async (id) => {
+        const a = {
+            id: id
+        }
+        const response = await AddressSV.getDistricts(a);
+        setDistricts(response.data.districts)
+        setWards([]);
+        setIdDistrict(0);
+        setIdWard(0);
+        setIdProvince(id);
+    })
+
+    const [wards, setWards] = useState([]);
+    const getWards = useCallback(async (id) => {
+
+        const a = {
+            id: id
+        }
+        setIdDistrict(id);
+        setIdWard(0);
+        const response = await AddressSV.getWards(a);
+        setWards(response.data.wards)
+    })
+
+    const getIdWard = useCallback((id) => {
+        setIdWard(id);
+    }, [idWard])
+
     const [error, setError] = useState('')
     const [customer, setCustomer] = useState({
         avatar: '',
@@ -30,6 +80,7 @@ const Info = () => {
         username: '',
         rank: '',
         wardId: '',
+        addressResponse: {}
     });
 
     const [updateCustomer, setUpdateCustomer] = useState(
@@ -41,6 +92,7 @@ const Info = () => {
             phoneNumber: '',
             gender: '',
             wardId: '',
+            addressResponse: {}
         }
     )
 
@@ -53,7 +105,6 @@ const Info = () => {
                 const response = await customerServices.GetProfile();
                 if (!response.isError) {
                     setCustomer(response.data)
-
                     Object.keys(updateCustomer).forEach(prop => {
                         // Use the current property (prop) to update the corresponding property in updateCustomer
                         setUpdateCustomer(prevState => ({
@@ -61,6 +112,13 @@ const Info = () => {
                             [prop]: response.data[prop]
                         }));
                     });
+                    setIdProvince(response.data.addressResponse.provinceId)
+
+                    await getDistricts(response.data.addressResponse.provinceId)
+                    setIdDistrict(response.data.addressResponse.districtId)
+
+                    await getWards(response.data.addressResponse.districtId)
+                    setIdWard(response.data.addressResponse.wardId)
                     setError('')
                     setLoading(false)
                 }
@@ -115,146 +173,6 @@ const Info = () => {
     const changeBirthDate = (value) => {
         setBirthDate(value);
     }
-
-    const [province, setProvince] = useState(
-        [
-            {
-                id: 1, name: "Khánh Hòa", isChoose: true,
-                district: [
-
-                    {
-                        id: 3, name: "Vạn Ninh", isChoose: true,
-                        commune: [
-                            {
-                                id: 3, name: "Vạn Phú", isChoose: true,
-                            },
-                            {
-
-                                id: 3, name: "Vạn Khánh", isChoose: false,
-                            }
-                        ]
-                    },
-                    {
-                        id: 4, name: "Ninh Hòa", isChoose: false,
-                        commune: [
-                            {
-                                id: 3, name: "Ninh Ích", isChoose: true,
-                            },
-                            {
-
-                                id: 3, name: "Ninh Diêm", isChoose: false,
-                            }
-                        ]
-                    },
-
-                ]
-            },
-            {
-                id: 2, name: "Vĩnh Long", isChoose: false,
-                district: [
-                    {
-                        id: 3, name: "Vĩnh Mõ", isChoose: true,
-                        commune: [
-                            {
-                                id: 3, name: "Vĩnh Bắc", isChoose: true,
-                            },
-                            {
-
-                                id: 3, name: "Vĩnh Nam", isChoose: false,
-                            }
-                        ]
-                    },
-                    {
-                        id: 4, name: "Vĩnh Hồ", isChoose: false,
-                        commune: [
-                            {
-                                id: 3, name: "Vĩnh Lợi", isChoose: true,
-                            },
-                            {
-
-                                id: 3, name: "Vĩnh Hằng", isChoose: false,
-                            }
-                        ]
-                    },
-
-                ]
-            },
-        ]
-    );
-
-    console.log(province)
-    const [idProvince, setIdProvince] = useState("");
-    useEffect(() => {
-
-        const updatedItems = province.map(item => {
-            if (item.id === idProvince) {
-
-                return { ...item, isChoose: true };
-            }
-            return { ...item, isChoose: false };
-        });
-        setProvince(updatedItems);
-
-    }, [idProvince]);
-
-    const [idDistrict, setIdDistrict] = useState("");
-    useEffect(() => {
-        const updatedProvince = province.map(prov => {
-            return {
-                ...prov,
-                district: prov.district.map(dist => {
-                    if (dist.id === idDistrict)
-                        return {
-                            ...dist, isChoose: true
-                            // // Update the properties you want here
-                            // // For example, if you want to set isChoose to true for all districts, you can do:
-                            // isChoose: true,
-                            // commune: dist.commune.map(comm => {
-                            //     return {
-                            //         ...comm,
-                            //         // Update the properties you want here
-                            //     };
-                            // })
-                        };
-                    return { ...dist, isChoose: false }
-                })
-            };
-        });
-
-        setProvince(updatedProvince);
-
-        console.log(updatedProvince)
-
-    }, [idDistrict]);
-
-    const [idCommune, setIdCommune] = useState("");
-    useEffect(() => {
-        const updatedProvince = province.map(prov => {
-            return {
-                ...prov,
-                district: prov.district.map(dist => {
-                    return {
-                        ...dist,
-                        commune: dist.commune.map(comm => {
-                            if (comm.id === idCommune)
-                                return {
-                                    ...comm,
-                                    isChoose: true,
-                                };
-
-                            return {
-                                ...comm,
-                                isChoose: false,
-                            };
-                        })
-                    };
-                })
-            }
-        });
-
-        setProvince(updatedProvince);
-
-    }, [idCommune]);
 
     const onChangeCustomer = (name, value) => {
         setUpdateCustomer({ ...updateCustomer, [name]: value })
@@ -328,61 +246,49 @@ const Info = () => {
                     }
                 </div>
 
-                {/* Đây là phần địa chỉ */}
-                <div class='flex items-center mx-md my-xl h-[40px] '>
-                    <p class='text-16 w-[100px] shrink-0'>Địa chỉ</p>
-                    <div class='min-w-[100px] shrink-0'>
-                        <select class=' h-[36px] bg-[#e1e1e1] border-[1px] rounded-md mr-sm' onChange={(e) => setIdCommune(Number(e.target.value))}>
-                            <option>
-                                Chọn xã
-                            </option>
-                            {
-                                province.map((item, index) => (
-                                    item.id === idProvince &&
-                                    item.district.map((di, i) =>
-                                    (
-                                        di.id === idDistrict &&
-                                        di.commune.map((co, j) =>
-                                        (
-                                            <option class='text-center' selected={co.isChoose} value={co.id} >{co.name}</option>
-                                        )
-                                        )
-                                    )
-                                    )
+                <div className="w-full grid-cols-10 grid grid-flow-row ">
+                <p className="col-start-1 ml-md col-span-2 flex items-center">Địa chỉ</p>
+                <div className="col-start-4 col-span-8 grid-flow-row grid grid-cols-12 ml-[-50px] bg-button">
+                    <select class='col-span-4 p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getDistricts(e.target.value)}>
+                        <option value={0} selected={(idProvince === 0) ? true : false}>
+                            Chọn tỉnh
+                        </option>
+                        {
+                            provinces &&
+                            provinces.map((item, index) => (
+                                <option value={item.id} selected={(idProvince === item.id) ? true : false}>
+                                    {item.fullName}
+                                </option>
+                            ))
+                        }
 
-                                ))
+                    </select>
+                    <select class='col-span-4 col-start-5 mx-sm p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getWards(e.target.value)}>
+                        <option value={0} selected={idDistrict === 0 ? true : false}>Chọn huyện</option>
+                        {
+                            districts && districts.map((item, index) => (
+                                <option value={item.id} selected={idDistrict === item.id ? true : false} >
+                                    {item.fullName}
+                                </option>
+                            ))
+                        }
+                    </select>
 
-                            }
-                        </select>
-                    </div>
-                    <div class='min-w-[100px] shrink-0'>
-                        <select class='h-[36px] bg-[#e1e1e1] border-[1px] rounded-md mr-sm' onChange={(e) => setIdDistrict(Number(e.target.value))}>
-                            <option>Chọn huyện</option>
-                            {
-                                province.map((item, index) => (
-                                    item.id === idProvince &&
-                                    item.district.map((di, i) =>
-                                    (
-                                        <option class='text-center' selected={di.isChoose} value={di.id} >{di.name}</option>
-                                    )
-                                    )
+                    <select class='col-span-4 col-start-9 p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getIdWard(e.target.value)}>
+                        <option value={0} selected={idWard === 0 ? true : false} >Chọn xã</option>
+                        {
+                            wards &&
+                            wards.map((item, index) => (
 
-                                ))
-
-                            }
-                        </select>
-                    </div>
-                    <div class=' min-w-[100px] shrink-0'>
-                        <select class='bg-[#e1e1e1] h-[36px] border-[1px]  rounded-md mr-sm ease-in-out' onChange={(e) => setIdProvince(Number(e.target.value))}>
-                            <option>Chọn tỉnh</option>
-                            {
-                                province.map((item, index) => (
-                                    <option class='text-center' selected={item.isChoose} value={item.id} >{item.name}</option>
-                                ))
-                            }
-                        </select>
-                    </div>
+                                <option value={item.id} selected={idWard === item.id ? true : false}>
+                                    {item.fullName}
+                                </option>
+                            ))
+                        }
+                    </select>
                 </div>
+            </div>
+
                 <div class='flex w-full justify-center mr-xl'>
                     <button class='button-hover'
                         onClick={(e) => alert(customer.fullName)}
