@@ -4,7 +4,6 @@ import magnifyingGlass from "../../assets/images/icons8-magnifying-glass-32.png"
 import OrderCard from "../../components/Layout/Components/OderCard";
 import * as BillSV from "../../services/BillServices"
 import ReactLoading from 'react-loading';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const Order = () => {
     document.title = "Quản lý chuyến đi"
@@ -104,63 +103,6 @@ const Order = () => {
         
     }
 
-    // const listOrder = [
-    //     {
-    //         id: 1, company: "Thanh Thủy",
-    //         distance: "Nha Trang - Sài Gòn",
-    //         seat: "A1, A2, A3",
-    //         startLocation: "Bến xe Vạn Giã",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 200000,
-    //         status: "complete"
-    //     },
-    //     {
-    //         id: 2, company: "Phương Trang",
-    //         distance: "Daknong - Sài Gòn",
-    //         seat: "B1, B2, B3",
-    //         startLocation: "Bến xe Dak Nong",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 300000,
-    //         status: "cancel"
-    //     },
-    //     {
-    //         id: 3, company: "Liên Hưng",
-    //         distance: "Phú Yên - Sài Gòn",
-    //         seat: "B1, B2, B3",
-    //         startLocation: "Bến xe Tuy Hòa",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 300000,
-    //         status: "confirm"
-    //     },
-    //     {
-    //         id: 1, company: "Thanh Thủy",
-    //         distance: "Nha Trang - Sài Gòn",
-    //         seat: "A1, A2, A3",
-    //         startLocation: "Bến xe Vạn Giã",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 200000,
-    //         status: "complete"
-    //     },
-    //     {
-    //         id: 2, company: "Phương Trang",
-    //         distance: "Daknong - Sài Gòn",
-    //         seat: "B1, B2, B3",
-    //         startLocation: "Bến xe Dak Nong",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 300000,
-    //         status: "cancel"
-    //     },
-    //     {
-    //         id: 3, company: "Liên Hưng",
-    //         distance: "Phú Yên - Sài Gòn",
-    //         seat: "B1, B2, B3",
-    //         startLocation: "Bến xe Tuy Hòa",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 300000,
-    //         status: "confirm"
-    //     }
-
-    // ]
     const [listOrder, setListOder] = useState([]);
     useEffect(() => {
         setLoading(true)

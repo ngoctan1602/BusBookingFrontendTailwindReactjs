@@ -13,6 +13,7 @@ import avatarDefault from '../../assets/images/avatar.png'
 import * as AddressSV from "../../services/AddressSv"
 import { ToastContainer, toast } from 'react-toastify';
 import ReactLoading from 'react-loading';
+import * as authServices from "../../services/AuthServices";
 
 
 
@@ -197,6 +198,22 @@ const Info = () => {
         setLoading(true);
         try {
             const response = await customerServices.UpdateProfile(updateCustomer)
+            if (!response.isError && response.isError !== undefined && response !== undefined) {
+                setCustomer(response.data)
+            }
+            else {
+                setError(response.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+        setLoading(false)
+    }
+
+    const updatePassword = async () => {
+        setLoading(true);
+        try {
+            const response = await authServices.resetPass(updateCustomer)
             if (!response.isError && response.isError !== undefined && response !== undefined) {
                 setCustomer(response.data)
             }
@@ -516,7 +533,7 @@ const Info = () => {
                                             </div>
                                         </div>
                                         <div class='flex justify-center my-md'>
-                                            <button class='w-[100px] shrink-0 confirm-button mx-md'>Xác nhận</button>
+                                            <button class='w-[100px] shrink-0 confirm-button mx-md' onClick={updatePassword}>Xác nhận</button>
                                             <button class='w-[100px] shrink-0 confirm-button' onClick={close}>Hủy</button>
                                         </div>
                                     </div>
