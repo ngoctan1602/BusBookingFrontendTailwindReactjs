@@ -4,7 +4,6 @@ import magnifyingGlass from "../../assets/images/icons8-magnifying-glass-32.png"
 import OrderCard from "../../components/Layout/Components/OderCard";
 import * as BillSV from "../../services/BillServices"
 import ReactLoading from 'react-loading';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const Order = () => {
     document.title = "Quản lý chuyến đi"
@@ -29,9 +28,14 @@ const Order = () => {
             },
         ]
     )
-    const activeListAbout = (offsetWidth, offsetLeft, id) => {
+    
+    const getActiveItem = () => {
+        return listAbout.find(item => item.active === true);
+    };
+    const activeListAbout = async (offsetWidth, offsetLeft, id) => {
         const updatedItems = listAbout.map(item => {
             if (item.id === id) {
+                if (id ===2)
                 return { ...item, active: true };
             }
 
@@ -42,72 +46,88 @@ const Order = () => {
         setOffsetLeft(offsetLeft);
         setOffsetWidth(offsetWidth);
         setListAbout(updatedItems);
-    }
 
-    // const listOrder = [
-    //     {
-    //         id: 1, company: "Thanh Thủy",
-    //         distance: "Nha Trang - Sài Gòn",
-    //         seat: "A1, A2, A3",
-    //         startLocation: "Bến xe Vạn Giã",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 200000,
-    //         status: "complete"
-    //     },
-    //     {
-    //         id: 2, company: "Phương Trang",
-    //         distance: "Daknong - Sài Gòn",
-    //         seat: "B1, B2, B3",
-    //         startLocation: "Bến xe Dak Nong",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 300000,
-    //         status: "cancel"
-    //     },
-    //     {
-    //         id: 3, company: "Liên Hưng",
-    //         distance: "Phú Yên - Sài Gòn",
-    //         seat: "B1, B2, B3",
-    //         startLocation: "Bến xe Tuy Hòa",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 300000,
-    //         status: "confirm"
-    //     },
-    //     {
-    //         id: 1, company: "Thanh Thủy",
-    //         distance: "Nha Trang - Sài Gòn",
-    //         seat: "A1, A2, A3",
-    //         startLocation: "Bến xe Vạn Giã",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 200000,
-    //         status: "complete"
-    //     },
-    //     {
-    //         id: 2, company: "Phương Trang",
-    //         distance: "Daknong - Sài Gòn",
-    //         seat: "B1, B2, B3",
-    //         startLocation: "Bến xe Dak Nong",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 300000,
-    //         status: "cancel"
-    //     },
-    //     {
-    //         id: 3, company: "Liên Hưng",
-    //         distance: "Phú Yên - Sài Gòn",
-    //         seat: "B1, B2, B3",
-    //         startLocation: "Bến xe Tuy Hòa",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 300000,
-    //         status: "confirm"
-    //     }
+        if (id ===1 ){
+            setLoading(true)
+            try {
+                const response = await BillSV.getAllBillinUser({ pageSize: 200 });
+                console.log(response.data.items)
+                setListOder(response.data.items)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false)
+            }
+        }
 
-    // ]
-    const [listOrder, setListOder] = useState([]);
-    useEffect(() => {
-        const fetchData = async () => {
+        else if (id ===2 ){
+            setLoading(true)
+            try {
+                const response = await BillSV.getAllInWaitingStatus({ pageSize: 200 });
+                console.log(response.data.items)
+                setListOder(response.data.items)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false)
+            }
+        }
+
+        else if (id ===3 ){
             setLoading(true)
             try {
 
-                const response = await BillSV.getAllBillinUser({ pageSize: 200 });
+                const response = await BillSV.getAllInCompleteStatus({ pageSize: 200 });
+                console.log(response.data.items)
+                setListOder(response.data.items)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false)
+            }
+        }
+
+        else if (id ===4 ){
+            setLoading(true)
+            try {
+
+                const response = await BillSV.getAllInDeleteStatus({ pageSize: 200 });
+                console.log(response.data.items)
+                setListOder(response.data.items)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false)
+            }
+        }
+        
+    }
+
+    const [listOrder, setListOder] = useState([]);
+    useEffect(() => {
+        setLoading(true)
+
+        const fetchData = async () => {
+            const idAbount = getActiveItem();
+            setLoading(true)
+            try {
+                    var response;
+                    if (idAbount.id ===1){
+                        response = await BillSV.getAllBillinUser({ pageSize: 200 });
+                    }
+                    else if (idAbount.id ===2){
+                        response = await BillSV.getAllBillinUser({ pageSize: 200 });
+
+                    }
+                    else if (idAbount.id ===3){
+                        response = await BillSV.getAllBillinUser({ pageSize: 200 });
+
+                    }
+                    else if (idAbount.id ===4){
+                        response = await BillSV.getAllBillinUser({ pageSize: 200 });
+
+                }
+                
                 console.log(response.data.items)
                 setListOder(response.data.items)
                 setLoading(false)

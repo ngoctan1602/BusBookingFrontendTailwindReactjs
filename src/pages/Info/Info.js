@@ -13,6 +13,7 @@ import avatarDefault from '../../assets/images/avatar.png'
 import * as AddressSV from "../../services/AddressSv"
 import { ToastContainer, toast } from 'react-toastify';
 import ReactLoading from 'react-loading';
+import * as authServices from "../../services/AuthServices";
 
 
 
@@ -190,6 +191,9 @@ const Info = () => {
     const onChangeCustomer = (name, value) => {
         setUpdateCustomer({ ...updateCustomer, [name]: value })
     }
+    // const updateLoading = (loading) => {
+    //     setLoading(loading)
+    // }
     const updateProfile = async () => {
         setLoading(true);
         try {
@@ -205,11 +209,27 @@ const Info = () => {
         }
         setLoading(false)
     }
+
+    const updatePassword = async () => {
+        setLoading(true);
+        try {
+            const response = await authServices.resetPass(updateCustomer)
+            if (!response.isError && response.isError !== undefined && response !== undefined) {
+                setCustomer(response.data)
+            }
+            else {
+                setError(response.data)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+        setLoading(false)
+    }
     return (
-        <div class='w-full h-full flex border-none outline-none  rounded-lg overflow-hidden'>
+        <div class='w-full h-full flex border-none outline-none  rounded-lg overflow-hidden relative'>
             {
                 loading &&
-                <div class='absolute w-[100%] h-full z-20 opacity-10'>
+                <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-10'>
                     <ReactLoading
                         type="spinningBubbles" color="black"
                         height={'5%'} width={'5%'}
@@ -378,7 +398,8 @@ const Info = () => {
                             </p>
                         </div>
                         <Popup trigger={<button class="confirm-button"> Cập nhật</button>} position="right center"
-                            modal
+                           
+                           modal
                             nested
                             closeOnDocumentClick={false}
                             {... { contentStyle }}
@@ -512,7 +533,7 @@ const Info = () => {
                                             </div>
                                         </div>
                                         <div class='flex justify-center my-md'>
-                                            <button class='w-[100px] shrink-0 confirm-button mx-md'>Xác nhận</button>
+                                            <button class='w-[100px] shrink-0 confirm-button mx-md' onClick={updatePassword}>Xác nhận</button>
                                             <button class='w-[100px] shrink-0 confirm-button' onClick={close}>Hủy</button>
                                         </div>
                                     </div>
