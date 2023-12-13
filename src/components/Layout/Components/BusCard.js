@@ -247,8 +247,10 @@ const BusCard = ({ item }) => {
             if (item.id === id) {
                 if (item.status === 1) {
                     total += item.price;
+                    setSelectedIdSeats(prevIds => [...prevIds, id]);
                     return { ...item, status: 2 };
                 }
+                setSelectedIdSeats(prevIds => prevIds.filter(prevId => prevId !== id));
                 return { ...item, status: 1 };
             }
             if (item.status == 2) {
@@ -265,6 +267,11 @@ const BusCard = ({ item }) => {
     const [startLocation, setStartLocation] = useState(
         item.listStation
     );
+
+    const [endLocation, setEndLocation] = useState(
+        item.listStation
+    );
+
     const [selectedBusStop, setSelectedBusStop] = useState(
         {
             busStationStartId: '',
@@ -329,6 +336,24 @@ const BusCard = ({ item }) => {
     const [isOpenVoucher, setOpenVoucher] = useState(false);
     const [applyVoucher, setApplyVoucher] = useState({ active: false, value: 0 })
 
+
+
+    const createBill = async () => {
+        const objectAdd = {
+            busStationStartId: selectedBusStop.busStationStartId,
+            busStationEndId: selectedBusStop.busStationEndId,
+            ...selectedIdSeats
+        }
+        // Object.keys(selectedIdSeats).forEach(prop => {
+        //     // Use the current property (prop) to update the corresponding property in updateCustomer
+        //     // setSeat1(prevState => ({
+        //     //     ...prevState,
+        //     //     [prop]: response.data[prop]
+        //     // }));
+        //     console.log(prop)
+        // });
+        console.log(objectAdd)
+    }
     return (
         <div class='w-full flex flex-col my-md rounded-lg shadow-lg border-[1px] hover:shadow-xl hover:scale-[1.01] ease-in-out duration-150 '>
             {/* Đây là phần chính của card */}
@@ -675,7 +700,7 @@ const BusCard = ({ item }) => {
                                 <div class='h-[200px] flex flex-col overflow-x-hidden overflow-y-auto'>
                                     {
                                         startLocation.map((item, index) => (
-                                            <Location item={item} onChange={onSelectBusStop} name={"busStationStartId"}></Location>
+                                            <Location item={item} onChange={onSelectBusStop} name={"busStationStartId"} selectedBusStop={selectedBusStop}></Location>
                                         ))
                                     }
                                 </div>
@@ -683,11 +708,11 @@ const BusCard = ({ item }) => {
                             <div class=' w-[270px]'>
                                 <p class='font-bold  text-16'>Điểm trả</p>
                                 <div class='h-[200px] flex flex-col overflow-x-hidden overflow-y-auto'>
-                                    {/* {
-                                        startLocation.map((item, index) => (
-                                            <Location item={item}></Location>
+                                    {
+                                        endLocation.map((item, index) => (
+                                            <Location item={item} onChange={onSelectBusStop} name={"busStationEndId"} selectedBusStop={selectedBusStop}></Location>
                                         ))
-                                    } */}
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -812,7 +837,7 @@ const BusCard = ({ item }) => {
                     {
                         stepBooking[2].active ?
                             <button class='w-[120px] button-position button-hover text-16 text-txt'
-                                onClick={(e) => alert(selectedIdSeats)}
+                                onClick={(e) => createBill()}
                             >
                                 Đặt vé
                             </button>
