@@ -432,11 +432,11 @@ const Search = () => {
                     <div class='w-content h-content mt-sm relative'>
                         {
                             loading ?
-                                <div class='absolute bg-hover-txt w-full h-[100px] z-20 opacity-40'>
+                                <div class='absolute bg-hover-txt w-full h-[500px] z-20 opacity-40'>
                                     <ReactLoading
                                         type="spinningBubbles" color="#ffffff"
                                         height={'5%'} width={'5%'}
-                                        className="absolute bg-hover-txt left-1/2 top-[30%]  "
+                                        className="absolute bg-hover-txt left-1/2 top-[50%]  "
                                     />
                                 </div>
                                 :
@@ -444,7 +444,7 @@ const Search = () => {
                                 (!busInfo || busInfo.length === 0) && !loading ?
                                     <p>Không tìm thấy chuyến đi</p>
                                     :
-                                    <PaginatedItems itemsPerPage={5} items={busInfo} componentToRender={BusCard}></PaginatedItems>
+                                    <PaginatedItems itemsPerPage={5} items={busInfo} componentToRender={BusCard} ></PaginatedItems>
                         }
                     </div>
 
