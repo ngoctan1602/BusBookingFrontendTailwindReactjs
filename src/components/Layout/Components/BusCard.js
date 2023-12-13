@@ -21,8 +21,47 @@ import Input from "./Input";
 import InputConfirmInfo from "./InputConfirmInfo";
 import LogoCompanyNull from "../../../../src/assets/images/logocompanynull.png"
 import * as BillSV from "../../../services/BillServices"
+import { ToastContainer, toast } from 'react-toastify';
+import ReactLoading from 'react-loading';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
+
 const BusCard = ({ item }) => {
     // console.log(item.itemResponses.slice(0, item.itemResponses.length / 2))
+    let navigate = useNavigate();
+    const notifySuccess = () => toast.success('Đặt vé xe thành công!', {
+        position: "bottom-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+    const notifyError = () => toast.error('Đặt vé xe thất bại', {
+        position: "bottom-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+    const notifyWarning = (message) =>
+        toast.warning(message, {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+
 
     const [about, setAbout] = useState(false);
 
@@ -45,7 +84,7 @@ const BusCard = ({ item }) => {
             }
         ]
     )
-
+    const [loading, setLoading] = useState(false);
     const [listImg, setListImg] = useState(
         [
             {
@@ -181,6 +220,19 @@ const BusCard = ({ item }) => {
     const [currentStepBooking, setCurrentStepBooking] = useState(1);
 
     const nextStateBooking = () => {
+        if (currentStepBooking === 1 && selectedIdSeats.length === 0) {
+
+            notifyWarning("Vui lòng chọn ghế")
+
+            return
+        }
+        if (currentStepBooking === 2 && (selectedBusStop.busStationEndId === -1 || selectedBusStop.busStationStartId === -1)) {
+            notifyWarning("Vui lòng chọn điểm đón trả")
+            return
+        }
+
+
+
         if (currentStepBooking <= stepBooking.length - 1) {
 
             setCurrentStepBooking(currentStepBooking + 1);
@@ -190,12 +242,12 @@ const BusCard = ({ item }) => {
                 }
 
                 return { ...item, active: false };
-
             });
-            console.log(selectedIdSeats)
-            console.log(selectedBusStop)
+
             setStepBooking(updatedItems);
         }
+
+
         console.log(stepBooking);
     }
     const prevStateBooking = () => {
@@ -274,27 +326,31 @@ const BusCard = ({ item }) => {
 
     const [selectedBusStop, setSelectedBusStop] = useState(
         {
-            busStationStartId: '',
-            busStationEndId: '',
+            busStationStartId: -1,
+            busStationEndId: -1,
         }
     );
-    const onSelectBusStop = (name, id) => {
+    const [nameSelectedBusStop, setNameSelectedBusStop] = useState(
+        {
+            busStationStartId: "",
+            busStationEndId: "",
+        }
+    );
+    const [timeDepature, settimeDepature] = useState(
+        {
+            busStationStartId: "",
+            busStationEndId: "",
+        }
+    );
+
+
+    const onSelectBusStop = (name, id, nameStop, time) => {
         setSelectedBusStop({ ...selectedBusStop, [name]: Number(id) })
+        setNameSelectedBusStop({ ...nameSelectedBusStop, [name]: nameStop })
+        settimeDepature({ ...timeDepature, [name]: time })
     }
 
-    // const [destination, setDestination] = useState(
-    //     [
-    //         {
-    //             id: 1, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
-    //         },
-    //         {
-    //             id: 2, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
-    //         },
-    //         {
-    //             id: 3, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
-    //         }
-    //     ]
-    // );
+
 
     const [inputName, setInputName] = useState(
         {
@@ -339,6 +395,20 @@ const BusCard = ({ item }) => {
 
 
     const createBill = async () => {
+        if (
+            (
+                localStorage.getItem("token") === null ||
+                localStorage.getItem("token") === undefined
+            )) {
+            notifyWarning("Hãy đăng nhập")
+            setTimeout(
+                () =>
+                    navigate("/login")
+                , 2000
+            )
+            return
+
+        }
         const items =
             selectedIdSeats.map((item,) => {
                 return { ticketItemId: item }
@@ -351,17 +421,25 @@ const BusCard = ({ item }) => {
         }
 
         try {
+            setLoading(true)
             const resp = BillSV.getAllBusStation(objectAdd);
+            setTimeout(
+                () => setLoading(false), 2000)
+            // setLoading(false)
             console.log(resp)
+            notifySuccess()
+            setTimeout(
+                () => navigate("/"), 2000
+            )
         } catch (error) {
-
+            notifyError()
         }
-        console.log(items)
-        console.log(objectAdd)
+
     }
     return (
-        <div class='w-full flex flex-col my-md rounded-lg shadow-lg border-[1px] hover:shadow-xl hover:scale-[1.01] ease-in-out duration-150 '>
+        <div class=' w-full flex flex-col my-md rounded-lg shadow-lg border-[1px] hover:shadow-xl hover:scale-[1.01] ease-in-out duration-150 '>
             {/* Đây là phần chính của card */}
+
             <div class='w-full h-[200px] flex'>
                 <div class='m-sm w-[120px]'>
                     <img class='w-[120px] h-[120px] object-cover rounded-md' src={item.companyLogo ? item.companyLogo : LogoCompanyNull}>
@@ -725,90 +803,123 @@ const BusCard = ({ item }) => {
 
                     {
                         stepBooking[2].active &&
-                        <div class=' mt-md mb-xl text-txt grid grid-flow-row grid-rows-1 grid-cols-2 justify-items-center w-content min-h-[400px]'>
-                            <div class='w-[300px] relative '>
-                                <p class='text-20 text-center font-bold'>Nhập thông tin xác nhận đặt vé xe</p>
-                                <div class='w-full flex-col'>
-                                    <p class='text-16 font-bold'>Họ và tên (*)</p>
-                                    <InputConfirmInfo item={inputName} onChange={ChangeName} />
-                                </div>
-                                <div class='w-full flex-col mt-[20px]'>
-                                    <p class='text-16 mt-sm font-bold'>Số điện thoại (*)</p>
-                                    <InputConfirmInfo item={inputPhone} onChange={ChangePhone} />
-                                </div>
-                                <div class='w-full flex-col my-[20px]'>
-                                    <p class='text-16 font-bold'>Email (*)</p>
-                                    <InputConfirmInfo item={inputEmail} onChange={ChangEmail} />
-                                </div>
-                                <p class='text-14 font-bold italic'>Các mục chứa (*) không được bỏ trống</p>
-                            </div>
-                            <div class='w-[300px] min-h-[400px]'>
+                        // <div class=' mt-md mb-xl text-txt grid grid-flow-row grid-rows-1 grid-cols-2 justify-items-center w-content min-h-[400px]'>
+                        //     <div class='w-[300px] relative '>
+                        //         <p class='text-20 text-center font-bold'>Nhập thông tin xác nhận đặt vé xe</p>
+                        //         <div class='w-full flex-col'>
+                        //             <p class='text-16 font-bold'>Họ và tên (*)</p>
+                        //             <InputConfirmInfo item={inputName} onChange={ChangeName} />
+                        //         </div>
+                        //         <div class='w-full flex-col mt-[20px]'>
+                        //             <p class='text-16 mt-sm font-bold'>Số điện thoại (*)</p>
+                        //             <InputConfirmInfo item={inputPhone} onChange={ChangePhone} />
+                        //         </div>
+                        //         <div class='w-full flex-col my-[20px]'>
+                        //             <p class='text-16 font-bold'>Email (*)</p>
+                        //             <InputConfirmInfo item={inputEmail} onChange={ChangEmail} />
+                        //         </div>
+                        //         <p class='text-14 font-bold italic'>Các mục chứa (*) không được bỏ trống</p>
+                        //     </div>
+                        //     <div class='w-[300px] min-h-[400px]'>
+                        //         <p class='text-20 text-center font-bold'>Thông tin đặt vé xe</p>
+                        //         <div class='my-md text-16 text-txt'>
+                        //             <div class='flex my-sm'>
+                        //                 <p class='w-[40%] shrink-0 font-bold'>Ghế đã chọn: </p>
+                        //                 <p>A2,A3,A4</p>
+                        //             </div>
+                        //             <div class='flex my-sm ' >
+                        //                 <p class='w-[40%] shrink-0  font-bold'>Nơi xuất phát: </p>
+                        //                 <p>Thôn Tân Phú, Xã Vạn Phú, Huyện Vạn Ninh, tỉnh Khánh Hòa</p>
+                        //             </div>
+                        //             <div class='flex my-sm'>
+                        //                 <p class='w-[40%] shrink-0  font-bold'>Nơi đến: </p>
+                        //                 <p>Thôn Tân Phú, Xã Vạn Phú, Huyện Vạn Ninh, tỉnh Khánh Hòa</p>
+                        //             </div>
+                        //             <div class='flex my-sm'>
+                        //                 <p class='w-[40%] shrink-0  font-bold'>Giờ đi: </p>
+                        //                 <p>9 giờ 30 phút ngày 29/3/2023</p>
+                        //             </div>
+                        //         </div>
+
+                        //         <div>
+                        //             <p class='font-bold text-txt text-16'>Lựa chọn giảm giá</p>
+                        //             <div class=''>
+                        //                 <div class='flex items-center' onClick={(e) => setOpenVoucherYTrip(!isOpenVoucherYTrip)}>
+                        //                     <p class='pr-md' >Voucher của Y-Trip</p>
+                        //                     <FontAwesomeIcon icon={faCaretDown}></FontAwesomeIcon>
+                        //                 </div>
+                        //                 {
+
+                        //                     isOpenVoucherYTrip &&
+                        //                     <div class='h-[80px] overflow-x-hidden overflow-y-auto'>
+                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
+                        //                     </div>
+                        //                 }
+                        //             </div>
+                        //             <div class=' w-full mb-sm'>
+                        //                 <div class='flex items-center ' onClick={(e) => setOpenVoucher(!isOpenVoucher)}>
+                        //                     <p class='pr-md'>Voucher của nhà xe</p>
+                        //                     <FontAwesomeIcon icon={isOpenVoucher ? faCaretUp : faCaretDown}></FontAwesomeIcon>
+                        //                 </div>
+                        //                 {
+                        //                     isOpenVoucher &&
+                        //                     <div class='h-[80px] overflow-x-hidden overflow-y-auto'>
+                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
+                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
+                        //                     </div>
+                        //                 }
+
+                        //             </div>
+
+
+                        //         </div>
+                        //     </div>
+                        // </div>
+                        <div className='my-sm w-content min-h-[400px] grid grid-cols-10 grid-flow-row '>
+
+                            <div className='col-span-8  col-start-2 shadow-lg relative'>
+                                {
+                                    loading &&
+
+                                    <div class='absolute  w-full h-[500px] z-20 opacity-40'>
+                                        <ReactLoading
+                                            type="spinningBubbles" color="black"
+                                            height={'5%'} width={'5%'}
+                                            className="absolute  left-1/2 top-[50%]  "
+                                        />
+                                    </div>
+                                }
                                 <p class='text-20 text-center font-bold'>Thông tin đặt vé xe</p>
-                                <div class='my-md text-16 text-txt'>
-                                    <div class='flex my-sm'>
-                                        <p class='w-[40%] shrink-0 font-bold'>Ghế đã chọn: </p>
-                                        <p>A2,A3,A4</p>
-                                    </div>
-                                    <div class='flex my-sm ' >
-                                        <p class='w-[40%] shrink-0  font-bold'>Nơi xuất phát: </p>
-                                        <p>Thôn Tân Phú, Xã Vạn Phú, Huyện Vạn Ninh, tỉnh Khánh Hòa</p>
-                                    </div>
-                                    <div class='flex my-sm'>
-                                        <p class='w-[40%] shrink-0  font-bold'>Nơi đến: </p>
-                                        <p>Thôn Tân Phú, Xã Vạn Phú, Huyện Vạn Ninh, tỉnh Khánh Hòa</p>
-                                    </div>
-                                    <div class='flex my-sm'>
-                                        <p class='w-[40%] shrink-0  font-bold'>Giờ đi: </p>
-                                        <p>9 giờ 30 phút ngày 29/3/2023</p>
-                                    </div>
+                                <div className="grid h-[50px] grid-flow-row grid-col-12 w-full">
+                                    <p className="col-span-5 col-start-1 p-md flex items-center ">
+                                        Họ và tên: {localStorage.getItem("username") ? localStorage.getItem("username") : ""}
+                                    </p>
+                                    <p className="col-span-5 col-start-7 flex items-center ">
+                                        Mã ghế đã chọn: {selectedIdSeats && selectedIdSeats.join(",")}
+                                    </p>
                                 </div>
+                                <p className="col-span-5 col-start-1 p-md flex items-center ">
+                                    Điểm đón: {new Date(timeDepature.busStationStartId).toLocaleString()} - {nameSelectedBusStop.busStationStartId}
+                                </p>
+                                <p className="col-span-5 col-start-1 p-md flex items-center ">
+                                    Điểm trả: {new Date(timeDepature.busStationEndId).toLocaleString()} - {nameSelectedBusStop.busStationEndId}
+                                </p>
 
-                                <div>
-                                    <p class='font-bold text-txt text-16'>Lựa chọn giảm giá</p>
-                                    <div class=''>
-                                        <div class='flex items-center' onClick={(e) => setOpenVoucherYTrip(!isOpenVoucherYTrip)}>
-                                            <p class='pr-md' >Voucher của Y-Trip</p>
-                                            <FontAwesomeIcon icon={faCaretDown}></FontAwesomeIcon>
-                                        </div>
-                                        {
-
-                                            isOpenVoucherYTrip &&
-                                            <div class='h-[80px] overflow-x-hidden overflow-y-auto'>
-                                                <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                                            </div>
-                                        }
-                                    </div>
-                                    <div class=' w-full mb-sm'>
-                                        <div class='flex items-center ' onClick={(e) => setOpenVoucher(!isOpenVoucher)}>
-                                            <p class='pr-md'>Voucher của nhà xe</p>
-                                            <FontAwesomeIcon icon={isOpenVoucher ? faCaretUp : faCaretDown}></FontAwesomeIcon>
-                                        </div>
-                                        {
-                                            isOpenVoucher &&
-                                            <div class='h-[80px] overflow-x-hidden overflow-y-auto'>
-                                                <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                                                <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                                            </div>
-                                        }
-
-                                    </div>
-
-
-                                </div>
                             </div>
+
                         </div>
                     }
 
@@ -841,9 +952,10 @@ const BusCard = ({ item }) => {
 
                     {
                         stepBooking[2].active ?
-                            <button class='w-[120px] button-position button-hover text-16 text-txt'
+                            <button class='w-[120px] button-position button-hover text-16 text-txt '
                                 onClick={(e) => createBill()}
                             >
+
                                 Đặt vé
                             </button>
                             :
@@ -853,6 +965,19 @@ const BusCard = ({ item }) => {
                                 Tiếp tục
                             </button>
                     }
+
+                    <ToastContainer
+                        position="bottom-right"
+                        autoClose={2500}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover={false}
+                        theme="light"
+                    />
                 </div >
             }
 
