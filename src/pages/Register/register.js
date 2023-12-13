@@ -153,40 +153,34 @@ const Register = () => {
         let warning = false;
         const addUser = { ...user, WardID: Number(idWard) }
         console.log(addUser);
-        // Object.keys(addUser).forEach(prop => {
-        //     if (addUser[prop] === null || addUser[prop] === undefined || addUser[prop] === "")
-        //         warning = true
-        // });
-        // if (warning) {
-        //     notifyWarning()
-        // }
-        // else {
-        //     try {
-        //         setLoading(true)
-        //         const response = await CustomerServices.Register(addUser)
-        //         setLoading(false)
-        //         console.log(response)
-        //         if (!response.isError) {
-
-        //             setConfirm({ ...confirm, email: user.email })
-        //             const response = await CustomerServices.Register(user)
-
-        //             if (!response.isError && response !== undefined) {
-        //                 setLoading(false)
-        //                 notifySuccess("Hãy xác thực OTP")
-        //                 setOpenPopUp(true)
-        //             }
-        //             else {
-        //                 setLoading(false)
-        //                 notifyError(response.data)
-        //             }
-        //         }
-        //     } catch (error) {
-        //         setLoading(false)
-        //         notifyError()
-        //     }
-        // }
-        // setLoading(false)
+        Object.keys(addUser).forEach(prop => {
+            if (addUser[prop] === null || addUser[prop] === undefined || addUser[prop] === "")
+                warning = true
+        });
+        if (warning) {
+            notifyWarning()
+        }
+        else {
+            try {
+                setLoading(true)
+                const response = await CustomerServices.Register(addUser)
+                console.log(response)
+                if (!response.isError && response !== undefined) {
+                    setConfirm({ ...confirm, email: user.email })
+                    setLoading(false)
+                    notifySuccess("Hãy xác thực OTP")
+                    setOpenPopUp(true)
+                }
+                else {
+                    setLoading(false)
+                    notifyError(response.data)
+                }
+            } catch (error) {
+                setLoading(false)
+                notifyError()
+            }
+        }
+        setLoading(false)
 
 
     }
