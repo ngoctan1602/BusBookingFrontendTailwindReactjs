@@ -29,6 +29,10 @@ const Order = () => {
             },
         ]
     )
+    
+    const getActiveItem = () => {
+        return listAbout.find(item => item.active === true);
+    };
     const activeListAbout = async (offsetWidth, offsetLeft, id) => {
         const updatedItems = listAbout.map(item => {
             if (item.id === id) {
@@ -39,6 +43,10 @@ const Order = () => {
             return { ...item, active: false };
 
         });
+
+        setOffsetLeft(offsetLeft);
+        setOffsetWidth(offsetWidth);
+        setListAbout(updatedItems);
 
         if (id ===1 ){
             setLoading(true)
@@ -53,8 +61,7 @@ const Order = () => {
             }
         }
 
-
-        if (id ===2 ){
+        else if (id ===2 ){
             setLoading(true)
             try {
                 const response = await BillSV.getAllInWaitingStatus({ pageSize: 200 });
@@ -67,10 +74,7 @@ const Order = () => {
             }
         }
 
-        setOffsetLeft(offsetLeft);
-        setOffsetWidth(offsetWidth);
-        setListAbout(updatedItems);
-        if (id ===3 ){
+        else if (id ===3 ){
             setLoading(true)
             try {
 
@@ -84,7 +88,7 @@ const Order = () => {
             }
         }
 
-        if (id ===4 ){
+        else if (id ===4 ){
             setLoading(true)
             try {
 
@@ -159,11 +163,29 @@ const Order = () => {
     // ]
     const [listOrder, setListOder] = useState([]);
     useEffect(() => {
+        setLoading(true)
+
         const fetchData = async () => {
+            const idAbount = getActiveItem();
             setLoading(true)
             try {
+                    var response;
+                    if (idAbount.id ===1){
+                        response = await BillSV.getAllBillinUser({ pageSize: 200 });
+                    }
+                    else if (idAbount.id ===2){
+                        response = await BillSV.getAllBillinUser({ pageSize: 200 });
 
-                const response = await BillSV.getAllBillinUser({ pageSize: 200 });
+                    }
+                    else if (idAbount.id ===3){
+                        response = await BillSV.getAllBillinUser({ pageSize: 200 });
+
+                    }
+                    else if (idAbount.id ===4){
+                        response = await BillSV.getAllBillinUser({ pageSize: 200 });
+
+                }
+                
                 console.log(response.data.items)
                 setListOder(response.data.items)
                 setLoading(false)
