@@ -83,6 +83,7 @@ const Register = () => {
         progress: undefined,
         theme: "light",
     });
+
     const notifyError = () => toast.error('Đăng kí thất bại', {
         position: "bottom-right",
         autoClose: 1500,
@@ -156,8 +157,6 @@ const Register = () => {
             if (addUser[prop] === null || addUser[prop] === undefined || addUser[prop] === "")
                 warning = true
         });
-        console.log(warning)
-        user.wardID = 3473
         if (warning) {
             notifyWarning()
         }
@@ -169,7 +168,6 @@ const Register = () => {
                 console.log(response)
                 if (!response.isError) {
                     // window.location.href = Configs.routers.login
-
                     setConfirm({ ...confirm, email: user.email })
                     const response = await CustomerServices.Register(user)
 
@@ -179,7 +177,6 @@ const Register = () => {
                         setOpenPopUp(true)
                     }
                     else {
-
                         setLoading(false)
                         notifyError(response.data)
                     }
@@ -259,7 +256,6 @@ const Register = () => {
             },
         ]
     );
-
     return (
         <div className="w-content min-h-[700px] flex items-center flex-col relative">
             {
@@ -354,29 +350,29 @@ const Register = () => {
                         }
                     </select>
                 </div>
-
-                <p className="w-[50%] m-md text-sm italic text-text font-bold text-14 text-center">
-                    * Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với <Link to="/policy" className="text-button hover:underline">Chính sách bảo mật</Link>,
-                    <Link className="text-button hover:underline"> Điều khoản dịch vụ và chính sách</Link> tư vấn của Y-Trip.
-                </p>
-                <Button type="solid" content="Đăng ký" onClick={onSubmit} />
-                <br></br>
-                <ToastContainer
-                    position="bottom-right"
-                    autoClose={2500}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover={false}
-                    theme="light"
-                />
-
             </div>
+
+            <p className="w-[50%] m-md text-sm italic text-text font-bold text-14 text-center">
+                * Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với <Link to="/policy" className="text-button hover:underline">Chính sách bảo mật</Link>,
+                <Link className="text-button hover:underline"> Điều khoản dịch vụ và chính sách</Link> tư vấn của Y-Trip.
+            </p>
+            <Button type="solid" content="Đăng ký" onClick={onSubmit} />
+            <br></br>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
+
         </div>
     );
 }
-export default Register;
 
+export default Register;
