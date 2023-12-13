@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import * as AddressSv from "../../../../../services/AddressSv"
 import { useEffect, useState } from "react";
-const PopUpShowDetail = ({ items, companyProps, address }) => {
+const PopUpShowDetail = ({ items, companyProps }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
 
-    console.log(address)
+
 
     return (
         <Popup trigger={<button class="flex justify-center"> <FontAwesomeIcon icon={faMagnifyingGlass} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[34px] h-[34px] mr-sm'></FontAwesomeIcon></button>} position="right center"
@@ -49,14 +49,10 @@ const PopUpShowDetail = ({ items, companyProps, address }) => {
                                             && <p>Đang chờ</p>
                                         }
 
+
                                         {
-                                            (item.name === "address" && address)
-                                            && items[item.name] + ", " + address.fullName + ", " + address.district + ", " + address.province
-                                        }
-                                        {
-                                            (
-                                                item.name != "status" && item.name != "address"
-                                            )
+
+                                            item.name != "status"
                                             &&
                                             items[item.name]
                                         }

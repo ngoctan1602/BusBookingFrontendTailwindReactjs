@@ -37,15 +37,6 @@ const UserAccountRow = ({ item, onChangeStatus }) => {
             name: "gender",
             content: "Giới tính:"
         },
-        {
-            name: "dateCreate",
-            content: "Ngày tạo:"
-        },
-        {
-            name: "dateUpdate",
-            content: "Ngày cập nhật:"
-        },
-
 
         {
             name: "status",

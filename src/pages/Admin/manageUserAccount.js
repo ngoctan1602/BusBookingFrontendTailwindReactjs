@@ -1,15 +1,12 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UserAccountRow from "../../components/Layout/Components/Admin/manageAccountUser/UserAccountRow";
 import Paginate from "../../components/Layout/Components/Paginate"
 import * as XLSX from 'xlsx'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
-
+import * as CustomerServices from "../../services/CustomerServices"
 const ManageUserAccount = () => {
-
-
-
     const exportToExcel = () => {
         const ws = XLSX.utils.json_to_sheet(userAccount);
         const wb = XLSX.utils.book_new();
@@ -18,37 +15,23 @@ const ManageUserAccount = () => {
         XLSX.writeFile(wb, 'exported_data.xlsx');
     };
 
-
-    const [userAccount, setUserAccount] = useState(
-        [
-            {
-                username: "tanntn29",
-                status: 1,
-                fullName: "Nguyễn Thái Ngọc Tân",
-                dateOfBirth: new Date(2022, 2, 29),
-                address: "Tân Phú, Vạn Phú, Vạn Ninh, Khánh Hòa",
-                email: "tanntn29@gmail.com",
-                gender: "Nam",
-                dateCreate: new Date(2022, 2, 29),
-                dateUpdate: new Date(2022, 2, 29),
-                avatar: "https://inkythuatso.com/uploads/thumbnails/800/2022/06/hinh-anh-dep-ve-du-lich-viet-nam-cho-dien-thoai-1-inkythuatso-08-14-13-02.jpg"
-            },
-            {
-                username: "tanntn292002",
-                status: 1,
-                fullName: "Nguyễn Thái Ngọc Phước",
-                dateOfBirth: new Date(2023, 2, 31),
-                address: "Tân Phú, Vạn Phú, Vạn Ninh, Khánh Hòa",
-                email: "tanfantn29@gmail.com",
-                gender: "Nam",
-                dateCreate: new Date(2022, 2, 29),
-                dateUpdate: new Date(2022, 2, 29),
-                avatar: "https://inkythuatso.com/uploads/thumbnails/800/2022/06/hinh-anh-dep-ve-du-lich-viet-nam-cho-dien-thoai-1-inkythuatso-08-14-13-02.jpg"
+    const [userAccount, setUserAccount] = useState([])
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true)
+                const response = await CustomerServices.GetAll();
+                setLoading(false)
+                if (!response.isError)
+                    setUserAccount(response.data.items)
+            } catch (error) {
+                console.error('Error fetching data:', error);
             }
+        };
 
-
-        ]
-    )
+        fetchData();
+    }, []);
     // Hàm cập nhật trạng thái item
     const changeStatus = (username, value) => {
         const updatedItems = userAccount.map(item => {
@@ -85,11 +68,22 @@ const ManageUserAccount = () => {
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>
-                    <Paginate itemsPerPage={5} items={userAccount} componentToRender={UserAccountRow} updateStatus={changeStatus}></Paginate>
+                    {loading ?
+                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+
+                        </div>
+
+                        :
+                        !loading && userAccount.length != 0 ?
+                            < Paginate itemsPerPage={5} items={userAccount} componentToRender={UserAccountRow} updateStatus={changeStatus} />
+                            :
+                            "Không có người dùng nào"
+
+                    }
                 </tbody>
             </table>
 
-        </div>
+        </div >
     );
 }
 

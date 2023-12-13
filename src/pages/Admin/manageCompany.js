@@ -1,83 +1,31 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Paginate from "../../components/Layout/Components/Paginate"
 import CompanyRow from "../../components/Layout/Components/Admin/manageCompany/CompanyRow";
 import * as XLSX from 'xlsx'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
+import * as CompanySV from "../../services/CompanySV"
 const ManageCompany = () => {
 
-    const [company, setCompany] = useState(
-        [
-            {
-                companyID: 1,
-                name: "Phương Trang",
-                logo: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
-                status: 1,
-                introduction: "Đi đâu cũng thấy Đi đâu cũng thấy Đi đâu cũng thấy Đi đâu cũng thấy Đi đâu cũng thấy Đi đâu cũng thấy",
-                email: "tannt31n29@gmail.com",
-                phoneNumber: "092312493",
-                dateUpdate: new Date(2023, 2, 29),
-                dateCreate: new Date(2023, 2, 29),
-            },
-            {
-                companyID: 2,
-                name: "Liên Hưng",
-                logo: "https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg",
-                status: 0,
-                introduction: "Đi đâu cũng thấy",
-                email: "tannt13n23139@gmail.com",
-                phoneNumber: "0921140493",
-                dateUpdate: new Date(2023, 2, 29),
-                dateCreate: new Date(2023, 2, 29),
-            },
-            {
-                companyID: 3,
-                name: "Quang Hạnh",
-                logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTawy7Qu4yLmLx2k0iPfywN-cjz3dRVJ9TcPft-1Gtq&s",
-                status: 1,
-                introduction: "Đi đâu cũng thấy",
-                email: "tanntn29212@gmail.com",
-                phoneNumber: "0443140493",
-                dateUpdate: new Date(2023, 2, 29),
-                dateCreate: new Date(2023, 2, 29),
-            },
-            {
-                companyID: 4,
-                name: "Phương Trang",
-                logo: "https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg",
-                status: 1,
-                introduction: "Đi đâu cũng thấy",
-                email: "tannt31n29@gmail.com",
-                phoneNumber: "092312493",
-                dateUpdate: new Date(2023, 2, 29),
-                dateCreate: new Date(2023, 2, 29),
-            },
-            {
-                companyID: 5,
-                name: "Liên Hưng",
-                logo: "https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg",
-                status: 0,
-                introduction: "Đi đâu cũng thấy",
-                email: "tannt13n23139@gmail.com",
-                phoneNumber: "0921140493",
-                dateUpdate: new Date(2023, 2, 29),
-                dateCreate: new Date(2023, 2, 29),
-            },
-            {
-                companyID: 6,
-                name: "Quang Hạnh",
-                logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTawy7Qu4yLmLx2k0iPfywN-cjz3dRVJ9TcPft-1Gtq&s",
-                status: 1,
-                introduction: "Đi đâu cũng thấy",
-                email: "tanntn29212@gmail.com",
-                phoneNumber: "0443140493",
-                dateUpdate: new Date(2023, 2, 29),
-                dateCreate: new Date(2023, 2, 29),
-            },
 
-        ]
-    )
+    const [company, setCompany] = useState([]);
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true)
+                const response = await CompanySV.GetAllCompany({ pageSize: 200 });
+                setLoading(false)
+                if (!response.isError)
+                    setCompany(response.data.items)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
     const exportToExcel = () => {
         const ws = XLSX.utils.json_to_sheet(company);
         const wb = XLSX.utils.book_new();
@@ -88,7 +36,7 @@ const ManageCompany = () => {
 
 
 
-    // Hàm cập nhật trạng thái item
+
     const changeStatus = (id, value) => {
         const updatedItems = company.map(item => {
             if (item.companyID === id) {
@@ -119,18 +67,30 @@ const ManageCompany = () => {
                         <th class='col-span-2'>Tên</th>
                         <th class='col-span-1'>Logo</th>
                         <th class='col-span-2'>Email</th>
+                        {/* <th class='col-span-2'>Giới thiệu</th> */}
                         <th class='col-span-2 pl-sm'>Số điện thoại</th>
-                        <th class='col-span-1'>Ngày tạo</th>
                         <th class='col-span-2'>Trạng thái</th>
                         <th class='col-span-1'></th>
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>
-                    <Paginate itemsPerPage={5} items={company} componentToRender={CompanyRow} updateStatus={changeStatus}/* emtyItemValue={emtyItemValue} */></Paginate>
+
+                    {loading ?
+                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+
+                        </div>
+
+                        :
+                        !loading && company.length != 0 ?
+                            <Paginate itemsPerPage={5} items={company} componentToRender={CompanyRow} updateStatus={changeStatus}/* emtyItemValue={emtyItemValue} */></Paginate>
+                            :
+                            "Không có nhà xe nào"
+
+                    }
                 </tbody>
             </table>
 
-        </div>
+        </div >
     );
 }
 

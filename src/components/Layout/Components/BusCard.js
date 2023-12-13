@@ -159,45 +159,6 @@ const BusCard = ({ item }) => {
         item.itemResponses.slice(0, item.itemResponses.length / 2))
     const [secondFloor, setSecond] = useState(
         item.itemResponses.slice(item.itemResponses.length / 2)
-        // [
-        //     {
-        //         id: 13, status: "blank", price: 2000
-        //     },
-        //     {
-        //         id: 14, status: "blank", price: 2000
-        //     },
-        //     {
-        //         id: 15, status: "selected", price: 2000
-        //     },
-        //     {
-        //         id: 16, status: "blank", price: 2000
-        //     },
-        //     {
-        //         id: 17, status: "blank", price: 2000
-        //     },
-        //     {
-        //         id: 18, status: "selected", price: 2000
-        //     },
-        //     {
-        //         id: 19, status: "blank", price: 2000
-        //     },
-        //     {
-        //         id: 20, status: "blank", price: 2000
-        //     },
-        //     {
-        //         id: 21, status: "selected", price: 2000
-        //     },
-        //     {
-        //         id: 22, status: "blank", price: 2000
-        //     },
-        //     {
-        //         id: 23, status: "blank", price: 2000
-        //     },
-        //     {
-        //         id: 24, status: "selected", price: 2000
-        //     },
-
-        // ]
     )
 
 
@@ -232,6 +193,7 @@ const BusCard = ({ item }) => {
 
             });
             console.log(selectedIdSeats)
+            console.log(selectedBusStop)
             setStepBooking(updatedItems);
         }
         console.log(stepBooking);
@@ -300,19 +262,18 @@ const BusCard = ({ item }) => {
 
     }
 
-    // const [startLocation, setStartLocation] = useState(
-    //     [
-    //         {
-    //             id: 1, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
-    //         },
-    //         {
-    //             id: 2, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
-    //         },
-    //         {
-    //             id: 3, time: "13h20p", location: "Văn phòng Nha Trang", desLocation: "Thôn Tân Phú, xã Vạn Phú, huyện Vạn Ninh, tỉnh Khánh Hòa"
-    //         }
-    //     ]
-    // );
+    const [startLocation, setStartLocation] = useState(
+        item.listStation
+    );
+    const [selectedBusStop, setSelectedBusStop] = useState(
+        {
+            busStationStartId: '',
+            busStationEndId: '',
+        }
+    );
+    const onSelectBusStop = (name, id) => {
+        setSelectedBusStop({ ...selectedBusStop, [name]: Number(id) })
+    }
 
     // const [destination, setDestination] = useState(
     //     [
@@ -713,8 +674,8 @@ const BusCard = ({ item }) => {
                                 <p class='font-bold  text-16'>Điểm đón</p>
                                 <div class='h-[200px] flex flex-col overflow-x-hidden overflow-y-auto'>
                                     {
-                                        item.listStation.map((item, index) => (
-                                            <Location item={item}></Location>
+                                        startLocation.map((item, index) => (
+                                            <Location item={item} onChange={onSelectBusStop} name={"busStationStartId"}></Location>
                                         ))
                                     }
                                 </div>

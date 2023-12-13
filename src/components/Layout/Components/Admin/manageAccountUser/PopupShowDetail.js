@@ -40,10 +40,10 @@ const PopUpShowDetail = ({ items, userAccountProps }) => {
                                             && <p>Ngưng hoạt động</p>
                                         }
                                         {
-                                            (item.name === "dateCreate" || item.name === "dateUpdate" || item.name === "dateOfBirth")
-                                            && items[item.name].getDate() + "/"
-                                            + (items[item.name].getMonth() + 1)
-                                            + "/" + items[item.name].getFullYear()
+                                            (item.name === "dateOfBirth")
+                                            && new Date(items[item.name]).getDate() + "/"
+                                            + (new Date(items[item.name]).getMonth() + 1)
+                                            + "/" + new Date(items[item.name]).getFullYear()
                                         }
                                         {
                                             (item.name === "avatar")
@@ -53,8 +53,6 @@ const PopUpShowDetail = ({ items, userAccountProps }) => {
                                             (
                                                 item.name != "status" &&
                                                 item.name != "avatar" &&
-                                                item.name != "dateCreate" &&
-                                                item.name != "dateUpdate" &&
                                                 item.name != "dateOfBirth"
                                             )
                                             &&
