@@ -190,6 +190,9 @@ const Info = () => {
     const onChangeCustomer = (name, value) => {
         setUpdateCustomer({ ...updateCustomer, [name]: value })
     }
+    // const updateLoading = (loading) => {
+    //     setLoading(loading)
+    // }
     const updateProfile = async () => {
         setLoading(true);
         try {
@@ -206,10 +209,10 @@ const Info = () => {
         setLoading(false)
     }
     return (
-        <div class='w-full h-full flex border-none outline-none  rounded-lg overflow-hidden'>
+        <div class='w-full h-full flex border-none outline-none  rounded-lg overflow-hidden relative'>
             {
                 loading &&
-                <div class='absolute w-[100%] h-full z-20 opacity-10'>
+                <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-10'>
                     <ReactLoading
                         type="spinningBubbles" color="black"
                         height={'5%'} width={'5%'}
@@ -378,7 +381,8 @@ const Info = () => {
                             </p>
                         </div>
                         <Popup trigger={<button class="confirm-button"> Cập nhật</button>} position="right center"
-                            modal
+                           
+                           modal
                             nested
                             closeOnDocumentClick={false}
                             {... { contentStyle }}
