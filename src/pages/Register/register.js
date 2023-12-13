@@ -1,7 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-=======
-import { useState ,useEffect} from "react";
->>>>>>> 601bf876ad46eba94f69504b28a831785b2aea31
 import Input from "../../components/Layout/Components/Input";
 import Button from "../../components/Layout/Components/Button";
 import PopupOTP from "../../components/Layout/Components/PopupOTP"
@@ -86,11 +83,8 @@ const Register = () => {
         progress: undefined,
         theme: "light",
     });
-<<<<<<< HEAD
+
     const notifyError = () => toast.error('Đăng kí thất bại', {
-=======
-    const notifyError = (message) => toast.error('Đăng nhập thất bại', {
->>>>>>> 601bf876ad46eba94f69504b28a831785b2aea31
         position: "bottom-right",
         autoClose: 1500,
         hideProgressBar: false,
@@ -163,45 +157,30 @@ const Register = () => {
             if (addUser[prop] === null || addUser[prop] === undefined || addUser[prop] === "")
                 warning = true
         });
-<<<<<<< HEAD
-        console.log(warning)
-=======
-        user.wardID = 3473
->>>>>>> 601bf876ad46eba94f69504b28a831785b2aea31
         if (warning) {
             notifyWarning()
         }
         else {
             try {
                 setLoading(true)
-<<<<<<< HEAD
                 const response = await CustomerServices.Register(addUser)
                 setLoading(false)
                 console.log(response)
                 if (!response.isError) {
                     // window.location.href = Configs.routers.login
+                    setConfirm({ ...confirm, email: user.email })
+                    const response = await CustomerServices.Register(user)
 
-=======
-                setConfirm({ ...confirm, email: user.email })
-                const response = await CustomerServices.Register(user)
-
-                if (!response.isError && response !== undefined) {
-                    setLoading(false)
->>>>>>> 601bf876ad46eba94f69504b28a831785b2aea31
-                    notifySuccess("Hãy xác thực OTP")
-                    setOpenPopUp(true)
+                    if (!response.isError && response !== undefined) {
+                        setLoading(false)
+                        notifySuccess("Hãy xác thực OTP")
+                        setOpenPopUp(true)
+                    }
+                    else {
+                        setLoading(false)
+                        notifyError(response.data)
+                    }
                 }
-                else {
-<<<<<<< HEAD
-                    notifyError()
-                }
-
-
-=======
-                    setLoading(false)
-                    notifyError(response.data)
-                }
->>>>>>> 601bf876ad46eba94f69504b28a831785b2aea31
             } catch (error) {
                 setLoading(false)
                 notifyError()
