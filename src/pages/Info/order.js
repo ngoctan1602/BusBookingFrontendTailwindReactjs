@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import magnifyingGlass from "../../assets/images/icons8-magnifying-glass-32.png"
 import OrderCard from "../../components/Layout/Components/OderCard";
-
+import * as BillSV from "../../services/BillServices"
+import ReactLoading from 'react-loading';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Order = () => {
+    document.title = "Quản lý chuyến đi"
+
     const [isFocus, setIsFocus] = useState(false);
     const [search, setSearch] = useState("");
     const [offsetLeft, setOffsetLeft] = useState(0);
@@ -11,7 +16,7 @@ const Order = () => {
     const [listAbout, setListAbout] = useState(
         [
             {
-                id: 1, content: "Tất cả đơn hàng", active: true
+                id: 1, content: "Tất cả chuyến đi", active: true
             },
             {
                 id: 2, content: "Chờ xác nhận", active: false
@@ -39,76 +44,108 @@ const Order = () => {
         setListAbout(updatedItems);
     }
 
-    const listOrder = [
-        {
-            id: 1, company: "Thanh Thủy",
-            distance: "Nha Trang - Sài Gòn",
-            seat: "A1, A2, A3",
-            startLocation: "Bến xe Vạn Giã",
-            endLocation: "Bến xe Nông Lâm",
-            totalPrice: 200000,
-            status: "complete"
-        },
-        {
-            id: 2, company: "Phương Trang",
-            distance: "Daknong - Sài Gòn",
-            seat: "B1, B2, B3",
-            startLocation: "Bến xe Dak Nong",
-            endLocation: "Bến xe Nông Lâm",
-            totalPrice: 300000,
-            status: "cancel"
-        },
-        {
-            id: 3, company: "Liên Hưng",
-            distance: "Phú Yên - Sài Gòn",
-            seat: "B1, B2, B3",
-            startLocation: "Bến xe Tuy Hòa",
-            endLocation: "Bến xe Nông Lâm",
-            totalPrice: 300000,
-            status: "confirm"
-        },
-        {
-            id: 1, company: "Thanh Thủy",
-            distance: "Nha Trang - Sài Gòn",
-            seat: "A1, A2, A3",
-            startLocation: "Bến xe Vạn Giã",
-            endLocation: "Bến xe Nông Lâm",
-            totalPrice: 200000,
-            status: "complete"
-        },
-        {
-            id: 2, company: "Phương Trang",
-            distance: "Daknong - Sài Gòn",
-            seat: "B1, B2, B3",
-            startLocation: "Bến xe Dak Nong",
-            endLocation: "Bến xe Nông Lâm",
-            totalPrice: 300000,
-            status: "cancel"
-        },
-        {
-            id: 3, company: "Liên Hưng",
-            distance: "Phú Yên - Sài Gòn",
-            seat: "B1, B2, B3",
-            startLocation: "Bến xe Tuy Hòa",
-            endLocation: "Bến xe Nông Lâm",
-            totalPrice: 300000,
-            status: "confirm"
-        }
+    // const listOrder = [
+    //     {
+    //         id: 1, company: "Thanh Thủy",
+    //         distance: "Nha Trang - Sài Gòn",
+    //         seat: "A1, A2, A3",
+    //         startLocation: "Bến xe Vạn Giã",
+    //         endLocation: "Bến xe Nông Lâm",
+    //         totalPrice: 200000,
+    //         status: "complete"
+    //     },
+    //     {
+    //         id: 2, company: "Phương Trang",
+    //         distance: "Daknong - Sài Gòn",
+    //         seat: "B1, B2, B3",
+    //         startLocation: "Bến xe Dak Nong",
+    //         endLocation: "Bến xe Nông Lâm",
+    //         totalPrice: 300000,
+    //         status: "cancel"
+    //     },
+    //     {
+    //         id: 3, company: "Liên Hưng",
+    //         distance: "Phú Yên - Sài Gòn",
+    //         seat: "B1, B2, B3",
+    //         startLocation: "Bến xe Tuy Hòa",
+    //         endLocation: "Bến xe Nông Lâm",
+    //         totalPrice: 300000,
+    //         status: "confirm"
+    //     },
+    //     {
+    //         id: 1, company: "Thanh Thủy",
+    //         distance: "Nha Trang - Sài Gòn",
+    //         seat: "A1, A2, A3",
+    //         startLocation: "Bến xe Vạn Giã",
+    //         endLocation: "Bến xe Nông Lâm",
+    //         totalPrice: 200000,
+    //         status: "complete"
+    //     },
+    //     {
+    //         id: 2, company: "Phương Trang",
+    //         distance: "Daknong - Sài Gòn",
+    //         seat: "B1, B2, B3",
+    //         startLocation: "Bến xe Dak Nong",
+    //         endLocation: "Bến xe Nông Lâm",
+    //         totalPrice: 300000,
+    //         status: "cancel"
+    //     },
+    //     {
+    //         id: 3, company: "Liên Hưng",
+    //         distance: "Phú Yên - Sài Gòn",
+    //         seat: "B1, B2, B3",
+    //         startLocation: "Bến xe Tuy Hòa",
+    //         endLocation: "Bến xe Nông Lâm",
+    //         totalPrice: 300000,
+    //         status: "confirm"
+    //     }
 
-    ]
+    // ]
+    const [listOrder, setListOder] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true)
+            try {
 
-    const listOrderComplete = listOrder.filter((order) => order.status === "complete")
+                const response = await BillSV.getAllBillinUser({ pageSize: 200 });
+                console.log(response.data.items)
+                setListOder(response.data.items)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false)
+            }
+        };
 
-    const listOrderCancle = listOrder.filter((order) => order.status === "cancel")
+        fetchData();
 
-    const listOrderConfirm = listOrder.filter((order) => order.status === "confirm")
+    }, []);
+
+    // const listOrderComplete = listOrder.filter((order) => order.status === "complete")
+
+    // const listOrderCancle = listOrder.filter((order) => order.status === "cancel")
+
+    // const listOrderConfirm = listOrder.filter((order) => order.status === "confirm")
 
 
-
+    const [loading, setLoading] = useState(false);
+    const updateLoading = () => {
+        setLoading(true)
+    }
     return (
         <div class='w-full h-full flex border-none outline-none  rounded-lg overflow-hidden text-txt text-16'>
-            <div class='w-full shrink-0 bg-[#e1e1e1] flex flex-col items-center '>
-                <p class='font-bold p-lg text-center mx-md bg-button w-full'>Quản lý đơn hàng</p>
+            <div class='w-full shrink-0 bg-[#e1e1e1] flex flex-col items-center relative'>
+                {
+                    loading &&
+                    <div className='absolute w-[100%] h-full z-20 opacity-40'>
+                        <ReactLoading
+                            type="spinningBubbles" color="black"
+                            height={'5%'} width={'5%'}
+                            className="absolute left-1/2 top-1/2  "
+                        />
+                    </div>
+                }
+                <p class='font-bold p-lg text-center mx-md bg-button w-full'>Quản lý chuyến đi</p>
                 <div class='w-content grid grid-flow-row grid-cols-4 relative'>
                     {
                         listAbout.map((item, index) => (
@@ -146,7 +183,26 @@ const Order = () => {
 
                 </div>
 
-                {
+                {loading ?
+                    <div className="animate-pulse bg-hover-txt w-content h-[400px] text-bg text-center">
+
+                    </div>
+                    :
+                    listOrder.length !== 0 ?
+                        listOrder.map((item, index) => (
+                            <OrderCard item={item} ></OrderCard>
+                        ))
+                        :
+                        "Không có chuyến đi nào"
+                }
+
+                {/* {
+                    listOrder &&
+                    listOrder.map((item, index) => (
+                        <OrderCard item={item}></OrderCard>
+                    ))
+                } */}
+                {/* {
                     listAbout[0].active ?
                         listOrder.map((item, index) => (
                             <OrderCard item={item}></OrderCard>
@@ -163,7 +219,8 @@ const Order = () => {
                                     <OrderCard item={item}></OrderCard>
                                 ))
 
-                }
+                } */}
+
 
             </div>
 
