@@ -11,6 +11,9 @@ import * as addressService from "../../services/AddressService"
 import * as customerServices from "../../services/CustomerServices";
 import avatarDefault from '../../assets/images/avatar.png'
 import * as AddressSV from "../../services/AddressSv"
+import { ToastContainer, toast } from 'react-toastify';
+import ReactLoading from 'react-loading';
+
 
 
 import Popup from 'reactjs-popup';
@@ -18,10 +21,22 @@ import 'reactjs-popup/dist/index.css';
 
 const Info = () => {
 
+    const notifySuccess = () => toast.success('Đăng nhập thành công', {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
     const [provinces, setProvinces] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
+                
                 const response = await AddressSV.getAllProvinces();
 
                 setProvinces(response.data);
@@ -92,7 +107,6 @@ const Info = () => {
             phoneNumber: '',
             gender: '',
             wardId: '',
-            addressResponse: {}
         }
     )
 
@@ -120,16 +134,15 @@ const Info = () => {
                     await getWards(response.data.addressResponse.districtId)
                     setIdWard(response.data.addressResponse.wardId)
                     setError('')
-                    setLoading(false)
                 }
                 else {
                     setError(response.data)
-                    setLoading(false)
                 }
             }
             catch (err) {
                 setError(err.message)
             }
+            setLoading(false)
         };
         fetchData();
     }, [])
@@ -178,22 +191,39 @@ const Info = () => {
         setUpdateCustomer({ ...updateCustomer, [name]: value })
     }
     const updateProfile = async () => {
-        console.log(updateCustomer)
+        setLoading(true);
         try {
-            const resp = customerServices.UpdateProfile(updateCustomer)
-            console.log(resp)
+            const response = await customerServices.UpdateProfile(updateCustomer)
+            if (!response.isError && response.isError !== undefined && response !== undefined) {
+                setCustomer(response.data)
+            }
+            else {
+                setError(response.data)
+            }
         } catch (error) {
             console.log(error)
         }
+        setLoading(false)
     }
     return (
         <div class='w-full h-full flex border-none outline-none  rounded-lg overflow-hidden'>
+            {
+                loading &&
+                <div class='absolute w-[100%] h-full z-20 opacity-10'>
+                    <ReactLoading
+                        type="spinningBubbles" color="black"
+                        height={'5%'} width={'5%'}
+                        className="absolute left-1/2 top-[10%]  "
+                    />
+                </div>
+            }
             <div class='w-1/2 shrink-0 bg-[#e1e1e1] '>
                 <p class='font-bold m-md'>Thông tin cá nhân</p>
                 <div class='flex my-lg items-center mx-md'>
                     <div class='w-[100px] h-[80px] shrink-0  overflow-hidden z-1 relative '>
                         {
                             !loading &&
+                            // eslint-disable-next-line jsx-a11y/alt-text
                             <img src={customer.avatar === null ? avatarDefault : customer.avatar}
                                 class=' w-[80px] h-[80px] object-cover rounded-full'></img>
                         }
@@ -301,7 +331,10 @@ const Info = () => {
                         }
                     </select>
 
-                    <select class='col-start-3 col-span-7 ml-md  pl-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md mb-lg' onChange={(e) => getIdWard(e.target.value)}>
+                    <select class='col-start-3 col-span-7 ml-md  pl-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md mb-lg' onChange={(e) => {
+                        getIdWard(e.target.value);
+                        onChangeCustomer("wardId", e.target.value)
+                    }}>
                         <option value={0} selected={idWard === 0 ? true : false} >Chọn xã</option>
                         {
                             wards &&
@@ -318,7 +351,7 @@ const Info = () => {
 
                 <div class='flex w-full justify-center mr-xl'>
                     <button class='button-hover'
-                        onClick={(e) => alert(customer.fullName)}
+                        onClick={updateProfile}
                     >
                         Lưu thay đổi</button>
                 </div>
@@ -426,7 +459,7 @@ const Info = () => {
                                             </div>
                                         </div>
                                         <div class='flex justify-center my-md'>
-                                            <button class='w-[100px] shrink-0 confirm-button mx-md'>Xác nhận</button>
+                                            <button class='w-[100px] shrink-0 confirm-button mx-md' onClick={updateProfile}>Xác nhận</button>
                                             <button class='w-[100px] shrink-0 confirm-button' onClick={close}>Hủy</button>
                                         </div>
                                     </div>
