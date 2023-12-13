@@ -29,9 +29,10 @@ const Order = () => {
             },
         ]
     )
-    const activeListAbout = (offsetWidth, offsetLeft, id) => {
+    const activeListAbout = async (offsetWidth, offsetLeft, id) => {
         const updatedItems = listAbout.map(item => {
             if (item.id === id) {
+                if (id ===2)
                 return { ...item, active: true };
             }
 
@@ -39,9 +40,64 @@ const Order = () => {
 
         });
 
+        if (id ===1 ){
+            setLoading(true)
+            try {
+                const response = await BillSV.getAllBillinUser({ pageSize: 200 });
+                console.log(response.data.items)
+                setListOder(response.data.items)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false)
+            }
+        }
+
+
+        if (id ===2 ){
+            setLoading(true)
+            try {
+                const response = await BillSV.getAllInWaitingStatus({ pageSize: 200 });
+                console.log(response.data.items)
+                setListOder(response.data.items)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false)
+            }
+        }
+
         setOffsetLeft(offsetLeft);
         setOffsetWidth(offsetWidth);
         setListAbout(updatedItems);
+        if (id ===3 ){
+            setLoading(true)
+            try {
+
+                const response = await BillSV.getAllInCompleteStatus({ pageSize: 200 });
+                console.log(response.data.items)
+                setListOder(response.data.items)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false)
+            }
+        }
+
+        if (id ===4 ){
+            setLoading(true)
+            try {
+
+                const response = await BillSV.getAllInDeleteStatus({ pageSize: 200 });
+                console.log(response.data.items)
+                setListOder(response.data.items)
+                setLoading(false)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false)
+            }
+        }
+        
     }
 
     // const listOrder = [
