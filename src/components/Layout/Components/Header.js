@@ -18,7 +18,7 @@ const Header = () => {
         setIsLoggedIn(token !== null);
     }, []);
 
-    const avatar = localStorage.getItem('avatar') ?? avatarDefault;
+    const avatar = localStorage.getItem('avatar') === 'null' ? avatarDefault : localStorage.getItem('avatar');
     return (
 
         <header className="flex justify-center bg-button">

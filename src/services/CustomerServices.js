@@ -17,18 +17,24 @@ export const GetAll = async () => {
     return await BaseAPI.getItems(API.getAll)
 }
 
+export const AuthOTP = async (data) => {
+    return await BaseAPI.postItem(API.authOTP, data)
+}
+
 const API = {
     getAll: 'customers/getAll',
     register: 'customers/register',
     getProfile: 'customers/profile',
-    updateProfile: 'customers/updateProfile'
+    updateProfile: 'customers/updateProfile',
+    authOTP: 'customers/authOTP',
 }
 
 const customerServices = {
     ...GetProfile,
     ...Register,
     ...UpdateProfile,
-    ...GetAll
+    ...GetAll,
+    ...AuthOTP,
 }
 
 export default customerServices;

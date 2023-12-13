@@ -29,7 +29,9 @@ const InfoLayout = ({ children }) => {
         }
     ])
 
-    const avatar = localStorage.getItem('avatar') ?? avatarDefault;
+    const avatar = localStorage.getItem('avatar') === 'null' ? avatarDefault : localStorage.getItem('avatar');
+
+
     const username = localStorage.getItem('username')
 
     const seatActive = useCallback((id) => {

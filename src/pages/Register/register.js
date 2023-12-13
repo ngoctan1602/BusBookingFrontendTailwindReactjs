@@ -106,6 +106,8 @@ const Register = () => {
         WardID: ''
     });
 
+
+
     const onChange = (e) => {
         const { name, value } = e.target;
         setUser({ ...user, [name]: value });
@@ -133,12 +135,14 @@ const Register = () => {
     const [confirm, setConfirm] = useState(
         {
             email: user.email,
-            otp: '',
+            code: '',
         }
     )
 
-    const onChangeConfirm = (name, value) => {
+    const onChangeConfirm = async (name, value) => {
         setConfirm({ ...confirm, [name]: value })
+        console.log(confirm)
+
     }
     const onChangeOpen = () => {
         setOpenPopUp(false)
@@ -153,6 +157,7 @@ const Register = () => {
                 warning = true
         });
         console.log(warning)
+        user.wardID = 3473
         if (warning) {
             notifyWarning()
         }
@@ -165,21 +170,96 @@ const Register = () => {
                 if (!response.isError) {
                     // window.location.href = Configs.routers.login
 
-                    notifySuccess("Hãy xác thực OTP")
-                    setOpenPopUp(true)
-                }
-                else {
-                    notifyError()
-                }
+                    setConfirm({ ...confirm, email: user.email })
+                    const response = await CustomerServices.Register(user)
 
+                    if (!response.isError && response !== undefined) {
+                        setLoading(false)
+                        notifySuccess("Hãy xác thực OTP")
+                        setOpenPopUp(true)
+                    }
+                    else {
 
+                        setLoading(false)
+                        notifyError(response.data)
+                    }
+                }
             } catch (error) {
+                setLoading(false)
                 notifyError()
             }
         }
+        setLoading(false)
 
 
     }
+
+    const [province, setProvince] = useState(
+        [
+            {
+                id: 1, name: "Khánh Hòa", isChoose: true,
+                district: [
+
+                    {
+                        id: 3, name: "Vạn Ninh", isChoose: true,
+                        commune: [
+                            {
+                                id: 3, name: "Vạn Phú", isChoose: true,
+                            },
+                            {
+
+                                id: 3, name: "Vạn Khánh", isChoose: false,
+                            }
+                        ]
+                    },
+                    {
+                        id: 4, name: "Ninh Hòa", isChoose: false,
+                        commune: [
+                            {
+                                id: 3, name: "Ninh Ích", isChoose: true,
+                            },
+                            {
+
+                                id: 3, name: "Ninh Diêm", isChoose: false,
+                            }
+                        ]
+                    },
+
+                ]
+            },
+            {
+                id: 2, name: "Vĩnh Long", isChoose: false,
+                district: [
+                    {
+                        id: 3, name: "Vĩnh Mõ", isChoose: true,
+                        commune: [
+                            {
+                                id: 3, name: "Vĩnh Bắc", isChoose: true,
+                            },
+                            {
+
+                                id: 3, name: "Vĩnh Nam", isChoose: false,
+                            }
+                        ]
+                    },
+                    {
+                        id: 4, name: "Vĩnh Hồ", isChoose: false,
+                        commune: [
+                            {
+                                id: 3, name: "Vĩnh Lợi", isChoose: true,
+                            },
+                            {
+
+                                id: 3, name: "Vĩnh Hằng", isChoose: false,
+                            }
+                        ]
+                    },
+
+                ]
+            },
+        ]
+    );
+
     return (
         <div className="w-content min-h-[700px] flex items-center flex-col relative">
             {
@@ -274,29 +354,29 @@ const Register = () => {
                         }
                     </select>
                 </div>
+
+                <p className="w-[50%] m-md text-sm italic text-text font-bold text-14 text-center">
+                    * Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với <Link to="/policy" className="text-button hover:underline">Chính sách bảo mật</Link>,
+                    <Link className="text-button hover:underline"> Điều khoản dịch vụ và chính sách</Link> tư vấn của Y-Trip.
+                </p>
+                <Button type="solid" content="Đăng ký" onClick={onSubmit} />
+                <br></br>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={2500}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover={false}
+                    theme="light"
+                />
+
             </div>
-
-            <p className="w-[50%] m-md text-sm italic text-text font-bold text-14 text-center">
-                * Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với <Link to="/policy" className="text-button hover:underline">Chính sách bảo mật</Link>,
-                <Link className="text-button hover:underline"> Điều khoản dịch vụ và chính sách</Link> tư vấn của Y-Trip.
-            </p>
-            <Button type="solid" content="Đăng ký" onClick={onSubmit} />
-            <br></br>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={2500}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover={false}
-                theme="light"
-            />
-
         </div>
     );
 }
-
 export default Register;
+
