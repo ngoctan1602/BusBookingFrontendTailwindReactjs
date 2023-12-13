@@ -13,16 +13,22 @@ export const UpdateProfile = async () => {
     return await BaseAPI.postItem(API.updateProfile)
 }
 
+export const AuthOTP = async (data) => {
+    return await BaseAPI.postItem(API.authOTP, data)
+}
+
 const API = {
     register: 'customers/register',
     getProfile: 'customers/profile',
-    updateProfile: 'customers/updateProfile'
+    updateProfile: 'customers/updateProfile',
+    authOTP: 'customers/authOTP',
 }
 
 const customerServices = {
     ...GetProfile,
     ...Register,
-    ...UpdateProfile
+    ...UpdateProfile,
+    ...AuthOTP,
 }
 
 export default customerServices;
