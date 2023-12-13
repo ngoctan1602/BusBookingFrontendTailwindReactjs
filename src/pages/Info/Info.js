@@ -194,7 +194,7 @@ const Info = () => {
                     <div class='w-[100px] h-[80px] shrink-0  overflow-hidden z-1 relative '>
                         {
                             !loading &&
-                            <img src={customer.avatar === null ? avatarDefault: customer.avatar}
+                            <img src={customer.avatar === null ? avatarDefault : customer.avatar}
                                 class=' w-[80px] h-[80px] object-cover rounded-full'></img>
                         }
                         {/* <input type={type} class='bg-[black]  z-10 cursor-pointer w-[10px] h-[10px] absolute right-[0px] bottom-[20%]' onFocus={() => setType("file")}></input> */}
@@ -246,10 +246,37 @@ const Info = () => {
                     }
                 </div>
 
-                <div className="w-full grid-cols-10 grid grid-flow-row ">
-                <p className="col-start-1 ml-md col-span-2 flex items-center">Địa chỉ</p>
-                <div className="col-start-4 col-span-8 grid-flow-row grid grid-cols-12 ml-[-50px] bg-button">
-                    <select class='col-span-4 p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getDistricts(e.target.value)}>
+                <div className=" relative w-content outline-none p-sm shadow-lg ml-sm mb-sm h-[300px] grid-cols-10 grid-rows-10 grid grid-flow-row border-[1px] border-txt rounded-md">
+                    {/* <div className=" ml-md col-span-10 grid grid-cols-10 mt-md ">
+
+                        <p className="col-span-2 ">Địa chỉ</p>
+                        <div className="col-span-7">
+                            {
+                                !loading &&
+                                <InputConfirmInfo onChange={onChangeCustomer}
+                                    item={{
+                                        placeholder: "Địa chỉ",
+                                        value: updateCustomer.address, spanWidth: 80, type: "text", background: "#e1e1e1",
+                                        name: "address"
+                                    }}></InputConfirmInfo>
+                            }
+                        </div>
+                    </div> */}
+                    <p className="absolute z-10 bg-bgPopup top-[-12px] pr-md left-[6px]">Địa chỉ</p>
+                    <div className="col-span-7 col-start-3 ml-sm">
+                        {
+                            !loading &&
+                            <InputConfirmInfo onChange={onChangeCustomer}
+                                item={{
+                                    placeholder: "Địa chỉ",
+                                    value: updateCustomer.address, spanWidth: 80, type: "text", background: "#e1e1e1",
+                                    name: "address"
+                                }}></InputConfirmInfo>
+                        }
+                    </div>
+                    {/* <div className="col-start-4 col-span-8 grid-flow-row grid grid-cols-12 ml-[-50px] bg-button"> */}
+                    <select class='
+                    row-start-2 col-span-7 col-start-3 mt-[-20px] ml-md pl-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md mb-md' onChange={(e) => getDistricts(e.target.value)}>
                         <option value={0} selected={(idProvince === 0) ? true : false}>
                             Chọn tỉnh
                         </option>
@@ -263,7 +290,7 @@ const Info = () => {
                         }
 
                     </select>
-                    <select class='col-span-4 col-start-5 mx-sm p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getWards(e.target.value)}>
+                    <select class='col-start-3  col-span-7 ml-md pl-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md mb-md' onChange={(e) => getWards(e.target.value)}>
                         <option value={0} selected={idDistrict === 0 ? true : false}>Chọn huyện</option>
                         {
                             districts && districts.map((item, index) => (
@@ -274,7 +301,7 @@ const Info = () => {
                         }
                     </select>
 
-                    <select class='col-span-4 col-start-9 p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getIdWard(e.target.value)}>
+                    <select class='col-start-3 col-span-7 ml-md  pl-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md mb-lg' onChange={(e) => getIdWard(e.target.value)}>
                         <option value={0} selected={idWard === 0 ? true : false} >Chọn xã</option>
                         {
                             wards &&
@@ -286,8 +313,8 @@ const Info = () => {
                             ))
                         }
                     </select>
+                    {/* </div> */}
                 </div>
-            </div>
 
                 <div class='flex w-full justify-center mr-xl'>
                     <button class='button-hover'
