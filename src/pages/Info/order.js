@@ -28,118 +28,56 @@ const Order = () => {
             },
         ]
     )
-    
+
     const getActiveItem = () => {
-        return listAbout.find(item => item.active === true);
+        return listAbout.find(item => item.active === true).id;
     };
     const activeListAbout = async (offsetWidth, offsetLeft, id) => {
         const updatedItems = listAbout.map(item => {
             if (item.id === id) {
-                if (id ===2)
                 return { ...item, active: true };
             }
 
             return { ...item, active: false };
-
         });
 
         setOffsetLeft(offsetLeft);
         setOffsetWidth(offsetWidth);
         setListAbout(updatedItems);
-
-        if (id ===1 ){
-            setLoading(true)
-            try {
-                const response = await BillSV.getAllBillinUser({ pageSize: 200 });
-                console.log(response.data.items)
-                setListOder(response.data.items)
-                setLoading(false)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false)
-            }
-        }
-
-        else if (id ===2 ){
-            setLoading(true)
-            try {
-                const response = await BillSV.getAllInWaitingStatus({ pageSize: 200 });
-                console.log(response.data.items)
-                setListOder(response.data.items)
-                setLoading(false)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false)
-            }
-        }
-
-        else if (id ===3 ){
-            setLoading(true)
-            try {
-
-                const response = await BillSV.getAllInCompleteStatus({ pageSize: 200 });
-                console.log(response.data.items)
-                setListOder(response.data.items)
-                setLoading(false)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false)
-            }
-        }
-
-        else if (id ===4 ){
-            setLoading(true)
-            try {
-
-                const response = await BillSV.getAllInDeleteStatus({ pageSize: 200 });
-                console.log(response.data.items)
-                setListOder(response.data.items)
-                setLoading(false)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false)
-            }
-        }
-        
+        fetchData(id);
     }
 
     const [listOrder, setListOder] = useState([]);
     useEffect(() => {
-        setLoading(true)
-
-        const fetchData = async () => {
-            const idAbount = getActiveItem();
-            setLoading(true)
-            try {
-                    var response;
-                    if (idAbount.id ===1){
-                        response = await BillSV.getAllBillinUser({ pageSize: 200 });
-                    }
-                    else if (idAbount.id ===2){
-                        response = await BillSV.getAllBillinUser({ pageSize: 200 });
-
-                    }
-                    else if (idAbount.id ===3){
-                        response = await BillSV.getAllBillinUser({ pageSize: 200 });
-
-                    }
-                    else if (idAbount.id ===4){
-                        response = await BillSV.getAllBillinUser({ pageSize: 200 });
-
-                }
-                
-                console.log(response.data.items)
-                setListOder(response.data.items)
-                setLoading(false)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false)
-            }
-        };
-
-        fetchData();
+        fetchData(getActiveItem());
 
     }, []);
+
+    const fetchData = async (id) => {
+        setLoading(true)
+        try {
+            var response;
+            if (id === 1) {
+                response = await BillSV.getAllBillinUser({ pageSize: 200 });
+            }
+            else if (id === 2) {
+                response = await BillSV.getAllInWaitingStatus({ pageSize: 200 });
+            }
+            else if (id === 3) {
+                response = await BillSV.getAllInCompleteStatus({ pageSize: 200 });
+            }
+            else if (id === 4) {
+                response = await BillSV.getAllInDeleteStatus({ pageSize: 200 });
+            }
+
+            console.log(response.data.items)
+            setListOder(response.data.items)
+            setLoading(false)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoading(false)
+        }
+    };
 
     // const listOrderComplete = listOrder.filter((order) => order.status === "complete")
 
