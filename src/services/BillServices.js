@@ -8,7 +8,13 @@ export const getAllBillinUser = async (pageSize) => {
     return await BaseAPI.getItems(billServices.getAll, pageSize);
 }
 
+
+export const changeIsDelete = async (id) => {
+    return await BaseAPI.putItem(billServices.changeIsDelete, null, id);
+}
+
 const billServices = {
     createBill: "bills/create",
     getAll: "bills/getAll",
+    changeIsDelete: 'bills/changeIsDelete'
 }

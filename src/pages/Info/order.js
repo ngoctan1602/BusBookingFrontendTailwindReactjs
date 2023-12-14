@@ -29,9 +29,10 @@ const Order = () => {
             },
         ]
     )
-    const activeListAbout = (offsetWidth, offsetLeft, id) => {
+    const activeListAbout = (offsetWidth, offsetLeft, content) => {
+        // document.title === content
         const updatedItems = listAbout.map(item => {
-            if (item.id === id) {
+            if (item.content === content) {
                 return { ...item, active: true };
             }
 
@@ -151,7 +152,7 @@ const Order = () => {
                         listAbout.map((item, index) => (
                             <div class='text-center border-b-[2px] border-txt cursor-pointer py-sm'
                                 style={{ color: item.active ? " #00B873" : "" }}
-                                onClick={(e) => activeListAbout(e.target.offsetWidth, e.target.offsetLeft, item.id)}>
+                                onClick={(e) => activeListAbout(e.target.offsetWidth, e.target.offsetLeft, item.content)}>
                                 {item.content}
                             </div>
                         ))

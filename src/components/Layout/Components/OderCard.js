@@ -7,6 +7,7 @@ import ReactStars from "react-rating-stars-component";
 import InputConfirmInfo from "./InputConfirmInfo";
 import { useState } from "react";
 import * as ReviewSV from "../../../services/ReviewSV"
+import * as BillServices from "../../../services/BillServices"
 import ReactLoading from 'react-loading';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,7 +21,7 @@ const OrderCard = ({ item }) => {
         }
     )
     const notifySuccess = (message) => toast.success(message, {
-        position: "top-right",
+        position: "bottom-right",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -42,12 +43,16 @@ const OrderCard = ({ item }) => {
     });
 
     const cancelOrder = async () => {
-        // try {
-        //     const a = await ReviewSV.changeIsDelete({ id: item.id });
-        //     console.log(a)
-        // } catch (error) {
-        //     console.log(error)
-        // }
+        try {
+            const resp = await BillServices.changeIsDelete({ id: item.id });
+            if (resp.isError) {
+                notifyError(resp.data)
+            }
+            notifySuccess("Thêm đánh giá thành công")
+        } catch (error) {
+            console.log(error.data)
+            // notifySuccess(error)
+        }
     }
     const [rating, setRating] = useState();
     const ratingChanged = (newRating) => {
@@ -99,7 +104,8 @@ const OrderCard = ({ item }) => {
             }
 
 
-            <div class='text-16 text-txt w-full grid grid-flow-row grid-cols-10 gap-x-1.5 relative border-t-[1px] min-h-[110px]'>
+            <div class=' text-16 text-txt w-full grid grid-flow-row grid-cols-10 gap-x-1.5 relative border-t-[1px] min-h-[110px]'>
+
 
                 <div class='col-span-1 flex items-center overflow-hidden'>
                     <img class='w-[80px] h-[80px] object-cover rounded-md' src="https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg" />
@@ -176,18 +182,7 @@ const OrderCard = ({ item }) => {
                                         onClick={(e) => submitReview(close)}
                                     >Xác nhận</button>
                                     <button class='w-[100px] shrink-0 confirm-button' onClick={close}>Hủy</button>
-                                    <ToastContainer
-                                        position="bottom-right"
-                                        autoClose={2500}
-                                        hideProgressBar={false}
-                                        newestOnTop={false}
-                                        closeOnClick
-                                        rtl={false}
-                                        pauseOnFocusLoss
-                                        draggable
-                                        pauseOnHover={false}
-                                        theme="light"
-                                    />
+
                                 </div>
 
                             </div>
@@ -200,6 +195,19 @@ const OrderCard = ({ item }) => {
 
                     <button class='confirm-button' onClick={cancelOrder} >Hủy chuyến đi</button>
                 }
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={2500}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover={false}
+                    theme="light"
+                />
+
             </div>
         </div>
     );
