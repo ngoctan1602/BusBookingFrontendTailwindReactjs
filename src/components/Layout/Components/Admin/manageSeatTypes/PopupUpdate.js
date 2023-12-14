@@ -1,9 +1,9 @@
 import Popup from "reactjs-popup";
-import InputConfirmInfo from "../InputConfirmInfo"
+import InputConfirmInfo from "../../InputConfirmInfo"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
-import * as TypeBusSv from "../../../../services/TypeBusServices"
+import * as SeatTypeSV from "../../../../../services/SeatTypeSV"
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
 const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopup }) => {
@@ -33,11 +33,7 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopu
 
     const getItemValue = async (close) => {
         if (success()) {
-
-
-            const update = await TypeBusSv.updateTypeBus(updateTypeBus)
-
-
+            const update = await SeatTypeSV.updateSeatTypesAdmin(updateTypeBus)
             if (update.isError) {
                 notifyError()
                 return
@@ -51,6 +47,8 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopu
 
             notifyError()
         }
+
+        console.log(updateTypeBus)
 
     };
 
@@ -78,9 +76,7 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopu
                                 <div class='flex items-center justify-center'>
                                     <p class='w-[80px] shrink-0'>{item.content}</p>
                                     <div class='w-1/2'>
-                                        {
-                                            console.log(typeof (item.spanWidth))
-                                        }
+
                                         {
                                             item.id === 1 ?
                                                 <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, id: updateTypeBus[item.name], value: updateTypeBus.id, spanWidth: Number(item.spanWidth), background: "#e1e1e1" }}></InputConfirmInfo>

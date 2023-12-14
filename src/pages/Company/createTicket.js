@@ -240,7 +240,7 @@ const Ticket = () => {
                                         <td class='col-span-1'>{item.busStopId}</td>
                                         <td class='col-span-2'>{item.name}</td>
                                         <td class='col-span-3'>
-                                        <input type="datetime-local"
+                                            <input type="datetime-local"
                                                 class=' outline-none bg-bgPopup rounded-md'
                                                 value={new Date(item.departureTime - item.departureTime.getTimezoneOffset() * 60000)
                                                     .toISOString()
@@ -252,7 +252,7 @@ const Ticket = () => {
                                             </input>
                                         </td>
                                         <td class='col-span-3'>
-                                             <input type="datetime-local" class=' outline-none bg-bgPopup rounded-md'
+                                            <input type="datetime-local" class=' outline-none bg-bgPopup rounded-md'
                                                 value={new Date(item.arrivalTime - item.arrivalTime.getTimezoneOffset() * 60000)
                                                     .toISOString()
                                                     .slice(0, 16)}
