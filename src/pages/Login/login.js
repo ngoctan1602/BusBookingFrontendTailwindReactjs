@@ -66,9 +66,11 @@ const Login = () => {
                 notifySuccess();
                 setTimeout(() => navigate("/"), 1500)
             }
+            else {
+                notifyError()
+            }
         }
         catch (error) {
-            setLoading(false)
             notifyError()
             console.log(error)
         }

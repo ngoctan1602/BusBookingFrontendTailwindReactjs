@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import logo from "../../../assets/images/logotrip.png"
 import Button from "./Button";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +15,7 @@ const Header = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        setIsLoggedIn(token !== null);
+        setIsLoggedIn((token === null || token === undefined) ? false : true);
     }, []);
 
     const avatar = localStorage.getItem('avatar') === 'null' ? avatarDefault : localStorage.getItem('avatar');
@@ -46,12 +46,12 @@ const Header = () => {
                         </Link>
 
                         {isLoggedIn ? (
-                            <Link to = {configs.routers.profile} id="NotLogin" className="px-[10px]">
+                            <Link to={configs.routers.profile} id="NotLogin" className="px-[10px]">
                                 <div class='w-[100px] h-[40px] shrink-0  overflow-hidden z-1 relative '>
                                     <img class=' w-[40px] h-[40px] object-cover rounded-full' src={avatar} alt="Avatar"></img>
                                 </div>
                             </Link>
-                        ): (
+                        ) : (
                             <Link to={"/login"} className="px-4" id="Login">
                                 <Button type="border" content="Đăng nhập">
 

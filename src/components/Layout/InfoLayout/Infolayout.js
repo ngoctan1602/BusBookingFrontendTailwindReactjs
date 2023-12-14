@@ -6,14 +6,15 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../Components/Footer";
 import Header from "../Components/Header";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useCallback, useState } from "react";
 import avatarDefault from '../../../assets/images/avatar.png'
 
 const InfoLayout = ({ children }) => {
+    const location = useLocation()
     const [info, setInfo] = useState([
         {
-            id: 1, content: "Thông tin tài khoản", icon: faUser, active: true, path: '/info'
+            id: 1, content: "Thông tin tài khoản", icon: faUser, active: false, path: '/info'
         },
         {
             id: 2, content: "Thông báo của tôi", icon: faBell, active: false, path: '/notification'
@@ -34,22 +35,23 @@ const InfoLayout = ({ children }) => {
 
     const username = localStorage.getItem('username')
 
-    const seatActive = useCallback((id) => {
+    const seatActive = useCallback(() => {
         return () => {
             const updatedItems = info.map(item => {
-                if (item.id === id) {
+                if (location.pathname === item.path) {
                     return { ...item, active: true };
                 }
 
                 return { ...item, active: false };
-
             });
             setInfo(updatedItems);
-        }
-    }, [info])
+        };
+    }, [info, location.pathname]); // Include location.pathname in the dependency array
 
-
-
+    useEffect(() => {
+        const updateSeats = seatActive(); // Call the returned function
+        updateSeats(); // Call the returned function to update seats
+    }, [seatActive]); // Include seatActive in the dependency array
     return (
 
         <div>
@@ -71,7 +73,7 @@ const InfoLayout = ({ children }) => {
                         {
                             info.map((item, index) => (
                                 <Link key={item.id}
-                                    onClick={seatActive(item.id)}
+                                    onClick={seatActive()}
                                     style={item.active ? { backgroundColor: "#e1e1e1" } : { backgroundColor: "" }}
                                     class='flex items-center w-content h-[50px] hover:bg-[#e1e1e1] cursor-pointer' to={item.path}>
                                     <FontAwesomeIcon class='w-[20px] h-[20px] shrink-0' icon={item.icon}></FontAwesomeIcon>

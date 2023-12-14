@@ -4,7 +4,6 @@ import magnifyingGlass from "../../assets/images/icons8-magnifying-glass-32.png"
 import OrderCard from "../../components/Layout/Components/OderCard";
 import * as BillSV from "../../services/BillServices"
 import ReactLoading from 'react-loading';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const Order = () => {
     document.title = "Quản lý chuyến đi"
@@ -29,98 +28,56 @@ const Order = () => {
             },
         ]
     )
-    const activeListAbout = (offsetWidth, offsetLeft, content) => {
-        // document.title === content
+
+    const getActiveItem = () => {
+        return listAbout.find(item => item.active === true).id;
+    };
+    const activeListAbout = async (offsetWidth, offsetLeft, id) => {
         const updatedItems = listAbout.map(item => {
-            if (item.content === content) {
+            if (item.id === id) {
                 return { ...item, active: true };
             }
 
             return { ...item, active: false };
-
         });
 
         setOffsetLeft(offsetLeft);
         setOffsetWidth(offsetWidth);
         setListAbout(updatedItems);
+        fetchData(id);
     }
 
-    // const listOrder = [
-    //     {
-    //         id: 1, company: "Thanh Thủy",
-    //         distance: "Nha Trang - Sài Gòn",
-    //         seat: "A1, A2, A3",
-    //         startLocation: "Bến xe Vạn Giã",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 200000,
-    //         status: "complete"
-    //     },
-    //     {
-    //         id: 2, company: "Phương Trang",
-    //         distance: "Daknong - Sài Gòn",
-    //         seat: "B1, B2, B3",
-    //         startLocation: "Bến xe Dak Nong",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 300000,
-    //         status: "cancel"
-    //     },
-    //     {
-    //         id: 3, company: "Liên Hưng",
-    //         distance: "Phú Yên - Sài Gòn",
-    //         seat: "B1, B2, B3",
-    //         startLocation: "Bến xe Tuy Hòa",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 300000,
-    //         status: "confirm"
-    //     },
-    //     {
-    //         id: 1, company: "Thanh Thủy",
-    //         distance: "Nha Trang - Sài Gòn",
-    //         seat: "A1, A2, A3",
-    //         startLocation: "Bến xe Vạn Giã",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 200000,
-    //         status: "complete"
-    //     },
-    //     {
-    //         id: 2, company: "Phương Trang",
-    //         distance: "Daknong - Sài Gòn",
-    //         seat: "B1, B2, B3",
-    //         startLocation: "Bến xe Dak Nong",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 300000,
-    //         status: "cancel"
-    //     },
-    //     {
-    //         id: 3, company: "Liên Hưng",
-    //         distance: "Phú Yên - Sài Gòn",
-    //         seat: "B1, B2, B3",
-    //         startLocation: "Bến xe Tuy Hòa",
-    //         endLocation: "Bến xe Nông Lâm",
-    //         totalPrice: 300000,
-    //         status: "confirm"
-    //     }
-
-    // ]
     const [listOrder, setListOder] = useState([]);
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true)
-            try {
-
-                const response = await BillSV.getAllBillinUser({ pageSize: 200 });
-                console.log(response.data.items)
-                setListOder(response.data.items)
-                setLoading(false)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false)
-            }
-        };
-
-        fetchData();
+        fetchData(getActiveItem());
 
     }, []);
+
+    const fetchData = async (id) => {
+        setLoading(true)
+        try {
+            var response;
+            if (id === 1) {
+                response = await BillSV.getAllBillinUser({ pageSize: 200 });
+            }
+            else if (id === 2) {
+                response = await BillSV.getAllInWaitingStatus({ pageSize: 200 });
+            }
+            else if (id === 3) {
+                response = await BillSV.getAllInCompleteStatus({ pageSize: 200 });
+            }
+            else if (id === 4) {
+                response = await BillSV.getAllInDeleteStatus({ pageSize: 200 });
+            }
+
+            console.log(response.data.items)
+            setListOder(response.data.items)
+            setLoading(false)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoading(false)
+        }
+    };
 
     // const listOrderComplete = listOrder.filter((order) => order.status === "complete")
 
@@ -152,7 +109,7 @@ const Order = () => {
                         listAbout.map((item, index) => (
                             <div class='text-center border-b-[2px] border-txt cursor-pointer py-sm'
                                 style={{ color: item.active ? " #00B873" : "" }}
-                                onClick={(e) => activeListAbout(e.target.offsetWidth, e.target.offsetLeft, item.content)}>
+                                onClick={(e) => activeListAbout(e.target.offsetWidth, e.target.offsetLeft, item.id)}>
                                 {item.content}
                             </div>
                         ))

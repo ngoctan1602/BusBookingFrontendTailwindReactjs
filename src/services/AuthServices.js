@@ -12,16 +12,22 @@ export const companyLogin = async (data) => {
     return await BaseAPI.postItem(AuthAPI.companyLogin, data)
 }
 
+export const resetPass = async (data) => {
+    return await BaseAPI.postItem(AuthAPI.resetPass, data)
+}
+
 export const AuthAPI = {
     login: 'auth/login',
     adminLogin: 'auth/admin/login',
     companyLogin: 'auth/companies/login',
+    resetPass: 'auth/reset'
 }
 
 const authServices = {
     ...login,
     ...adminLogin,
-    ...companyLogin
+    ...companyLogin,
+    ...resetPass
 }
 
 export default authServices;
