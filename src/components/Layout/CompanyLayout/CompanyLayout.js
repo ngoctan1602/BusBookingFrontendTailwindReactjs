@@ -40,45 +40,16 @@ const CompanyLayout = ({ children }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "400px" };
     const [info, setInfo] = useState([
         {
-            id: 1, content: "Quản lý điểm đón trả khách", icon: faCartFlatbed, active: false, path: '',
-            children: [
-
-            ]
+            id: 1, content: "Quản lý xe", icon: faCartFlatbed, active: false, path: '/company/bus',
         },
         {
-            id: 2, content: "Quản lý xe", icon: faBus, active: true, path: '',
-            children: [
-                {
-                    id: "c1", content: "Tổng quan", icon: faLocationCrosshairs, active: false, path: '/company/bus/overview'
-                },
-                {
-                    id: "c2", content: "Quản lý điểm đón trả khách", icon: faLocationCrosshairs, active: false, path: ''
-                },
-                {
-                    id: "c3", content: "Quản lý loại xe", icon: faLocationCrosshairs, active: false, path: ''
-                },
-                {
-                    id: "c4", content: "Quản lý loại chỗ ngồi", icon: faLocationCrosshairs, active: false, path: ''
-                }
-            ]
+            id: 2, content: "Quản lý chuyến đi", icon: faBus, active: true, path: '/company/ticket',
         },
         {
-            id: 3, content: "Quản lý đơn hàng", icon: faCartFlatbed, active: false, path: '',
-            children: [
-
-            ]
+            id: 3, content: "Quản lý đặt vé", icon: faCartFlatbed, active: false, path: '',
         },
-
         {
             id: 4, content: "Thống kê", icon: faChartLine, active: false, path: '',
-            children: [
-                {
-                    id: "c2", content: "Thống kê doanh thu", active: false, path: '', icon: faTicket
-                },
-                {
-                    id: "c3", content: "Thống kê số lượng vé", active: false, path: '', icon: faChartColumn
-                }
-            ]
         },
 
     ])
@@ -219,29 +190,12 @@ const CompanyLayout = ({ children }) => {
                         info.map((item, index) => (
                             <div>
                                 <Link key={item.id}
-                                    // onClick={clickParent(item.id)}
-                                    // style={{ backgroundColor: (item.active && !isShowChildren[index].active) ? "#75718a" : "", transitionTimingFunction: "esea-in-out", transitionDuration: "2000ms", transitionProperty: "backgroundColor" }}
                                     class='px-md flex items-center w-full h-[50px] hover:bg-[#75718a] cursor-pointer ease-in-out duration-200' to={item.path}>
                                     <FontAwesomeIcon class='w-[20px] h-[20px] shrink-0' icon={item.icon}></FontAwesomeIcon>
                                     <p class='mx-sm shrink-0'> {item.content}</p>
-                                    <FontAwesomeIcon icon={faChevronDown} ></FontAwesomeIcon>
+
                                 </Link>
 
-                                {
-                                    // (isShowChildren[index].active && item.id === isShowChildren[index].id) &&
-                                    (item.children).map((i, index) => (
-
-                                        <Link key={i.id}
-                                            // onClick={() => navigate(i.path)}
-                                            // onClick={updateParent(i.id)}
-                                            // style={i.active ? { backgroundColor: "#75718a" } : { backgroundColor: "" }}
-                                            class='px-xl flex items-center w-full h-[50px] hover:bg-[#75718a] cursor-pointer ease-in-out duration-150' to={i.path}>
-                                            <FontAwesomeIcon class='w-[20px] h-[20px] shrink-0' icon={i.icon}></FontAwesomeIcon>
-                                            <p class='mx-sm shrink-0'> {i.content}</p>
-                                        </Link>
-
-                                    ))
-                                }
 
                             </div>
                         ))

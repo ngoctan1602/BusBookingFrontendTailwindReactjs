@@ -7,22 +7,19 @@ import Search from "../pages/Search/search"
 import Order from "../pages/Info/order"
 import Favourite from "../pages/Info/favourite"
 import HisReview from "../pages/Info/hisreview"
-
 import ManageTypeBus from "../pages/Admin/manageTypeBus"
 import ManageBusStation from "../pages/Admin/manageBusStation"
-
 import configs from "../configs"
-
 import ManageCompany from "../pages/Admin/manageCompany"
 import ManageUserAccount from "../pages/Admin/manageUserAccount"
 import AdminLogin from "../pages/Admin/login"
-
 import ManageOrder from "../pages/Company/manageOrder"
-
 import Overview from "../pages/Company/overview"
 import BusDetail from "../pages/Company/busDetail"
-import Ticket from "../pages/Company/ticket"
+import Ticket from "../pages/Company/createTicket"
 import CompanyLogin from "../pages/Company/login"
+import ManageSeatsType from "../pages/Admin/manageSeatsType"
+import ManageBusTicket from "../pages/Company/manageTicket"
 
 
 
@@ -75,6 +72,9 @@ const adminRoutes = [
         path: "/manage-typebus", component: ManageTypeBus
     },
     {
+        path: "/manage-seattype", component: ManageSeatsType
+    },
+    {
         path: "/manage-busstation", component: ManageBusStation
     },
     {
@@ -101,6 +101,9 @@ const companyRoutes = [
     },
     {
         path: "/company/ticket/:id", component: Ticket
+    },
+    {
+        path: "/company/ticket", component: ManageBusTicket
     },
     {
         path: "/company/login", component: CompanyLogin

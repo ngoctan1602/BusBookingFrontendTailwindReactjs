@@ -5,7 +5,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faMapLocation } from "@fortawesome/free-solid-svg-icons";
 import { faBusinessTime } from "@fortawesome/free-solid-svg-icons";
 import adminlogo from "../../../assets/images/AdminLogo.png"
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -14,7 +14,7 @@ const AdminLayout = ({ children }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "400px" };
     const [info, setInfo] = useState([
         {
-            id: 1, content: "Quản lý tài khoản người dùng", icon: faUser, active: true, path: '/manage-user-account'
+            id: 1, content: "Quản lý tài khoản người dùng", icon: faUser, active: false, path: '/manage-user-account'
         },
         {
             id: 2, content: "Quản lý nhà xe", icon: faBusinessTime, active: false, path: '/manage-company'
@@ -23,17 +23,21 @@ const AdminLayout = ({ children }) => {
             id: 3, content: "Quản lý loại xe", icon: faBusSimple, active: false, path: '/manage-typebus'
         },
         {
-            id: 4, content: "Quản lý bến bãi", icon: faMapLocation, active: false, path: '/manage-busstation'
+            id: 4, content: "Quản lý loại ghế", icon: faBusSimple, active: false, path: '/manage-seattype'
+        },
+        {
+            id: 5, content: "Quản lý bến bãi", icon: faMapLocation, active: false, path: '/manage-busstation'
         }
     ])
 
     let navigate = useNavigate();
-    const [content, setContent] = useState("Quản lý tài khoản người dùng")
-    const seatActive = useCallback((id) => {
+    const location = useLocation()
+    // const [content, setContent] = useState("Quản lý tài khoản người dùng")
+    const seatActive = useCallback(() => {
         return () => {
             const updatedItems = info.map(item => {
-                if (item.id === id) {
-                    setContent(item.content);
+                if (location.pathname === item.path) {
+                    // setContent(item.content);
                     document.title = item.content
                     return { ...item, active: true };
                 }
@@ -43,7 +47,7 @@ const AdminLayout = ({ children }) => {
             });
             setInfo(updatedItems);
         }
-    }, [info])
+    }, [info, location.pathname])
 
     useEffect(() => {
         const checkData = () => {
@@ -52,6 +56,9 @@ const AdminLayout = ({ children }) => {
             }
         };
 
+        const updateSeats = seatActive();
+
+        updateSeats(); // Call the returned function to update seats
         checkData();
     }, []);
 
@@ -124,7 +131,7 @@ const AdminLayout = ({ children }) => {
                     {
                         info.map((item, index) => (
                             <Link key={item.id}
-                                onClick={seatActive(item.id)}
+                                onClick={seatActive()}
                                 style={item.active ? { backgroundColor: "#75718a" } : { backgroundColor: "" }}
                                 class='px-md flex items-center w-full h-[50px] hover:bg-[#75718a] cursor-pointer ease-in-out duration-150' to={item.path}>
                                 <FontAwesomeIcon class='w-[20px] h-[20px] shrink-0' icon={item.icon}></FontAwesomeIcon>

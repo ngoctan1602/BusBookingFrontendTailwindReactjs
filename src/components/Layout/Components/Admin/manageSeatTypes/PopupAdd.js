@@ -1,11 +1,11 @@
 import Popup from "reactjs-popup";
-import InputConfirmInfo from "../InputConfirmInfo"
+import InputConfirmInfo from "../../InputConfirmInfo"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
-import * as TypeBusServices from "../../../../services/TypeBusServices"
+import * as SeatTypeSV from "../../../../../services/SeatTypeSV"
 import ReactLoading from 'react-loading';
 
 const PopupAdd = ({ objectAdd, item, onChange, success, emtyItemValue, fetchData }) => {
@@ -47,7 +47,7 @@ const PopupAdd = ({ objectAdd, item, onChange, success, emtyItemValue, fetchData
     const getItemValue = async (close) => {
         if (success()) {
             setLoading(true)
-            const a = await TypeBusServices.createTypeBus(objectAdd)
+            const a = await SeatTypeSV.createSeatType(objectAdd)
             setLoading(false)
             if (a.isError) {
                 notifyError()

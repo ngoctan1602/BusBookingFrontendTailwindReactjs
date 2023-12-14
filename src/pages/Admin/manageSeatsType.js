@@ -1,17 +1,17 @@
-
-import TypeBusRow from "../../components/Layout/Components/Admin/TypeBusRow";
-import PopupAdd from "../../components/Layout/Components/Admin/PopupAdd";
+import ReactLoading from 'react-loading';
+import PopupAdd from "../../components/Layout/Components/Admin/manageSeatTypes/PopupAdd";
 import { useCallback, useEffect, useState } from "react";
 import Paginate from "../../components/Layout/Components/Paginate"
 import * as XLSX from 'xlsx'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
-import * as TypeBusSv from "../../services/TypeBusServices"
+import * as SeatTypeSV from "../../services/SeatTypeSV"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const ManageTypeBus = () => {
+import SeatTypeRow from "../../components/Layout/Components/Admin/manageSeatTypes/SeatTypeRow";
+const ManageSeatsType = () => {
     const exportToExcel = () => {
-        const ws = XLSX.utils.json_to_sheet(typeBus);
+        const ws = XLSX.utils.json_to_sheet(seatTypes);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         XLSX.writeFile(wb, 'exported_data.xlsx');
@@ -39,25 +39,24 @@ const ManageTypeBus = () => {
         theme: "light",
     });
 
-    const [addTypeBus, setAddTypeBus] = useState({
-        name: '',
+    const [addSeatType, setAddSeatType] = useState({
+        type: '',
         description: '',
-        totalSeats: 0,
-        status: 1
+        price: 0,
     });
 
     const [itemAdd, setItemAdd] = useState(
         {
-            title: "Thêm mới loại xe",
+            title: "Thêm mới loại ghế",
             item: [
                 {
-                    id: 1, name: "name", content: "Tên loại xe", spanWidth: 120, placeholder: "Tên loại xe", value: addTypeBus.name
+                    id: 1, name: "type", content: "Tên loại ghế", spanWidth: 120, placeholder: "Tên loại ghế", value: addSeatType.type
                 },
                 {
-                    id: 2, name: "description", content: "Mô tả", spanWidth: 100, placeholder: "Thêm mô tả", value: addTypeBus.description
+                    id: 2, name: "description", content: "Mô tả", spanWidth: 100, placeholder: "Thêm mô tả", value: addSeatType.description
                 },
                 {
-                    id: 3, name: "totalSeats", content: "Số chỗ ngồi", spanWidth: 160, placeholder: "Số chỗ ngồi", value: addTypeBus.totalSeats
+                    id: 3, name: "price", content: "Giá tiền", spanWidth: 80, placeholder: "Giá tiền", value: addSeatType.price
                 }
             ]
         }
@@ -67,12 +66,12 @@ const ManageTypeBus = () => {
 
         const updatedItem = itemAdd.item.map(item => {
             if (item.id === id) {
-                if (item.name === "totalSeats") {
-                    setAddTypeBus({ ...addTypeBus, [item.name]: parseInt(newValue) })
+                if (item.name === "price") {
+                    setAddSeatType({ ...addSeatType, [item.name]: parseInt(newValue) })
                     return { ...item, value: parseInt(newValue) };
                 }
 
-                setAddTypeBus({ ...addTypeBus, [item.name]: newValue })
+                setAddSeatType({ ...addSeatType, [item.name]: newValue })
                 return { ...item, value: newValue };
             }
             return item;
@@ -92,7 +91,7 @@ const ManageTypeBus = () => {
             }
 
         });
-        console.log(addTypeBus)
+        console.log(addSeatType)
         return isSuccess
     }, [itemAdd])
 
@@ -112,17 +111,16 @@ const ManageTypeBus = () => {
 
     const [loading, setLoading] = useState(false);
 
-    const [typeBus, setTypeBus] = useState([]);
+    const [seatTypes, setTypeBus] = useState([]);
     useEffect(() => {
 
         fetchData();
-
 
     }, []);
     const fetchData = async () => {
         setLoading(true)
         try {
-            const response = await TypeBusSv.getAllTypeBus();
+            const response = await SeatTypeSV.getAllSeatTypes({ pageSize: 200 });
             console.log(response.data)
             setTypeBus(response.data.items);
             setLoading(false)
@@ -132,37 +130,68 @@ const ManageTypeBus = () => {
             setLoading(false)
         }
     };
-
     // Hàm cập nhật trạng thái item
     const changeStatus = (id, value) => {
-        const updatedItems = typeBus.map(async (item, index) => {
-            if (item.id === id) {
-                const a = {
-                    ...item,
-                    status: value
-                }
-                const update = await TypeBusSv.updateTypeBus(a)
-                if (!update.isError) {
+        setUpdateLoading(true)
+        try {
+            if (value === 3) {
+
+                const resp = SeatTypeSV.changeToDisable({ id: id });
+                setUpdateLoading(false)
+                console.log(resp)
+                if (!resp.isError) {
                     notifySuccess()
-                    return
+                    setTimeout(
+                        () =>
+                            fetchData()
+                        , 2000
+                    )
                 }
                 else {
                     notifyError()
-                    return
                 }
             }
-        });
+            else if (value === 1) {
+                setUpdateLoading(true)
+                const resp = SeatTypeSV.changeIsActive({ id: id });
+                setUpdateLoading(false)
+                console.log(resp)
+                if (!resp.isError) {
+                    notifySuccess()
+                    setTimeout(
+                        () =>
+                            fetchData()
+                        , 2000
+                    )
+                }
+                else {
+                    notifyError()
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
     }
-
+    const [updateLoading, setUpdateLoading] = useState(false)
     return (
-        <div class='w-full text-txt txt-16'>
-
+        <div class='w-full text-txt txt-16 min-h-[600px] relative '>
+            {
+                updateLoading &&
+                <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
+                    <ReactLoading
+                        type="spinningBubbles" color="#e1e1e1"
+                        height={'10%'} width={'10%'}
+                        className="absolute left-[50%] top-[40%]  "
+                    />
+                </div>
+            }
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý loại xe</p>
+                <p class='col-span-2 font-bold text-20'>Quản lý loại ghế</p>
                 <input placeholder="Tìm kiếm" class='col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
                 <div class='flex col-span-1 col-start-8 justify-evenly'>
 
-                    <PopupAdd objectAdd={addTypeBus} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue} fetchData={fetchData}></PopupAdd>
+                    <PopupAdd objectAdd={addSeatType} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue} fetchData={fetchData}></PopupAdd>
                     <button class="flex justify-center" onClick={exportToExcel}>
                         <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                         </FontAwesomeIcon>
@@ -170,12 +199,13 @@ const ManageTypeBus = () => {
                 </div>
             </div>
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
+
                 <thead>
                     <tr class='grid bg-button grid-cols-12 p-sm text-left'>
                         <th class='col-span-1'>Id</th>
-                        <th class='col-span-3'>Tên</th>
+                        <th class='col-span-2'>Tên loại ghế</th>
                         <th class='col-span-4'>Mô tả</th>
-                        <th class='col-span-2'>Tổng chỗ ngồi</th>
+                        <th class='col-span-2'>Đơn giá</th>
                         <th class='col-span-1'>Trạng thái</th>
                         <th class='col-span-1'></th>
                     </tr>
@@ -187,12 +217,12 @@ const ManageTypeBus = () => {
                         <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
                         </div>
                         :
-                        !loading && typeBus
+                        !loading && seatTypes.length != 0
                             ?
-                            <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus} emtyItemValue={emtyItemValue} fetchData={fetchData}></Paginate>
+                            <Paginate itemsPerPage={8} items={seatTypes} fetchData={fetchData} componentToRender={SeatTypeRow} updateStatus={changeStatus} emtyItemValue={emtyItemValue}></Paginate>
                             :
                             <tr>
-                                Không có loại buýt nào
+                                Không có loại ghế nào
                             </tr>
                     }
                 </tbody>
@@ -213,4 +243,4 @@ const ManageTypeBus = () => {
     );
 }
 
-export default ManageTypeBus;
+export default ManageSeatsType;
