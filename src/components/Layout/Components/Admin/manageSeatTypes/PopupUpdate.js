@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import * as SeatTypeSV from "../../../../../services/SeatTypeSV"
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
-const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopup }) => {
+const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopup, fecthData }) => {
 
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
     const notifySuccess = () => toast.success('Cập nhật thành công!', {
@@ -40,6 +40,7 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopu
             }
             notifySuccess()
             setTimeout(() => {
+                fecthData()
                 close()
             }, 1500);
         }

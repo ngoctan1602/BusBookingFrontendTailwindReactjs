@@ -12,22 +12,59 @@ import { useNavigate } from "react-router-dom";
 import * as busStationSV from "../../services/BusStationSv";
 import * as ticketServices from "../../services/Company/Ticket";
 import CurrencyFormat from "react-currency-format";
+import ReactLoading from 'react-loading';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Ticket = () => {
     let { id } = useParams();
     let navigate = useNavigate();
     const [status, setStatus] = useState(1);
     const [date, setDate] = useState(new Date());
+    const notifySuccess = () => toast.success('Tạo vé thành công', {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
 
+    const notifyError = () => toast.error('Tạo vé thất bại', {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+    const [loadingCreate, setLoadingCreate] = useState(false)
     const createTicket = async () => {
         const submit = {
             date: date,
             busId: Number(id),
             ticketStations: itemSelected,
         }
-
+        setLoadingCreate(false)
         try {
             const resp = await ticketServices.createTicket(submit);
             console.log(resp)
+            setLoadingCreate(true)
+            if (resp.isError)
+                notifyError()
+            else {
+
+                notifySuccess()
+                setTimeout(
+                    () => {
+                        fetchData()
+                    }
+                )
+            }
         }
         catch (error) {
             console.log(error);
@@ -36,7 +73,7 @@ const Ticket = () => {
 
         // setStatus(0)
     }
-    const [price, setPrice] = useState(2000);
+    // const [price, setPrice] = useState(2000);
     const [busStationOfBus, setBusStationOfBus] = useState()
     const [loading, setLoading] = useState(true);
 
@@ -93,36 +130,46 @@ const Ticket = () => {
         }
 
     };
+    const fetchData = async () => {
+        try {
+
+            const response = await busStationSV.getAllInBus({ busId: id });
+            setBusStationOfBus(response.data.items)
+            setLoading(false);
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-
-                const response = await busStationSV.getAllInBus({ busId: id });
-                setBusStationOfBus(response.data.items)
-                setLoading(false);
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-            }
-        };
 
         fetchData();
 
     }, []);
-
+    const [price, setPrice] = useState(0);
 
     return (
         <div class='w-full h-full text-txt txt-16'>
+            {
+                loadingCreate &&
+                <div class='absolute w-[100%] h-full z-20 opacity-40'>
+                    <ReactLoading
+                        type="spinningBubbles" color="black"
+                        height={'5%'} width={'5%'}
+                        className="absolute left-1/2 top-[30%]  "
+                    />
+                </div>
+            }
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                 <select class='p-sm bg-bgPopup rounded-md text-16 font-bold col-span-2 outline-none'
                     onChange={(e) => navigate(e.target.value)}
                 >
-                    <option class='m-sm' value={`/company/bus/${id}`} selected>
+                    <option class='m-sm' value={`/company/bus/${id}`} >
                         Quản lý xe
                     </option>
-                    <option value={`/company/ticket/${id}`}>
+                    <option value={`/company/ticket/${id}`} selected>
                         Quản lý vé
                     </option>
                 </select>
@@ -131,11 +178,20 @@ const Ticket = () => {
             </div>
 
             <div class='grid grid-flow-row grid-cols-9 gap-4 my-md'>
-                <input type="date" class='col-span-2 p-md  bg-bgPopup rounded-md'
+                {/* <input type="date" class='col-span-2 p-md  bg-bgPopup rounded-md'
                     value={date.toLocaleDateString('en-CA')}
                     onChange={(e) => setDate(new Date(e.target.value))}
                 >
-                </input>
+                </input> */}
+                <CurrencyFormat
+                    class='text-center outline-none bg-bgPopup border-[1px] rounded-md col-span-2'
+                    thousandSeparator={true} suffix={' đ'}
+                    value={price}
+                    onValueChange={(values) => setPrice(values.value)}
+                // onValueChange={(values) => {
+                //     updateTicketStations(item.busStopId, values.value || 0, "price")
+                // }}
+                />
                 {
                     status === 1 ?
                         <button class='col-span-1 p-md rounded-md border-[1px] border-button col-start-4
@@ -185,7 +241,7 @@ const Ticket = () => {
                                                         indexStation: selectedIds.length,
                                                         busStopId: item.busStopId,
                                                         name: item.name,
-                                                        price: 0,
+                                                        DiscountPrice: 0,
                                                         departureTime: new Date(),
                                                         arrivalTime: new Date(),
                                                     })}
@@ -264,7 +320,7 @@ const Ticket = () => {
                                             <CurrencyFormat
                                                 class='text-center outline-none bg-bgPopup border-[1px] rounded-md'
                                                 thousandSeparator={true} suffix={' đ'}
-                                                value={item.price}
+                                                value={item.DiscountPrice}
                                                 onValueChange={(values) => {
                                                     updateTicketStations(item.busStopId, values.value || 0, "price")
                                                 }}

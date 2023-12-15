@@ -22,19 +22,25 @@ const ReviewCard = () => {
     return (
 
         <div class='w-content grid grid-cols-10 grid-flow-row'>
-            <div class='col-span-1 flex items-center overflow-hidden'>
-                <img class='w-[80px] h-[80px] object-cover rounded-md' src="https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg" />
+            <div className="col-span-2">
+                <div class='w-[70%] flex items-center overflow-hidden'>
+                    <img class='w-full h-[100px] object-cover rounded-md' src="https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg" />
+
+                </div>
+                <p className="w-[70%] text-12 text-center">Đỗ Minh Dũng</p>
             </div>
-            <div class='col-span-7'>
-                <p>Nhà xe : Thanh Thủy - Từ Sài Gòn đi Nha Trang</p>
+
+            <div class='col-span-7 col-start-3'>
+
                 {
                     yellowStar.map((item, index) => (<FontAwesomeIcon key={index} icon={faStar} color="#FFFB73"></FontAwesomeIcon>))
                 }
                 {
                     grayStar.map((item, index) => (<FontAwesomeIcon key={index} icon={faStar} color="gray"></FontAwesomeIcon>))
                 }
+                <p>Xe này chạy khá là ok</p>
             </div>
-            <div class='col-span-1 cursor-pointer'>
+            {/* <div class='col-span-1 cursor-pointer'>
 
 
                 <Popup trigger={<button class={""}>  <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon></button>} position="right center"
@@ -50,7 +56,6 @@ const ReviewCard = () => {
                                 <p class='text-20 text-center font-bold'>Chỉnh sửa đánh giá chuyến đi</p>
                                 <div class='w-full h-[1px] bg-txt my-sm' ></div>
                                 <div class='flex items-center justify-center'>
-                                    {/* <p class='w-[60px] shrink-0'>Bình luận</p> */}
                                     <div class='w-[300px]'>
                                         <textarea class='text-txt text-16 overflow-y-auto w-full h-[200px] outline-none rounded-md p-md resize-none'> At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.</textarea>
 
@@ -66,7 +71,7 @@ const ReviewCard = () => {
                     }
                 </Popup>
 
-            </div>
+            </div> */}
         </div>
 
     );

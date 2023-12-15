@@ -10,8 +10,13 @@ export const getAllTicketInCompany = async () => {
 export const changeCompleteStatus = async (id) => {
     return await BaseAPI.putItem(ticketServices.changeCompleteStatus, null, id)
 }
+
+export const deleteTicket = async (id) => {
+    return await BaseAPI.deleteItem(ticketServices.deleteTicket, id)
+}
 const ticketServices = {
-    changeCompleteStatus: 'tickets/changeCompleteStatus',
+    changeCompleteStatus: 'tickets/ChangeCompleteStatus',
+    deleteTicket: "tickets/delete",
     createTicket: 'tickets/create',
     getAllTicketInCompany: 'tickets/getAll',
 }
