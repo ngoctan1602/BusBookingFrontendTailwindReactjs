@@ -135,7 +135,7 @@ const BusCard = ({ item }) => {
     useEffect(() => {
         const ii = listImg.filter(item => item.id == imgId);
         const params = {
-            busId: 3,
+            busId: item.busId,
             pageSize: 200,
         }
         setIsLoading(true)
@@ -445,14 +445,17 @@ const BusCard = ({ item }) => {
         try {
             setLoading(true)
             const resp = BillSV.createBill(objectAdd);
-            setTimeout(
-                () => setLoading(false), 2000)
+            setLoading(false)
+            // setTimeout(
+            //     () => , 2000)
             // setLoading(false)
             console.log(resp)
             notifySuccess()
-            setTimeout(
-                () => navigate("/"), 2000
-            )
+            if (!resp.isError) {
+                setTimeout(
+                    () => navigate("/"), 2000
+                )
+            }
         } catch (error) {
             notifyError()
         }
@@ -659,7 +662,7 @@ const BusCard = ({ item }) => {
                                                         // (!isloading && reviews.length > 0) &&
                                                         (!isloading) ?
                                                             reviews.map((item) =>
-                                                                <ReviewCard />)
+                                                                <ReviewCard item={item} />)
                                                             :
                                                             "Đang tải"
                                                     }
