@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileExcel, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
-import OverviewRow from "../../components/Layout/Components/Company/Bus/OverviewRow";
+
 import PopupAdd from "../../components/Layout/Components/Company/Bus/PopupAdd";
 import * as busServices from "../../services/Company/BusSV";
 import * as ticketSV from "../../services/Company/Ticket";
@@ -68,29 +68,48 @@ const Overview = () => {
 
 
         fetchData();
-
+        return () => {
+            console.log("call api success")
+        }
     }, []);
 
 
     const [isChange, setIsChange] = useState(false);
-    const changeStatus = (id) => {
+    const changeStatus = (id, value) => {
         setIsChange(true)
-        try {
-            const resp = ticketSV.changeCompleteStatus({ id: id });
-            setIsChange(false)
-            console.log(resp)
-            if (!resp.isError) {
-                notifySuccess()
-                setTimeout(
-                    () =>
-                        fetchData()
-                    , 2000
-                )
+        if (value === 7)
+            try {
+                const resp = ticketSV.changeCompleteStatus({ id: id });
+                setIsChange(false)
+                console.log(resp)
+                if (!resp.isError) {
+                    notifySuccess()
+                    setTimeout(
+                        () =>
+                            fetchData()
+                        , 2000
+                    )
+                }
+            } catch (error) {
+                console.log(error)
             }
-        } catch (error) {
-            console.log(error)
-        }
-
+        // if (value === 0)
+        //     try {
+        //         const resp = ticketSV.changeCompleteStatus({ id: id });
+        //         setIsChange(false)
+        //         console.log(resp)
+        //         if (!resp.isError) {
+        //             notifySuccess()
+        //             setTimeout(
+        //                 () =>
+        //                     fetchData()
+        //                 , 2000
+        //             )
+        //         }
+        //     } catch (error) {
+        //         console.log(error)
+        //     }
+        console.log(id, value)
     }
 
     return (
@@ -132,7 +151,7 @@ const Overview = () => {
                         :
                         !loading && tickets.length > 0
                             ?
-                            <Paginate itemsPerPage={5} items={tickets} componentToRender={ManageTicketRow}  ></Paginate>
+                            <Paginate itemsPerPage={5} items={tickets} componentToRender={ManageTicketRow} updateStatus={changeStatus}></Paginate>
                             :
                             <tr>
                                 Không có chuyến đi nào

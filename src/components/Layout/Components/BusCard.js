@@ -21,11 +21,12 @@ import Input from "./Input";
 import InputConfirmInfo from "./InputConfirmInfo";
 import LogoCompanyNull from "../../../../src/assets/images/logocompanynull.png"
 import * as BillSV from "../../../services/BillServices"
+import * as ReviewSV from "../../../services/ReviewSV"
 import { ToastContainer, toast } from 'react-toastify';
 import ReactLoading from 'react-loading';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
-
+import ReviewCard from "./ReviewCard"
 const BusCard = ({ item }) => {
     // console.log(item.itemResponses.slice(0, item.itemResponses.length / 2))
     let navigate = useNavigate();
@@ -129,16 +130,37 @@ const BusCard = ({ item }) => {
     const [imgId, setImgId] = useState(listImg[0].id);
 
     const [curentImg, setCurrentImg] = useState(listImg[0]);
-
+    const [reviews, setReviews] = useState([])
+    const [isloading, setIsLoading] = useState(false)
     useEffect(() => {
         const ii = listImg.filter(item => item.id == imgId);
+        const params = {
+            busId: 3,
+            pageSize: 200,
+        }
+        setIsLoading(true)
+        try {
+            const resp = ReviewSV.getAllInBus({ busId: params.busId, pageSize: params.pageSize })
+            // alert(resp.data.items[1].reviews)
+            setIsLoading(false)
+            setReviews(resp.data.items)
+
+        } catch (error) {
+            console.log(error)
+        }
         setCurrentImg(ii);
         return () => {
             console.log(ii[0])
         };
     }, [imgId]);
 
+    // useEffect(() => {
 
+
+    //     return () => {
+    //         console.log("Cal reviews")
+    //     };
+    // }, []);
 
     const openAbout = () => {
         setAbout(!about);
@@ -631,7 +653,18 @@ const BusCard = ({ item }) => {
                                                 ?
                                                 <p>Nội dung Chính sách</p>
                                                 :
-                                                <p>Nội dung đánh giá</p>
+                                                <div className="w-full h-[200px] overflow-y-auto">
+                                                    {
+
+                                                        // (!isloading && reviews.length > 0) &&
+                                                        (!isloading) ?
+                                                            reviews.map((item) =>
+                                                                <ReviewCard />)
+                                                            :
+                                                            "Đang tải"
+                                                    }
+                                                </div>
+
                             }
                         </div>
                     </div>
