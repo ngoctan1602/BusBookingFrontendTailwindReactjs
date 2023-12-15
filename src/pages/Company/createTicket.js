@@ -45,7 +45,8 @@ const Ticket = () => {
     const [loadingCreate, setLoadingCreate] = useState(false)
     const createTicket = async () => {
         const submit = {
-            date: date,
+            // date: date,
+            price: price,
             busId: Number(id),
             ticketStations: itemSelected,
         }

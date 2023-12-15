@@ -2,7 +2,7 @@ import { faPenToSquare, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-const ReviewCard = () => {
+const ReviewCard = ({ item }) => {
 
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
     const length = 2; // Replace with your desired length
@@ -24,10 +24,11 @@ const ReviewCard = () => {
         <div class='w-content grid grid-cols-10 grid-flow-row'>
             <div className="col-span-2">
                 <div class='w-[70%] flex items-center overflow-hidden'>
-                    <img class='w-full h-[100px] object-cover rounded-md' src="https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg" />
+                    <img class='w-full h-[100px] object-cover rounded-md'
+                        src="https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg" />
 
                 </div>
-                <p className="w-[70%] text-12 text-center">Đỗ Minh Dũng</p>
+                <p className="w-[70%] text-12 text-center">{item.fullName}</p>
             </div>
 
             <div class='col-span-7 col-start-3'>
@@ -38,7 +39,7 @@ const ReviewCard = () => {
                 {
                     grayStar.map((item, index) => (<FontAwesomeIcon key={index} icon={faStar} color="gray"></FontAwesomeIcon>))
                 }
-                <p>Xe này chạy khá là ok</p>
+                <p>{item.reviews}</p>
             </div>
             {/* <div class='col-span-1 cursor-pointer'>
 
