@@ -17,6 +17,7 @@ const ManageTypeBus = () => {
         XLSX.writeFile(wb, 'exported_data.xlsx');
     };
 
+    //#region  Notify 
     const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
         position: "bottom-right",
         autoClose: 1000,
@@ -45,6 +46,8 @@ const ManageTypeBus = () => {
         totalSeats: 0,
         status: 1
     });
+
+    //#endregion
 
     const [itemAdd, setItemAdd] = useState(
         {
@@ -153,6 +156,11 @@ const ManageTypeBus = () => {
             }
         });
     }
+
+
+    //#region Call api paginate
+
+    //#endregion
 
     return (
         <div class='w-full text-txt txt-16'>

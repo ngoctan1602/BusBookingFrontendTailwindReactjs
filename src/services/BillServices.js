@@ -23,6 +23,9 @@ export const getAllInWaitingStatus = async (pageSize) => {
     return await BaseAPI.getItems(billServices.isWaiting, pageSize);
 
 }
+export const getRevenueStatistics = async (year) => {
+    return await BaseAPI.getItems(billServices.revenueStatistics, year);
+}
 
 const billServices = {
     createBill: "bills/create",
@@ -31,5 +34,5 @@ const billServices = {
     isDelete: "bills/getAllInDeleteStatus",
     isComplete: "bills/getAllInCompleteStatus",
     isWaiting: "bills/getAllInWaitingStatus",
-
+    revenueStatistics: "bills/RevenueStatistics"
 }

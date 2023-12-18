@@ -20,7 +20,8 @@ import Ticket from "../pages/Company/createTicket"
 import CompanyLogin from "../pages/Company/login"
 import ManageSeatsType from "../pages/Admin/manageSeatsType"
 import ManageBusTicket from "../pages/Company/manageTicket"
-
+import DashBoard from "../pages/Admin/dashboard"
+import DashBoardCompany from "../pages/Company/dashboard"
 
 
 
@@ -84,6 +85,9 @@ const adminRoutes = [
         path: "/manage-user-account", component: ManageUserAccount
     },
     {
+        path: "/admin/overview", component: DashBoard
+    },
+    {
         path: "/admin/login", component: AdminLogin
     },
 
@@ -107,6 +111,9 @@ const companyRoutes = [
     },
     {
         path: "/company/login", component: CompanyLogin
+    },
+    {
+        path: "/company/statistic", component: DashBoardCompany
     },
 
 
