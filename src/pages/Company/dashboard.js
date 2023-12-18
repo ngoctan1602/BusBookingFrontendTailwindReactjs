@@ -165,7 +165,8 @@ const DashBoardCompany = () => {
                 <input placeholder='Nhập năm' type='number' min={2017} max={2100}
                     className='col-start-4 col-span-3 p-sm my-sm rounded-md'
                     onBlur={(e) => handleBlur(e.target.value)}
-
+                    value={year}
+                    onChange={(e) => setYear(e.target.value)}
                     style={{ border: error ? "1px solid red" : "" }}
                 ></input>
                 <button
@@ -177,7 +178,7 @@ const DashBoardCompany = () => {
                     Tìm kiếm
                 </button>
             </div>
-            <div className='col-start-1 col-span-12 bg-bgPopup shadow-lg rounded-md relative'>
+            <div className='col-start-2 col-span-10 bg-bgPopup shadow-lg rounded-md min-h-[500px] relative'>
 
                 {
 
