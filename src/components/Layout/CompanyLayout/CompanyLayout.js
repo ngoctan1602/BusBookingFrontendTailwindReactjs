@@ -49,72 +49,10 @@ const CompanyLayout = ({ children }) => {
             id: 3, content: "Quản lý đặt vé", icon: faCartFlatbed, active: false, path: '',
         },
         {
-            id: 4, content: "Thống kê", icon: faChartLine, active: false, path: '',
+            id: 4, content: "Thống kê", icon: faChartLine, active: false, path: '/company/statistic',
         },
 
     ])
-
-    // const [isShowChildren, setIsShowChildren] = useState(
-    //     [
-    //         { id: 1, active: false },
-    //         { id: 2, active: false },
-    //         { id: 3, active: false }
-    //     ]
-    // );
-    // const [content, setContent] = useState("Quản đơn hàng")
-
-    // const updateParent = useCallback((id) => {
-
-    //     return () => {
-    //         const updatedItem = info.map(item => {
-    //             let hasActiveChild = false;
-
-    //             return {
-    //                 ...item,
-    //                 children: item.children.map(i => {
-    //                     if (i.id === id) {
-    //                         document.title = i.content
-    //                         // setContent(i.content)
-    //                         hasActiveChild = true
-    //                         return {
-    //                             ...i,
-    //                             active: true,
-    //                         };
-    //                     }
-    //                     return {
-    //                         ...i,
-    //                         active: false,
-    //                     };
-    //                 }),
-    //                 active: hasActiveChild
-    //             }
-    //         });
-
-    //         setInfo(updatedItem);
-    //     }
-    // }, [info])
-
-
-
-
-    // const clickParent = useCallback((id) => {
-    //     return () => {
-    //         const updatedItems = isShowChildren.map(item => {
-    //             if (item.id === id) {
-    //                 return { ...item, active: !item.active };
-    //             }
-
-    //             return { ...item };
-
-    //         });
-    //         setIsShowChildren(updatedItems);
-
-
-    //     }
-    // }, [isShowChildren])
-
-
-
 
     return (
 
