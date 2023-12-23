@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import PopupUpdate from "./PopupUpdate";
 import CurrencyFormat from "react-currency-format";
 import ReactLoading from 'react-loading';
-const SeatTypeRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
+const SeatTypeRow = ({ item, onChangeStatus, onUpdate, fetchData }) => {
 
     const [itemUpdate, setItemUpdate] = useState({
         title: "Cập nhật loại ghế",
@@ -80,7 +80,7 @@ const SeatTypeRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
                     </td>
                     :
                     <td class='col-span-1'>
-                        <PopupUpdate item={itemUpdate} status={item.status} onChange={updateItemValue} updateTypeBus={updateTypeBus} success={success} closePopup={closePopup} fecthData={fecthData} />
+                        <PopupUpdate item={itemUpdate} status={item.status} onChange={updateItemValue} updateTypeBus={updateTypeBus} success={success} closePopup={closePopup} fetchData={fetchData} />
                     </td>
             }
         </tr >

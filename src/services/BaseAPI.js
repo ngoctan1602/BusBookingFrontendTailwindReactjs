@@ -49,9 +49,9 @@ export const putItem = async (url, data, params = null) => {
     }
 }
 
-export const deleteItem = async (url, data) => {
+export const deleteItem = async (url, params = null) => {
     try {
-        const response = await instance().delete(url, data)
+        const response = await instance().delete(url, { params: params })
         return response
     }
     catch (error) {

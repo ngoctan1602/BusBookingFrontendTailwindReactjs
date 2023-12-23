@@ -13,7 +13,7 @@ import NotFound from "./pages/NotFound";
 function App() {
   return (
     <Router>
-      <div className="font-robo bg-bg h-screen overflow-x-hidden">
+      <div className="font-Amiro bg-bg h-screen overflow-x-hidden">
         <Routes>
           {
             publicRoutes.map((route, index) => {

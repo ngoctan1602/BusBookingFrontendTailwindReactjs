@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightFromBracket, faRoute, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faDollarSign, faRightFromBracket, faRoute, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faBusSimple } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faMapLocation } from "@fortawesome/free-solid-svg-icons";
@@ -29,7 +29,10 @@ const AdminLayout = ({ children }) => {
             id: 5, content: "Quản lý bến bãi", icon: faMapLocation, active: false, path: '/manage-busstation'
         },
         {
-            id: 6, content: "Quản lý tuyến đường", icon: faRoute, active: false, path: '/admin/routes',
+            id: 6, content: "Quản lý loại giá/bảng giá", icon: faDollarSign, active: false, path: '/admin/prices'
+        },
+        {
+            id: 7, content: "Quản lý tuyến đường", icon: faRoute, active: false, path: '/admin/routes',
         },
     ])
 
@@ -72,10 +75,10 @@ const AdminLayout = ({ children }) => {
 
     return (
 
-        <div class='flex flex-col w-full h-[100vh] bg-bg'>
+        <div class='w-full h-[100vh] bg-bg'>
 
 
-            <div class='h-[60px] shrink-0 bg-gradient-to-br from-button to-[#B0D9B1] grid grid-flow-row grid-cols-11 items-center text-txt text-16'>
+            <div class='w-full h-[60px] shrink-0 bg-gradient-to-br from-button to-[#B0D9B1] grid grid-flow-row grid-cols-11 items-center text-txt text-16'>
 
                 <div class='col-span-2 col-start-1 flex items-center ml-md'>
                     <img class='h-[40px] w-[100px]' src={adminlogo} >
@@ -128,7 +131,7 @@ const AdminLayout = ({ children }) => {
 
                 </Popup>
             </div>
-            <div class='flex w-full h-[100vh] bg-bg'>
+            {/* <div class='flex w-full h-[100vh] bg-bg'>
 
                 <div class='flex flex-col w-[20%] shrink-0 bg-txt text-bg'>
                     {
@@ -144,6 +147,46 @@ const AdminLayout = ({ children }) => {
                     }
                 </div>
                 <div class='flex w-[80%] shrink-0 h-full' >
+                    <div class='w-full p-md h-full'>
+                        {children}
+                    </div>
+                </div>
+            </div> */}
+            <div className="w-full h-full grid grid-flow-row grid-cols-10 gap-sm">
+                <div className="col-span-2  h-full grid grid-cols-1 grid-flow-row ">
+                    <div className=" h-[400px] col-span-1 grid grid-cols-1 grid-flow-row  text-16">
+                        {
+                            info.map((item, index) => (
+                                <Link key={item.id}
+                                    onClick={seatActive()}
+                                    to={item.path}
+                                >
+                                    {
+                                        item.active ?
+                                            <div
+                                                className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  border-[3px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
+                                            >
+                                                <FontAwesomeIcon class='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color="#474E68"></FontAwesomeIcon>
+                                                <p class='mx-sm col-span-10'> {item.content}</p>
+
+                                            </div> :
+                                            <div className="
+                                            hover:bg-bgPopup ease-in-out duration-150 hover:scale-[98%]
+                                            h-[60px] col-span-1 m-sm border-txt-final border-[1px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center">
+                                                <FontAwesomeIcon class='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color="#474E68"></FontAwesomeIcon>
+                                                <p class='mx-sm col-span-10'>  {item.content}</p>
+
+                                            </div>
+
+                                    }
+                                </Link>
+                            ))
+                        }
+
+                    </div>
+
+                </div>
+                <div className="col-span-8 h-full">
                     <div class='w-full p-md h-full'>
                         {children}
                     </div>

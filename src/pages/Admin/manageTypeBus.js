@@ -147,6 +147,7 @@ const ManageTypeBus = () => {
                 const update = await TypeBusSv.updateTypeBus(a)
                 if (!update.isError) {
                     notifySuccess()
+                    fetchData();
                     return
                 }
                 else {
