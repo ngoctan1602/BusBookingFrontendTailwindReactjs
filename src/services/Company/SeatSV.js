@@ -1,7 +1,7 @@
 import * as BaseAPI from '../BaseAPI';
 
-export const getAllSeatCompany = async () => {
-    return await BaseAPI.getItems(seatService.allSeatOfCompany);
+export const getAllSeatCompany = async (params) => {
+    return await BaseAPI.getItems(seatService.allSeatOfCompany, params);
 }
 
 
@@ -9,7 +9,7 @@ export const getAllSeatCompany = async () => {
 //     return await BaseAPI.getItems(busServices.getById, id);
 // }
 const seatService = {
-    allSeatOfCompany: 'seatType/getAll',
+    allSeatOfCompany: 'seatTypes/getAll',
     // getById: 'bus/get',
 
 }

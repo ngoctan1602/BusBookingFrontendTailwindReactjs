@@ -9,6 +9,7 @@ import * as SeatService from "../../../../../services/Company/SeatSV"
 import * as TypeBusServices from "../../../../../services/TypeBusServices"
 import * as BusStationSv from "../../../../../services/BusStationSv"
 import * as BusSV from "../../../../../services/Company/BusSV"
+import * as RoutesSV from "../../../../../services/RoutesSV"
 import ReactLoading from 'react-loading';
 const PopupAdd = ({ items, propsAdd, onChange }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "60%" };
@@ -34,21 +35,25 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
 
     };
     const [loading, setLoading] = useState(false);
+    const [route, setRoute] = useState([])
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
             try {
 
-                const response = await SeatService.getAllSeatCompany();
+                const response = await SeatService.getAllSeatCompany({ pageSize: 200 });
 
                 setTypeSeat(response.data.items);
 
                 const restypebus = await TypeBusServices.getAllTypeBus();
                 setTypeBus(restypebus.data.items);
 
-                const restBusStation = await BusStationSv.getAllBusStation();
-                setBusStation(restBusStation.data.items);
-                console.log(restBusStation.data)
+                const respRoute = await RoutesSV.getAllRoutesByCompany({ pageSize: 200 });
+                setRoute(respRoute.data.items)
+                console.log(respRoute.data.items)
+                // const restBusStation = await BusStationSv.getAllBusStation();
+                // setBusStation(restBusStation.data.items);
+                // console.log(restBusStation.data)
 
                 setLoading(false)
             } catch (error) {
@@ -135,7 +140,7 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
     const getItemValue = async (close) => {
         if (checkEmtyValue()) {
             setSubmit(true)
-            let newBus = { ...items, listBusStopID: selectedIds }
+            let newBus = { ...items, ListRouteId: selectedIds }
             try {
                 const a = await BusSV.createBus(newBus);
                 if (a.isError) {
@@ -152,7 +157,7 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
             setTimeout(() => {
                 close()
             }, 1500);
-
+            console.log(newBus)
         }
         else {
             notifyWarning()
@@ -268,7 +273,7 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
                             </div>
 
 
-                            <div class='grid grid-cols-12'>
+                            {/* <div class='grid grid-cols-12'>
                                 <p class='col-span-2 col-start-1 font-bold p-[5px]'>
                                     Danh sách bến
                                 </p>
@@ -282,9 +287,9 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
 
                                     </p>
                                 }
-                            </div>
+                            </div> */}
 
-                            <div class='grid grid-cols-12 grid-flow-row w-full'>
+                            {/* <div class='grid grid-cols-12 grid-flow-row w-full'>
                                 <p class='col-span-2 col-start-1 font-bold p-[5px]'>
                                     Tìm kiếm bến
                                 </p>
@@ -294,8 +299,8 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
                                     placeholder="Tìm kiếm điểm đón trả khách theo khu vực "
                                     onChange={(e) => searchByLocation(e.target.value)}
                                 />
-                            </div>
-                            <div class='w-full h-[200px] overflow-y-auto overflow-x-auto mb-lg relative '>
+                            </div> */}
+                            {/* <div class='w-full h-[200px] overflow-y-auto overflow-x-auto mb-lg relative '>
                                 <table class="w-full my-sm rounded-md border-collapse  text-txt text-16  ">
                                     <thead>
                                         <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
@@ -331,8 +336,34 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
                                         }
                                     </tbody>
                                 </table>
-                            </div>
+                            </div> */}
 
+                            <div class='w-full h-[200px] overflow-y-auto overflow-x-auto mb-lg relative '>
+                                <table class="w-full my-sm rounded-md border-collapse  text-txt text-16  ">
+                                    <thead>
+                                        <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
+                                            <th class='col-start-5 col-span-4'>Tuyến đi {selectedIds.join(',')}</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody class='bg-[#e1e1e1]'>
+
+                                        {
+                                            route.length > 0 && route.map(item => (
+                                                <tr class='grid grid-cols-12 p-sm text-left gap-md'>
+                                                    <td className="col-span-1 col-start-4">
+                                                        <input type="checkbox" onClick={(e) => handleCheckboxChange(e, item.id)}></input>
+                                                    </td>
+                                                    <td className="col-span-8">
+                                                        {item.stationStartName + " - " + item.stationEndName}
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
 
                             <div class='w-full my-md gap-sm grid grid-cols-12'>
                                 <button class='col-start-4 col-span-3 col confirm-button '

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightFromBracket, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faRightFromBracket, faRoute, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faBusSimple } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faMapLocation } from "@fortawesome/free-solid-svg-icons";
@@ -27,7 +27,10 @@ const AdminLayout = ({ children }) => {
         },
         {
             id: 5, content: "Quản lý bến bãi", icon: faMapLocation, active: false, path: '/manage-busstation'
-        }
+        },
+        {
+            id: 6, content: "Quản lý tuyến đường", icon: faRoute, active: false, path: '/admin/routes',
+        },
     ])
 
     let navigate = useNavigate();

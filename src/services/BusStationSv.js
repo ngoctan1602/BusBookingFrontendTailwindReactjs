@@ -4,6 +4,10 @@ export const getAllBusStation = async (pageSize) => {
     return await BaseAPI.getItems(busStationSV.allBusStation, pageSize);
 }
 
+export const getAllBusStationWithParams = async (params) => {
+    return await BaseAPI.getItems(busStationSV.allBusStation, params);
+}
+
 export const getByLocation = async (location) => {
     return await BaseAPI.getItems(busStationSV.getByLocation, location);
 }
