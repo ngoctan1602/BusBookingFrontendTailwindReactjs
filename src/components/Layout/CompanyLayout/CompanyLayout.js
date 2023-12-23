@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartArrowDown, faCartFlatbed, faCat, faChartColumn, faChartLine, faChevronDown, faRightFromBracket, faTicket, faTurnDown, faUpDown, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faCartArrowDown, faCartFlatbed, faCat, faChartColumn, faChartLine, faChevronDown, faDollar, faRightFromBracket, faTicket, faTurnDown, faUpDown, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faBusSimple } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faMapLocation } from "@fortawesome/free-solid-svg-icons";
@@ -46,10 +46,16 @@ const CompanyLayout = ({ children }) => {
             id: 2, content: "Quản lý chuyến đi", icon: faBus, active: true, path: '/company/ticket',
         },
         {
-            id: 3, content: "Quản lý đặt vé", icon: faCartFlatbed, active: false, path: '',
+            id: 3, content: "Quản lí lộ trình", icon: faCartFlatbed, active: false, path: '/company/route-detail',
         },
         {
-            id: 4, content: "Thống kê", icon: faChartLine, active: false, path: '/company/statistic',
+            id: 4, content: "Quản lí giá/bảng giá", icon: faDollar, active: false, path: '/company/priceclassification',
+        },
+        {
+            id: 5, content: "Tạo vé", icon: faTicket, active: false, path: '/company/create-ticket',
+        },
+        {
+            id: 6, content: "Thống kê", icon: faChartLine, active: false, path: '/company/statistic',
         },
 
     ])
@@ -123,7 +129,7 @@ const CompanyLayout = ({ children }) => {
             </div>
             <div class='flex w-full h-[100vh] bg-bg'>
 
-                <div class='flex flex-col h-[700px] w-[20%] shrink-0 bg-txt text-bg'>
+                <div class='flex flex-col h-[830px] w-[20%] shrink-0 bg-txt text-bg'>
                     {
                         info.map((item, index) => (
                             <div>
