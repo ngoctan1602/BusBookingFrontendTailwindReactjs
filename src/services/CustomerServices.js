@@ -21,12 +21,25 @@ export const AuthOTP = async (data) => {
     return await BaseAPI.postItem(API.authOTP, data)
 }
 
+export const changeIsActive = async (params) => {
+    return await BaseAPI.putItem(API.changeIsActive, null, params)
+}
+export const changeIsLock = async (params) => {
+    return await BaseAPI.putItem(API.changeIsLock, null, params)
+}
+export const changeIsDelete = async (params) => {
+    return await BaseAPI.putItem(API.changeIsDelete, null, params)
+}
+
 const API = {
     getAll: 'customers/getAll',
     register: 'customers/register',
     getProfile: 'customers/profile',
     updateProfile: 'customers/updateProfile',
     authOTP: 'customers/authOTP',
+    changeIsActive: 'customers/changeIsActive',
+    changeIsLock: 'customers/changeIsLock',
+    changeIsDelete: 'customers/changeIsDelete'
 }
 
 const customerServices = {

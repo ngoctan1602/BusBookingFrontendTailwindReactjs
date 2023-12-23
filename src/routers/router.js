@@ -31,6 +31,8 @@ import ManagePriceClass from "../pages/Company/managePriceClass"
 import ManagePrice from "../pages/Company/managePrice"
 import createTicketNew from "../pages/Company/createTicketNew"
 import CreateTicketNew from "../pages/Company/createTicketNew"
+import UpdateStatusPrice from "../pages/Admin/updateStatusPrice"
+import UpdateStatusPriceClass from "../pages/Admin/updateStatusPriceClass"
 
 
 
@@ -101,6 +103,12 @@ const adminRoutes = [
     },
     {
         path: "/admin/routes", component: ManageRoutes
+    },
+    {
+        path: "/admin/prices", component: UpdateStatusPrice
+    },
+    {
+        path: "/admin/priceclassification", component: UpdateStatusPriceClass
     },
 
 

@@ -6,8 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import * as TypeBusSv from "../../../../services/TypeBusServices"
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
-const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopup }) => {
-
+const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopup, fetchData }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
     const notifySuccess = () => toast.success('Cập nhật thành công!', {
         position: "bottom-right",
@@ -42,10 +41,12 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopu
                 notifyError()
                 return
             }
+
             notifySuccess()
             setTimeout(() => {
                 close()
             }, 1500);
+            fetchData()
         }
         else {
 
