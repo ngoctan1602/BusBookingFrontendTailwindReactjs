@@ -22,6 +22,15 @@ import ManageSeatsType from "../pages/Admin/manageSeatsType"
 import ManageBusTicket from "../pages/Company/manageTicket"
 import DashBoard from "../pages/Admin/dashboard"
 import DashBoardCompany from "../pages/Company/dashboard"
+import ManageRoutes from "../pages/Admin/manageRoutes"
+import manageRouteDetail from "../pages/Company/manageRouteDetail"
+import createRouteDetail from "../pages/Company/createRouteDetail"
+import CreateRouteDetail from "../pages/Company/createRouteDetail"
+import ManageRouteDetail from "../pages/Company/manageRouteDetail"
+import ManagePriceClass from "../pages/Company/managePriceClass"
+import ManagePrice from "../pages/Company/managePrice"
+import createTicketNew from "../pages/Company/createTicketNew"
+import CreateTicketNew from "../pages/Company/createTicketNew"
 
 
 
@@ -90,6 +99,10 @@ const adminRoutes = [
     {
         path: "/admin/login", component: AdminLogin
     },
+    {
+        path: "/admin/routes", component: ManageRoutes
+    },
+
 
 ]
 
@@ -115,8 +128,21 @@ const companyRoutes = [
     {
         path: "/company/statistic", component: DashBoardCompany
     },
-
-
+    {
+        path: "/company/route-detail", component: ManageRouteDetail
+    },
+    {
+        path: "/company/create-route-detail", component: CreateRouteDetail
+    },
+    {
+        path: "/company/priceclassification", component: ManagePriceClass
+    },
+    {
+        path: "/company/prices", component: ManagePrice
+    },
+    {
+        path: "/company/create-ticket", component: CreateTicketNew
+    },
 ]
 
 

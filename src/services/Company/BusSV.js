@@ -26,6 +26,9 @@ export const addBusStops = async (data) => {
     return await BaseAPI.putItem(busServices.addBusStops, data);
 }
 
+export const GetInRoute = async (params) => {
+    return await BaseAPI.getItems(busServices.GetInRoute, params);
+}
 
 const busServices = {
     allBusOfCompany: 'buses/getAll',
@@ -33,5 +36,6 @@ const busServices = {
     createNewBus: 'buses/create',
     addBusStops: 'buses/addBusStops',
     changeIsDisable: 'buses/changeIsDisable',
-    changeIsActive: 'buses/changeIsActive'
+    changeIsActive: 'buses/changeIsActive',
+    GetInRoute: 'buses/GetInRoute',
 }
