@@ -33,8 +33,16 @@ const PopUpShowDetail = ({ items }) => {
                                     {/* <p class='col-span-4 col-start-2 font-semibold'>{item.content}</p> */}
                                     <div class='col-span-6 col-start-4'>
                                         <p className="font-bold">{item.busStationName}</p>
-                                        <p>Giờ cập bến: {item.departureTime}</p>
-                                        <p>Giờ xuất bến: {item.arrivalTime}</p>
+                                        {
+                                            item.indexStation !== 1 && <p>Giờ cập bến: {item.departureTime}</p>
+                                        }
+                                        {
+                                            item.indexStation !== items.length &&
+                                            <p>Giờ xuất bến: {item.arrivalTime}</p>
+                                        }
+
+                                        <p>Ngày so với ngày xuất bến: {item.addDay}</p>
+
                                     </div>
                                 </div>
 
