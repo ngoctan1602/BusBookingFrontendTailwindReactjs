@@ -29,7 +29,9 @@ export const addBusStops = async (data) => {
 export const GetInRoute = async (params) => {
     return await BaseAPI.getItems(busServices.GetInRoute, params);
 }
-
+export const getById = async (params) => {
+    return await BaseAPI.getItems(busServices.getById, params);
+}
 const busServices = {
     allBusOfCompany: 'buses/getAll',
     getById: 'buses/get',
@@ -38,4 +40,5 @@ const busServices = {
     changeIsDisable: 'buses/changeIsDisable',
     changeIsActive: 'buses/changeIsActive',
     GetInRoute: 'buses/GetInRoute',
+    getById: 'buses/get'
 }

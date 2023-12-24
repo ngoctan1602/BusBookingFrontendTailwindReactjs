@@ -90,7 +90,7 @@ const AdminLayout = ({ children }) => {
                     <img class='h-[40px] w-[40px] rounded-full' src={adminlogo} >
 
                     </img>
-                    <p>{localStorage.getItem("adminUsername")}</p>
+                    <p className="ml-sm">{localStorage.getItem("adminUsername")}</p>
                 </div>
 
                 <Popup trigger={<button class="flex justify-center cursor-default">

@@ -3,12 +3,12 @@ import InputConfirmInfo from "../../InputConfirmInfo"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
-// import * as TypeBusSv from "../../../../services/TypeBusServices"
+import * as TypeBusSv from "../../../../../../src/services/TypeBusServices"
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const PopupUpdate = ({ item, onChange, busUpdate, success, closePopup }) => {
-
+    console.log(busUpdate)
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
     const notifySuccess = () => toast.success('Cập nhật thành công!', {
         position: "bottom-right",
@@ -63,6 +63,16 @@ const PopupUpdate = ({ item, onChange, busUpdate, success, closePopup }) => {
         closePopup();
         close();
     }
+    const [typeBus, setTypeBus] = useState([])
+    useEffect(() => {
+        const fetchData = async () => {
+            const a = await TypeBusSv.getAllTypeBusParams({ pageSize: 200 })
+            if (!a.isError) {
+                setTypeBus(a.data.items)
+            }
+        }
+        fetchData()
+    }, [])
     return (
 
         <Popup trigger={<button class="w-[30px] col-start-4 flex justify-center "> <FontAwesomeIcon icon={faPenToSquare} color="#00B873" class='cursor-pointer confirm-button w-full h-[30px]'></FontAwesomeIcon></button>} position="right center"
@@ -85,14 +95,27 @@ const PopupUpdate = ({ item, onChange, busUpdate, success, closePopup }) => {
                                     <div class='col-span-6'>
                                         {
                                             item.id === 1 ?
-                                                <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, id: busUpdate[item.name], value: busUpdate.id, spanWidth: Number(item.spanWidth), background: "#e1e1e1" }}></InputConfirmInfo>
-                                                : item.name === "status" ?
-                                                    <select class='bg-bgPopup w-full h-[40px]' onChange={(e) => setStatus(Number(e.target.value))}>
-                                                        <option selected={Number(busUpdate.status) === 0 ? true : false} value={0}>Ngưng hoạt động</option>
-                                                        <option selected={Number(busUpdate.status) === 1 ? true : false} value={1}>Hoạt động</option>
+                                                <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, name: item.name, value: busUpdate.Id, spanWidth: Number(item.spanWidth), background: "#e1e1e1" }}></InputConfirmInfo>
+                                                : item.name === "BusTypeId" ?
+                                                    <select class='bg-bgPopup w-full h-[40px] border-[1px] outline-none border-txt rounded-md'
+                                                    // onChange={(e) => setStatus(Number(e.target.value))}
+                                                    >
+                                                        {/* <option selected={Number(busUpdate.status) === 0 ? true : false} value={0}>Ngưng hoạt động</option>
+                                                        <option selected={Number(busUpdate.status) === 1 ? true : false} value={1}>Hoạt động</option> */}
+
+                                                        {
+                                                            typeBus.length > 0 &&
+                                                            typeBus.map(item => (
+                                                                <option selected={item.id === busUpdate.BusTypeId}>
+                                                                    {
+                                                                        item.name
+                                                                    }
+                                                                </option>
+                                                            ))
+                                                        }
                                                     </select>
                                                     :
-                                                    <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, id: item.id, value: busUpdate[item.name], spanWidth: Number(item.spanWidth), background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                                    <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, name: item.name, value: busUpdate[item.name], spanWidth: Number(item.spanWidth), background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
                                         }
                                     </div>
                                 </div>

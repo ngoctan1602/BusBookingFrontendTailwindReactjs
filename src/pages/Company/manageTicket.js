@@ -56,8 +56,10 @@ const Overview = () => {
         try {
             const response = await ticketSV.getAllTicketInCompany();
             console.log(response)
+            if (!response.isError && response.datal.items) {
 
-            setTickets(response.data.items);
+                setTickets(response.data.items);
+            }
             setLoading(false)
         } catch (error) {
             console.error('Error fetching data:', error);

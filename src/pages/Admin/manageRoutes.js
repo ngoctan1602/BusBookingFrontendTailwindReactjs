@@ -142,8 +142,8 @@ const ManageRoutes = () => {
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
 
                 <thead>
-                    <tr class='grid bg-button grid-cols-7 p-sm text-left'>
-                        <th class='col-span-1'>Id</th>
+                    <tr class='grid bg-button grid-cols-6 p-sm text-left'>
+                        {/* <th class='col-span-1'>Id</th> */}
                         <th class='col-span-3'>Điểm xuất phát</th>
                         <th class='col-span-3'>Điểm đến</th>
                     </tr>

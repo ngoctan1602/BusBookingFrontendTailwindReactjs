@@ -202,11 +202,11 @@ const ManageSeatsType = () => {
 
                 <thead>
                     <tr class='grid bg-button grid-cols-12 p-sm text-left'>
-                        <th class='col-span-1'>Id</th>
-                        <th class='col-span-2'>Tên loại ghế</th>
+                        {/* <th class='col-span-1'>Id</th> */}
+                        <th class='col-span-3'>Tên loại ghế</th>
                         <th class='col-span-4'>Mô tả</th>
                         <th class='col-span-2'>Đơn giá</th>
-                        <th class='col-span-1'>Trạng thái</th>
+                        <th class='col-span-2'>Trạng thái</th>
                         <th class='col-span-1'></th>
                     </tr>
                 </thead>

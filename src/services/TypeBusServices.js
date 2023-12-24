@@ -4,6 +4,10 @@ export const getAllTypeBus = async () => {
     return await BaseAPI.getItems(typeBusServices.getAllTypeBus);
 }
 
+export const getAllTypeBusParams = async (params) => {
+    return await BaseAPI.getItems(typeBusServices.getAllTypeBus, params);
+}
+
 export const createTypeBus = async (data) => {
     return await BaseAPI.postItem(typeBusServices.createTypeBus, data);
 }
