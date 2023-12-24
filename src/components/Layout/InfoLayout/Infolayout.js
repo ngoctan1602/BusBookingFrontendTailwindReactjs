@@ -51,7 +51,7 @@ const InfoLayout = ({ children }) => {
     useEffect(() => {
         const updateSeats = seatActive(); // Call the returned function
         updateSeats(); // Call the returned function to update seats
-    }, [seatActive]); // Include seatActive in the dependency array
+    }, []); // Empty dependency array to run the effect only once
     return (
 
         <div>

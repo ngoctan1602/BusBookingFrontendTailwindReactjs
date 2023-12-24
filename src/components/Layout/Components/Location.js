@@ -1,17 +1,35 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom"
-const Location = ({ item, onChange, name, selectedBusStop }) => {
+const Location = ({ item, onChange, name, selectedBusStop, isStart}) => {
     return (
         <>
             <div class='w-full'>
                 <div class='w-full flex items-center'>
-                    <input name={name} class='w-[20px] h-[20px]' type="radio"
-                        onClick={(e) => onChange(name, item.ticketStopId, item.address, item.departureTime)}
-                        checked={item.ticketStopId === selectedBusStop[name]}
-                    ></input>
+                <input
+    name={name}
+    class='w-[20px] h-[20px]'
+    type="radio"
+    onClick={(e) => {
+        if (isStart && item.ticketRouteDetailId !== selectedBusStop.busStationEndId) {
+            onChange(name, item.ticketRouteDetailId, item.address, item.departureTime);
+        } else if (!isStart && item.ticketRouteDetailId !== selectedBusStop.busStationStartId) {
+            onChange(name, item.ticketRouteDetailId, item.address, item.arrivalTime);
+        }
+    }}
+    checked={item.ticketRouteDetailId === selectedBusStop[name]}
+/>
 
-                    <p class='p-sm mx-sm text-16'>{new Date(item.arrivalTime)
+                    <p class='p-sm mx-sm text-16'>{
+                        isStart === true ? new Date(item.departureTime)
+                        .toLocaleString("en-CA",
+                            {
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                // second: 'numeric',
+                                hour12: false, // Use 24-hour format
+                            }
+                        ) : new Date(item.arrivalTime)
                         .toLocaleString("en-CA",
                             {
                                 hour: 'numeric',
@@ -26,9 +44,9 @@ const Location = ({ item, onChange, name, selectedBusStop }) => {
                     <FontAwesomeIcon icon={faLocationDot} />
                     <p class='p-sm mx-sm '>
                         {item.address}
-                        <Link to='/' class='text-button'>
+                        {/* <Link to='/' class='text-button'>
                             Xem vị trí chi tiết
-                        </Link>
+                        </Link> */}
                     </p>
 
                 </div>
