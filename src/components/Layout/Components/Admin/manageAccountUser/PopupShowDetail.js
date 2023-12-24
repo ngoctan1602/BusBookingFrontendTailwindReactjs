@@ -1,6 +1,7 @@
 import Popup from "reactjs-popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import avatar from "../../../../../../src/assets/images/avatar.png"
 const PopUpShowDetail = ({ items, userAccountProps }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
     return (
@@ -47,7 +48,7 @@ const PopUpShowDetail = ({ items, userAccountProps }) => {
                                         }
                                         {
                                             (item.name === "avatar")
-                                            && <img class='w-[60px] h-[60px]' src={items[item.name]}></img>
+                                            && <img class='w-[60px] h-[60px]' src={items[item.name] ? items[item.name] : avatar}></img>
                                         }
                                         {
                                             (

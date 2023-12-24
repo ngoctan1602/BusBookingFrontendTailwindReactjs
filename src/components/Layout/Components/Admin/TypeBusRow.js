@@ -2,7 +2,7 @@
 import { useCallback, useState } from "react";
 import PopupUpdate from "./PopupUpdate";
 
-const TypeBusRow = ({ item, onChangeStatus, onUpdate }) => {
+const TypeBusRow = ({ item, onChangeStatus, onUpdate, fetchData }) => {
 
     const [itemUpdate, setItemUpdate] = useState({
         title: "Cập nhật loại xe",
@@ -75,7 +75,7 @@ const TypeBusRow = ({ item, onChangeStatus, onUpdate }) => {
             </td>
             {
                 <td class='col-span-1 text-center'>
-                    <PopupUpdate item={itemUpdate} status={item.status} onChange={updateItemValue} updateTypeBus={updateTypeBus} success={success} closePopup={closePopup} />
+                    <PopupUpdate item={itemUpdate} status={item.status} onChange={updateItemValue} updateTypeBus={updateTypeBus} success={success} closePopup={closePopup} fetchData={fetchData} />
                 </td>
             }
         </tr >

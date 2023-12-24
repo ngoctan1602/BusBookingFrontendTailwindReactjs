@@ -56,6 +56,7 @@ const Overview = () => {
         try {
             const response = await ticketSV.getAllTicketInCompany();
             console.log(response)
+
             setTickets(response.data.items);
             setLoading(false)
         } catch (error) {
