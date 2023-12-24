@@ -42,7 +42,11 @@ const ManageRouteDetail = () => {
     const [routeDetail, setRouteDetail] = useState(
         []
     )
-
+    const [currentPage, setCurrentPage] = useState(0);
+    const [pageTotal, setPageTotal] = useState(0);
+    const handlePageClick = (selectedPage) => {
+        setCurrentPage(selectedPage);
+    };
     const fetchData = async () => {
         try {
             const response = await RoutesSV.getAllRoutesByCompany({ pageSize: 200, pageIndex: 1 });
@@ -123,11 +127,10 @@ const ManageRouteDetail = () => {
                     </div>
                 } */}
                 <thead>
-                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
+                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-sm'>
                         <th class='col-span-4'>Tên lộ trình</th>
                         <th class='col-span-3'>Điểm xuất phát</th>
                         <th class='col-span-3'>Điểm kết thúc</th>
-                        <th class='col-span-1'>Xem chi tiết</th>
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>
