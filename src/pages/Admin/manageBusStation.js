@@ -157,6 +157,45 @@ const ManageBusStation = () => {
             }
         });
     }
+    // const updateStatus = (id, value) => {
+    //     try {
+    //         if (value === 3) {
+
+    //             const resp = SeatTypeSV.changeToDisable({ id: id });
+    //             console.log(resp)
+    //             if (!resp.isError) {
+    //                 notifySuccess()
+    //                 setTimeout(
+    //                     () =>
+    //                         fetchData()
+    //                     , 2000
+    //                 )
+    //             }
+    //             else {
+    //                 notifyError()
+    //             }
+    //         }
+    //         else if (value === 1) {
+    //             const resp = SeatTypeSV.changeIsActive({ id: id });
+    //             setUpdateLoading(false)
+    //             console.log(resp)
+    //             if (!resp.isError) {
+    //                 notifySuccess()
+    //                 setTimeout(
+    //                     () =>
+    //                         fetchData()
+    //                     , 2000
+    //                 )
+    //             }
+    //             else {
+    //                 notifyError()
+    //             }
+    //         }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+
+    // }
     const exportToExcel = () => {
         const ws = XLSX.utils.json_to_sheet(busStations);
         const wb = XLSX.utils.book_new();
@@ -181,11 +220,10 @@ const ManageBusStation = () => {
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
                 <thead>
                     <tr class='grid bg-button grid-cols-12 p-sm text-left'>
-                        <th class='col-span-1'>Id</th>
+                        {/* <th class='col-span-1'>Id</th> */}
                         <th class='col-span-3'>Tên</th>
-
                         <th class='col-span-6 '>Địa chỉ</th>
-                        <th class='col-span-1'>Trạng thái</th>
+                        <th class='col-span-2'>Trạng thái</th>
                         <th class='col-span-1'></th>
                     </tr>
                 </thead>

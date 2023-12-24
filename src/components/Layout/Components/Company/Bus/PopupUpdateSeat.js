@@ -93,8 +93,8 @@ const PopupUpdateSeat = ({ item, seatUpdate }) => {
     }
     return (
 
-        <Popup trigger={<button class="w-[50px] span-col-1 mb-md hover:scale-105 cursor-pointer items-center "
-
+        <Popup trigger={<button class="w-[50px] span-col-1 mb-md hover:scale-105  items-center "
+            disabled
         >
             <img src={seat}
 

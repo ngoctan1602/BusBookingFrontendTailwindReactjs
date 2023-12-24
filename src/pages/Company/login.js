@@ -127,10 +127,10 @@ const CompanyLogin = () => {
                     Open
                 </button>
             </div> */}
-            <div>
+            {/* <div>
                 <button onClick={() => setImagePopupOpen(true)}>Mở popup thêm hình ảnh</button>
                 <ImageUploadPopup isOpen={isImagePopupOpen} onClose={() => setImagePopupOpen(false)} onImageUpload={handleImageUpload} />
-            </div>
+            </div> */}
 
             <div class='w-2/3 h-2/3 border-none shadow-2xl rounded-md overflow-hidden flex'>
                 <div class='w-[40%] h-full bg-bgLogin bg-cover bg-no-repeat text-bg flex flex-col items-center'>
@@ -151,7 +151,7 @@ const CompanyLogin = () => {
                 <div class='w-[60%] h-full text-txt flex items-center bg-[#e1e1e1]'>
                     <div class='w-full h-2/3 items-center flex flex-col'>
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-sm'>
-                            <p class='col-start-4 col-span-6 font-bold text-[26px]'>Đăng nhập vào hệ thống nhà xe</p>
+                            <p class='col-start-4 col-span-6 font-bold text-[20px] uppercase'>Đăng nhập vào hệ thống nhà xe</p>
                         </div>
                         {
                             item.map((item, index) => (

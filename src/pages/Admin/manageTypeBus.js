@@ -181,11 +181,11 @@ const ManageTypeBus = () => {
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
                 <thead>
                     <tr class='grid bg-button grid-cols-12 p-sm text-left'>
-                        <th class='col-span-1'>Id</th>
+                        {/* <th class='col-span-1'>Id</th> */}
                         <th class='col-span-3'>Tên</th>
                         <th class='col-span-4'>Mô tả</th>
                         <th class='col-span-2'>Tổng chỗ ngồi</th>
-                        <th class='col-span-1'>Trạng thái</th>
+                        <th class='col-span-2'>Trạng thái</th>
                         <th class='col-span-1'></th>
                     </tr>
                 </thead>

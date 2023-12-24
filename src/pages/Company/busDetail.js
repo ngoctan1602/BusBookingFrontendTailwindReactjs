@@ -11,8 +11,12 @@ import PopupAddBusStation from "../../components/Layout/Components/Company/Bus/P
 import { useNavigate } from "react-router-dom";
 import * as busStationSV from "../../services/BusStationSv";
 import * as SeatsSV from "../../services/SeatsSV";
+import * as BusSV from "../../services/Company/BusSV";
 import { useLocation } from 'react-router-dom';
 import CurrencyFormat from "react-currency-format";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleLeft } from "@fortawesome/free-regular-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const BusDetail = () => {
     let { id } = useParams();
@@ -20,15 +24,13 @@ const BusDetail = () => {
     let navigate = useNavigate();
     const location = useLocation();
 
-    const [bus, setBus] = useState(
-        location.state
-    )
+    const [bus, setBus] = useState()
     const [itemUpdate, setUpdateItem] = useState(
         {
-            id: bus.id,
-            busNumber: bus.busNumber,
-            description: bus.description,
-            status: bus.status
+            Id: bus ? bus.id : '',
+            busNumber: bus ? bus.busNumber : '',
+            description: bus ? bus.description : '',
+            BusTypeId: 1,
         }
     )
     const [busStationOfBus, setBusStationOfBus] = useState()
@@ -41,13 +43,28 @@ const BusDetail = () => {
         const fetchData = async () => {
             try {
 
-                const response = await busStationSV.getAllInBus({ busId: id });
-                setBusStationOfBus(response.data.items)
+                // const response = await busStationSV.getAllInBus({ busId: id });
+                // setBusStationOfBus(response.data.items)
 
                 const seat = await SeatsSV.getAllBusOfCompany({ busId: id, pageSize: 200 });
+                if (!seat.isError) {
 
-                setFirstFloor(seat.data.items.slice(0, seat.data.items.length / 2))
-                setSecondFloor(seat.data.items.slice(seat.data.items.length / 2))
+                    setFirstFloor(seat.data.items.slice(0, seat.data.items.length / 2))
+                    setSecondFloor(seat.data.items.slice(seat.data.items.length / 2))
+                }
+                const busresp = await BusSV.getBusById({ id: id, pageSize: 200 });
+                if (!busresp.isError) {
+                    setBus(busresp.data)
+                    setUpdateItem(
+                        {
+                            Id: busresp.data.id,
+                            busNumber: busresp.data.busNumber,
+                            description: busresp.data.description,
+                            BusTypeId: 1,
+                            status: busresp.status
+                        }
+                    )
+                }
                 setLoading(false);
 
             } catch (error) {
@@ -65,27 +82,29 @@ const BusDetail = () => {
         title: "Cập nhật thông tin xe",
         item: [
             {
-                id: 1, name: "busID", content: "Id", spanWidth: 120, placeholder: "Id", value: itemUpdate.id
+                id: 1, name: "busID", content: "Id", spanWidth: 60, placeholder: "Id", value: itemUpdate.id
             },
             {
-                id: 2, name: "busNumber", content: "Biển số xe", spanWidth: 120, placeholder: "biển số xe", value: itemUpdate.busNumber
+                id: 2, name: "busNumber", content: "Biển số xe", spanWidth: 120, placeholder: "Biển số xe", value: itemUpdate.busNumber
             },
             {
                 id: 3, name: "description", content: "Mô tả", spanWidth: 100, placeholder: "Thêm mô tả", value: itemUpdate.description
             },
+
             {
-                id: 4, name: "status", content: "Trạng thái", value: itemUpdate.status
+                id: 4, name: "BusTypeId", content: "Loại xe", value: itemUpdate.status
             },
 
         ],
     })
 
-    const updateItemValue = (id, newValue) => {
-        propUpdate.item.map(item => {
-            if (item.id === id) {
-                setUpdateItem({ ...itemUpdate, [item.name]: newValue })
-            }
-        });
+    const updateItemValue = (name, newValue) => {
+        // propUpdate.item.map(item => {
+        //     if (item.id === id) {
+        //         setUpdateItem({ ...itemUpdate, [item.name]: newValue })
+        //     }
+        // });
+        setUpdateItem({ ...itemUpdate, [name]: newValue })
     };
     const closePopup = () => {
         setUpdateItem({
@@ -131,59 +150,64 @@ const BusDetail = () => {
     return (
         <div class='w-full h-full text-txt txt-16'>
 
-            <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
-                <select class='p-sm bg-bgPopup rounded-md text-16 font-bold col-span-2 outline-none'
-                    onChange={(e) => navigate(e.target.value)}
-                >
-                    <option class='m-sm' value={`/company/bus/${id}`} selected>
-                        Quản lý xe
-                    </option>
-                    <option value={`/company/ticket/${id}`}>
-                        Quản lý vé
-                    </option>
-                </select>
+            <div class='grid grid-cols-12 grid-flow-row w-1/2 items-center'>
+                {/* <div className="col-span-1"> */}
+                <FontAwesomeIcon className="cursor-pointer hover:text-button ease-in-out duration-150 h-[20px] w-[20px]" icon={faArrowLeft}
+                    onClick={() => navigate('/company/bus')}
+                ></FontAwesomeIcon>
+                {/* </div> */}
+                <p className="col-span-10 text-20">Chi tiết xe</p>
 
-                {/* <p class='col-span-9 font-bold text-20 text-center'>Quản lý xe / BusID: {id}</p> */}
+
             </div>
 
 
             <div class=' w-full h-full grid grid-flow-row'>
-                <div class='grid grid-cols-12'>
+                <div class='grid grid-cols-12 gap-sm'>
                     {/* Cập nhật thông tin chi tiết  */}
                     <div class='text-16 w-full col-span-5'>
-                        <p class='font-bold text-20'>Thông tin chi tiết</p>
-                        <div class='grid grid-cols-8 grid-flow-row w-full'>
-                            <p class='col-span-3'>Mã xe:</p>
-                            <p class='col-span-5'>{id}</p>
-                        </div>
-                        <div class='grid grid-cols-8 grid-flow-row w-full'>
-                            <p class='col-span-3'>Số xe:</p>
-                            <p class='col-span-5'>{bus.busNumber}</p>
-                        </div>
-                        <div class='grid grid-cols-8 grid-flow-row w-full'>
-                            <p class='col-span-3'>Mô tả:</p>
-                            <p class='col-span-5'>{bus.description}</p>
-                        </div>
-                        <div class='grid grid-cols-8 grid-flow-row w-full'>
-                            <p class='col-span-3'>Loại xe:</p>
-                            <p class='col-span-5'>{bus.busType}</p>
-                        </div>
-                        <div class='grid grid-cols-8 grid-flow-row w-full'>
-                            <p class='col-span-3'>Tổng chỗ:</p>
-                            <p class='col-span-5'>{bus.totalSeat}</p>
-                        </div>
-                        <div class='grid grid-cols-8 grid-flow-row w-full'>
-                            <p class='col-span-3'>Trạng thái:</p>
-                            <p p class='col-span-5'>
-                                {
-                                    bus.status === 0 ? "Ngưng hoạt động" : "Hoạt động"
-                                }
-                            </p>
-                        </div>
-                        <div class='grid grid-cols-8 grid-flow-row w-full'>
-                            <PopupUpdate item={propUpdate} busUpdate={itemUpdate} onChange={updateItemValue} closePopup={closePopup} success={success} />
-                        </div>
 
+                        {/* <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                <p class='col-span-3'>Mã xe:</p>
+                                <p class='col-span-5'>{id}</p>
+                            </div> */}
+                        <p class='font-bold text-20'>Thông tin chi tiết</p>
+
+                        {loading ?
+                            <div className="animate-pulse bg-hover-txt col-span-5 h-[310px] text-bg text-center">
+                            </div> :
+                            bus &&
+                            <div>
+
+                                <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                    <p class='col-span-3'>Số xe:</p>
+                                    <p class='col-span-5'>{bus.busNumber}</p>
+                                </div>
+                                <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                    <p class='col-span-3'>Mô tả:</p>
+                                    <p class='col-span-5'>{bus.description}</p>
+                                </div>
+                                <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                    <p class='col-span-3'>Loại xe:</p>
+                                    <p class='col-span-5'>{bus.busType}</p>
+                                </div>
+                                <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                    <p class='col-span-3'>Tổng chỗ:</p>
+                                    <p class='col-span-5'>{bus.totalSeat}</p>
+                                </div>
+                                <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                    <p class='col-span-3'>Trạng thái:</p>
+                                    <p p class='col-span-5'>
+                                        {
+                                            bus.status === 0 ? "Ngưng hoạt động" : "Hoạt động"
+                                        }
+                                    </p>
+                                </div>
+                                <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                    <PopupUpdate item={propUpdate} busUpdate={itemUpdate} onChange={updateItemValue} closePopup={closePopup} success={success} />
+                                </div>
+                            </div>
+                        }
                     </div>
                     {/* Cập nhật ghế ngồi */}
 
@@ -252,7 +276,7 @@ const BusDetail = () => {
                 <div class='my-sm'>
 
                     <div class='grid grid-cols-12 grid-flow-row'>
-                        <p class='col-span-10 font-bold text-20'>Các điểm đón trả của xe:</p>
+                        <p class='col-span-10 font-bold text-20'>Danh sách tuyến của xe:</p>
                         <PopupAddBusStation />
                     </div>
                     <div class='w-full h-[250px] overflow-y-auto overflow-x-auto mb-md'>
@@ -260,14 +284,14 @@ const BusDetail = () => {
                         <table class="w-full my-sm rounded-md border-collapse  text-txt text-16 overflow-hidden">
                             <thead>
                                 <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
-                                    <th class='col-span-2'>Id</th>
-                                    <th class='col-span-4'>Tên bến xe</th>
-                                    <th class='col-span-4'>Địa chỉ</th>
-                                    <th class='col-span-2'>Trạng thái</th>
+                                    {/* <th class='col-span-2'>Id</th> */}
+                                    <th class='col-span-4 col-start-6'>Tên tuyến</th>
+                                    {/* <th class='col-span-4'>Địa chỉ</th> */}
+                                    {/* <th class='col-span-2'>Trạng thái</th> */}
                                 </tr>
                             </thead>
                             <tbody class='bg-[#e1e1e1]'>
-                                {
+                                {/* {
                                     loading ?
                                         <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
                                         </div>
@@ -282,9 +306,9 @@ const BusDetail = () => {
                                                 <td class='col-span-4'>{item.name}</td>
                                                 <td class='col-span-4'>{item.addressDb}</td>
                                                 <td class='col-span-2'>
-                                                    {/* {
-                                                    item.status === 1 ? "Hoạt động" : "Ngưng hoạt động"
-                                                } */}
+                                                    {
+                                                        item.status === 1 ? "Hoạt động" : "Ngưng hoạt động"
+                                                    }
 
                                                     <select
                                                         class='bg-bgPopup outline-none'
@@ -300,7 +324,7 @@ const BusDetail = () => {
                                                 </td>
                                             </tr>
                                         )
-                                }
+                                } */}
 
                             </tbody>
                         </table>
