@@ -9,8 +9,8 @@ const OverviewRow = ({ item, onChangeStatus }) => {
             style={{ background: item.status === 3 ? "#75718a" : "" }}
         >
 
-            <td class='col-span-2'>{item.id}</td>
-            <td class='col-span-2'>{item.busNumber}</td>
+            {/* <td class='col-span-2'>{item.id}</td> */}
+            <td class='col-span-3'>{item.busNumber}</td>
             <td class='col-span-3'>{item.busType}</td>
             <td class='col-span-2'>{item.totalSeat}</td>
             <td class='col-span-2'>
@@ -25,7 +25,7 @@ const OverviewRow = ({ item, onChangeStatus }) => {
             </td>
 
             {
-                <td class='col-span-1 underline cursor-pointer hover:text-button'
+                <td class='col-span-1 col-start-12 underline cursor-pointer hover:text-button'
                     onClick={() => navigate(`/company/bus/${item.id}`, { state: item })}>
                     Chi tiết
                 </td>

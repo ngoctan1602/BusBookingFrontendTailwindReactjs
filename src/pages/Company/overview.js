@@ -164,12 +164,12 @@ const Overview = () => {
                 }
                 <thead>
                     <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
-                        <th class='col-span-2'>Id bus</th>
-                        <th class='col-span-2'>Biển số xe</th>
+                        {/* <th class='col-span-2'>Id bus</th> */}
+                        <th class='col-span-3'>Biển số xe</th>
                         <th class='col-span-3'>Loại xe</th>
                         <th class='col-span-2'>Số chỗ ngồi</th>
                         <th class='col-span-2'>Trạng thái</th>
-                        <th class='col-span-1'></th>
+                        <th class='col-span-2'></th>
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>

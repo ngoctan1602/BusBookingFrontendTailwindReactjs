@@ -62,15 +62,15 @@ const TypeBusRow = ({ item, onChangeStatus, onUpdate, fetchData }) => {
         <tr class='grid  grid-cols-12 p-sm border-t-[1px] border-txt'
             style={{ background: item.status === 0 ? "#75718a" : "", color: item.status === 0 ? "#F2ECFF" : "" }}
         >
-            <td class='col-span-1'>{item.id}</td>
+            {/* <td class='col-span-1'>{item.id}</td> */}
             <td class='col-span-3'>{item.name}</td>
             <td class='col-span-4'>{item.description}</td>
             <td class='col-span-2'>{item.totalSeats}</td>
-            <td class='col-span-1'>
+            <td class='col-span-2'>
                 {/* onChange={() => onChange(item.id, value)} */}
                 <select class='bg-[#e1e1e1]' style={{ background: item.status === 0 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
-                    <option selected={item.status === 0 ? true : false} value={0} >Xóa</option>
-                    <option selected={item.status === 1 ? true : false} value={1} >Hiển thị</option>
+                    <option selected={item.status === 0 ? true : false} value={0} >Ngưng hoạt động</option>
+                    <option selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
                 </select>
             </td>
             {

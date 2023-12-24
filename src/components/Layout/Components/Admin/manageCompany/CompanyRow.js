@@ -54,7 +54,6 @@ const CompanyRow = ({ item, onChangeStatus, onUpdate }) => {
             {
                 <td class='col-span-1'>
                     <PopUpShowDetail items={item} companyProps={companyProps} />
-
                 </td>
             }
         </tr >
