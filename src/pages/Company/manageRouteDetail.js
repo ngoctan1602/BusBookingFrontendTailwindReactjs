@@ -6,12 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileExcel, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import PopupAdd from "../../components/Layout/Components/Company/RouteDetail/PopupAdd";
 import * as busServices from "../../services/Company/BusSV";
-import * as ticketSV from "../../services/Company/Ticket";
+import * as RoutesSV from "../../services/RoutesSV";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
-import ManageTicketRow from "../../components/Layout/Components/Company/Bus/ManageTicketRow";
+import RouteDetailRow from "../../components/Layout/Components/Company/RouteDetail/RouteDetailRow";
 import { useNavigate } from "react-router-dom";
+
 const ManageRouteDetail = () => {
     let navigate = useNavigate();
     const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
@@ -37,31 +38,31 @@ const ManageRouteDetail = () => {
     });
 
     document.title = "Cập nhật lộ trình";
-    // const [loading, setLoading] = useState(true);
-    // const [tickets, setTickets] = useState(
-    //     []
-    // )
+    const [loading, setLoading] = useState(true);
+    const [routeDetail, setRouteDetail] = useState(
+        []
+    )
 
-    // const fetchData = async () => {
-    //     try {
-    //         const response = await ticketSV.getAllTicketInCompany();
-    //         console.log(response)
-    //         setTickets(response.data.items);
-    //         setLoading(false)
-    //     } catch (error) {
-    //         console.error('Error fetching data:', error);
-    //         setLoading(false)
-    //     }
-    // };
+    const fetchData = async () => {
+        try {
+            const response = await RoutesSV.getAllRoutesByCompany({ pageSize: 200, pageIndex: 1 });
+            console.log(response)
+            setRouteDetail(response.data.items);
+            setLoading(false)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoading(false)
+        }
+    };
 
-    // useEffect(() => {
+    useEffect(() => {
 
 
-    //     fetchData();
-    //     return () => {
-    //         console.log("call api success")
-    //     }
-    // }, []);
+        fetchData();
+        return () => {
+            console.log("call api success")
+        }
+    }, []);
 
 
     // const [isChange, setIsChange] = useState(false);
@@ -123,27 +124,25 @@ const ManageRouteDetail = () => {
                 } */}
                 <thead>
                     <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
-                        <th class='col-span-1'>Id</th>
-                        <th class='col-span-3'>Tên lộ trình</th>
-                        <th class='col-span-3'>Mô tả</th>
-                        <th class='col-span-2'>Trạng thái</th>
-                        <th class='col-span-1'>Cập nhật</th>
-                        <th class='col-span-2'>Xem chi tiết</th>
+                        <th class='col-span-4'>Tên lộ trình</th>
+                        <th class='col-span-3'>Điểm xuất phát</th>
+                        <th class='col-span-3'>Điểm kết thúc</th>
+                        <th class='col-span-1'>Xem chi tiết</th>
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>
-                    {/* {loading ?
+                    {loading ?
                         <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
                         </div>
                         :
-                        !loading && tickets.length > 0
+                        !loading && routeDetail.length > 0
                             ?
-                            <Paginate itemsPerPage={5} items={tickets} componentToRender={ManageTicketRow} updateStatus={changeStatus}></Paginate>
+                            <Paginate itemsPerPage={5} items={routeDetail} componentToRender={RouteDetailRow}></Paginate>
                             :
                             <tr>
                                 Không có chuyến đi nào
                             </tr>
-                    } */}
+                    }
 
                 </tbody>
             </table>
