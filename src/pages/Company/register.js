@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import adminlogo from "../../assets/images/AdminLogo.png"
 import InputConfirmInfo from "../../components/Layout/Components/InputConfirmInfo";
 import { Link, useNavigate } from "react-router-dom";
-import * as authServices from "../../services/AuthServices";
+import * as CompanySV from "../../services/CompanySV";
 import * as AddressSV from "../../services/AddressSv"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,7 +13,7 @@ const CompanyRegister = () => {
     document.title = "Đăng ký trở thành nhà xe"
 
 
-    const notifySuccess = () => toast.success('Đăng nhập thành công!', {
+    const notifySuccess = (message) => toast.success(message, {
         position: "bottom-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -25,6 +25,16 @@ const CompanyRegister = () => {
     });
 
     const notifyError = () => toast.error('Đăng nhập thất bại! Nhập đúng tài khoản và mật khẩu', {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+    const notifyWarning = (message) => toast.warning(message, {
         position: "bottom-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -56,15 +66,21 @@ const CompanyRegister = () => {
 
     const [districts, setDistricts] = useState([]);
     const getDistricts = useCallback(async (id) => {
-        const a = {
-            id: id
+        if (id !== 0) {
+            const a = {
+                id: id
+            }
+            const response = await AddressSV.getDistricts(a);
+            setDistricts(response.data.districts)
+            setWards([]);
+            setIdDistrict(0);
+            setIdWard(0);
+            setIdProvince(id);
         }
-        const response = await AddressSV.getDistricts(a);
-        setDistricts(response.data.districts)
-        setWards([]);
-        setIdDistrict(0);
-        setIdWard(0);
-        setIdProvince(id);
+        else {
+            setDistricts([])
+            setWards([])
+        }
     })
 
     const [wards, setWards] = useState([]);
@@ -86,16 +102,47 @@ const CompanyRegister = () => {
 
     const onSubmit = async (e) => {
         // e.preventDefault();
+
+        if (account.name === '' || account.name === null || account.name === undefined) {
+            notifyWarning("Hãy nhập tên nhà xe")
+            return
+        }
+        if (account.introduction === '' || account.introduction === null || account.introduction === undefined) {
+            notifyWarning("Hãy nhập mô tả")
+            return
+        }
+        if (account.email === '' || account.email === null || account.email === undefined) {
+            notifyWarning("Hãy nhập email")
+            return
+        }
+        if (account.phoneNumber === '' || account.phoneNumber === null || account.phoneNumber === undefined) {
+            notifyWarning("Hãy nhập số điện thoại")
+            return
+        }
+        if (account.username === '' || account.password === null || account.password === undefined) {
+            notifyWarning("Hãy nhập username")
+            return
+        }
+        if (account.password === '' || account.password === null || account.password === undefined) {
+            notifyWarning("Hãy nhập passowrd")
+            return
+        }
+        if (account.address === '' || account.address === null || account.address === undefined) {
+
+            notifyWarning("Hãy nhập số nhà/ thôn/ địa chỉ")
+            return
+        }
+        if (idWard === 0) {
+            notifyWarning("Hãy chọn địa chỉ")
+        }
         try {
-            const response = await authServices.companyLogin(account)
+            const object = { ...account, wardId: idWard }
+            const response = await CompanySV.Register(object)
             if (!response.isError) {
-                localStorage.setItem('token', response.data.token);
-                localStorage.setItem("refreshToken", response.data.refreshToken);
-                localStorage.setItem('usernameCompany', response.data.username);
-                localStorage.setItem('avatar', response.data.avatar);
-                notifySuccess()
+
+                notifySuccess("Đã gửi yêu cầu tạo tài khoản, vui lòng liên hệ người quản trị để xác nhận tài khoản")
                 setTimeout(() => {
-                    navigate('/company/bus');
+                    navigate('/company/login');
                 }, 1500);
             }
             else {
@@ -112,7 +159,6 @@ const CompanyRegister = () => {
             if (item.id === id) {
                 setAccount({ ...account, [item.id]: value })
                 return { ...item, value: value };
-
             }
             return { ...item };
         });
@@ -141,6 +187,7 @@ const CompanyRegister = () => {
             password: '',
             address: '',
             wardId: 0,
+            logo: null
         }
     )
     const [item, setItem] = useState(
@@ -233,7 +280,7 @@ const CompanyRegister = () => {
             </div> */}
 
             <div class='w-2/3 h-2/3 border-none shadow-2xl rounded-md overflow-auto flex bg-[#e1e1e1]'>
-                <div class='w-[40%] h-[700px] bg-bgLogin bg-cover bg-no-repeat text-bg flex flex-col items-center'>
+                <div class='w-[40%] h-[750px] bg-bgLogin bg-cover bg-no-repeat text-bg flex flex-col items-center'>
                     <img src={adminlogo} class='mt-md shrink-0 w-[100px] h-[100px] rounded-full'></img>
                     <p class='text-[30px] font-semibold shrink-0'>
                         Chào mừng quay trở lại !
@@ -248,8 +295,8 @@ const CompanyRegister = () => {
 
                 </div>
 
-                <div class='w-[60%] h-full text-txt flex items-center bg-[#e1e1e1]'>
-                    <div class='w-full h-full items-center flex flex-col bg-[#e1e1e1]'>
+                <div class='w-[60%] h-[750px] text-txt flex items-center bg-[#e1e1e1]'>
+                    <div class='w-full h-full items-center flex flex-col bg-[#e1e1e1] pb-md'>
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-sm'>
                             <p class='col-start-4 col-span-6 font-bold text-[20px] uppercase'>Đăng ký trở thành nhà xe</p>
                         </div>
@@ -275,8 +322,8 @@ const CompanyRegister = () => {
                                 </div>
                             ))
                         }
-                        <div className="w-full grid grid-flow-row grid-cols-12 gap-sm items-center">
-                            <select class='col-span-4 p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getDistricts(e.target.value)}>
+                        <div className="w-[90%] grid grid-flow-row grid-cols-12 gap-sm items-center">
+                            <select class='col-span-4 p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getDistricts(Number(e.target.value))}>
                                 <option value={0} selected={(idProvince === 0) ? true : false}>
                                     Chọn tỉnh
                                 </option>
@@ -320,14 +367,14 @@ const CompanyRegister = () => {
                             </button>
 
                         </div>
-                        <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-md'>
+                        <div class='w-[90%] grid grid-flow-row grid-cols-10 gap-sm items-center my-md'>
                             <p className="col-span-5 col-start-4 italic text-[16px] ">
 
                                 Bạn đã có tài khoản
                             </p>
                             <Link class='col-start-9 col-span-2 italic text-button text-[16px] 
-                            hover:text-txt hover:scale-[1.05]
-                            ' to={''}>
+                            hover:text-txt 
+                            ' to={'/company/login'}>
                                 Đăng nhập
                             </Link>
 

@@ -12,8 +12,11 @@ export const ChangeIsLock = async (params) => {
 export const Delete = async (params) => {
     return await BaseAPI.deleteItem(API.delete, params)
 }
-
+export const Register = async (data) => {
+    return await BaseAPI.postItem(API.register, data)
+}
 const API = {
+    register: 'companies/register',
     getAll: 'companies/admin/getAll',
     ChangIsActive: 'companies/admin/active',
     ChangeIsLock: 'companies/admin/ChangeIsLock',
@@ -24,7 +27,8 @@ const companiesSV = {
     ...GetAllCompany,
     ...ChangIsActive,
     ...ChangeIsLock,
-    ...Delete
+    ...Delete,
+    ...Register
 }
 
 export default companiesSV;
