@@ -13,8 +13,6 @@ import ReactLoading from 'react-loading';
 const Search = () => {
 
     const [sort, setSort] = useState([
-        { id: 1, content: 'Giờ đi sớm nhất', checked: false },
-        { id: 2, content: 'Giờ đi muộn nhất', checked: false },
         { id: 3, content: 'Giá tăng dần', checked: true },
         { id: 4, content: 'Giá giảm dần', checked: false },
     ])
@@ -284,16 +282,30 @@ const Search = () => {
         search.companyIds = company.map((item) => item.companyId);
         search.timeInDays = startTime.filter((item) => item.checked).map((item) => item.id);
         search.priceIsDesc = selectedRadio === 4 ? true : false
-        search.timeIsDesc = selectedRadio === 2 ? true : false
         console.log(search);
         setLoading(true)
         try {
             const response = await ticketService.findTicket(search)
             setBusInfo(response.data.items)
-            const companies = busInfo.map((item) => ({
-                companyId: item.companyId,
-                companyName: item.company,
-            }));
+            const companies = [];
+            busInfo.forEach((item) => {
+                let isExist = false;
+            
+                for (const company of companies) {
+                    if (company.companyId === item.companyId) {
+                        isExist = true;
+                        break;
+                    }
+                }
+            
+                // Nếu chưa có, thêm vào mảng companies
+                if (!isExist) {
+                    companies.push({
+                        companyId: item.companyId,
+                        companyName: item.company,
+                    });
+                }
+            });
 
             setCompany(companies)
 
