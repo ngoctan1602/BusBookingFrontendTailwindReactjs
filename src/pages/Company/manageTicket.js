@@ -139,8 +139,7 @@ const Overview = () => {
         //     }
         console.log(id, value)
     }
-    const [selectedMonth, setSelectedMonth] = useState((new Date().getMonth() + 1));
-    const month = Array.from({ length: 12 }, (_, index) => index + 1);
+    const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
     const onChangeMonth = async (month) => {
         setSelectedMonth(month)
         fetchData(month)
@@ -151,23 +150,9 @@ const Overview = () => {
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                 <p class='col-span-2 font-bold text-20'>Quản lý chuyến đi</p>
-                {/* <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input> */}
-                {/* <PopupAdd items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}></PopupAdd> */}
-                {/* <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation> */}
-                <select class='col-start-3 col-span-2 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'
-                    onChange={(e) => onChangeMonth(Number(e.target.value))}
-                >
-                    {
-                        month.map(item =>
-                        (<option className="text-center"
-                            value={item}
-                            selected={month.includes(selectedMonth)}
-                        >
-                            Tháng  {item}
-                        </option>)
-                        )
-                    }
-                </select>
+               
+                <input type="month" class="col-span-2 rounded-md border border-solid border-button p-sm" 
+                value={selectedMonth} onChange={(e) => onChangeMonth(e.target.value)} />
 
             </div>
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
