@@ -58,9 +58,10 @@ const Overview = () => {
         []
     )
 
-    const fetchData = async () => {
+    const fetchData = async (month) => {
+        setLoading(true)
         try {
-            const response = await ticketSV.getAllTicketInCompany({ pageSize: 10, pageIndex: currentPage + 1 });
+            const response = await ticketSV.getAllTicketInCompany({ pageSize: 10, pageIndex: currentPage + 1, month: month });
             console.log(response)
             if (!response.isError && response.data.items) {
                 setTickets(response.data.items);
@@ -76,7 +77,7 @@ const Overview = () => {
     useEffect(() => {
 
 
-        fetchData();
+        fetchData(selectedMonth);
         return () => {
             console.log("call api success")
         }
@@ -138,10 +139,11 @@ const Overview = () => {
         //     }
         console.log(id, value)
     }
-    const [selectedMonth, setSelectedMonth] = useState((new Date().getMonth()));
+    const [selectedMonth, setSelectedMonth] = useState((new Date().getMonth() + 1));
     const month = Array.from({ length: 12 }, (_, index) => index + 1);
     const onChangeMonth = async (month) => {
         setSelectedMonth(month)
+        fetchData(month)
         //Gọi api 
     }
     return (
