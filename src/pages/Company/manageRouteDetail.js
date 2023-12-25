@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
 import RouteDetailRow from "../../components/Layout/Components/Company/RouteDetail/RouteDetailRow";
 import { useNavigate } from "react-router-dom";
+import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
 
 const ManageRouteDetail = () => {
     let navigate = useNavigate();
@@ -49,9 +50,10 @@ const ManageRouteDetail = () => {
     };
     const fetchData = async () => {
         try {
-            const response = await RoutesSV.getAllRoutesByCompany({ pageSize: 200, pageIndex: 1 });
+            const response = await RoutesSV.getAllRoutesByCompany({ pageSize: 200, pageIndex: currentPage + 1 });
             console.log(response)
             setRouteDetail(response.data.items);
+            setPageTotal(response.totalPage)
             setLoading(false)
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -140,7 +142,7 @@ const ManageRouteDetail = () => {
                         :
                         !loading && routeDetail.length > 0
                             ?
-                            <Paginate itemsPerPage={5} items={routeDetail} componentToRender={RouteDetailRow}></Paginate>
+                            <PaginatedItemsWithAPI pageCount={pageTotal} handleClick={handlePageClick} items={routeDetail} componentToRender={RouteDetailRow} fetchData={fetchData}></PaginatedItemsWithAPI>
                             :
                             <tr>
                                 Không có chuyến đi nào
