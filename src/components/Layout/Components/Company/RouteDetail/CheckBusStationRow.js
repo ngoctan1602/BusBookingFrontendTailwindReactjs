@@ -17,9 +17,9 @@ const CheckBusStationRow = ({ item, onUpdate }) => {
                     onClick={(e) => onUpdate(e, item.id, item = {
                         BusStationId: item.id,
                         NameBusStation: item.name,
-                        IndexStation: 1,
-                        ArrivalTime: '19:00:00',
-                        DepartureTime: '19:00:00',
+                        IndexStation: 0,
+                        ArrivalTime: '00:00:00',
+                        DepartureTime: '00:00:00',
                         AddDay: 0,
                         DiscountPrice: 0
                     })}
