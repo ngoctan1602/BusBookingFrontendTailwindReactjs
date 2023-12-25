@@ -188,7 +188,7 @@ const CompanyLogin = () => {
                             </p>
                             <Link class='col-start-9 col-span-2 italic text-button text-[16px] 
                             hover:text-txt hover:scale-[1.05]
-                            ' to={''}>
+                            ' to={'/company/register'}>
                                 Đăng ký
                             </Link>
 

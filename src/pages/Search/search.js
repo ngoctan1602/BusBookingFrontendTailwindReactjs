@@ -13,10 +13,10 @@ import ReactLoading from 'react-loading';
 const Search = () => {
 
     const [sort, setSort] = useState([
-        { id: 1, content: 'Giờ đi sớm nhất' },
-        { id: 2, content: 'Giờ đi muộn nhất' },
-        { id: 3, content: 'Giá tăng dần' },
-        { id: 4, content: 'Giá giảm dần' },
+        { id: 1, content: 'Giờ đi sớm nhất', checked: false },
+        { id: 2, content: 'Giờ đi muộn nhất', checked: false },
+        { id: 3, content: 'Giá tăng dần', checked: true },
+        { id: 4, content: 'Giá giảm dần', checked: false },
     ])
 
     const [startTime, setStartTime] = useState([
@@ -280,10 +280,11 @@ const Search = () => {
 
 
     const handSearch = async (search) => {
+        // alert(selectedRadio)
         search.companyIds = company.map((item) => item.companyId);
         search.timeInDays = startTime.filter((item) => item.checked).map((item) => item.id);
-        search.priceIsDesc = selectedRadio === 5 ? true : false;
-        search.timeIsDesc = selectedRadio === 3 ? true : false;
+        search.priceIsDesc = selectedRadio === 4 ? true : false
+        search.timeIsDesc = selectedRadio === 2 ? true : false
         console.log(search);
         setLoading(true)
         try {
@@ -306,8 +307,15 @@ const Search = () => {
 
     }
     const onChangeRadioSort = (value) => {
+        // const updatedItems = sort.map(item => {
+        //     if (item.id === id) {
+        //         return { ...item, checked: true }
+        //     }
+        //     return { ...item, checked: true };
+        // });
+        // setSort(updatedItems);
         setSelectedRadio(value)
-        alert(selectedRadio)
+        // alert(selectedRadio)
     }
     const [selectedRadio, setSelectedRadio] = useState(1)
 

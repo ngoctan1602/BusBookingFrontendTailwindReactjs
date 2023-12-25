@@ -51,7 +51,7 @@ const DashBoardCompany = () => {
                 },
                 ticks: {
                     display: true, // Hiển thị nhãn trục x
-
+                    beginAtZero: true
                 },
             },
             y: {
@@ -64,6 +64,7 @@ const DashBoardCompany = () => {
                 },
                 ticks: {
                     display: true, // Hiển thị nhãn trục y
+                    beginAtZero: true
                 },
             },
         },
