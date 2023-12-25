@@ -110,10 +110,10 @@ const ManagePriceClass = () => {
                 } */}
                 <thead>
                     <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
-                        <th class='col-span-2'>Id</th>
-                        <th class='col-span-3'>Tên</th>
+                        {/* <th class='col-span-2'>Id</th> */}
+                        <th class='col-span-3 col-start-2'>Tên</th>
                         <th class='col-span-3'>Mô tả</th>
-                        <th class='col-span-2'>Đơn giá</th>
+                        <th class='col-span-2 text-center'>Đơn giá</th>
                         <th class='col-span-2'>Trạng thái</th>
                     </tr>
                 </thead>

@@ -113,11 +113,11 @@ const ManagePrice = () => {
                     </div>
                 } */}
                 <thead>
-                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
-                        <th class='col-span-3'>Tuyến đi</th>
-                        <th class='col-span-3'>Giá</th>
-                        <th class='col-span-3'>Phụ phí</th>
-                        <th class='col-span-3'>Trạng thái</th>
+                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-sm'>
+                        <th class='col-span-6'>Tuyến đi</th>
+                        <th class='col-span-2'>Giá</th>
+                        <th class='col-span-2'>Phụ phí</th>
+                        <th class='col-span-2'>Trạng thái</th>
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>

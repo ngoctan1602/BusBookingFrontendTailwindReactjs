@@ -30,17 +30,17 @@ const Overview = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await busServices.getAllBusOfCompany();
-                console.log(response.data)
-                setBus(response.data.items);
-                setLoading(false)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false)
-            }
-        };
+        // const fetchData = async () => {
+        //     try {
+        //         const response = await busServices.getAllBusOfCompany();
+        //         console.log(response.data)
+        //         setBus(response.data.items);
+        //         setLoading(false)
+        //     } catch (error) {
+        //         console.error('Error fetching data:', error);
+        //         setLoading(false)
+        //     }
+        // };
 
         fetchData();
 
@@ -147,7 +147,7 @@ const Overview = () => {
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                 <p class='col-span-2 font-bold text-20'>Quản lý xe</p>
                 <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
-                <PopupAdd items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}></PopupAdd>
+                <PopupAdd fetchData={fetchData} items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}></PopupAdd>
                 {/* <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation> */}
 
             </div>

@@ -33,6 +33,7 @@ import createTicketNew from "../pages/Company/createTicketNew"
 import CreateTicketNew from "../pages/Company/createTicketNew"
 import UpdateStatusPrice from "../pages/Admin/updateStatusPrice"
 import UpdateStatusPriceClass from "../pages/Admin/updateStatusPriceClass"
+import CompanyRegister from "../pages/Company/register"
 
 
 
@@ -132,6 +133,9 @@ const companyRoutes = [
     },
     {
         path: "/company/login", component: CompanyLogin
+    },
+    {
+        path: "/company/register", component: CompanyRegister
     },
     {
         path: "/company/statistic", component: DashBoardCompany

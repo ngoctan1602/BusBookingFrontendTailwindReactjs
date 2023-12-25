@@ -56,14 +56,14 @@ const PriceClassRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
     }, [updateTypeBus])
 
     return (
-        <tr class='grid  grid-cols-12 p-sm border-t-[1px] border-txt'
+        <tr class='grid  grid-cols-12 p-sm border-t-[1px] border-txt gap-sm'
             style={{ background: item.status === 2 ? "#75718a" : "" }}
         >
-            <td class='col-span-2'>{item.id}</td>
-            <td class='col-span-3'>{item.name}</td>
+            {/* <td class='col-span-2'>{item.id}</td> */}
+            <td class='col-span-3 col-start-2'>{item.name}</td>
             <td class='col-span-3'>{item.description}</td>
-            <td class='col-span-2'>
-                <CurrencyFormat value={item.value} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
+            <td class='col-span-2 text-center'>
+                <CurrencyFormat value={item.value} displayType={'text'} thousandSeparator={true} suffix={' %'} />
             </td>
             {
                 item.status === 2 ?

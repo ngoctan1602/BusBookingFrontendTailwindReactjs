@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
 import * as TypeBusSv from "../../../../../../src/services/TypeBusServices"
+import * as BusSV from "../../../../../../src/services/Company/BusSV"
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from "react";
 
-const PopupUpdate = ({ item, onChange, busUpdate, success, closePopup }) => {
-    console.log(busUpdate)
+const PopupUpdate = ({ fetchData, item, onChange, busUpdate, success, closePopup }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
     const notifySuccess = () => toast.success('Cập nhật thành công!', {
         position: "bottom-right",
@@ -37,20 +37,28 @@ const PopupUpdate = ({ item, onChange, busUpdate, success, closePopup }) => {
     // }
     const getItemValue = async (close) => {
         if (success()) {
-            const itemUpdate = { ...busUpdate, status: status }
-            console.log(itemUpdate)
+            // const itemUpdate = { ...busUpdate }
+            // console.log(itemUpdate)
             console.log(busUpdate)
             // const update = await TypeBusSv.updateTypeBus(updateTypeBus)
+            // close()
+            // fetchData()
+            try {
+                const update = await BusSV.update(busUpdate)
+                if (!update.isError) {
+                    notifySuccess()
+                    setTimeout(() => {
+                        close()
+                        fetchData()
+                    }, 1500);
+                }
+                else {
+                    notifyError()
+                }
+            } catch (error) {
+                console.log(error)
+            }
 
-
-            // if (update.isError) {
-            //     notifyError()
-            //     return
-            // }
-            notifySuccess()
-            setTimeout(() => {
-                close()
-            }, 1500);
         }
         else {
 
@@ -90,35 +98,26 @@ const PopupUpdate = ({ item, onChange, busUpdate, success, closePopup }) => {
 
                         {
                             (item.item).map((item, index) => (
+
+
                                 <div class=' grid grid-cols-10'>
-                                    <p class='col-span-2 col-start-2 self-center '>{item.content}</p>
+
+                                    {
+                                        item.id !== 1 &&
+                                        <p class='col-span-2 col-start-2 self-center '>{item.content}</p>
+                                    }
                                     <div class='col-span-6'>
                                         {
-                                            item.id === 1 ?
-                                                <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, name: item.name, value: busUpdate.Id, spanWidth: Number(item.spanWidth), background: "#e1e1e1" }}></InputConfirmInfo>
-                                                : item.name === "BusTypeId" ?
-                                                    <select class='bg-bgPopup w-full h-[40px] border-[1px] outline-none border-txt rounded-md'
-                                                    // onChange={(e) => setStatus(Number(e.target.value))}
-                                                    >
-                                                        {/* <option selected={Number(busUpdate.status) === 0 ? true : false} value={0}>Ngưng hoạt động</option>
-                                                        <option selected={Number(busUpdate.status) === 1 ? true : false} value={1}>Hoạt động</option> */}
+                                            item.id !== 1 &&
 
-                                                        {
-                                                            typeBus.length > 0 &&
-                                                            typeBus.map(item => (
-                                                                <option selected={item.id === busUpdate.BusTypeId}>
-                                                                    {
-                                                                        item.name
-                                                                    }
-                                                                </option>
-                                                            ))
-                                                        }
-                                                    </select>
-                                                    :
-                                                    <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, name: item.name, value: busUpdate[item.name], spanWidth: Number(item.spanWidth), background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                            // <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, name: item.name, value: busUpdate.Id, spanWidth: Number(item.spanWidth), background: "#e1e1e1" }}></InputConfirmInfo>
+                                            // :
+                                            <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, name: item.name, value: busUpdate[item.name], spanWidth: Number(item.spanWidth), background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
                                         }
+
                                     </div>
                                 </div>
+
                             ))
                         }
 

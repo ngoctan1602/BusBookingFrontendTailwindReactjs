@@ -59,11 +59,11 @@ const PriceRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
         <tr class='grid  grid-cols-12 p-sm border-t-[1px] border-txt'
 
         >
-            <td class='col-span-3'>{item.routeId}</td>
-            <td class='col-span-3'>
+            <td class='col-span-6'>{item.stationStart} - {item.stationEnd}</td>
+            <td class='col-span-2'>
                 <CurrencyFormat value={item.price} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
             </td>
-            <td class='col-span-3'>
+            <td class='col-span-2'>
                 <CurrencyFormat value={item.surcharges} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
             </td>
             {

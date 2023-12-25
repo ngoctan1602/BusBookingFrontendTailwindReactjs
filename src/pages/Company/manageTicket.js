@@ -13,10 +13,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
 import ManageTicketRow from "../../components/Layout/Components/Company/Bus/ManageTicketRow";
+import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
+
 const Overview = () => {
 
 
-
+    const [currentPage, setCurrentPage] = useState(0);
+    const [pageTotal, setPageTotal] = useState(0);
+    const handlePageClick = (selectedPage) => {
+        setCurrentPage(selectedPage);
+    };
     const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
         position: "bottom-right",
         autoClose: 1000,
@@ -54,11 +60,11 @@ const Overview = () => {
 
     const fetchData = async () => {
         try {
-            const response = await ticketSV.getAllTicketInCompany();
+            const response = await ticketSV.getAllTicketInCompany({ pageSize: 10, pageIndex: currentPage + 1 });
             console.log(response)
-            if (!response.isError && response.datal.items) {
-
+            if (!response.isError && response.data.items) {
                 setTickets(response.data.items);
+                setPageTotal(response.data.pageTotal)
             }
             setLoading(false)
         } catch (error) {
@@ -80,7 +86,7 @@ const Overview = () => {
     const [isChange, setIsChange] = useState(false);
     const changeStatus = (id, value) => {
         setIsChange(true)
-        if (value === 7)
+        if (value === 7) {
             try {
                 const resp = ticketSV.changeCompleteStatus({ id: id });
                 setIsChange(false)
@@ -96,6 +102,24 @@ const Overview = () => {
             } catch (error) {
                 console.log(error)
             }
+        }
+        if (value === 0) {
+            try {
+                const resp = ticketSV.deleteTicket({ id: id });
+                setIsChange(false)
+                console.log(resp)
+                if (!resp.isError) {
+                    notifySuccess()
+                    setTimeout(
+                        () =>
+                            fetchData()
+                        , 2000
+                    )
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
         // if (value === 0)
         //     try {
         //         const resp = ticketSV.changeCompleteStatus({ id: id });
@@ -114,15 +138,34 @@ const Overview = () => {
         //     }
         console.log(id, value)
     }
-
+    const [selectedMonth, setSelectedMonth] = useState((new Date().getMonth()));
+    const month = Array.from({ length: 12 }, (_, index) => index + 1);
+    const onChangeMonth = async (month) => {
+        setSelectedMonth(month)
+        //Gọi api 
+    }
     return (
         <div class='w-full text-txt txt-16 '>
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                 <p class='col-span-2 font-bold text-20'>Quản lý chuyến đi</p>
-                <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                {/* <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input> */}
                 {/* <PopupAdd items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}></PopupAdd> */}
                 {/* <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation> */}
+                <select class='col-start-3 col-span-2 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'
+                    onChange={(e) => onChangeMonth(Number(e.target.value))}
+                >
+                    {
+                        month.map(item =>
+                        (<option className="text-center"
+                            value={item}
+                            selected={month.includes(selectedMonth)}
+                        >
+                            Tháng  {item}
+                        </option>)
+                        )
+                    }
+                </select>
 
             </div>
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
@@ -142,9 +185,9 @@ const Overview = () => {
                         <th class='col-span-2'>Biển số xe</th>
                         <th class='col-span-3'>Loại xe</th>
                         <th class='col-span-2'>Ngày khởi hành</th>
-                        <th class='col-span-1'>Số chỗ trống</th>
+                        <th class='col-span-2'>Số chỗ trống</th>
                         <th class='col-span-2'>Trạng thái</th>
-                        <th class='col-span-1'>Chi tiết</th>
+                        {/* <th class='col-span-1'>Chi tiết</th> */}
                     </tr>
                 </thead>
                 <tbody class='bg-[#e1e1e1]'>
@@ -154,7 +197,7 @@ const Overview = () => {
                         :
                         !loading && tickets.length > 0
                             ?
-                            <Paginate itemsPerPage={5} items={tickets} componentToRender={ManageTicketRow} updateStatus={changeStatus}></Paginate>
+                            <PaginatedItemsWithAPI handleClick={handlePageClick} pageCount={pageTotal} itemsPerPage={5} items={tickets} componentToRender={ManageTicketRow} updateStatus={changeStatus}></PaginatedItemsWithAPI>
                             :
                             <tr>
                                 Không có chuyến đi nào

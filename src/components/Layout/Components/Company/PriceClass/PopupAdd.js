@@ -136,9 +136,9 @@ const PopupAdd = () => {
                             </div>
                         </div>
                         <div class='flex items-center justify-center'>
-                            <p class='w-[80px] shrink-0'>Đơn giá</p>
+                            <p class='w-[80px] shrink-0'>Phụ thu (%)</p>
                             <div class='w-1/2'>
-                                <InputConfirmInfo item={{ type: "number", placeholder: "Nhập đơn giá", value: objectAdd.value, spanWidth: 140, name: "value", background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                <InputConfirmInfo item={{ type: "number", placeholder: "Nhập phụ thu", value: objectAdd.value, spanWidth: 140, name: "value", background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
                             </div>
                         </div>
 
