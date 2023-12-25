@@ -10,6 +10,7 @@ import AdminLogin from "./pages/Admin/login";
 import CompanyLayout from "./components/Layout/CompanyLayout/CompanyLayout";
 import CompanyLogin from "./pages/Company/login";
 import NotFound from "./pages/NotFound";
+import CompanyRegister from "./pages/Company/register";
 function App() {
   return (
     <Router>
@@ -69,9 +70,11 @@ function App() {
                 element={
                   route.path === "/company/login" ?
                     <CompanyLogin></CompanyLogin> :
-                    <CompanyLayout>
-                      <route.component />
-                    </CompanyLayout>
+                    route.path === "/company/register" ?
+                      <CompanyRegister></CompanyRegister> :
+                      <CompanyLayout>
+                        <route.component />
+                      </CompanyLayout>
                 }
               />
             })

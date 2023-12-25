@@ -13,7 +13,7 @@ const ManageTicketRow = ({ item, onChangeStatus }) => {
             <td class='col-span-2'>{item.busNumber}</td>
             <td class='col-span-3'>{item.busType}</td>
             <td class='col-span-2'>{new Date(item.date).toLocaleString()}</td>
-            <td class='col-span-1'>{item.totalEmptySeat}</td>
+            <td class='col-span-2'>{item.totalEmptySeat}</td>
 
 
             <td class='col-span-2'>
@@ -43,9 +43,6 @@ const ManageTicketRow = ({ item, onChangeStatus }) => {
             </td>
 
 
-            <td class='col-span-1'>
-                Popup chi tiết
-            </td>
 
         </tr >
     );

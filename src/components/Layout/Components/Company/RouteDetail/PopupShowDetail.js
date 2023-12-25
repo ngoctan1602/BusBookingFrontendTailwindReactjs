@@ -34,11 +34,11 @@ const PopUpShowDetail = ({ items }) => {
                                     <div class='col-span-6 col-start-4'>
                                         <p className="font-bold">{item.busStationName}</p>
                                         {
-                                            item.indexStation !== 1 && <p>Giờ cập bến: {item.departureTime}</p>
+                                            item.indexStation !== 1 && <p>Giờ cập bến: {item.arrivalTime}</p>
                                         }
                                         {
                                             item.indexStation !== items.length &&
-                                            <p>Giờ xuất bến: {item.arrivalTime}</p>
+                                            <p>Giờ xuất bến: {item.departureTime}</p>
                                         }
 
                                         <p>Ngày so với ngày xuất bến: {item.addDay}</p>

@@ -30,19 +30,19 @@ const CompanyLayout = ({ children }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "400px" };
     const [info, setInfo] = useState([
         {
-            id: 1, content: "Quản lý xe", icon: faBus, active: false, path: '/company/bus',
+            id: 1, content: "Quản lí lộ trình", icon: faRoute, active: false, path: '/company/route-detail',
         },
         {
-            id: 2, content: "Quản lý chuyến đi", icon: faMapLocationDot, active: true, path: '/company/ticket',
+            id: 2, content: "Quản lí giá/bảng giá", icon: faDollar, active: false, path: '/company/priceclassification',
         },
         {
-            id: 3, content: "Quản lí lộ trình", icon: faRoute, active: false, path: '/company/route-detail',
+            id: 3, content: "Quản lý xe", icon: faBus, active: false, path: '/company/bus',
         },
         {
-            id: 4, content: "Quản lí giá/bảng giá", icon: faDollar, active: false, path: '/company/priceclassification',
+            id: 4, content: "Tạo vé", icon: faTicket, active: false, path: '/company/create-ticket',
         },
         {
-            id: 5, content: "Tạo vé", icon: faTicket, active: false, path: '/company/create-ticket',
+            id: 5, content: "Quản lý chuyến đi", icon: faMapLocationDot, active: true, path: '/company/ticket',
         },
         {
             id: 6, content: "Thống kê", icon: faChartLine, active: false, path: '/company/statistic',

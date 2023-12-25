@@ -30,48 +30,46 @@ const BusDetail = () => {
             Id: bus ? bus.id : '',
             busNumber: bus ? bus.busNumber : '',
             description: bus ? bus.description : '',
-            BusTypeId: 1,
         }
     )
-    const [busStationOfBus, setBusStationOfBus] = useState()
-    const [loading, setLoading] = useState(true);
+    const [routesOfBus, setRoutesOfBus] = useState([])
+    const [loading, setLoading] = useState(false);
     const [firstFloor, setFirstFloor] = useState()
 
     const [secondFloor, setSecondFloor] = useState()
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
+    const fetchData = async () => {
+        try {
+            setLoading(true)
+            // const response = await busStationSV.getAllInBus({ busId: id });
+            // setBusStationOfBus(response.data.items)
 
-                // const response = await busStationSV.getAllInBus({ busId: id });
-                // setBusStationOfBus(response.data.items)
+            const seat = await SeatsSV.getAllBusOfCompany({ busId: id, pageSize: 200 });
+            if (!seat.isError) {
 
-                const seat = await SeatsSV.getAllBusOfCompany({ busId: id, pageSize: 200 });
-                if (!seat.isError) {
-
-                    setFirstFloor(seat.data.items.slice(0, seat.data.items.length / 2))
-                    setSecondFloor(seat.data.items.slice(seat.data.items.length / 2))
-                }
-                const busresp = await BusSV.getBusById({ id: id, pageSize: 200 });
-                if (!busresp.isError) {
-                    setBus(busresp.data)
-                    setUpdateItem(
-                        {
-                            Id: busresp.data.id,
-                            busNumber: busresp.data.busNumber,
-                            description: busresp.data.description,
-                            BusTypeId: 1,
-                            status: busresp.status
-                        }
-                    )
-                }
-                setLoading(false);
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false);
+                setFirstFloor(seat.data.items.slice(0, seat.data.items.length / 2))
+                setSecondFloor(seat.data.items.slice(seat.data.items.length / 2))
             }
-        };
+            const busresp = await BusSV.getBusById({ id: id, pageSize: 200 });
+            if (!busresp.isError && busresp.data) {
+                setBus(busresp.data)
+                setUpdateItem(
+                    {
+                        Id: busresp.data.id,
+                        busNumber: busresp.data.busNumber,
+                        description: busresp.data.description,
+                    }
+                )
+                setRoutesOfBus(busresp.data.routes)
+            }
+            setLoading(false);
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoading(false);
+        }
+    };
+    useEffect(() => {
 
         fetchData();
 
@@ -82,17 +80,13 @@ const BusDetail = () => {
         title: "Cập nhật thông tin xe",
         item: [
             {
-                id: 1, name: "busID", content: "Id", spanWidth: 60, placeholder: "Id", value: itemUpdate.id
+                id: 1, name: "busID", content: "Id", spanWidth: 60, placeholder: "Id"
             },
             {
                 id: 2, name: "busNumber", content: "Biển số xe", spanWidth: 120, placeholder: "Biển số xe", value: itemUpdate.busNumber
             },
             {
                 id: 3, name: "description", content: "Mô tả", spanWidth: 100, placeholder: "Thêm mô tả", value: itemUpdate.description
-            },
-
-            {
-                id: 4, name: "BusTypeId", content: "Loại xe", value: itemUpdate.status
             },
 
         ],
@@ -204,7 +198,7 @@ const BusDetail = () => {
                                     </p>
                                 </div>
                                 <div class='grid grid-cols-8 grid-flow-row w-full'>
-                                    <PopupUpdate item={propUpdate} busUpdate={itemUpdate} onChange={updateItemValue} closePopup={closePopup} success={success} />
+                                    <PopupUpdate fetchData={fetchData} item={propUpdate} busUpdate={itemUpdate} onChange={updateItemValue} closePopup={closePopup} success={success} />
                                 </div>
                             </div>
                         }
@@ -277,16 +271,15 @@ const BusDetail = () => {
 
                     <div class='grid grid-cols-12 grid-flow-row'>
                         <p class='col-span-10 font-bold text-20'>Danh sách tuyến của xe:</p>
-                        <PopupAddBusStation />
+                        {/* <PopupAddBusStation /> */}
                     </div>
                     <div class='w-full h-[250px] overflow-y-auto overflow-x-auto mb-md'>
-
                         <table class="w-full my-sm rounded-md border-collapse  text-txt text-16 overflow-hidden">
                             <thead>
                                 <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
                                     {/* <th class='col-span-2'>Id</th> */}
-                                    <th class='col-span-4 col-start-6'>Tên tuyến</th>
-                                    {/* <th class='col-span-4'>Địa chỉ</th> */}
+                                    <th class='col-span-4 '>Tên tuyến</th>
+                                    <th class='col-span-8'>Lộ trình</th>
                                     {/* <th class='col-span-2'>Trạng thái</th> */}
                                 </tr>
                             </thead>
@@ -325,7 +318,32 @@ const BusDetail = () => {
                                             </tr>
                                         )
                                 } */}
+                                {
+                                    loading ?
+                                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                                        </div> :
+                                        routesOfBus.length > 0
+                                            ?
+                                            routesOfBus.map(items => (
+                                                <tr class='grid  grid-cols-12 p-sm text-left gap-md'>
+                                                    {/* <th class='col-span-2'>Id</th> */}
+                                                    <td class='col-span-4 '>{items.stationStartName + " - " + items.stationEndName}</td>
 
+                                                    <td class='col-span-8'>
+                                                        {
+                                                            items.routeDetailResponses.map((item, index) =>
+                                                                (item.busStationName + (index != (items.routeDetailResponses.length - 1) ? " => " : ""))
+                                                            )
+                                                        }
+                                                    </td>
+                                                    {/* <th class='col-span-2'>Trạng thái</th> */}
+                                                </tr>
+                                            )) :
+                                            <tr>
+                                                Không có chuyến đi
+                                            </tr>
+
+                                }
                             </tbody>
                         </table>
                     </div>

@@ -11,7 +11,7 @@ import * as BusStationSv from "../../../../../services/BusStationSv"
 import * as BusSV from "../../../../../services/Company/BusSV"
 import * as RoutesSV from "../../../../../services/RoutesSV"
 import ReactLoading from 'react-loading';
-const PopupAdd = ({ items, propsAdd, onChange }) => {
+const PopupAdd = ({ fetchData, items, propsAdd, onChange }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "60%" };
 
     const [typeSeat, setTypeSeat] = useState();
@@ -156,6 +156,7 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
             setSubmit(false);
             setTimeout(() => {
                 close()
+                fetchData()
             }, 1500);
             console.log(newBus)
         }
@@ -342,7 +343,7 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
                                 <table class="w-full my-sm rounded-md border-collapse  text-txt text-16  ">
                                     <thead>
                                         <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
-                                            <th class='col-start-5 col-span-4'>Tuyến đi {selectedIds.join(',')}</th>
+                                            <th class='col-start-5 col-span-4'>Chọn tuyến đi </th>
 
                                         </tr>
                                     </thead>
@@ -352,7 +353,7 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
                                             route.length > 0 && route.map(item => (
                                                 <tr class='grid grid-cols-12 p-sm text-left gap-md'>
                                                     <td className="col-span-1 col-start-4">
-                                                        <input type="checkbox" onClick={(e) => handleCheckboxChange(e, item.id)}></input>
+                                                        <input className="w-[20px] h-[20px]" type="checkbox" onClick={(e) => handleCheckboxChange(e, item.id)}></input>
                                                     </td>
                                                     <td className="col-span-8">
                                                         {item.stationStartName + " - " + item.stationEndName}

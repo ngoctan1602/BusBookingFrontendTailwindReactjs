@@ -123,7 +123,7 @@ const CreateRouteDetail = () => {
             const routerresp = await RoutesSV.getAllRoutes({ pageSize: 200 });
             const routeInCompany = await RoutesSV.getAllRoutesByCompany({ pageSize: 200 })
             if (!routerresp.isError && routerresp.data.items.length > 0
-                && !routeInCompany.isError && routeInCompany.data.items.length > 0
+                && !routeInCompany.isError && routeInCompany.data.items.length >= 0
             ) {
                 // const filter = routerresp.data.items.filter(item => item.routes.length === 0)
                 // setRoute(routerresp.data.items)

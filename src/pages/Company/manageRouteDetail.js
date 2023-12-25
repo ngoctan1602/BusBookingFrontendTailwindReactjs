@@ -52,8 +52,10 @@ const ManageRouteDetail = () => {
         try {
             const response = await RoutesSV.getAllRoutesByCompany({ pageSize: 200, pageIndex: currentPage + 1 });
             console.log(response)
-            setRouteDetail(response.data.items);
-            setPageTotal(response.totalPage)
+            if (!response.isError && response.data.items.length > 0) {
+                setRouteDetail(response.data.items);
+                setPageTotal(response.data.pageTotal)
+            }
             setLoading(false)
         } catch (error) {
             console.error('Error fetching data:', error);
