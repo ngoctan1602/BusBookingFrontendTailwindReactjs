@@ -21,28 +21,13 @@ const Search = () => {
     ])
 
     const [startTime, setStartTime] = useState([
-        { id: 1, name: 'Sáng sớm', from: '00:00', to: '06:00', checked: false },
-        { id: 2, name: 'Sáng', from: '06:01', to: '12:00', checked: false },
-        { id: 3, name: 'Chiều', from: '12:01', to: '18:00', checked: false },
-        { id: 4, name: 'Tối', from: '18:01', to: '23:59', checked: false }
+        { id: 1, name: 'Sáng', from: '04:00', to: '12:00', checked: false },
+        { id: 2, name: 'Chiều', from: '12:00', to: '17:00', checked: false },
+        { id: 3, name: 'Tối', from: '17:00', to: '21:00', checked: false },
+        { id: 4, name: 'Khuya', from: '21:00', to: '04:00', checked: false }
     ]);
 
-    const [company, setCompany] = useState(
-        [
-            {
-                id: 1, content: "Hà Linh"
-            },
-            {
-                id: 2, content: "Phương Trang"
-            },
-            {
-                id: 3, content: "Quang Hạnh"
-            },
-            {
-                id: 4, content: "Liên Hưng"
-            }
-        ]
-    )
+    const [company, setCompany] = useState([])
 
     const [sit, setSit] = useState(
         [
@@ -296,11 +281,22 @@ const Search = () => {
 
 
     const handSearch = async (search) => {
+        search.companyIds = company.map((item) => item.companyId);
+        search.timeInDays = startTime.filter((item) => item.checked).map((item) => item.id);
+        search.priceIsDesc = sort.id === 5 ? true : false;
+        search.timeIsDesc = sort.id === 3 ? true : false;
         console.log(search);
         setLoading(true)
         try {
             const response = await ticketService.findTicket(search)
             setBusInfo(response.data.items)
+            const companies = busInfo.map((item) => ({
+                companyId: item.companyId,
+                companyName: item.company,
+            }));
+
+            setCompany(companies)
+
             console.log(response)
             setLoading(false)
         }
@@ -369,7 +365,7 @@ const Search = () => {
                             <div class='w-full flex flex-wrap overflow-y-scroll'>
                                 {
                                     company.map((item, index) => (
-                                        <Input type='checkbox' content={item.content}></Input>
+                                        <Input type='checkbox' content={item.companyName}></Input>
                                     ))
                                 }
                             </div>
