@@ -13,11 +13,10 @@ import ReactLoading from 'react-loading';
 const Search = () => {
 
     const [sort, setSort] = useState([
-        { id: 1, content: 'Mặc định' },
-        { id: 2, content: 'Giờ đi sớm nhất' },
-        { id: 3, content: 'Giờ đi muộn nhất' },
-        { id: 4, content: 'Giá tăng dần' },
-        { id: 5, content: 'Giá giảm dần' },
+        { id: 1, content: 'Giờ đi sớm nhất' },
+        { id: 2, content: 'Giờ đi muộn nhất' },
+        { id: 3, content: 'Giá tăng dần' },
+        { id: 4, content: 'Giá giảm dần' },
     ])
 
     const [startTime, setStartTime] = useState([
@@ -283,8 +282,8 @@ const Search = () => {
     const handSearch = async (search) => {
         search.companyIds = company.map((item) => item.companyId);
         search.timeInDays = startTime.filter((item) => item.checked).map((item) => item.id);
-        search.priceIsDesc = sort.id === 5 ? true : false;
-        search.timeIsDesc = sort.id === 3 ? true : false;
+        search.priceIsDesc = selectedRadio === 5 ? true : false;
+        search.timeIsDesc = selectedRadio === 3 ? true : false;
         console.log(search);
         setLoading(true)
         try {
@@ -306,6 +305,11 @@ const Search = () => {
         }
 
     }
+    const onChangeRadioSort = (value) => {
+        setSelectedRadio(value)
+        alert(selectedRadio)
+    }
+    const [selectedRadio, setSelectedRadio] = useState(1)
 
     return (
         <div class='min-h-[1000px] w-content flex flex-col items-center my-xl'>
@@ -323,19 +327,31 @@ const Search = () => {
                     {/* Đây là phần sắp xếp */}
                     <div class='h-[220px] bg-transparent border-[1px] rounded-lg shadow-md'>
                         <p class='text-txt text-18 font-bold mt-sm mx-md'>Sắp xếp</p>
-                        <div class='h-[160px] sort bg-transparent flex flex-col ml-md '>
+                        <div class='h-[160px] sort bg-transparent'>
                             {
                                 sort.map((item, index) => (
-                                    <Input type="radio" name="sort" id={item.id} content={item.content}>
+                                    // <Input type="radio" name="sort" id={item.id} content={item.content}>
 
-                                    </Input>
+                                    // </Input>
+                                    <div className="grid grid-flow-row grid-cols-12 gap-sm my-sm">
+                                        <input type="radio" className="col-span-2" name="radiosort"
+                                            onChange={(e) => onChangeRadioSort(Number(e.target.value))}
+                                            value={item.id}
+                                            checked={selectedRadio === item.id}
+                                        >
+                                        </input>
+                                        <p className="col-span-10">
+                                            {item.content}
+                                        </p>
+                                    </div>
+
                                 ))
                             }
                         </div>
                     </div>
 
                     {/* Đây là phần lọc */}
-                    <div class='h-[700px] bg-transparent border-[1px] rounded-lg shadow-md my-lg'>
+                    <div class='h-[500px] bg-transparent border-[1px] rounded-lg shadow-md my-lg'>
                         {/* Đây là button xóa lọc */}
                         <div class='flex justify-between items-center'>
                             <p class='text-txt text-18 font-bold mt-sm mx-md'>Lọc</p>
@@ -357,7 +373,7 @@ const Search = () => {
                         </div>
 
                         {/* Đây là nhà xe */}
-                        <div class='h-[190px] w-full my-xl flex flex-col items-center'>
+                        <div class='h-[190px] overflow-auto w-full my-xl flex flex-col items-center'>
                             <p class='text-txt text-16 mt-sm mx-md w-content'>Nhà xe</p>
                             <input type='text' placeholder="Tìm trong danh sách"
                                 class='text-16 text-txt w-[90%] mx-sm bg-bg outline-none border-[1px] border-txt opacity-70 p-[4px] ease-in-out duration-300 rounded-md hover:border-button'>
@@ -372,10 +388,9 @@ const Search = () => {
                         </div>
 
                         {/* Đây là giá vé */}
-                        <div class='h-[100px] w-full my-xl flex flex-col items-center'>
+                        {/* <div class='h-[100px] w-full my-xl flex flex-col items-center'>
                             <p class='text-txt text-16 mt-sm mx-md w-content'>Giá vé</p>
-                            {/* <input type="range" min="0" id="min" max="2000" value={min} class='text-button' onChange={(e) => setMin(e.target.value)}></input>
-                            <input type="number" max='2000' value={min} onChange={(e) => setMin(e.target.value)}></input> */}
+                         
                             <MultiRangeSlider
                                 min={0}
                                 max={1000000}
@@ -396,11 +411,11 @@ const Search = () => {
                             </div>
 
 
-                        </div>
+                        </div> */}
 
                         {/* Đây là xếp hạng */}
 
-                        <div class='w-full h-[100px] '>
+                        {/* <div class='w-full h-[100px] '>
                             <p class='text-txt text-16 mt-sm mx-md w-content'>Đánh giá</p>
                             <div class='w-content flex items-center m-sm'>
                                 {
@@ -415,7 +430,7 @@ const Search = () => {
                                 }
                                 <p>({rating[1].sum})</p>
                             </div>
-                        </div>
+                        </div> */}
 
 
                     </div>
