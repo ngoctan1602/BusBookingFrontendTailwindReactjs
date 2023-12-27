@@ -363,7 +363,7 @@ const CompanyRegister = () => {
                         </div>
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-md'>
                             <button class='confirm-button col-start-4 col-span-6' onClick={onSubmit}>
-                                Đăng nhập
+                                Đăng ký
                             </button>
 
                         </div>
