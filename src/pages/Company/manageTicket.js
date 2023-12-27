@@ -64,6 +64,7 @@ const Overview = () => {
             const response = await ticketSV.getAllTicketInCompany({ pageSize: 10, pageIndex: currentPage + 1, month: month });
             console.log(response)
             if (!response.isError && response.data.items) {
+                setTickets([])
                 setTickets(response.data.items);
                 setPageTotal(response.data.pageTotal)
             }
@@ -85,11 +86,11 @@ const Overview = () => {
 
 
     const [isChange, setIsChange] = useState(false);
-    const changeStatus = (id, value) => {
+    const changeStatus = async (id, value) => {
         setIsChange(true)
         if (value === 7) {
             try {
-                const resp = ticketSV.changeCompleteStatus({ id: id });
+                const resp = await ticketSV.changeCompleteStatus({ id: id });
                 setIsChange(false)
                 console.log(resp)
                 if (!resp.isError) {
@@ -106,7 +107,7 @@ const Overview = () => {
         }
         if (value === 0) {
             try {
-                const resp = ticketSV.deleteTicket({ id: id });
+                const resp = await ticketSV.deleteTicket({ id: id });
                 setIsChange(false)
                 console.log(resp)
                 if (!resp.isError) {
