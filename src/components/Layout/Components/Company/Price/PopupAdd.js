@@ -50,7 +50,7 @@ const PopupAdd = () => {
     const fetchData = async () => {
         try {
 
-            const routerresp = await RoutesSV.getAllRoutes();
+            const routerresp = await RoutesSV.getAllRoutesByCompany();
             setRoute(routerresp.data.items)
 
         } catch (error) {
@@ -61,17 +61,18 @@ const PopupAdd = () => {
         fetchData()
 
     }, [])
-    const getItemValue = () => {
-        if (objectAdd.name === "" || objectAdd.description === "" || objectAdd.value <= 0) {
+    const getItemValue = async () => {
+        if (objectAdd.name === "" || objectAdd.description === "" || objectAdd.value < 0) {
             notifyWarning("Các trường không được bỏ trống và đơn giá không được bằng 0")
             return
         }
         setLoading(true)
         try {
-            const resp = PriceSV.createPrice(objectAdd);
+            const resp = await PriceSV.createPrice(objectAdd);
             setLoading(false)
             if (!resp.isError) {
                 notifySuccess("Thêm mới loại giá thành công")
+                setObjectAdd({ RouteId: 0, Surcharges: 0, Price: 0, })
             }
             else {
                 notifyError("Lỗi khi thêm")
@@ -125,9 +126,10 @@ const PopupAdd = () => {
                             <select className="col-span-6 bg-bgPopup border-[1px] rounded-md ml-[-8px] p-sm"
                                 onChange={(e) => onChange("RouteId", e.target.value)}
                             >
-                                <option>
+                                {objectAdd.RouteId === 0 && (<option>
                                     Chọn lộ trình
-                                </option>
+                                </option>)}
+                                
                                 {
                                     route.map(item =>
                                         <option value={item.id}>

@@ -17,8 +17,9 @@ module.exports = {
       'hover-txt': '#4d4c4f',
       'txt-final': '#474E68',
       'button-final': '#03C988',
-      'txt-button': '#E5E5CB'
-    },
+      'txt-button': '#E5E5CB',
+      'notificationNotRead': '#F9F1F2',
+    },  
     fontSize: {
       '12': '12px',
       '14': '14px',

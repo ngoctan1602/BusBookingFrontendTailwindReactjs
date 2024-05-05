@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDollarSign, faRightFromBracket, faRoute, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faBusSimple } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faCircleDot } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faMapLocation } from "@fortawesome/free-solid-svg-icons";
 import { faBusinessTime } from "@fortawesome/free-solid-svg-icons";
@@ -8,7 +9,7 @@ import adminlogo from "../../../assets/images/AdminLogo.png"
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import SignalRService from '../../../services/SignalRService'
 import Popup from "reactjs-popup";
 const AdminLayout = ({ children }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "400px" };
@@ -35,6 +36,17 @@ const AdminLayout = ({ children }) => {
             id: 7, content: "Quản lý tuyến đường", icon: faRoute, active: false, path: '/admin/routes',
         },
     ])
+
+    const notifiData = [
+        {"id":1, "content": "Content thứ nhất", "seenByUser": 1, 'href': 'manage-typebus'},
+        {"id":2, "content": "Content thứ Hai", "seenByUser": 0, 'href': 'manage-company'},
+        {"id":3, "content": "Content thứ ba", "seenByUser": 1, 'href': 'manage-seattype'},
+        {"id":4, "content": "Content thứ tư", "seenByUser": 1, 'href': 'manage-typebus'},
+        {"id":5, "content": "Content thứ năm", "seenByUser": 0, 'href': 'prices'},
+        {"id":6, "content": "Content thứ sáu", "seenByUser": 1, 'href': 'routes'},
+
+    ]
+
 
     let navigate = useNavigate();
     const location = useLocation()
@@ -86,12 +98,63 @@ const AdminLayout = ({ children }) => {
                     </img>
                     <p class='ml-sm font-bold uppercase'>Admin Page</p>
                 </div>
-                <div class='col-span-1 col-start-10 flex items-center'>
+                <div class='col-span-1 col-start-9 flex items-center'>
                     <img class='h-[40px] w-[40px] rounded-full' src={adminlogo} >
 
                     </img>
                     <p className="ml-sm">{localStorage.getItem("adminUsername")}</p>
+                    
                 </div>
+
+                {/*@this is notification UI  --Start*/}
+                <div className="">
+
+                <Popup trigger={<button class="flex justify-center cursor-default">
+                    <FontAwesomeIcon icon={faBell} color="#474554"
+                        className='cursor-pointer w-[full] h-[20px] hover:text-bg ease-in-out duration-200'>
+                    </FontAwesomeIcon></button>} position="right center"
+                    modal
+                    nested
+                    closeOnDocumentClick={true}
+                    {... { contentStyle }}
+                >
+                    {
+                        close => (
+
+                            <div class='p-md text-16 text-txt min-h-[100px]'>
+                                <div class='relative'>
+                                    <p class='text-20 text-center font-bold'>Thông báo của bạn</p>
+
+                                    <div class='closeButton cursor-pointer '
+                                        onClick={close}
+                                    >
+                                        <FontAwesomeIcon icon={faXmark} />
+                                    </div>
+
+                                </div>
+                                <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                                <div class='w-full my-md gap-sm grid'>
+                                    <div className="grid grid-rows-1">
+                                    {notifiData.map((item, index) => (
+                                        <a href={item.href} >
+                                            <div key={index} className={`p-[10px]  rounded-lg ${item.seenByUser === 0 ? 'bg-notification' : ''} hover:bg-notificationNotRead flex justify-between`} >
+                                            <div className="px-[5px]">{item.content}</div>
+                                            {item.seenByUser === 0 ? <div> <FontAwesomeIcon icon={faCircleDot} color="#419CC5" size="xs"/></div> : <div></div>}
+                                            </div>
+                                        </a>
+                                    ))}
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        )
+                    }
+
+                </Popup>
+                </div>
+
+                {/*@this is notification UI  --End*/}
 
                 <Popup trigger={<button class="flex justify-center cursor-default">
                     <FontAwesomeIcon icon={faRightFromBracket} color="#474554"

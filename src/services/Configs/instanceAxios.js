@@ -2,7 +2,7 @@ import axios from "axios";
 
 const instance = () => {
     const instance = axios.create({
-        baseURL: "http://localhost:5107/api/",
+        baseURL: "https://localhost:5107/api/",
         timeout: 10000000,
     });
 
@@ -32,7 +32,7 @@ const instance = () => {
                 if (refreshToken) {
                     try {
                         const response = await axios.post(
-                            "http://localhost:5107/api/auth/refreshToken",
+                            "https://localhost:5107/api/auth/refreshToken",
                             { token, refreshToken }
                         );
                         token = response.data.data.token;

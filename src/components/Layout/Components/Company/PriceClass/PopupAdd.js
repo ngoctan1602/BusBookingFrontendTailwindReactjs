@@ -44,18 +44,19 @@ const PopupAdd = () => {
     const handleClose = (close) => {
         // fetchData()
         close()
-    }
-    const getItemValue = () => {
-        if (objectAdd.name === "" || objectAdd.description === "" || objectAdd.value <= 0) {
-            notifyWarning("Các trường không được bỏ trống và đơn giá không được bằng 0")
+        }
+        const getItemValue = async () => {
+        if (objectAdd.name === "" || objectAdd.description === "" || objectAdd.value < 0) {
+            notifyWarning("Các trường không được bỏ trống và đơn giá không được bé hơn 0")
             return
         }
         setLoading(true)
         try {
-            const resp = PriceClassSV.createPriceSV(objectAdd);
+            const resp = await PriceClassSV.createPriceSV(objectAdd);
             setLoading(false)
             if (!resp.isError) {
                 notifySuccess("Thêm mới loại giá thành công")
+                setObjectAdd({ name: '', description: '', value: 0 })
             }
             else {
                 notifyError("Lỗi khi thêm")

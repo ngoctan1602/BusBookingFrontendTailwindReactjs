@@ -120,7 +120,7 @@ const CreateRouteDetail = () => {
     const getData = async () => {
         try {
 
-            const routerresp = await RoutesSV.getAllRoutes({ pageSize: 200 });
+            const routerresp = await RoutesSV.getAllRoutesWithParams({ pageSize: 200 });
             const routeInCompany = await RoutesSV.getAllRoutesByCompany({ pageSize: 200 })
             if (!routerresp.isError && routerresp.data.items.length > 0
                 && !routeInCompany.isError && routeInCompany.data.items.length >= 0

@@ -288,6 +288,7 @@ const Search = () => {
             const response = await ticketService.findTicket(search)
             setBusInfo(response.data.items)
             const companies = [];
+            setCompany(companies)
             busInfo.forEach((item) => {
                 let isExist = false;
             
