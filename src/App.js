@@ -11,79 +11,81 @@ import CompanyLayout from "./components/Layout/CompanyLayout/CompanyLayout";
 import CompanyLogin from "./pages/Company/login";
 import NotFound from "./pages/NotFound";
 import CompanyRegister from "./pages/Company/register";
+import NotifcationProvider from "./context/NotificationContext";
 function App() {
   return (
-    <Router>
-      <div className="font-Amiro bg-bg h-screen overflow-x-hidden">
-        <Routes>
-          {
-            publicRoutes.map((route, index) => {
-              return <Route
-                key={index}
-                path={route.path}
-                element={
-                  <DefaultLayout>
-                    <route.component />
-                  </DefaultLayout>
-                }
-              />
-            }
-            )
-          }
-
-          {
-            privateRoutes.map((route, index) => {
-              return <Route
-                key={index}
-                path={route.path}
-                element={
-                  <InfoLayout>
-                    <route.component />
-                  </InfoLayout>
-                }
-              />
-            })
-          }
-
-          {
-            adminRoutes.map((route, index) => {
-              return <Route
-                key={index}
-                path={route.path}
-                element={
-                  route.path === "/admin/login" ?
-                    <AdminLogin></AdminLogin>
-                    :
-                    <AdminLayoutSidebar>
+    <NotifcationProvider>
+      <Router>
+        <div className="font-Amiro bg-bg h-screen overflow-x-hidden">
+          <Routes>
+            {
+              publicRoutes.map((route, index) => {
+                return <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <DefaultLayout>
                       <route.component />
-                    </AdminLayoutSidebar>
-                }
-              />
-            })
-          }
+                    </DefaultLayout>
+                  }
+                />
+              })
+            }
 
-          {
-            companyRoutes.map((route, index) => {
-              return <Route
-                key={index}
-                path={route.path}
-                element={
-                  route.path === "/company/login" ?
-                    <CompanyLogin></CompanyLogin> :
-                    route.path === "/company/register" ?
-                      <CompanyRegister></CompanyRegister> :
-                      <CompanyLayout>
+            {
+              privateRoutes.map((route, index) => {
+                return <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <InfoLayout>
+                      <route.component />
+                    </InfoLayout>
+                  }
+                />
+              })
+            }
+
+            {
+              adminRoutes.map((route, index) => {
+                return <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    route.path === "/admin/login" ?
+                      <AdminLogin></AdminLogin>
+                      :
+                      <AdminLayoutSidebar>
                         <route.component />
-                      </CompanyLayout>
-                }
-              />
-            })
-          }
+                      </AdminLayoutSidebar>
+                  }
+                />
+              })
+            }
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-    </Router>
+            {
+              companyRoutes.map((route, index) => {
+                return <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    route.path === "/company/login" ?
+                      <CompanyLogin></CompanyLogin> :
+                      route.path === "/company/register" ?
+                        <CompanyRegister></CompanyRegister> :
+                        <CompanyLayout>
+                          <route.component />
+                        </CompanyLayout>
+                  }
+                />
+              })
+            }
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </Router>
+    </NotifcationProvider>
   );
 }
 
