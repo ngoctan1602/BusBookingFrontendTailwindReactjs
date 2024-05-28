@@ -141,7 +141,7 @@ const CompanyLogin = () => {
                     <p class='text-18 shrink-0'>
                         Đăng nhập để quản lý hệ thống nhà xe
                     </p>
-                    <p class='text-14 m-md'>
+                    <p class='text-16 m-md'>
                         Những chuyến đi dài của bạn hãy để chúng mình lo nhé.
                         Chỉ cần một cú click chuột mọi thứ đều trong tầm tay
                     </p>

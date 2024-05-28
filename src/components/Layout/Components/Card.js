@@ -38,7 +38,7 @@ const Card = (props) => {
                                 <p className='text-txt font-bold text-16'>
                                     {intro}
                                 </p>
-                                <p className='text-txt text-14'>{content}</p>
+                                <p className='text-txt text-16'>{content}</p>
                             </div>
                         </div>
                         :

@@ -168,8 +168,8 @@ const Overview = () => {
                     </div>
                 }
                 <thead>
-                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
-                        <th class='col-span-1'>Id</th>
+                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
+                        {/* <th class='col-span-1'>Id</th> */}
                         <th class='col-span-2'>Biển số xe</th>
                         <th class='col-span-3'>Loại xe</th>
                         <th class='col-span-2'>Ngày khởi hành</th>
@@ -177,8 +177,10 @@ const Overview = () => {
                         <th class='col-span-2'>Trạng thái</th>
                         {/* <th class='col-span-1'>Chi tiết</th> */}
                     </tr>
+                    
+
                 </thead>
-                <tbody class='bg-[#e1e1e1]'>
+                <tbody class='bg-[#FFFF]'>
                     {loading ?
                         <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
                         </div>

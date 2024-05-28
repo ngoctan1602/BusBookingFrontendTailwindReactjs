@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 const PopupAddBusStation = () => {
     let { id } = useParams();
 
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "60%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "60%" };
     const [busStation, setBusStation] = useState();
 
     useEffect(() => {
@@ -119,11 +119,11 @@ const PopupAddBusStation = () => {
                     <div class='p-md text-16 text-txt'>
 
                         <p class='text-20 text-center font-bold'> Thêm điểm đón dừng cho xe</p>
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
                         <div class='grid grid-cols-12 grid-flow-row w-full'>
                             <input type="text"
                                 class='p-sm outline-none border-[1px] rounded-md 
-                             bg-[#e1e1e1] col-start-4 col-span-6 focus:border-button focus:border-[1.5px] ease-in-out duration-200'
+                             bg-[#FFFF] col-start-4 col-span-6 focus:border-button focus:border-[1.5px] ease-in-out duration-200'
                                 placeholder="Tìm kiếm điểm đón trả khách"
                             />
                         </div>
@@ -137,7 +137,7 @@ const PopupAddBusStation = () => {
 
                                     </tr>
                                 </thead>
-                                <tbody class='bg-[#e1e1e1]'>
+                                <tbody class='bg-[#FFFF]'>
                                     {
                                         busStation ?
                                             busStation.map((item, index) =>

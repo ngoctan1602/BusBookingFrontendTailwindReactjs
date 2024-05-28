@@ -135,12 +135,12 @@ const UpdateStatusPriceClass = () => {
                         Quản lý bảng giá
                     </option>
                 </select>
-                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
 
 
 
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-14 overflow-hidden relative">
+            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
                 {
                     updateLoading &&
                     <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
@@ -152,7 +152,7 @@ const UpdateStatusPriceClass = () => {
                     </div>
                 }
                 <thead>
-                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
+                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
                         <th class='col-span-3'>Công ty</th>
                         <th class='col-span-3'>Tên loại giá</th>
                         <th class='col-span-2'>Giá trị (%)</th>
@@ -160,7 +160,7 @@ const UpdateStatusPriceClass = () => {
                         <th class='col-span-2'>Trạng thái</th>
                     </tr>
                 </thead>
-                <tbody class='bg-[#e1e1e1]'>
+                <tbody class='bg-bg'>
                     {
                         loading ?
                             <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">

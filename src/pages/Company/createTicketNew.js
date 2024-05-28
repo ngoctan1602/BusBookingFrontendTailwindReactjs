@@ -208,7 +208,7 @@ const CreateTicketNew = () => {
                 <p className="col-span-2 flex items-center">Chọn lộ trình</p>
                 <select
                     onChange={(e) => changeRoute(Number(e.target.value))}
-                    className="col-span-4 p-sm bg-bgPopup outline-none border-[1px] rounded-md">
+                    className="col-span-4 p-sm bg-bg outline-none border-[1px] rounded-md">
                     <option value={0}>
                         Chọn lộ trình
                     </option>
@@ -230,7 +230,7 @@ const CreateTicketNew = () => {
                     <input
                         value={objectAdd.DateOnly}
                         onChange={(e) => updateValue("DateOnly", e.target.value)}
-                        type="date" className="border-[1px] border-txt text-center col-span-6 bg-bgPopup outline-none rounded-md"></input>
+                        type="date" className="border-[1px] border-txt text-center col-span-6 bg-bg outline-none rounded-md"></input>
                 </div>
 
 
@@ -241,7 +241,7 @@ const CreateTicketNew = () => {
                 <p className="col-span-2 flex items-center">Chọn xe</p>
                 <select
                     onChange={(e) => updateValue("busId", e.target.value)}
-                    className="col-span-4 p-sm bg-bgPopup outline-none border-[1px] rounded-md">
+                    className="col-span-4 p-sm bg-bg outline-none border-[1px] rounded-md">
                     <option value={0}>
                         Chọn xe
                     </option>
@@ -265,7 +265,7 @@ const CreateTicketNew = () => {
                 <p className="col-span-2 flex items-center">Chọn loại giá</p>
                 <select
                     onChange={(e) => updateValue("PriceClassificationId", e.target.value)}
-                    className="col-span-4 p-sm bg-bgPopup outline-none border-[1px] rounded-md">
+                    className="col-span-4 p-sm bg-bg outline-none border-[1px] rounded-md">
                     <option value={0}>
                         Chọn loại giá
                     </option>
@@ -306,7 +306,7 @@ const CreateTicketNew = () => {
                             <th class='col-span-2'>Ngày so với bến xuất phát</th>
                         </tr>
                     </thead>
-                    <tbody class='bg-[#e1e1e1]'>
+                    <tbody class='bg-[#FFFF]'>
                         {
                             routeDetail.length > 0 &&
                             routeDetail.map((item) => (
@@ -327,7 +327,7 @@ const CreateTicketNew = () => {
 
                                     <td class='col-span-2'>{item.busStationName}</td>
                                     <td class='col-span-2'>
-                                        <input className="w-full text-center rounded-sm outline-none px-sm bg-bgPopup border-[1px] border-hover-txt"
+                                        <input className="w-full text-center rounded-sm outline-none px-sm bg-bg border-[1px] border-hover-txt"
                                             type="time"
                                             value={item.arrivalTime}
                                             disabled
@@ -336,7 +336,7 @@ const CreateTicketNew = () => {
                                         </input>
                                     </td>
                                     <td class='col-span-2'>
-                                        <input className="w-full text-center rounded-sm outline-none px-sm bg-bgPopup border-[1px] border-hover-txt"
+                                        <input className="w-full text-center rounded-sm outline-none px-sm bg-bg border-[1px] border-hover-txt"
                                             type="time"
                                             value={item.departureTime}
                                             disabled

@@ -5,7 +5,8 @@ import { faBell, faCircleDot } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faMapLocation } from "@fortawesome/free-solid-svg-icons";
 import { faBusinessTime } from "@fortawesome/free-solid-svg-icons";
-import adminlogo from "../../../assets/images/AdminLogo.png"
+import avatar from "../../../assets/images/avatar.png"
+import logoTrip from "../../../assets/images/logotrip.png"
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -91,13 +92,13 @@ const AdminLayout = ({ children }) => {
             <div class='w-full h-[60px] shrink-0 bg-bg shadow-xl grid grid-flow-row grid-cols-11 items-center text-txt text-16 fixed z-50 top-[0px] left-[0px] overflow-hidden'>
 
                 <div class='col-span-2 col-start-1 flex items-center ml-md'>
-                    <img class='h-[40px] w-[100px]' src={adminlogo} >
+                    <img class='h-[40px] w-[100px]' src={logoTrip} >
 
                     </img>
                     <p class='ml-sm font-bold uppercase'>Admin Page</p>
                 </div>
                 <div class='col-span-1 col-start-9 flex items-center'>
-                    <img class='h-[40px] w-[40px] rounded-full' src={adminlogo} >
+                    <img class='h-[40px] w-[40px] rounded-full' src={avatar} >
 
                     </img>
                     <p className="ml-sm">{localStorage.getItem("adminUsername")}</p>
@@ -130,7 +131,7 @@ const AdminLayout = ({ children }) => {
                                     </div>
 
                                 </div>
-                                <div class='w-full h-[1px] bg-txt my-sm' ></div>
+    
                                 <div class='w-full my-md gap-sm grid'>
                                     <div className="grid grid-rows-1">
                                     {notifiData.map((item, index) => (
@@ -177,7 +178,7 @@ const AdminLayout = ({ children }) => {
                                     </div>
 
                                 </div>
-                                <div class='w-full h-[1px] bg-txt my-sm' ></div>
+    
                                 <div class='w-full my-md gap-sm grid grid-cols-10'>
                                     {/* <Link class='col-start-3 col-span-3 col confirm-button text-center' to='/admin/login'>Xác nhận</Link> */}
                                     <button class='col-span-4 col-start-2 confirm-button' onClick={signOut}>Xác nhận</button>
@@ -215,7 +216,7 @@ const AdminLayout = ({ children }) => {
             </div> */}
             <div className="w-full h-full  grid-flow-row grid-cols-10 gap-sm mt-[60px]">
                 <div className="col-span-1 grid grid-cols-1 grid-flow-row fixed overflow-auto h-full shadow-2xl" >
-                    <div className=" h-[400px] col-span-1 grid grid-cols-1 grid-flow-row  text-14">
+                    <div className=" h-[400px] col-span-1 grid grid-cols-1 grid-flow-row  text-16">
                         {
                             info.map((item, index) => (
                                 <Link key={item.id}
@@ -225,7 +226,7 @@ const AdminLayout = ({ children }) => {
                                     {
                                         item.active ?
                                             <div
-                                                className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-stretch items-center"
+                                            className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  border-[3px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
                                             >
                                                 <FontAwesomeIcon class='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color="#474E68"></FontAwesomeIcon>
                                                 <p class='mx-[40px] col-span-10'> {item.content}</p>

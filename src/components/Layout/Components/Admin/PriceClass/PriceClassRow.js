@@ -92,7 +92,7 @@ const PriceClassRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
                     </td> :
                     <td className="col-span-2" >
                         <select className="w-full outline-none bg-bgPopup p-sm rounded-sm" onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
-                            <option value={2} selected={item.status === 2 ? true : false}>
+                            <option value={2} selected={item.status === 2 ? true : false} className="text-amber-800">
                                 Đang chờ
                             </option>
                             <option value={1} selected={item.status === 1 ? true : false}>

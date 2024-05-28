@@ -129,7 +129,7 @@ const ManageRoutes = () => {
             }
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                 <p class='col-span-2 font-bold text-20'>Quản lý tuyến đường</p>
-                <input placeholder="Tìm kiếm" class='col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                <input placeholder="Tìm kiếm" class='col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
                 <div class='flex col-span-1 col-start-8 justify-evenly'>
 
                     <PopupAdd fetchData={fetchData}></PopupAdd>
@@ -139,16 +139,16 @@ const ManageRoutes = () => {
                     </button>
                 </div>
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-14 overflow-hidden">
+            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
 
                 <thead>
-                    <tr class='grid bg-button grid-cols-6 p-sm text-left'>
+                    <tr class='grid bg-bg grid-cols-6 p-sm text-left border-b-2'>
                         {/* <th class='col-span-1'>Id</th> */}
                         <th class='col-span-3'>Điểm xuất phát</th>
                         <th class='col-span-3'>Điểm đến</th>
                     </tr>
                 </thead>
-                <tbody class='bg-[#e1e1e1]'>
+                <tbody class='bg-bg'>
 
                     {
                         loading ?

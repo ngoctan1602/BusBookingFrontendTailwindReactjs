@@ -13,7 +13,7 @@ const PopupUpdateSeat = ({ item, seatUpdate }) => {
 
     const [itemUpdate, setItemUpdate] = useState(seatUpdate);
     const [status, setStatus] = useState(seatUpdate.status);
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
 
     const updateItemValue = (id, newValue) => {
         item.item.map(item => {
@@ -112,7 +112,7 @@ const PopupUpdateSeat = ({ item, seatUpdate }) => {
 
                     <div class='p-md text-16 text-txt'>
                         <p class='text-20 text-center font-bold'>{item.title}</p>
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
 
                         {
                             (item.item).map((item, index) => (
@@ -122,16 +122,16 @@ const PopupUpdateSeat = ({ item, seatUpdate }) => {
                                     <div class='col-span-6'>
                                         {
                                             item.id === 1 ?
-                                                <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, id: itemUpdate[item.name], value: itemUpdate.id, spanWidth: Number(item.spanWidth), background: "#e1e1e1" }}></InputConfirmInfo>
+                                                <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, id: itemUpdate[item.name], value: itemUpdate.id, spanWidth: Number(item.spanWidth), background: "#FFFF" }}></InputConfirmInfo>
                                                 : item.name === "status" ?
                                                     <select class='bg-bgPopup w-full h-[40px]' onChange={(e) => setStatus(Number(e.target.value))}>
                                                         <option selected={(status) === 0 ? true : false} value={0}>Ngưng hoạt động</option>
                                                         <option selected={(status) === 1 ? true : false} value={1}>Hoạt động</option>
                                                     </select>
                                                     : item.name === "price" ?
-                                                        <InputConfirmInfo item={{ type: "number", placeholder: `${item.placeholder}`, id: item.id, value: itemUpdate[item.name], spanWidth: Number(item.spanWidth), background: "#e1e1e1" }} onChange={updateItemValue}></InputConfirmInfo>
+                                                        <InputConfirmInfo item={{ type: "number", placeholder: `${item.placeholder}`, id: item.id, value: itemUpdate[item.name], spanWidth: Number(item.spanWidth), background: "#FFFF" }} onChange={updateItemValue}></InputConfirmInfo>
                                                         :
-                                                        <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, id: item.id, value: itemUpdate[item.name], spanWidth: Number(item.spanWidth), background: "#e1e1e1" }} onChange={updateItemValue}></InputConfirmInfo>
+                                                        <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, id: item.id, value: itemUpdate[item.name], spanWidth: Number(item.spanWidth), background: "#FFFF" }} onChange={updateItemValue}></InputConfirmInfo>
 
                                         }
                                     </div>

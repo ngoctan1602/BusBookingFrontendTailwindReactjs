@@ -338,7 +338,7 @@ const Search = () => {
                 <SearchHeader onSearch={handSearch} ></SearchHeader>
             </div> */}
             <div className="h-[120px] grid grid-flow-row grid-cols-12 w-full">
-                <div className=" bg-[#e1e1e1] shadow-md rounded-md col-span-8 col-start-4">
+                <div className=" bg-bg shadow-2xl rounded-md col-span-8 col-start-4">
                     <SearchHeader onSearch={handSearch} ></SearchHeader>
                 </div>
             </div>

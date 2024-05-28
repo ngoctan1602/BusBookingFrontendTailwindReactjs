@@ -409,7 +409,7 @@ const Info = () => {
 
                                     <div class='p-md text-16 text-txt'>
                                         <p class='text-20 text-center font-bold'>Cập nhật số điện thoại</p>
-                                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+            
                                         <div class='grid grid-cols-12 w-full grid-flow-row'>
                                             <p class='col-span-3 col-start-2 flex items-center justify-center '>Số điện thoại</p>
                                             <div class='col-span-7'>
@@ -458,7 +458,7 @@ const Info = () => {
 
                                     <div class='p-md text-16 text-txt'>
                                         <p class='text-20 text-center font-bold'>Cập nhật email</p>
-                                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+            
                                         {/* <div class='flex items-center justify-center'>
                                             <p class='w-[60px] shrink-0'>Email</p>
                                             <div class='w-1/2'>
@@ -510,7 +510,7 @@ const Info = () => {
 
                                     <div class='p-md text-16 text-txt'>
                                         <p class='text-20 text-center font-bold'>  Thay đổi mật khẩu</p>
-                                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+            
                                         <div class='flex items-center'>
                                             <p class='w-[150px] shrink-0'>Mật khẩu cũ</p>
                                             <div class='w-1/2'>

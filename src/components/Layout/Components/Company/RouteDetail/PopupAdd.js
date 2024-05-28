@@ -56,7 +56,7 @@ const PopupAdd = ({ items, propsAdd, onChange }) => {
                         } */}
                         <div class='p-md text-16 text-txt '>
                             <p class='text-20 text-center font-bold'>Thêm mới lộ trình</p>
-                            <div class='w-full h-[1px] bg-txt my-sm' ></div>
+
                         </div>
                         <div className="w-full grid grid-cols-12 grid-flow-row">
                             <div className="col-span-2 col-start-3 flex items-center">

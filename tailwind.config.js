@@ -5,13 +5,14 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      FiraSans: ['Fira Sans'],
+      FiraSans: ['Comfortaa'],
       robo: ['Raleway', 'sans-serif'],
-      Amiro: ['Reddit Mono', 'sans-serif']
+      Amiro: ['Comfortaa', 'Playpen Sans']
     },
     colors: {
       'txt': '#090808',
       'txt-gray': '#4B4B4B',
+      'txt-light':'##FFFFFF',
       'button': '#C6C6C6',
       'bg': '#FFFFFF',
       'bgContent': '#EAEAEA',

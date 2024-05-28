@@ -5,7 +5,7 @@ const OverviewRow = ({ item, onChangeStatus }) => {
 
     return (
 
-        <tr class='grid grid-cols-12 p-sm border-t-[1px] border-txt gap-md '
+        <tr class='grid grid-cols-12 p-sm my-[10px] items-center '
             style={{ background: item.status === 3 ? "#75718a" : "" }}
         >
 
@@ -14,7 +14,7 @@ const OverviewRow = ({ item, onChangeStatus }) => {
             <td class='col-span-3'>{item.busType}</td>
             <td class='col-span-2'>{item.totalSeat}</td>
             <td class='col-span-2'>
-                <select class='bg-[#e1e1e1] outline-none'
+                <select class='bg-bg outline-none'
                     style={{ background: item.status === 3 ? "#75718a" : "" }}
                     onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}
                 >

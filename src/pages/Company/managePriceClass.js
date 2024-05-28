@@ -88,7 +88,7 @@ const ManagePriceClass = () => {
                         Quản lý bảng giá
                     </option>
                 </select>
-                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
                 {/* <PopupAdd
                     items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}
                 ></PopupAdd> */}
@@ -109,15 +109,17 @@ const ManagePriceClass = () => {
                     </div>
                 } */}
                 <thead>
-                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
+                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
                         {/* <th class='col-span-2'>Id</th> */}
                         <th class='col-span-3 col-start-2'>Tên</th>
                         <th class='col-span-3'>Mô tả</th>
                         <th class='col-span-2 text-center'>Đơn giá</th>
                         <th class='col-span-2'>Trạng thái</th>
                     </tr>
+                    
+
                 </thead>
-                <tbody class='bg-[#e1e1e1]'>
+                <tbody class='bg-bg'>
                     {
                         loading ?
                             <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">

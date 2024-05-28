@@ -281,7 +281,7 @@ const Register = () => {
                 </div>
             </div>
 
-            <p className="w-[50%] m-md text-sm italic text-text font-bold text-14 text-center">
+            <p className="w-[50%] m-md text-sm italic text-text font-bold text-16 text-center">
                 * Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với <Link to="/policy" className="text-button hover:underline">Chính sách bảo mật</Link>,
                 <Link className="text-button hover:underline"> Điều khoản dịch vụ và chính sách</Link> tư vấn của Y-Trip.
             </p>

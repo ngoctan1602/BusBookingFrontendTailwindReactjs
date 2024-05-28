@@ -12,7 +12,7 @@ import PaginatedItemsWithAPI from "../../PaginateWithApi";
 // import BusStationRow from "../../../Components/Admin/manageBusStation/BusStationRow";
 import BusStationRow from "./CheckBusStationRow";
 const PopupAdd = ({ fetch }) => {
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "60%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "60%" };
 
     const notifySuccess = (meseage) => toast.success(meseage, {
         position: "bottom-right",
@@ -136,14 +136,14 @@ const PopupAdd = ({ fetch }) => {
                             isCreate &&
                             <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
                                 <ReactLoading
-                                    type="spinningBubbles" color="#e1e1e1"
+                                    type="spinningBubbles" color="#FFFF"
                                     height={'10%'} width={'10%'}
                                     className="absolute left-[50%] top-[40%]  "
                                 />
                             </div>
                         }
                         <p class='text-20 text-center font-bold'>Thêm mới tuyến đi</p>
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
                         <div className="w-full grid grid-cols-12 grid-flow-row ">
                             {/* <div className="col-span-11 col-start-2 grid grid-cols-12 grid-flow-row">
                                 <p className="col-span-3 flex items-center"> Nhập tên tuyến đi </p>
@@ -176,7 +176,7 @@ const PopupAdd = ({ fetch }) => {
                                     loading &&
                                     <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
                                         <ReactLoading
-                                            type="spinningBubbles" color="#e1e1e1"
+                                            type="spinningBubbles" color="#FFFF"
                                             height={'10%'} width={'10%'}
                                             className="absolute left-[50%] top-[40%]  "
                                         />
@@ -191,7 +191,7 @@ const PopupAdd = ({ fetch }) => {
 
                                         </tr>
                                     </thead>
-                                    <tbody class='bg-[#e1e1e1]'>
+                                    <tbody class='bg-[#FFFF]'>
                                         {
                                             busStation.length > 0 ?
                                                 <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={BusStationRow} items={busStation} pageCount={pageTotal} fetchData={fetchData} nameRadio="StationStartId" onUpdate={onChangeName} objectAdd={objectAdd}></PaginatedItemsWithAPI>
@@ -206,7 +206,7 @@ const PopupAdd = ({ fetch }) => {
                                     loading &&
                                     <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
                                         <ReactLoading
-                                            type="spinningBubbles" color="#e1e1e1"
+                                            type="spinningBubbles" color="#FFFF"
                                             height={'10%'} width={'10%'}
                                             className="absolute left-[50%] top-[40%]  "
                                         />
@@ -221,7 +221,7 @@ const PopupAdd = ({ fetch }) => {
 
                                         </tr>
                                     </thead>
-                                    <tbody class='bg-[#e1e1e1]'>
+                                    <tbody class='bg-[#FFFF]'>
                                         {
                                             busStationEnd.length > 0 ?
                                                 <PaginatedItemsWithAPI handleClick={handlePageClickEnd} componentToRender={BusStationRow} items={busStationEnd} pageCount={pageTotal} fetchData={fetchData} nameRadio="StationEndId" onUpdate={onChangeName} objectAdd={objectAdd}></PaginatedItemsWithAPI>

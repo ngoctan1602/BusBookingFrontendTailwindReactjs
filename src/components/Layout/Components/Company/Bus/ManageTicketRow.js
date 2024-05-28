@@ -5,7 +5,7 @@ const ManageTicketRow = ({ item, onChangeStatus }) => {
 
     return (
 
-        <tr class='grid grid-cols-12 p-sm border-t-[1px] border-txt gap-md '
+        <tr class='grid grid-cols-12 p-sm my-[10px] items-center '
             style={{ background: (item.status === 7 || item.status === 0) ? "#75718a" : "" }}
         >
 
@@ -19,7 +19,7 @@ const ManageTicketRow = ({ item, onChangeStatus }) => {
             <td class='col-span-2'>
                 {
                     item.status === 7 ?
-                        <select class='bg-[#e1e1e1] outline-none '
+                        <select class='bg-[#FFFF] outline-none '
                             style={{ background: item.status === 1 ? "#75718a" : "" }}
                             // onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}
                             disabled
@@ -29,7 +29,7 @@ const ManageTicketRow = ({ item, onChangeStatus }) => {
                             <option selected={item.status === 7 ? true : false} value={7} >Đã hoàn thành</option>
 
                         </select> :
-                        <select class='bg-[#e1e1e1] outline-none'
+                        <select class='bg-[#FFFF] outline-none'
                             // style={{ background: item.status === 3 ? "#75718a" : "" }}
                             onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}
                         >

@@ -217,9 +217,9 @@ const ManageBusStation = () => {
                     </button>
                 </div>
             </div>
-            <table class="w-full my-md rounded-md  text-txt-gray text-14 overflow-hidden">
+            <table class="w-full my-md rounded-md  text-txt-gray text-16 overflow-hidden">
                 <thead>
-                    <tr class='grid bg-bg grid-cols-12 p-sm text-left'>
+                    <tr class='grid bg-bg grid-cols-12 p-sm text-left border-b-2'>
                         {/* <th class='col-span-1'>Id</th> */}
                         <th class='col-span-3'>Tên</th>
                         <th class='col-span-6 '>Địa chỉ</th>

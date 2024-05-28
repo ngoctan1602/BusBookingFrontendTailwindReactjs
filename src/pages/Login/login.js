@@ -100,7 +100,7 @@ const Login = () => {
             </form>
 
             <Button type="solid" content="Đăng nhập" onClick={onSubmit} />
-            <p className="w-[50%] m-md text-sm italic text-text font-bold text-14 text-center">
+            <p className="w-[50%] m-md text-sm italic text-text font-bold text-16 text-center">
                 Bạn chưa có tài khoản? <Link to="/register" className="text-button hover:underline">Đăng kí tài khoản</Link>
             </p>
             <ToastContainer

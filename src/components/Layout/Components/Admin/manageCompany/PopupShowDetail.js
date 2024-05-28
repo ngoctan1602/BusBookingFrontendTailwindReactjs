@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 import avatar from "../../../../../../src/assets/images/avatar.png"
 const PopUpShowDetail = ({ items, companyProps }) => {
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
 
     return (
         <Popup trigger={<button class="flex justify-center "> <FontAwesomeIcon icon={faInfo} color="#00B873" class='cursor-pointer confirm-button border-button p-md border-[1px] w-[40px] h-[40px] mr-sm'></FontAwesomeIcon></button>} position="right center"
@@ -26,7 +26,7 @@ const PopUpShowDetail = ({ items, companyProps }) => {
                             </div>
                         </div>
 
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
 
                         {
                             companyProps.map((item, index) => (

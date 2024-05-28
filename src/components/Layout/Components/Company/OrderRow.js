@@ -66,7 +66,7 @@ const OrderRow = ({ item, onChangeStatus, onUpdate }) => {
          
             <td class='col-span-2'>
 
-                <select class='bg-[#e1e1e1]' style={{ background: item.status === 0 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.companyID, Number(e.target.value))}>
+                <select class='bg-[#FFFF]' style={{ background: item.status === 0 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.companyID, Number(e.target.value))}>
                     <option selected={item.status === 0 ? true : false} value={0} >Ngưng hoạt động</option>
                     <option selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
                 </select>
@@ -79,7 +79,7 @@ const OrderRow = ({ item, onChangeStatus, onUpdate }) => {
             <td class='col-span-1 text-center'>{item.dateCreate.getDate()}/{item.dateCreate.getMonth() + 1}/{item.dateCreate.getFullYear()}</td>
             <td class='col-span-2 text-center'>{seat}</td>
             <td class='col-span-2'>
-                <select class='bg-[#e1e1e1]' style={{ background: item.status === 0 ? "#75718a" : "" }} >
+                <select class='bg-[#FFFF]' style={{ background: item.status === 0 ? "#75718a" : "" }} >
                     <option selected={item.status === 0 ? true : false} value={0} >Đã hủy</option>
                     <option selected={item.status === 1 ? true : false} value={1} >Đã hoàn thành</option>
                     <option selected={item.status === 2 ? true : false} value={2} >Chờ xác nhận</option>

@@ -146,9 +146,9 @@ const ManageCompany = () => {
                     </FontAwesomeIcon>
                 </button> */}
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt-gray text-14 overflow-hidden">
+            <table class="w-full my-md rounded-md border-collapse  text-txt-gray text-16 overflow-hidden">
                 <thead>
-                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
+                    <tr class='grid bg-bg grid-cols-12 p-sm text-center gap-md border-b-2'>
                         {/* <th class='col-span-1'>Id</th> */}
                         <th class='col-span-3'>Tên</th>
                         <th class='col-span-2'>Logo</th>

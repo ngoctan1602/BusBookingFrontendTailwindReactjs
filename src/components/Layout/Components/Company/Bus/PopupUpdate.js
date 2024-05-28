@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from "react";
 
 const PopupUpdate = ({ fetchData, item, onChange, busUpdate, success, closePopup }) => {
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
     const notifySuccess = () => toast.success('Cập nhật thành công!', {
         position: "bottom-right",
         autoClose: 1000,
@@ -94,7 +94,7 @@ const PopupUpdate = ({ fetchData, item, onChange, busUpdate, success, closePopup
 
                     <div class='p-md text-16 text-txt'>
                         <p class='text-20 text-center font-bold'>{item.title}</p>
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
 
                         {
                             (item.item).map((item, index) => (
@@ -110,9 +110,9 @@ const PopupUpdate = ({ fetchData, item, onChange, busUpdate, success, closePopup
                                         {
                                             item.id !== 1 &&
 
-                                            // <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, name: item.name, value: busUpdate.Id, spanWidth: Number(item.spanWidth), background: "#e1e1e1" }}></InputConfirmInfo>
+                                            // <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, name: item.name, value: busUpdate.Id, spanWidth: Number(item.spanWidth), background: "#FFFF" }}></InputConfirmInfo>
                                             // :
-                                            <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, name: item.name, value: busUpdate[item.name], spanWidth: Number(item.spanWidth), background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                            <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, name: item.name, value: busUpdate[item.name], spanWidth: Number(item.spanWidth), background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
                                         }
 
                                     </div>

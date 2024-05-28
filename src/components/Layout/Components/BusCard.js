@@ -873,7 +873,7 @@ const BusCard = ({ item }) => {
                         //             <p class='text-16 font-bold'>Email (*)</p>
                         //             <InputConfirmInfo item={inputEmail} onChange={ChangEmail} />
                         //         </div>
-                        //         <p class='text-14 font-bold italic'>Các mục chứa (*) không được bỏ trống</p>
+                        //         <p class='text-16 font-bold italic'>Các mục chứa (*) không được bỏ trống</p>
                         //     </div>
                         //     <div class='w-[300px] min-h-[400px]'>
                         //         <p class='text-20 text-center font-bold'>Thông tin đặt vé xe</p>
