@@ -1,6 +1,6 @@
 const RoutesRow = ({ item }) => {
     return (
-        <tr class='grid  grid-cols-6 p-sm border-t-[1px] border-txt'
+        <tr class='grid  grid-cols-6 p-sm  border-txt my-[10px] items-center'
         >
             {/* <td class='col-span-1'>{item.id}</td> */}
             <td class='col-span-3'>{item.stationStartName}</td>

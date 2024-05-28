@@ -16,7 +16,7 @@ function App() {
   return (
     <NotifcationProvider>
       <Router>
-        <div className="font-Amiro bg-bg h-screen overflow-x-hidden">
+        <div className="font-Amiro bg-bg h-screen overflow-x-hidden font-thin text-14">
           <Routes>
             {
               publicRoutes.map((route, index) => {

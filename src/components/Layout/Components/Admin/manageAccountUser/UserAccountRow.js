@@ -43,7 +43,7 @@ const UserAccountRow = ({ item, onChangeStatus }) => {
         },
     ]
     return (
-        <tr class='grid grid-cols-11 p-sm border-t-[1px] border-txt gap-md'
+        <tr class='grid grid-cols-11 p-sm border-txt gap-md p-sm  border-txt my-[10px] items-center'
             style={{ background: item.status === 0 ? "#75718a" : "", color: item.status === 0 ? "#F2ECFF" : "" }}
         >
 

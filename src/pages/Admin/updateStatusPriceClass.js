@@ -140,7 +140,7 @@ const UpdateStatusPriceClass = () => {
 
 
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
+            <table class="w-full my-md rounded-md border-collapse  text-txt text-14 overflow-hidden relative">
                 {
                     updateLoading &&
                     <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>

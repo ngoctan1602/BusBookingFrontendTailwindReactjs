@@ -7,15 +7,17 @@ module.exports = {
     fontFamily: {
       FiraSans: ['Fira Sans'],
       robo: ['Raleway', 'sans-serif'],
-      Amiro: ['Arimo', 'sans-serif']
+      Amiro: ['Reddit Mono', 'sans-serif']
     },
     colors: {
       'txt': '#090808',
-      'button': '#88c194',
-      'bg': '#F2ECFF',
-      'bgPopup': '#e1e1e1',
-      'hover-txt': '#4d4c4f',
-      'txt-final': '#474E68',
+      'txt-gray': '#4B4B4B',
+      'button': '#C6C6C6',
+      'bg': '#FFFFFF',
+      'bgContent': '#EAEAEA',
+      'bgPopup': '#C6C6C6',
+      'hover-txt': '#A5A5A5',
+      'txt-final': '#868686',
       'button-final': '#03C988',
       'txt-button': '#E5E5CB',
       'notificationNotRead': '#F9F1F2',

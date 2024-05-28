@@ -56,7 +56,7 @@ const PriceRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
     }, [updateTypeBus])
 
     return (
-        <tr class='grid  grid-cols-12 p-sm border-t-[1px] border-txt'
+        <tr class='grid  grid-cols-12 p-sm  border-txt my-[10px] items-center'
 
         >
             {/* <th class='col-span-3'>Công ty</th>

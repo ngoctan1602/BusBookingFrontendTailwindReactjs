@@ -204,11 +204,11 @@ const ManageBusStation = () => {
         XLSX.writeFile(wb, 'exported_data.xlsx');
     };
     return (
-        <div class='w-full text-txt txt-16'>
+        <div class='w-full text-txt txt-14'>
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                 <p class='col-span-2 font-bold text-20'>Quản lý bến bãi</p>
-                <input placeholder="Tìm kiếm" class='col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                <input placeholder="Tìm kiếm" class='col-span-5 bg-gb outline-none border-none p-sm rounded-md'></input>
                 <div class='flex justify-evenly'>
                     <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation>
                     <button class="flex justify-center" onClick={exportToExcel}>
@@ -217,9 +217,9 @@ const ManageBusStation = () => {
                     </button>
                 </div>
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
+            <table class="w-full my-md rounded-md  text-txt-gray text-14 overflow-hidden">
                 <thead>
-                    <tr class='grid bg-button grid-cols-12 p-sm text-left'>
+                    <tr class='grid bg-bg grid-cols-12 p-sm text-left'>
                         {/* <th class='col-span-1'>Id</th> */}
                         <th class='col-span-3'>Tên</th>
                         <th class='col-span-6 '>Địa chỉ</th>
@@ -227,13 +227,13 @@ const ManageBusStation = () => {
                         <th class='col-span-1'></th>
                     </tr>
                 </thead>
-                <tbody class='bg-[#e1e1e1]'>
+                <tbody class='bg-bg' >
                     {
                         !loading && busStations &&
                         <Paginate itemsPerPage={5} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus}></Paginate>
                     }
                     {loading &&
-                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                        <div className="animate-pulse bg-hveor-txt w-full h-[120px] text-bg text-center">
 
                         </div>
                     }

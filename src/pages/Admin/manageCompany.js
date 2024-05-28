@@ -146,7 +146,7 @@ const ManageCompany = () => {
                     </FontAwesomeIcon>
                 </button> */}
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
+            <table class="w-full my-md rounded-md border-collapse  text-txt-gray text-14 overflow-hidden">
                 <thead>
                     <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
                         {/* <th class='col-span-1'>Id</th> */}
@@ -159,7 +159,7 @@ const ManageCompany = () => {
                         <th class='col-span-1'></th>
                     </tr>
                 </thead>
-                <tbody class='bg-[#e1e1e1]'>
+                <tbody class='bg-bg'>
 
                     {loading ?
                         <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">

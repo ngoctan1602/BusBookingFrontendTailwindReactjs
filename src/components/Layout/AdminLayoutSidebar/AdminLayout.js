@@ -51,10 +51,10 @@ const AdminLayout = ({ children }) => {
     let navigate = useNavigate();
     const location = useLocation()
     // const [content, setContent] = useState("Quản lý tài khoản người dùng")
-    const seatActive = useCallback(() => {
+    const seatActive = useCallback((path) => {
         return () => {
             const updatedItems = info.map(item => {
-                if (location.pathname === item.path) {
+                if (path === item.path) {
                     // setContent(item.content);
                     document.title = item.content
                     return { ...item, active: true };
@@ -65,7 +65,7 @@ const AdminLayout = ({ children }) => {
             });
             setInfo(updatedItems);
         }
-    }, [info, location.pathname])
+    }, [info, location.pathname, setInfo] )
 
     useEffect(() => {
         const checkData = () => {
@@ -74,9 +74,7 @@ const AdminLayout = ({ children }) => {
             }
         };
 
-        const updateSeats = seatActive();
-
-        updateSeats(); // Call the returned function to update seats
+        seatActive(location.pathname)()
         checkData();
     }, []);
 
@@ -87,10 +85,10 @@ const AdminLayout = ({ children }) => {
 
     return (
 
-        <div class='w-full h-[100vh] bg-bg'>
+        <div class='w-full h-[100vh] bg-bg relative'>
 
 
-            <div class='w-full h-[60px] shrink-0 bg-gradient-to-br from-button to-[#B0D9B1] grid grid-flow-row grid-cols-11 items-center text-txt text-16'>
+            <div class='w-full h-[60px] shrink-0 bg-bg shadow-xl grid grid-flow-row grid-cols-11 items-center text-txt text-16 fixed z-50 top-[0px] left-[0px] overflow-hidden'>
 
                 <div class='col-span-2 col-start-1 flex items-center ml-md'>
                     <img class='h-[40px] w-[100px]' src={adminlogo} >
@@ -215,29 +213,29 @@ const AdminLayout = ({ children }) => {
                     </div>
                 </div>
             </div> */}
-            <div className="w-full h-full grid grid-flow-row grid-cols-10 gap-sm">
-                <div className="col-span-2  h-full grid grid-cols-1 grid-flow-row ">
-                    <div className=" h-[400px] col-span-1 grid grid-cols-1 grid-flow-row  text-16">
+            <div className="w-full h-full  grid-flow-row grid-cols-10 gap-sm mt-[60px]">
+                <div className="col-span-1 grid grid-cols-1 grid-flow-row fixed overflow-auto h-full shadow-2xl" >
+                    <div className=" h-[400px] col-span-1 grid grid-cols-1 grid-flow-row  text-14">
                         {
                             info.map((item, index) => (
                                 <Link key={item.id}
-                                    onClick={seatActive()}
                                     to={item.path}
+                                    onClick={seatActive(item.path)}
                                 >
                                     {
                                         item.active ?
                                             <div
-                                                className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  border-[3px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
+                                                className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-stretch items-center"
                                             >
                                                 <FontAwesomeIcon class='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color="#474E68"></FontAwesomeIcon>
-                                                <p class='mx-sm col-span-10'> {item.content}</p>
+                                                <p class='mx-[40px] col-span-10'> {item.content}</p>
 
                                             </div> :
                                             <div className="
                                             hover:bg-bgPopup ease-in-out duration-150 hover:scale-[98%]
-                                            h-[60px] col-span-1 m-sm border-txt-final border-[1px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center">
+                                            h-[60px] col-span-1 m-sm border-txt-final rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-stretch items-center">
                                                 <FontAwesomeIcon class='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color="#474E68"></FontAwesomeIcon>
-                                                <p class='mx-sm col-span-10'>  {item.content}</p>
+                                                <p class='mx-[40px] col-span-10'>  {item.content}</p>
 
                                             </div>
 
@@ -249,8 +247,8 @@ const AdminLayout = ({ children }) => {
                     </div>
 
                 </div>
-                <div className="col-span-8 h-full">
-                    <div class='w-full p-md h-full'>
+                <div className="col-span-9 h-full  ml-[366px]">
+                    <div class='w-full p-md h-full bg-bgContent'>
                         {children}
                     </div>
                 </div>

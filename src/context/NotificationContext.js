@@ -14,7 +14,7 @@ function NotifcationProvider ({children}){
 
     const notifySuccess = () => toast.success('thông báo', {
         position: "bottom-right",
-        autoClose: 1000,
+        autoClose: 4000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,

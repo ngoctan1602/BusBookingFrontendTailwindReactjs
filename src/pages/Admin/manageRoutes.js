@@ -139,7 +139,7 @@ const ManageRoutes = () => {
                     </button>
                 </div>
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
+            <table class="w-full my-md rounded-md border-collapse  text-txt text-14 overflow-hidden">
 
                 <thead>
                     <tr class='grid bg-button grid-cols-6 p-sm text-left'>

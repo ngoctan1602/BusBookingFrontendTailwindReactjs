@@ -130,7 +130,7 @@ const ManageUserAccount = () => {
                     </FontAwesomeIcon>
                 </button>
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
+            <table class="w-full my-md rounded-md border-collapse  text-txt text-14 overflow-hidden">
                 <thead>
                     <tr class='grid bg-button grid-cols-11 p-sm text-left gap-md'>
                         <th class='col-span-2'>Username</th>
@@ -141,7 +141,7 @@ const ManageUserAccount = () => {
                         <th class='col-span-1'>Thao tác</th>
                     </tr>
                 </thead>
-                <tbody class='bg-[#e1e1e1] relative'>
+                <tbody class='bg-bg relative'>
                     {
                         updateLoading &&
                         <div class='absolute bg-hover-txt w-[100%] h-[200px] z-20 opacity-40'>

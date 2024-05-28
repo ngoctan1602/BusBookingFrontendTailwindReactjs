@@ -138,7 +138,7 @@ const UpdateStatusPrice = () => {
 
 
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
+            <table class="w-full my-md rounded-md border-collapse  text-txt-gray text-14 overflow-hidden relative">
                 {
                     updateLoading &&
                     <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
@@ -158,7 +158,7 @@ const UpdateStatusPrice = () => {
                         <th class='col-span-2'>Trạng thái</th>
                     </tr>
                 </thead>
-                <tbody class='bg-[#e1e1e1]'>
+                <tbody class='bg-bg'>
                     {
                         loading ?
                             <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">

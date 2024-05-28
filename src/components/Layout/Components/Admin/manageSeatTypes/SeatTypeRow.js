@@ -55,7 +55,7 @@ const SeatTypeRow = ({ item, onChangeStatus, onUpdate, fetchData }) => {
         return isSuccess
     }, [updateTypeBus])
     return (
-        <tr class='grid  grid-cols-12 p-sm border-t-[1px] border-txt'
+        <tr class='grid  grid-cols-12 p-sm  border-txt my-[10px] items-center'
             style={{ background: item.status === 3 ? "#75718a" : "" }}
         >
             {/* <td class='col-span-1'>{item.id}</td> */}
