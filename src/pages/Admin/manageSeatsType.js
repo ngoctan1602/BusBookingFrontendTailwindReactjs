@@ -175,7 +175,7 @@ const ManageSeatsType = () => {
     }
     const [updateLoading, setUpdateLoading] = useState(false)
     return (
-        <div class='w-full text-txt txt-16 min-h-[600px] relative '>
+        <div class='w-full text-txt txt-16 min-h-[600px] relative mt-[20px]'>
             {
                 updateLoading &&
                 <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
@@ -187,7 +187,7 @@ const ManageSeatsType = () => {
                 </div>
             }
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý loại ghế</p>
+                <p class='col-span-2 font-bold text-20 font-black uppercase'>Quản lý loại ghế</p>
                 <input placeholder="Tìm kiếm" class='col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
                 <div class='flex col-span-1 col-start-8 justify-evenly'>
 

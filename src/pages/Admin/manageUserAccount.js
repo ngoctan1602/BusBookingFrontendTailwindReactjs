@@ -120,10 +120,10 @@ const ManageUserAccount = () => {
 
 
     return (
-        <div class='w-full text-txt txt-16'>
+        <div class='w-full text-txt txt-16 mt-[20px]'>
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
-                <p class='col-span-3 font-bold text-20'>Quản lý tài khoản người dùng</p>
+                <p class='col-span-3 font-black uppercase text-20'>Quản lý tài khoản người dùng</p>
                 <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
                 <button class="flex justify-center" onClick={exportToExcel}>
                     <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>

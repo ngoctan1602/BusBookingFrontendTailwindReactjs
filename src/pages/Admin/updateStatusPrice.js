@@ -121,8 +121,8 @@ const UpdateStatusPrice = () => {
     return (
         <div class='w-full text-txt txt-16 '>
 
-            <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý bảng giá</p>
+            <div class='grid grid-cols-12 grid-flow-row gap-4 items-center mt-[20px]'>
+                <p class='col-span-2 font-bold text-20 font-black uppercase' >Quản lý bảng giá</p>
                 <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
                     onChange={(e) => navigate(e.target.value)}
                 >

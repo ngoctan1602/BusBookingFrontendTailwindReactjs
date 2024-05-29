@@ -68,9 +68,11 @@ const TypeBusRow = ({ item, onChangeStatus, onUpdate, fetchData }) => {
             <td class='col-span-2'>{item.totalSeats}</td>
             <td class='col-span-2'>
                 {/* onChange={() => onChange(item.id, value)} */}
-                <select class='bg-[#e1e1e1]' style={{ background: item.status === 0 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
-                    <option selected={item.status === 0 ? true : false} value={0} >Ngưng hoạt động</option>
-                    <option selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
+                <select 
+                    className = {`rounded-lg p-[5px] ${item.status === 0 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 2 ? "bg-warning" : ""}`} 
+                    style={{ background: item.status === 0 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
+                    <option className="bg-danger"selected={item.status === 0 ? true : false} value={0} >Ngưng hoạt động</option>
+                    <option className="bg-success"selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
                 </select>
             </td>
             {

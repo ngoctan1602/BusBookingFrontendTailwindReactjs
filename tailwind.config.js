@@ -7,12 +7,12 @@ module.exports = {
     fontFamily: {
       FiraSans: ['Comfortaa'],
       robo: ['Raleway', 'sans-serif'],
-      Amiro: ['Comfortaa', 'Playpen Sans']
+      Amiro: ['Comfortaa', 'Raleway']
     },
     colors: {
       'txt': '#090808',
       'txt-gray': '#4B4B4B',
-      'txt-light':'##FFFFFF',
+      'txt-light':'#FFFFFF',
       'button': '#C6C6C6',
       'bg': '#FFFFFF',
       'bgContent': '#EAEAEA',
@@ -22,6 +22,9 @@ module.exports = {
       'button-final': '#03C988',
       'txt-button': '#E5E5CB',
       'notificationNotRead': '#F9F1F2',
+      'success': "#00E22D",
+      'danger': "#EF6C6C",
+      'warning': "#FFC107",
     },  
     fontSize: {
       '12': '12px',

@@ -78,27 +78,12 @@ const PriceRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
                     : <td class='col-span-2'>Hoạt động</td>
             } */}
             {
-                item.status === 2 ?
-                    <td className="col-span-2">
-                        <select className="w-full outline-none bg-txt-final p-sm rounded-sm" onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
-                            <option value={2} selected={item.status === 2 ? true : false}>
-                                Đang chờ
-                            </option>
-                            <option value={1} selected={item.status === 1 ? true : false}>
-                                Hoạt động
-                            </option>
-                        </select>
-                    </td> :
-                    <td className="col-span-2" >
-                        <select className="w-full outline-none bg-bgPopup p-sm rounded-sm" onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
-                            <option value={2} selected={item.status === 2 ? true : false}>
-                                Đang chờ
-                            </option>
-                            <option value={1} selected={item.status === 1 ? true : false}>
-                                Hoạt động
-                            </option>
-                        </select>
-                    </td>
+                <select 
+                    className={`rounded-lg p-[5px] ${item.status === 3 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 2 ? "bg-warning" : ""}`} 
+                    style={{ background: item.status === 3 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
+                    <option className="bg-warning" selected={item.status === 2 ? true : false} value={2} >Ngưng hoạt động</option>
+                    <option className="bg-success" selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
+            </select>
             }
         </tr >
     );
