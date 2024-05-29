@@ -30,22 +30,22 @@ const CompanyLayout = ({ children }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "400px" };
     const [info, setInfo] = useState([
         {
-            id: 1, content: "Quản lí lộ trình", icon: faRoute, active: false, path: '/company/route-detail',
+            id: 1, content: "Quản lí lộ trình", icon: faRoute, active: false, path: '/company/route-detail', color: '#1E3D73',
         },
         {
-            id: 2, content: "Quản lí giá/bảng giá", icon: faDollar, active: false, path: '/company/priceclassification',
+            id: 2, content: "Quản lí giá/bảng giá", icon: faDollar, active: false, path: '/company/priceclassification', color: '#FFBF43',
         },
         {
-            id: 3, content: "Quản lý xe", icon: faBus, active: false, path: '/company/bus',
+            id: 3, content: "Quản lý xe", icon: faBus, active: false, path: '/company/bus', color: '#FF72B9',
         },
         {
-            id: 4, content: "Tạo vé", icon: faTicket, active: false, path: '/company/create-ticket',
+            id: 4, content: "Tạo vé", icon: faTicket, active: false, path: '/company/create-ticket', color: '#28CFFE',
         },
         {
-            id: 5, content: "Quản lý chuyến đi", icon: faMapLocationDot, active: true, path: '/company/ticket',
+            id: 5, content: "Quản lý chuyến đi", icon: faMapLocationDot, active: true, path: '/company/ticket', color: '#FB766D',
         },
         {
-            id: 6, content: "Thống kê", icon: faChartLine, active: false, path: '/company/statistic',
+            id: 6, content: "Thống kê", icon: faChartLine, active: false, path: '/company/statistic', color: '#99F6CA',
         },
 
     ])
@@ -188,14 +188,14 @@ const CompanyLayout = ({ children }) => {
                                             <div
                                             className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  border-[3px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
                                             >
-                                                <FontAwesomeIcon class='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color="#474E68"></FontAwesomeIcon>
+                                                <FontAwesomeIcon class='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
                                                 <p class='mx-[40px] col-span-10'> {item.content}</p>
 
                                             </div> :
                                             <div className="
                                             hover:bg-bgPopup ease-in-out duration-150 hover:scale-[98%]
                                             h-[60px] col-span-1 m-sm border-txt-final rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-stretch items-center">
-                                                <FontAwesomeIcon class='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color="#474E68"></FontAwesomeIcon>
+                                                <FontAwesomeIcon class='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
                                                 <p class='mx-[40px] col-span-10'>  {item.content}</p>
 
                                             </div>

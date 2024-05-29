@@ -111,7 +111,9 @@ const adminRoutes = [
     {
         path: "/admin/priceclassification", component: UpdateStatusPriceClass
     },
-
+    {
+        path: "/admin/dashboard", component: DashBoard
+    }
 
 ]
 

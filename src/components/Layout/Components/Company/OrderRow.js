@@ -79,11 +79,12 @@ const OrderRow = ({ item, onChangeStatus, onUpdate }) => {
             <td class='col-span-1 text-center'>{item.dateCreate.getDate()}/{item.dateCreate.getMonth() + 1}/{item.dateCreate.getFullYear()}</td>
             <td class='col-span-2 text-center'>{seat}</td>
             <td class='col-span-2'>
-                <select class='bg-[#FFFF]' style={{ background: item.status === 0 ? "#75718a" : "" }} >
-                    <option selected={item.status === 0 ? true : false} value={0} >Đã hủy</option>
-                    <option selected={item.status === 1 ? true : false} value={1} >Đã hoàn thành</option>
-                    <option selected={item.status === 2 ? true : false} value={2} >Chờ xác nhận</option>
-                </select>
+                <select 
+                        className={`rounded-lg p-[5px] ${item.status === 0 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 2 ? "bg-warning" : ""}`}  style={{ background: item.status === 0 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
+                        <option className="bg-danger" selected={item.status === 0 ? true : false} value={0} >Đã hủy</option>
+                        <option className="bg-success" selected={item.status === 1 ? true : false} value={1} >Đã hoàn thành</option>
+                        <option className="bg-warning" selected={item.status === 2 ? true : false} value={2} >Chờ xác nhận</option>
+                </select>       
             </td>
 
             {

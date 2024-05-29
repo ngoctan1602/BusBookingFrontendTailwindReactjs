@@ -59,16 +59,16 @@ const PriceClassRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
         <tr class='grid  grid-cols-12 p-sm my-[10px] items-center'
         >
             {/* <td class='col-span-2'>{item.id}</td> */}
-            <td class='col-span-3 col-start-2'>{item.name}</td>
+            <td class='col-span-3'>{item.name}</td>
             <td class='col-span-3'>{item.description}</td>
             <td class='col-span-2 text-center'>
                 <CurrencyFormat value={item.value} displayType={'text'} thousandSeparator={true} suffix={' %'} />
             </td>
-            {
-                item.status === 2 ?
-                    <td class='col-span-2'>Đang chờ</td>
-                    : <td class='col-span-2'>Hoạt động</td>
-            }
+            <td className="col-span-2">
+                <div>
+                    {item.status === 2 ? <span className="rounded-lg p-[5px] bg-danger">Đang chờ</span> : <span className="rounded-lg p-[5px] bg-success">Hoạt động</span>}
+                </div>
+            </td>
         </tr >
     );
 }

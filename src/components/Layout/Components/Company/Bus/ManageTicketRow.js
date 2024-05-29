@@ -6,10 +6,7 @@ const ManageTicketRow = ({ item, onChangeStatus }) => {
     return (
 
         <tr class='grid grid-cols-12 p-sm my-[10px] items-center '
-            style={{ background: (item.status === 7 || item.status === 0) ? "#75718a" : "" }}
         >
-
-            <td class='col-span-1'>{item.id}</td>
             <td class='col-span-2'>{item.busNumber}</td>
             <td class='col-span-3'>{item.busType}</td>
             <td class='col-span-2'>{new Date(item.date).toLocaleString()}</td>
@@ -17,28 +14,13 @@ const ManageTicketRow = ({ item, onChangeStatus }) => {
 
 
             <td class='col-span-2'>
-                {
-                    item.status === 7 ?
-                        <select class='bg-[#FFFF] outline-none '
-                            style={{ background: item.status === 1 ? "#75718a" : "" }}
-                            // onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}
-                            disabled
-                        >
-                            <option selected={item.status === 1 ? true : false} value={1} >Chờ xuất bến</option>
-                            <option selected={item.status === 0 ? true : false} value={0} >Hủy</option>
-                            <option selected={item.status === 7 ? true : false} value={7} >Đã hoàn thành</option>
+            <select 
+                    className={`rounded-lg p-[5px] ${item.status === 0 ? 'bg-danger' : item.status === 7 ? 'bg-success' : item.status === 1 ? "bg-warning" : ""}`}  style={{ background: item.status === 0 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
+                    <option className="bg-warning" selected={item.status === 1 ? true : false} value={1} >Chờ xuất bến</option>
+                    <option className="bg-danger" selected={item.status === 0 ? true : false} value={0} >Hủy</option>
+                    <option className="bg-success" selected={item.status === 7 ? true : false} value={7} >Đã hoàn thành</option>
 
-                        </select> :
-                        <select class='bg-[#FFFF] outline-none'
-                            // style={{ background: item.status === 3 ? "#75718a" : "" }}
-                            onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}
-                        >
-                            <option selected={item.status === 1 ? true : false} value={1} >Chờ xuất bến</option>
-                            <option selected={item.status === 0 ? true : false} value={0} >Hủy</option>
-                            <option selected={item.status === 7 ? true : false} value={7} >Đã hoàn thành</option>
-
-                        </select>
-                }
+                </select>       
 
             </td>
 

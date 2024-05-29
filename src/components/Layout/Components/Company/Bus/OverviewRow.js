@@ -14,14 +14,12 @@ const OverviewRow = ({ item, onChangeStatus }) => {
             <td class='col-span-3'>{item.busType}</td>
             <td class='col-span-2'>{item.totalSeat}</td>
             <td class='col-span-2'>
-                <select class='bg-bg outline-none'
-                    style={{ background: item.status === 3 ? "#75718a" : "" }}
-                    onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}
-                >
-                    <option selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
-                    <option selected={item.status === 3 ? true : false} value={3} >Ngưng hoạt động</option>
 
-                </select>
+                <select 
+                    className={`rounded-lg p-[5px] ${item.status === 3 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 2 ? "bg-warning" : ""}`}  style={{ background: item.status === 0 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
+                    <option className="bg-success" selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
+                    <option className="bg-danger" selected={item.status === 3 ? true : false} value={3} >Ngưng hoạt động</option>
+                </select>       
             </td>
 
             {

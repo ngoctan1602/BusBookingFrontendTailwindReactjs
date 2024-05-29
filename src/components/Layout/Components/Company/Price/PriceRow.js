@@ -66,11 +66,11 @@ const PriceRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
             <td class='col-span-2'>
                 <CurrencyFormat value={item.surcharges} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
             </td>
-            {
-                item.status === 2 ?
-                    <td class='col-span-2 bg-hover-txt text-bg'>Đang chờ</td>
-                    : <td class='col-span-2'>Hoạt động</td>
-            }
+            <td className="col-span-2">
+                <div>
+                    {item.status === 2 ? <span className="rounded-lg p-[5px] bg-danger">Đang chờ</span> : <span className="rounded-lg p-[5px] bg-success">Hoạt động</span>}
+                </div>
+            </td>
         </tr >
     );
 }
