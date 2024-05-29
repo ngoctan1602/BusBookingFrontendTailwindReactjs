@@ -4,6 +4,7 @@ import { faBusSimple } from "@fortawesome/free-solid-svg-icons";
 import { faBell, faCircleDot } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faMapLocation } from "@fortawesome/free-solid-svg-icons";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { faBusinessTime } from "@fortawesome/free-solid-svg-icons";
 import avatar from "../../../assets/images/avatar.png"
 import logoTrip from "../../../assets/images/logotrip.png"
@@ -18,19 +19,22 @@ const AdminLayout = ({ children }) => {
 
     const [info, setInfo] = useState([
         {
-            id: 1, content: "Quản lý tài khoản người dùng", icon: faUser, active: false, path: '/manage-user-account', color: '#1E3D73',
+            id: 0, content: "Dashboard", icon: faHouse, active: false, path: '/admin/dashboard', color: '#1E3D73',
         },
         {
-            id: 2, content: "Quản lý nhà xe", icon: faBusinessTime, active: false, path: '/manage-company', color: '#FFBF43',
+            id: 1, content: "Quản lý tài khoản người dùng", icon: faUser, active: false, path: '/admin/manage-user-account', color: '#1E3D73',
         },
         {
-            id: 3, content: "Quản lý loại xe", icon: faBusSimple, active: false, path: '/manage-typebus', color: '#FF72B9',
+            id: 2, content: "Quản lý nhà xe", icon: faBusinessTime, active: false, path: '/admin/manage-company', color: '#FFBF43',
         },
         {
-            id: 4, content: "Quản lý loại ghế", icon: faBusSimple, active: false, path: '/manage-seattype', color: '#28CFFE',
+            id: 3, content: "Quản lý loại xe", icon: faBusSimple, active: false, path: '/admin/manage-typebus', color: '#FF72B9',
         },
         {
-            id: 5, content: "Quản lý bến bãi", icon: faMapLocation, active: false, path: '/manage-busstation', color: '#FB766D',
+            id: 4, content: "Quản lý loại ghế", icon: faBusSimple, active: false, path: '/admin/manage-seattype', color: '#28CFFE',
+        },
+        {
+            id: 5, content: "Quản lý bến bãi", icon: faMapLocation, active: false, path: '/admin/manage-busstation', color: '#FB766D',
         },
         {
             id: 6, content: "Quản lý loại giá/bảng giá", icon: faDollarSign, active: false, path: '/admin/prices', color: '#99F6CA',

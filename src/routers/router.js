@@ -82,19 +82,19 @@ const privateRoutes = [
 
 const adminRoutes = [
     {
-        path: "/manage-typebus", component: ManageTypeBus
+        path: "/admin/manage-typebus", component: ManageTypeBus
     },
     {
-        path: "/manage-seattype", component: ManageSeatsType
+        path: "/admin/manage-seattype", component: ManageSeatsType
     },
     {
-        path: "/manage-busstation", component: ManageBusStation
+        path: "/admin/manage-busstation", component: ManageBusStation
     },
     {
-        path: "/manage-company", component: ManageCompany
+        path: "/admin/manage-company", component: ManageCompany
     },
     {
-        path: "/manage-user-account", component: ManageUserAccount
+        path: "/admin/manage-user-account", component: ManageUserAccount
     },
     {
         path: "/admin/overview", component: DashBoard
