@@ -27,6 +27,7 @@ import ReactLoading from 'react-loading';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import ReviewCard from "./ReviewCard"
+import Paypal from "../../Paypal/Paypal";
 const BusCard = ({ item }) => {
     // console.log(item.itemResponses.slice(0, item.itemResponses.length / 2))
     let navigate = useNavigate();
@@ -65,6 +66,7 @@ const BusCard = ({ item }) => {
 
 
     const [about, setAbout] = useState(false);
+    const [checkout, setCheckout] = useState(false);
 
     const [listAbout, setListAbout] = useState(
         [
@@ -448,7 +450,7 @@ const BusCard = ({ item }) => {
             if (!resp.isError && resp.isError !== undefined) {
                 notifySuccess()  
                 setTimeout(
-                    () => navigate("/"), 2000
+                    // () => navigate("/"), 2000
                 )
             }
             else {
@@ -744,7 +746,7 @@ const BusCard = ({ item }) => {
                                 <p class='font-bold text-16'>Tầng dưới</p>
                                 <div class='border-[1px] rounded-md border-txt my-lg'>
                                     <img class='w-[40px] h-[40px] m-sm cursor-not-allowed' src={steeringWheel}></img>
-                                    <div class='min-h-[300px] m-sm justify-items-center grid grid-flow-row grid-rows-4 grid-cols-3'>
+                                    <div class='min-h-[200px] m-sm justify-items-center grid grid-flow-row grid-rows-4 grid-cols-3'>
                                         {
                                             oneStFloor.map((item, index) => (
                                                 <div
@@ -752,18 +754,18 @@ const BusCard = ({ item }) => {
                                                     onClick={(e) => { (item.status === 1 || item.status === 2) && handleClickSeatOneFloor(item.id) }}
                                                     data-tooltip-id="my-tooltip"
                                                     class={item.status === 3 ?
-                                                        'w-[50px] h-[80px] flex justify-center items-center my-sm cursor-not-allowed hover:scale-105' :
-                                                        'w-[50px] h-[80px] flex justify-center items-center my-sm cursor-pointer hover:scale-105'
+                                                        'flex justify-center items-center my-sm cursor-not-allowed hover:scale-105' :
+                                                        'flex justify-center items-center my-sm cursor-pointer hover:scale-105'
                                                     }
                                                 >
                                                     {
                                                         item.status === 1
                                                             ?
-                                                            <img class='w-[40px] h-[40px]' src={seatBooking[0].icon}></img>
+                                                            <img class='' src={seatBooking[0].icon}></img>
                                                             : item.status === 2 ?
-                                                                <img class='w-[40px] h-[40px]' src={seatBooking[1].icon}></img>
+                                                                <img class='' src={seatBooking[1].icon}></img>
                                                                 :
-                                                                <img class='w-[40px] h-[40px]' src={seatBooking[2].icon}></img>
+                                                                <img class='' src={seatBooking[2].icon}></img>
                                                     }
 
 
@@ -794,18 +796,18 @@ const BusCard = ({ item }) => {
                                                     onClick={(e) => { (item.status === 1 || item.status === 2) && handleClickSeatSecondFloor(item.id) }}
                                                     data-tooltip-id="my-tooltip"
                                                     class={item.status === 3 ?
-                                                        'w-[50px] h-[80px] flex justify-center items-center my-sm cursor-not-allowed hover:scale-105' :
-                                                        'w-[50px] h-[80px] flex justify-center items-center my-sm cursor-pointer hover:scale-105'
+                                                        ' flex justify-center items-center my-sm cursor-not-allowed hover:scale-105' :
+                                                        ' flex justify-center items-center my-sm cursor-pointer hover:scale-105'
                                                     }
                                                 >
                                                     {
                                                         item.status === 1
                                                             ?
-                                                            <img class='w-[40px] h-[40px]' src={seatBooking[0].icon}></img>
+                                                            <img class='' src={seatBooking[0].icon}></img>
                                                             : item.status === 2 ?
-                                                                <img class='w-[40px] h-[40px]' src={seatBooking[1].icon}></img>
+                                                                <img class='' src={seatBooking[1].icon}></img>
                                                                 :
-                                                                <img class='w-[40px] h-[40px]' src={seatBooking[2].icon}></img>
+                                                                <img class='' src={seatBooking[2].icon}></img>
                                                     }
 
 
@@ -1006,20 +1008,38 @@ const BusCard = ({ item }) => {
                     }
 
                     {
-                        stepBooking[2].active ?
-                            <button class='w-[120px] button-position button-hover text-16 text-txt '
-                                onClick={(e) => createBill()}
-                            >
+                        stepBooking[2].active ? (
+                            // <button class='w-[120px] button-position button-hover text-16 text-txt '
+                            //     onClick={(e) => createBill()}
+                            // >
 
-                                Đặt vé
-                            </button>
-                            :
-                            <button class='w-[100px] button-position button-hover text-16 text-txt'
+                            //     Đặt vé
+                            // </button>
+                            checkout ? (
+                                <>
+                                    <Paypal order={totalPrice1 + totalPrice2} />
+                                </>
+                            ) : (
+                                <button
+                                    onClick={() => {
+                                        setCheckout(true);
+                                        createBill();
+                                    }}
+                                    className='w-[100px] button-position button-hover text-16 text-txt'
+                                >
+                                    Checkout
+                                </button>
+                            )
+                        ) : (
+                            <button
+                                className='w-[100px] button-position button-hover text-16 text-txt'
                                 onClick={() => nextStateBooking()}
                             >
                                 Tiếp tục
                             </button>
+                        )
                     }
+
 
                     <ToastContainer
                         position="bottom-right"
