@@ -31,6 +31,10 @@ export const changeIsDelete = async (params) => {
     return await BaseAPI.putItem(API.changeIsDelete, null, params)
 }
 
+export const loginOnGoolge = async (token) => {
+    return await BaseAPI.postItem(API.loginOnGoolge, token)
+}
+
 const API = {
     getAll: 'customers/getAll',
     register: 'customers/register',
@@ -39,7 +43,8 @@ const API = {
     authOTP: 'customers/authOTP',
     changeIsActive: 'customers/changeIsActive',
     changeIsLock: 'customers/changeIsLock',
-    changeIsDelete: 'customers/changeIsDelete'
+    changeIsDelete: 'customers/changeIsDelete',
+    loginOnGoolge: 'customers/loginOnGoogle',
 }
 
 const customerServices = {

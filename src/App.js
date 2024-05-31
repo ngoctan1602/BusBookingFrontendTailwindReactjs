@@ -12,9 +12,11 @@ import CompanyLogin from "./pages/Company/login";
 import NotFound from "./pages/NotFound";
 import CompanyRegister from "./pages/Company/register";
 import NotifcationProvider from "./context/NotificationContext";
+import { GoogleOAuthProvider } from "@react-oauth/google"
 function App() {
   return (
-    <NotifcationProvider>
+    <GoogleOAuthProvider clientId="1093428259628-jsr06bh2svkv118a34g8gkr6gknainqn.apps.googleusercontent.com">
+      <NotifcationProvider>
       <Router>
         <div className="font-Amiro bg-bg h-screen overflow-auto text-16">
           <Routes>
@@ -86,6 +88,7 @@ function App() {
         </div>
       </Router>
     </NotifcationProvider>
+    </GoogleOAuthProvider>
   );
 }
 
