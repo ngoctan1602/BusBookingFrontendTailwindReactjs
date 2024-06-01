@@ -5,9 +5,9 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      FiraSans: ['Comfortaa'],
-      robo: ['Raleway', 'sans-serif'],
-      Amiro: ['Comfortaa', 'Raleway']
+      'FiraSans': ['Comfortaa'],
+      'robo': ['Raleway', 'sans-serif'],
+      'Amiro': ['Cabin', 'Comfortaa']
     },
     colors: {
       'txt': '#090808',

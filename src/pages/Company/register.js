@@ -244,7 +244,7 @@ const CompanyRegister = () => {
                 pw: "password",
                 placeholder: "Nhập mật khẩu",
                 value: account.password,
-                spanWidth: 120,
+                spanWidth: 150,
                 background: "#e1e1e1"
             },
             {
@@ -253,7 +253,7 @@ const CompanyRegister = () => {
                 type: "text",
                 placeholder: "Nhập Thôn/Số nhà/ Đường",
                 value: account.address,
-                spanWidth: 220,
+                spanWidth: 250,
                 background: "#e1e1e1"
             },
         ]

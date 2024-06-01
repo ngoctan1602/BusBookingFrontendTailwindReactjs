@@ -106,7 +106,7 @@ const CompanyLogin = () => {
                 pw: "password",
                 placeholder: "Nhập mật khẩu",
                 value: account.password,
-                spanWidth: 120,
+                spanWidth: 150,
                 background: "#e1e1e1"
             }
         ]
