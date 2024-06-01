@@ -1,6 +1,6 @@
 import "normalize.css"
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation  } from "react-router-dom";
 import { publicRoutes, privateRoutes, adminRoutes, companyRoutes } from "./routers/router"
 import DefaultLayout from './components/Layout/DefaultLayout/DefaultLayout';
 import InfoLayout from "./components/Layout/InfoLayout/Infolayout";
@@ -13,6 +13,16 @@ import NotFound from "./pages/NotFound";
 import CompanyRegister from "./pages/Company/register";
 import NotifcationProvider from "./context/NotificationContext";
 import { GoogleOAuthProvider } from "@react-oauth/google"
+import Checkout from "./pages/Checkout/Checkout";
+
+
+const CheckoutWrapper = () => {
+  const { state } = useLocation();
+  const { Order, TotalPrice } = state || {};
+  return <Checkout Order={Order} TotalPrice={TotalPrice} />;
+};
+
+
 function App() {
   return (
     <GoogleOAuthProvider clientId="1093428259628-jsr06bh2svkv118a34g8gkr6gknainqn.apps.googleusercontent.com">
@@ -81,6 +91,17 @@ function App() {
                   }
                 />
               })
+            }
+
+            {
+              <Route
+              path="/checkout"
+              element={
+                <DefaultLayout>
+                  <CheckoutWrapper />
+                </DefaultLayout>
+              }
+            />
             }
 
             <Route path="*" element={<NotFound />} />

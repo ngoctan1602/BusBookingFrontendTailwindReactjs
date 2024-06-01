@@ -8,7 +8,7 @@ const NotFound = () => {
         <div className='absolute top-[10%] left-[35%] text-center'>
             <div
              className=' p-[100px] relative h-[400px]'>
-                <p className='text-[30px] uppercase'>Not Found</p>
+                <p className='text-[30px] uppercase'>Oops, No!! Page Not Found</p>
                 <h1 className='text-[200px] font-bold absolute top-[30%] left-[15%] '>
                     <span className='drop-shadow-2xl'>4</span>
                     <span>0</span>

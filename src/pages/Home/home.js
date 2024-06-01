@@ -176,7 +176,7 @@ const Home = () => {
 
             <div className="min-h-[300px] w-[60%] flex flex-col justify-between pt-[50px]">
                 <h4 className="font-[500] text-[24px] my-[20px]">Chuyến đi nổi bật</h4>
-                <div className="flex min-h-[80%] w-full ">
+                <div className="flex min-h-[80%] w-full justify-between">
 
                     {
                         cards.map((item, index) => (
@@ -189,8 +189,8 @@ const Home = () => {
 
 
             <div className="min-h-[300px] w-[60%] flex flex-col justify-between mt-md pt-[50px]">
-                <h4 className="font-[500] text-[24px] my-[20px]">Ưu đãi nổi bật</h4>
-                <div className="flex min-h-[80%] w-full ">
+                <h4 className="font-[500] text-[24px] my-[20px] ">Ưu đãi nổi bật</h4>
+                <div className="flex min-h-[80%] w-full justify-between">
                     {
                         discounts.map((item, index) => (
                             <Card key={index} content={item.content} src={item.src} type={item.type}>

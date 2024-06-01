@@ -1,7 +1,9 @@
 import React, { useRef,useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
 
 export default function Paypal({order}) {
 
+  let navigate = useNavigate();
   const paypal = useRef()
   useEffect(() => {
     console.log(order)
@@ -15,7 +17,7 @@ export default function Paypal({order}) {
                 description: "Booking Ticket",
                 amount: {
                   currency_code: "USD",
-                  value: Math.round(order/24000),
+                  value: Math.ceil(order/24000),
                 },
               },
             ],
@@ -24,6 +26,7 @@ export default function Paypal({order}) {
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
           console.log(order);
+          navigate("/")
         },
         onError: (err) => {
           console.log(err);

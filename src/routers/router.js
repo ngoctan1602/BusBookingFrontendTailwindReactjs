@@ -34,6 +34,7 @@ import CreateTicketNew from "../pages/Company/createTicketNew"
 import UpdateStatusPrice from "../pages/Admin/updateStatusPrice"
 import UpdateStatusPriceClass from "../pages/Admin/updateStatusPriceClass"
 import CompanyRegister from "../pages/Company/register"
+import Checkout from "../pages/Checkout/Checkout"
 
 
 
@@ -75,7 +76,7 @@ const privateRoutes = [
     },
     {
         path: "/his-review", component: HisReview
-    }
+    },
 ]
 
 

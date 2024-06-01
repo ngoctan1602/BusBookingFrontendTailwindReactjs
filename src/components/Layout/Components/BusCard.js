@@ -449,9 +449,12 @@ const BusCard = ({ item }) => {
             const resp = await BillSV.createBill(objectAdd);
             if (!resp.isError && resp.isError !== undefined) {
                 notifySuccess()  
-                setTimeout(
-                    // () => navigate("/"), 2000
-                )
+                // setTimeout(
+                //     // () => navigate("/"), 2000
+                // )
+
+                setTimeout(() => navigate("/checkout", { state: { Order: objectAdd, TotalPrice: totalPrice1 + totalPrice2 } }), 2000);
+
             }
             else {
                 notifyError()
