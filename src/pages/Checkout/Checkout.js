@@ -15,7 +15,7 @@ export default function Checkout({ Order, TotalPrice }) {
         <div className="rounded-lg basis-2/3 drop-shadow-2xl border border-rose-[500] p-[50px]">
           <h1 className="text-[30px] mb-[10px] text-center">Payment</h1>
           <div
-           className='flex flex-wrap'>
+           className='flex flex-wrap justify-between'>
             <div className="p-[20px] ">
                 {
                     usePaypal ? (
