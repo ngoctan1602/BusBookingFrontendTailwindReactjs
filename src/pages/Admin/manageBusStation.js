@@ -208,13 +208,13 @@ const ManageBusStation = () => {
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                 <p class='col-span-2 font-bold text-20'>Quản lý bến bãi</p>
-                <input placeholder="Tìm kiếm" class='col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
-                <div class='flex justify-evenly'>
+                {/* <input placeholder="Tìm kiếm" class='col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input> */}
+                <div class='col-start-9 flex justify-evenly'>
                     <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation>
-                    <button class="flex justify-center" onClick={exportToExcel}>
+                    {/* <button class="flex justify-center" onClick={exportToExcel}>
                         <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                         </FontAwesomeIcon>
-                    </button>
+                    </button> */}
                 </div>
             </div>
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
