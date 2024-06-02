@@ -166,9 +166,11 @@ const ManageTypeBus = () => {
     return (
         <div class='w-full text-txt txt-16'>
 
-            <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý loại xe</p>
-                {/* <input placeholder="Tìm kiếm" class='col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input> */}
+
+            <div class='grid grid-cols-9 grid-flow-row gap-4 items-center mt-[20px]'>
+                <p class='col-span-2 font-bold text-20 font-black uppercase'>Quản lý loại xe</p>
+                <input placeholder="Tìm kiếm" class='col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
+
                 <div class='flex col-span-1 col-start-8 justify-evenly'>
 
                     <PopupAdd objectAdd={addTypeBus} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue} fetchData={fetchData}></PopupAdd>
@@ -180,7 +182,7 @@ const ManageTypeBus = () => {
             </div>
             <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
                 <thead>
-                    <tr class='grid bg-button grid-cols-12 p-sm text-left'>
+                    <tr class='grid bg-bg grid-cols-12 p-sm text-left border-b-2'>
                         {/* <th class='col-span-1'>Id</th> */}
                         <th class='col-span-3'>Tên</th>
                         <th class='col-span-4'>Mô tả</th>
@@ -189,7 +191,7 @@ const ManageTypeBus = () => {
                         <th class='col-span-1'></th>
                     </tr>
                 </thead>
-                <tbody class='bg-[#e1e1e1]'>
+                <tbody class='bg-bg'>
 
 
                     {loading ?

@@ -25,7 +25,7 @@ const PopUpShowDetail = ({ items }) => {
                             </div>
                         </div>
 
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
 
                         {
                             items.map((item, index) => (

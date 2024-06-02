@@ -8,7 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import * as BusStationSV from "../../../../../services/BusStationSv"
 import * as AddressSV from "../../../../../services/AddressSv.js"
 const PopupAddBusStation = ({ objectAdd, item, onChange, success, emtyItemValue }) => {
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
 
     const notifySuccess = () => toast.success('Thêm thành công!', {
         position: "bottom-right",
@@ -129,7 +129,7 @@ const PopupAddBusStation = ({ objectAdd, item, onChange, success, emtyItemValue 
 
                     <div class='p-md text-16 text-txt'>
                         <p class='text-20 text-center font-bold'>{item.title}</p>
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
 
                         {
                             (item.item).map((item, index) => (
@@ -137,7 +137,7 @@ const PopupAddBusStation = ({ objectAdd, item, onChange, success, emtyItemValue 
                                     <p class='w-[80px] shrink-0'>{item.content}</p>
                                     <div class='w-1/2'>
 
-                                        <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                        <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
                                     </div>
                                 </div>
                             ))
@@ -146,7 +146,7 @@ const PopupAddBusStation = ({ objectAdd, item, onChange, success, emtyItemValue 
                         <div class='flex items-center justify-center'>
                             <p class='w-[80px] shrink-0'>Tỉnh</p>
                             <div class='w-1/2'>
-                                <select class='w-full p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getDistricts(e.target.value)}>
+                                <select class='w-full p-sm bg-[#FFFF] border-txt border-[1px] rounded-md my-md' onChange={(e) => getDistricts(e.target.value)}>
                                     <option value={0} selected={(idProvince === 0) ? true : false}>
                                         Chọn tỉnh
                                     </option>
@@ -165,7 +165,7 @@ const PopupAddBusStation = ({ objectAdd, item, onChange, success, emtyItemValue 
                         <div class='flex items-center justify-center'>
                             <p class='w-[80px] shrink-0'>Huyện</p>
                             <div class='w-1/2'>
-                                <select class='w-full p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getWards(e.target.value)}>
+                                <select class='w-full p-sm bg-[#FFFF] border-txt border-[1px] rounded-md my-md' onChange={(e) => getWards(e.target.value)}>
                                     <option value={0} selected={idDistrict === 0 ? true : false}>Chọn huyện</option>
                                     {
                                         districts && districts.map((item, index) => (
@@ -181,7 +181,7 @@ const PopupAddBusStation = ({ objectAdd, item, onChange, success, emtyItemValue 
                         <div class='flex items-center justify-center'>
                             <p class='w-[80px] shrink-0'>Xã</p>
                             <div class='w-1/2'>
-                                <select class='w-full p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getIdWard(e.target.value)}>
+                                <select class='w-full p-sm bg-[#FFFF] border-txt border-[1px] rounded-md my-md' onChange={(e) => getIdWard(e.target.value)}>
                                     <option value={0} selected={idWard === 0 ? true : false} >Chọn xã</option>
                                     {
                                         wards &&

@@ -3,7 +3,7 @@ import PopUpShowDetail from "./PopupShowDetail";
 const RouteDetailRow = ({ item }) => {
 
     return (
-        <tr class='grid  grid-cols-12 p-sm border-t-[1px] border-txt gap-sm'
+        <tr class='grid  grid-cols-12 p-sm my-[10px] items-center'
 
         >
             <td class='col-span-4'>{item.stationStartName} - {item.stationEndName}</td>

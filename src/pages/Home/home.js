@@ -38,7 +38,6 @@ const Home = () => {
         { id: 2, location: 'Nha Trang - Sài Gòn', src: bgSearch, price: '200.000đ' },
         { id: 3, location: 'Hà Nội - Nha Trang', src: bgSearch, price: '100.000đ' },
         { id: 4, location: 'Hà Nội - Nha Trang', src: bgSearch, price: '100.000đ' },
-        { id: 5, location: 'Hà Nội - Nha Trang', src: bgSearch, price: '100.000đ' },
     ])
 
     const [discounts, setDiscounts] = useState([
@@ -46,7 +45,6 @@ const Home = () => {
         { id: 2, content: 'Giảm giá 30%', src: discount, type: 'discount' },
         { id: 3, content: 'Giảm giá 20%', src: discount, type: 'discount' },
         { id: 4, content: 'Giảm giá 10%', src: discount, type: 'discount' },
-        { id: 5, content: 'Giảm giá 30%', src: discount, type: 'discount' },
     ])
 
     const [introduce, setIntroduce] = useState([
@@ -127,7 +125,7 @@ const Home = () => {
                 <div className="z-20 items-center justify-center flex flex-col w-[100%] h-[100%]">
 
 
-                    <div className='w-content grid grid-cols-12 h-full  grid-rows-5 '>
+                    <div className='w-content grid grid-cols-12 h-full  grid-rows-5 pt-[120px]'>
 
                         <div class=' col-span-8 col-start-3'>
                             <p className="h-full font-bold text-bg text-24 flex items-center justify-center">
@@ -136,7 +134,7 @@ const Home = () => {
                         </div>
                         <div className=" 
                         border-[1px] border-txt outline-none
-                        col-span-8 col-start-3 row-start-2 row-span-3 opacity-90 bg-bgPopup grid grid-cols-12 grid-flow-row p-md rounded-md shadow-lg">
+                        col-span-8 col-start-3 row-start-2 row-span-3 bg-bg grid grid-cols-12 grid-flow-row p-md rounded-md shadow-lg h-[150px]">
                             <div className='col-span-3 col-start-1 h-full text-hover-txt grid grid-cols-6 grid-flow-row'>
                                 <div className="col-span-1 flex items-center">
                                     <FontAwesomeIcon icon={faLocationDot} className='w-full h-[20px]' />
@@ -165,7 +163,7 @@ const Home = () => {
                             </div>
 
                             <div className='col-span-2 col-start-10 h-full text-hover-txt  flex items-center'>
-                                <button className='w-full button-hover ml-md mt-lg' onClick={btnClick} >Tìm chuyến</button>
+                                <button className='w-full button-hover ml-md mt-lg text-txt' onClick={btnClick} >Tìm chuyến</button>
                             </div>
                         </div>
                     </div>
@@ -176,9 +174,9 @@ const Home = () => {
             </div>
 
 
-            <div className="min-h-[300px] w-[80%] flex flex-col justify-between">
-                <h4 className="font-bold text-[24px] my-md">Chuyến đi nổi bật</h4>
-                <div className="flex min-h-[80%] w-full ">
+            <div className="min-h-[300px] w-[60%] flex flex-col justify-between pt-[50px]">
+                <h4 className="font-[500] text-[24px] my-[20px]">Chuyến đi nổi bật</h4>
+                <div className="flex min-h-[80%] w-full justify-between">
 
                     {
                         cards.map((item, index) => (
@@ -190,9 +188,9 @@ const Home = () => {
             </div>
 
 
-            <div className="min-h-[300px] w-[80%] flex flex-col justify-between mt-md">
-                <h4 className="font-bold text-[24px] my-md">Ưu đãi nổi bật</h4>
-                <div className="flex min-h-[80%] w-full ">
+            <div className="min-h-[300px] w-[60%] flex flex-col justify-between mt-md pt-[50px]">
+                <h4 className="font-[500] text-[24px] my-[20px] ">Ưu đãi nổi bật</h4>
+                <div className="flex min-h-[80%] w-full justify-between">
                     {
                         discounts.map((item, index) => (
                             <Card key={index} content={item.content} src={item.src} type={item.type}>
@@ -203,8 +201,8 @@ const Home = () => {
             </div>
 
 
-            <div className='min-h-[420px] w-[80%] my-md'>
-                <p className='font-bold text-[24px] my-md'>Khách hàng nói gì về Y-Trip</p>
+            <div className='min-h-[420px] w-[60%] my-md pt-[50px]'>
+                <p className='font-bold text-[24px] my-[20px]'>Khách hàng nói gì về Y-Trip</p>
                 <Slider {...settings}>
                     {
                         comments.map((item, index) => (
@@ -215,7 +213,7 @@ const Home = () => {
                 </Slider>
             </div>
 
-            <div className='w-wrapper min-h-[200px] my-md flex flex-col'>
+            <div className='min-h-[420px] w-[60%] my-md pt-[50px] my-md flex flex-col'>
                 <p className="font-bold text-[24px] my-md">Nền tảng kết nối người dùng và nhà xe</p>
                 <div className='flex justify-between w-full h-[80%]'>
                     {/* <Card type="introduce">

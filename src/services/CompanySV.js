@@ -13,7 +13,7 @@ export const Delete = async (params) => {
     return await BaseAPI.deleteItem(API.delete, params)
 }
 export const Register = async (data) => {
-    return await BaseAPI.postItem(API.register, data)
+    return await BaseAPI.createFormData(API.register, data)
 }
 const API = {
     register: 'companies/register',

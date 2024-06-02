@@ -12,7 +12,7 @@ import * as BusSV from "../../../../../services/Company/BusSV"
 import * as RoutesSV from "../../../../../services/RoutesSV"
 import ReactLoading from 'react-loading';
 const PopupAdd = ({ fetchData, items, propsAdd, onChange }) => {
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "60%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "60%" };
 
     const [typeSeat, setTypeSeat] = useState();
     const [typeBus, setTypeBus] = useState();
@@ -191,7 +191,7 @@ const PopupAdd = ({ fetchData, items, propsAdd, onChange }) => {
                         }
                         <div class='p-md text-16 text-txt '>
                             <p class='text-20 text-center font-bold'>Thêm mới xe</p>
-                            <div class='w-full h-[1px] bg-txt my-sm' ></div>
+
                             <div class="grid-flow-row grid grid-cols-12">
                                 <div class='col-span-6 '>
 
@@ -205,9 +205,9 @@ const PopupAdd = ({ fetchData, items, propsAdd, onChange }) => {
                                                 {
                                                     <div
 
-                                                        class='col-span-7 col-start-5 bg-bgPopup  rounded-md '>
+                                                        class='col-span-7 col-start-5 bg-bg  rounded-md '>
                                                         {
-                                                            <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, value: items[item.name], spanWidth: Number(item.spanWidth), id: item.id, background: "#e1e1e1" }} onChange={onChange} ></InputConfirmInfo>
+                                                            <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, value: items[item.name], spanWidth: Number(item.spanWidth), id: item.id, background: "#ffff" }} onChange={onChange} ></InputConfirmInfo>
                                                         }
                                                     </div>
                                                 }
@@ -224,7 +224,7 @@ const PopupAdd = ({ fetchData, items, propsAdd, onChange }) => {
                                             typeBus &&
                                             <select
                                                 onChange={(e) => onChange(propsAdd.item[1].id, Number(e.target.value))}
-                                                class='col-span-7 col-start-5 bg-bgPopup outline-none border-[1px] rounded-md p-[5px]'>
+                                                class='col-span-7 col-start-5 bg-bg outline-none border-[1px] rounded-md p-[5px]'>
                                                 <option value={0} selected={items.busTypeID === 0 ? true : false}>
                                                     Chọn loại xe
                                                 </option>
@@ -251,7 +251,7 @@ const PopupAdd = ({ fetchData, items, propsAdd, onChange }) => {
                                             typeSeat &&
                                             <select
                                                 onChange={(e) => onChange(propsAdd.item[0].id, Number(e.target.value))}
-                                                class='col-span-7 col-start-5 bg-bgPopup outline-none border-[1px] rounded-md p-[5px]'>
+                                                class='col-span-7 col-start-5 bg-bg outline-none border-[1px] rounded-md p-[5px]'>
                                                 <option value={0} selected={items.seatTypeID === 0 ? true : false}>
                                                     Chọn loại ghế
                                                 </option>
@@ -296,7 +296,7 @@ const PopupAdd = ({ fetchData, items, propsAdd, onChange }) => {
                                 </p>
                                 <input type="text"
                                     class='p-sm outline-none border-[1px] rounded-md 
-                             bg-[#e1e1e1] col-start-4 col-span-6 focus:border-button focus:border-[1.5px] ease-in-out duration-200'
+                             bg-[#FFFF] col-start-4 col-span-6 focus:border-button focus:border-[1.5px] ease-in-out duration-200'
                                     placeholder="Tìm kiếm điểm đón trả khách theo khu vực "
                                     onChange={(e) => searchByLocation(e.target.value)}
                                 />
@@ -311,12 +311,12 @@ const PopupAdd = ({ fetchData, items, propsAdd, onChange }) => {
 
                                         </tr>
                                     </thead>
-                                    <tbody class='bg-[#e1e1e1]'>
+                                    <tbody class='bg-[#FFFF]'>
                                         {
                                             !loading ?
                                                 <tr class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
                                                     <ReactLoading
-                                                        type="spinningBubbles" color="#e1e1e1"
+                                                        type="spinningBubbles" color="#FFFF"
                                                         height={'20&'} width={'20%'}
                                                         className="absolute bg-hover-txt left-1/2 top-[20%]  "
                                                     />
@@ -342,12 +342,14 @@ const PopupAdd = ({ fetchData, items, propsAdd, onChange }) => {
                             <div class='w-full h-[200px] overflow-y-auto overflow-x-auto mb-lg relative '>
                                 <table class="w-full my-sm rounded-md border-collapse  text-txt text-16  ">
                                     <thead>
-                                        <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
+                                        <tr class='grid bg-bg grid-cols-12 p-sm text-center gap-md'>
                                             <th class='col-start-5 col-span-4'>Chọn tuyến đi </th>
 
                                         </tr>
+        
+
                                     </thead>
-                                    <tbody class='bg-[#e1e1e1]'>
+                                    <tbody class='bg-[#FFFF]'>
 
                                         {
                                             route.length > 0 && route.map(item => (

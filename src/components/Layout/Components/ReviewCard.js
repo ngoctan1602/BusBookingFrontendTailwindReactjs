@@ -55,7 +55,7 @@ const ReviewCard = ({ item }) => {
 
                             <div class='p-md text-16 text-txt'>
                                 <p class='text-20 text-center font-bold'>Chỉnh sửa đánh giá chuyến đi</p>
-                                <div class='w-full h-[1px] bg-txt my-sm' ></div>
+    
                                 <div class='flex items-center justify-center'>
                                     <div class='w-[300px]'>
                                         <textarea class='text-txt text-16 overflow-y-auto w-full h-[200px] outline-none rounded-md p-md resize-none'> At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.</textarea>

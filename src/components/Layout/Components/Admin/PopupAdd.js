@@ -9,7 +9,7 @@ import * as TypeBusServices from "../../../../services/TypeBusServices"
 import ReactLoading from 'react-loading';
 
 const PopupAdd = ({ objectAdd, item, onChange, success, emtyItemValue, fetchData }) => {
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
 
     const notifySuccess = () => toast.success('Thêm thành công!', {
         position: "bottom-right",
@@ -94,7 +94,7 @@ const PopupAdd = ({ objectAdd, item, onChange, success, emtyItemValue, fetchData
                             </div>
                         }
                         <p class='text-20 text-center font-bold'>{item.title}</p>
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
 
                         {
                             (item.item).map((item, index) => (
@@ -103,8 +103,8 @@ const PopupAdd = ({ objectAdd, item, onChange, success, emtyItemValue, fetchData
                                     <div class='w-1/2'>
                                         {
                                             item.name === "price" ?
-                                                <InputConfirmInfo item={{ type: "number", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
-                                                : <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                                <InputConfirmInfo item={{ type: "number", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
+                                                : <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
 
                                         }
                                         {/* <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo> */}

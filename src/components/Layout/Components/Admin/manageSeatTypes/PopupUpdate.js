@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
 const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopup, fetchData }) => {
     console.log(fetchData)
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
     const notifySuccess = () => toast.success('Cập nhật thành công!', {
         position: "bottom-right",
         autoClose: 1000,
@@ -70,7 +70,7 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopu
 
                     <div class='p-md text-16 text-txt'>
                         <p class='text-20 text-center font-bold'>{item.title}</p>
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
 
                         {
                             (item.item).map((item, index) => (
@@ -80,11 +80,11 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopu
 
                                         {
                                             item.id === 1 ?
-                                                <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, id: updateTypeBus[item.name], value: updateTypeBus.id, spanWidth: Number(item.spanWidth), background: "#e1e1e1" }}></InputConfirmInfo>
+                                                <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, id: updateTypeBus[item.name], value: updateTypeBus.id, spanWidth: Number(item.spanWidth), background: "#FFFF" }}></InputConfirmInfo>
                                                 : (item.name === "price")
                                                     ?
-                                                    <InputConfirmInfo item={{ type: "number", placeholder: `${item.placeholder}`, id: item.id, value: updateTypeBus[item.name], spanWidth: Number(item.spanWidth), background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
-                                                    : <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, id: item.id, value: updateTypeBus[item.name], spanWidth: Number(item.spanWidth), background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                                    <InputConfirmInfo item={{ type: "number", placeholder: `${item.placeholder}`, id: item.id, value: updateTypeBus[item.name], spanWidth: Number(item.spanWidth), background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
+                                                    : <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, id: item.id, value: updateTypeBus[item.name], spanWidth: Number(item.spanWidth), background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
 
                                         }
                                     </div>

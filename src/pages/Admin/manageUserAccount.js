@@ -120,19 +120,19 @@ const ManageUserAccount = () => {
 
 
     return (
-        <div class='w-full text-txt txt-16'>
+        <div class='w-full text-txt txt-16 mt-[20px]'>
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
-                <p class='col-span-3 font-bold text-20'>Quản lý tài khoản người dùng</p>
-                <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                <p class='col-span-3 font-black uppercase text-20'>Quản lý tài khoản người dùng</p>
+                <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
                 <button class="flex justify-center" onClick={exportToExcel}>
                     <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                     </FontAwesomeIcon>
                 </button>
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
-                <thead>
-                    <tr class='grid bg-button grid-cols-11 p-sm text-left gap-md'>
+            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden shadow-2xl">
+                <thead className="border-b-2">
+                    <tr class='grid bg-bg grid-cols-11 p-sm text-left gap-md'>
                         <th class='col-span-2'>Username</th>
                         <th class='col-span-2'>Họ và tên</th>
                         <th class='col-span-2'>Ảnh đại diện</th>
@@ -141,7 +141,7 @@ const ManageUserAccount = () => {
                         <th class='col-span-1'>Thao tác</th>
                     </tr>
                 </thead>
-                <tbody class='bg-[#e1e1e1] relative'>
+                <tbody class='bg-bg relative'>
                     {
                         updateLoading &&
                         <div class='absolute bg-hover-txt w-[100%] h-[200px] z-20 opacity-40'>

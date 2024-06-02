@@ -146,7 +146,7 @@ const Overview = () => {
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                 <p class='col-span-2 font-bold text-20'>Quản lý xe</p>
-                <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-[#ffff] outline-none border-none p-sm rounded-md'></input>
                 <PopupAdd fetchData={fetchData} items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}></PopupAdd>
                 {/* <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation> */}
 
@@ -163,7 +163,7 @@ const Overview = () => {
                     </div>
                 }
                 <thead>
-                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
+                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
                         {/* <th class='col-span-2'>Id bus</th> */}
                         <th class='col-span-3'>Biển số xe</th>
                         <th class='col-span-3'>Loại xe</th>
@@ -171,8 +171,10 @@ const Overview = () => {
                         <th class='col-span-2'>Trạng thái</th>
                         <th class='col-span-2'></th>
                     </tr>
+                    
+
                 </thead>
-                <tbody class='bg-[#e1e1e1]'>
+                <tbody class='bg-[#ffff]'>
                     {loading ?
                         <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
                         </div>

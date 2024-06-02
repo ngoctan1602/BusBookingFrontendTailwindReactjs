@@ -276,14 +276,14 @@ const BusDetail = () => {
                     <div class='w-full h-[250px] overflow-y-auto overflow-x-auto mb-md'>
                         <table class="w-full my-sm rounded-md border-collapse  text-txt text-16 overflow-hidden">
                             <thead>
-                                <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
+                                <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md '>
                                     {/* <th class='col-span-2'>Id</th> */}
                                     <th class='col-span-4 '>Tên tuyến</th>
                                     <th class='col-span-8'>Lộ trình</th>
                                     {/* <th class='col-span-2'>Trạng thái</th> */}
                                 </tr>
                             </thead>
-                            <tbody class='bg-[#e1e1e1]'>
+                            <tbody class='bg-[#FFFF]'>
                                 {/* {
                                     loading ?
                                         <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">

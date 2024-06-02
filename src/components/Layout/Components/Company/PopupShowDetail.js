@@ -2,7 +2,7 @@ import Popup from "reactjs-popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 const PopUpShowDetail = ({ items, orderProps }) => {
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
 
     return (
         <Popup trigger={<button class="flex justify-center"> <FontAwesomeIcon icon={faMagnifyingGlass} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[34px] h-[34px] mr-sm'></FontAwesomeIcon></button>} position="right center"
@@ -25,7 +25,7 @@ const PopUpShowDetail = ({ items, orderProps }) => {
                             </div>
                         </div>
 
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
 
                         {
                             orderProps.map((item, index) => (

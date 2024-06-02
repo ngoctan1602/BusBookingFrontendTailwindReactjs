@@ -55,7 +55,7 @@ const SeatTypeRow = ({ item, onChangeStatus, onUpdate, fetchData }) => {
         return isSuccess
     }, [updateTypeBus])
     return (
-        <tr class='grid  grid-cols-12 p-sm border-t-[1px] border-txt'
+        <tr class='grid  grid-cols-12 p-sm  border-txt my-[10px] items-center'
             style={{ background: item.status === 3 ? "#75718a" : "" }}
         >
             {/* <td class='col-span-1'>{item.id}</td> */}
@@ -68,9 +68,11 @@ const SeatTypeRow = ({ item, onChangeStatus, onUpdate, fetchData }) => {
             </td>
             <td class='col-span-2' >
                 {/* onChange={() => onChange(item.id, value)} */}
-                <select class='bg-[#e1e1e1] outline-none' style={{ background: item.status === 3 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
-                    <option selected={item.status === 3 ? true : false} value={3} >Ngưng hoạt động</option>
-                    <option selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
+                <select 
+                    className={`rounded-lg p-[5px] ${item.status === 3 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 2 ? "bg-warning" : ""}`} 
+                    style={{ background: item.status === 3 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
+                    <option className="bg-danger" selected={item.status === 3 ? true : false} value={3} >Ngưng hoạt động</option>
+                    <option className="bg-success" selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
                 </select>
             </td>
             {

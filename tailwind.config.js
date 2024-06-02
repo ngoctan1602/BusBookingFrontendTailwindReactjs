@@ -5,20 +5,27 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      FiraSans: ['Fira Sans'],
-      robo: ['Raleway', 'sans-serif'],
-      Amiro: ['Arimo', 'sans-serif']
+      'FiraSans': ['Comfortaa'],
+      'robo': ['Raleway', 'sans-serif'],
+      'Amiro': ['Cabin', 'Comfortaa']
     },
     colors: {
       'txt': '#090808',
-      'button': '#88c194',
-      'bg': '#F2ECFF',
-      'bgPopup': '#e1e1e1',
-      'hover-txt': '#4d4c4f',
-      'txt-final': '#474E68',
+      'txt-gray': '#4B4B4B',
+      'txt-light':'#FFFFFF',
+      'button': '#C6C6C6',
+      'bg': '#FFFFFF',
+      'bgContent': '#EAEAEA',
+      'bgPopup': '#C6C6C6',
+      'hover-txt': '#A5A5A5',
+      'txt-final': '#868686',
       'button-final': '#03C988',
-      'txt-button': '#E5E5CB'
-    },
+      'txt-button': '#E5E5CB',
+      'notificationNotRead': '#F9F1F2',
+      'success': "#00E22D",
+      'danger': "#EF6C6C",
+      'warning': "#FFC107",
+    },  
     fontSize: {
       '12': '12px',
       '14': '14px',

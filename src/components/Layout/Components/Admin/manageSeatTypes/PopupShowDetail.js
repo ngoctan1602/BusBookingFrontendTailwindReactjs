@@ -4,7 +4,7 @@ import { faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-
 import * as AddressSv from "../../../../../services/AddressSv"
 import { useEffect, useState } from "react";
 const PopUpShowDetail = ({ items, companyProps }) => {
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
 
 
 
@@ -29,7 +29,7 @@ const PopUpShowDetail = ({ items, companyProps }) => {
                             </div>
                         </div>
 
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
 
                         {
                             companyProps.map((item, index) => (

@@ -9,7 +9,7 @@ import * as PriceClassSV from "../../../../../services/PriceClassSV"
 import ReactLoading from 'react-loading';
 
 const PopupAdd = () => {
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
     const notifySuccess = (message) => toast.success(message, {
         position: "bottom-right",
         autoClose: 2500,
@@ -44,18 +44,19 @@ const PopupAdd = () => {
     const handleClose = (close) => {
         // fetchData()
         close()
-    }
-    const getItemValue = () => {
-        if (objectAdd.name === "" || objectAdd.description === "" || objectAdd.value <= 0) {
-            notifyWarning("Các trường không được bỏ trống và đơn giá không được bằng 0")
+        }
+        const getItemValue = async () => {
+        if (objectAdd.name === "" || objectAdd.description === "" || objectAdd.value < 0) {
+            notifyWarning("Các trường không được bỏ trống và đơn giá không được bé hơn 0")
             return
         }
         setLoading(true)
         try {
-            const resp = PriceClassSV.createPriceSV(objectAdd);
+            const resp = await PriceClassSV.createPriceSV(objectAdd);
             setLoading(false)
             if (!resp.isError) {
                 notifySuccess("Thêm mới loại giá thành công")
+                setObjectAdd({ name: '', description: '', value: 0 })
             }
             else {
                 notifyError("Lỗi khi thêm")
@@ -98,14 +99,14 @@ const PopupAdd = () => {
                             loading &&
                             <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
                                 <ReactLoading
-                                    type="spinningBubbles" color="#e1e1e1"
+                                    type="spinningBubbles" color="#FFFF"
                                     height={'10%'} width={'10%'}
                                     className="absolute left-[50%] top-[40%]  "
                                 />
                             </div>
                         }
                         <p class='text-20 text-center font-bold'>Thêm mới loại giá</p>
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
 
                         {/* {
                             (item.item).map((item, index) => (
@@ -114,8 +115,8 @@ const PopupAdd = () => {
                                     <div class='w-1/2'>
                                         {
                                             item.name === "price" ?
-                                                <InputConfirmInfo item={{ type: "number", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
-                                                : <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                                <InputConfirmInfo item={{ type: "number", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
+                                                : <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
 
                                         }
                                     </div>
@@ -126,19 +127,19 @@ const PopupAdd = () => {
                         <div class='flex items-center justify-center'>
                             <p class='w-[80px] shrink-0'>Tên</p>
                             <div class='w-1/2'>
-                                <InputConfirmInfo item={{ type: "text", placeholder: "Nhập tên loại giá", value: objectAdd.name, spanWidth: 140, name: "name", background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                <InputConfirmInfo item={{ type: "text", placeholder: "Nhập tên loại giá", value: objectAdd.name, spanWidth: 140, name: "name", background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
                             </div>
                         </div>
                         <div class='flex items-center justify-center'>
                             <p class='w-[80px] shrink-0'>Mô tả</p>
                             <div class='w-1/2'>
-                                <InputConfirmInfo item={{ type: "text", placeholder: "Nhập mô tả", value: objectAdd.description, spanWidth: 140, name: "description", background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                <InputConfirmInfo item={{ type: "text", placeholder: "Nhập mô tả", value: objectAdd.description, spanWidth: 140, name: "description", background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
                             </div>
                         </div>
                         <div class='flex items-center justify-center'>
                             <p class='w-[80px] shrink-0'>Phụ thu (%)</p>
                             <div class='w-1/2'>
-                                <InputConfirmInfo item={{ type: "number", placeholder: "Nhập phụ thu", value: objectAdd.value, spanWidth: 140, name: "value", background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                <InputConfirmInfo item={{ type: "number", placeholder: "Nhập phụ thu", value: objectAdd.value, spanWidth: 140, name: "value", background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
                             </div>
                         </div>
 

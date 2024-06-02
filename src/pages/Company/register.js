@@ -244,7 +244,7 @@ const CompanyRegister = () => {
                 pw: "password",
                 placeholder: "Nhập mật khẩu",
                 value: account.password,
-                spanWidth: 120,
+                spanWidth: 150,
                 background: "#e1e1e1"
             },
             {
@@ -253,7 +253,7 @@ const CompanyRegister = () => {
                 type: "text",
                 placeholder: "Nhập Thôn/Số nhà/ Đường",
                 value: account.address,
-                spanWidth: 220,
+                spanWidth: 250,
                 background: "#e1e1e1"
             },
         ]
@@ -279,7 +279,7 @@ const CompanyRegister = () => {
                 <ImageUploadPopup isOpen={isImagePopupOpen} onClose={() => setImagePopupOpen(false)} onImageUpload={handleImageUpload} />
             </div> */}
 
-            <div class='w-2/3 h-2/3 border-none shadow-2xl rounded-md overflow-auto flex bg-[#e1e1e1]'>
+            <div class='w-[70%] h-[90%] border-none shadow-2xl rounded-md overflow-auto flex bg-[#e1e1e1]'>
                 <div class='w-[40%] h-[750px] bg-bgLogin bg-cover bg-no-repeat text-bg flex flex-col items-center'>
                     <img src={adminlogo} class='mt-md shrink-0 w-[100px] h-[100px] rounded-full'></img>
                     <p class='text-[30px] font-semibold shrink-0'>
@@ -288,7 +288,7 @@ const CompanyRegister = () => {
                     <p class='text-18 shrink-0'>
                         Đăng ký trở thành nhà xe
                     </p>
-                    <p class='text-14 m-md'>
+                    <p class='text-16 m-md'>
                         Những chuyến đi dài của bạn hãy để chúng mình lo nhé.
                         Chỉ cần một cú click chuột mọi thứ đều trong tầm tay
                     </p>
@@ -363,7 +363,7 @@ const CompanyRegister = () => {
                         </div>
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-md'>
                             <button class='confirm-button col-start-4 col-span-6' onClick={onSubmit}>
-                                Đăng nhập
+                                Đăng ký
                             </button>
 
                         </div>

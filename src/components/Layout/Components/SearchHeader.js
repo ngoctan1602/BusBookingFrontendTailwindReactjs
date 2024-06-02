@@ -90,7 +90,7 @@ const SearchHeader = ({ onSearch }) => {
 
 
             <div className='col-span-2 col-start-10 h-full text-hover-txt flex items-center'>
-                <button className='w-full button-hover ml-md' onClick={btnClick}>Tìm chuyến</button>
+                <button className='w-full button-hover ml-md text-txt' onClick={btnClick}>Tìm chuyến</button>
             </div>
         </div>
     );

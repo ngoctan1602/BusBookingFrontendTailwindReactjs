@@ -10,7 +10,7 @@ import * as RoutesSV from "../../../../../services/RoutesSV"
 import ReactLoading from 'react-loading';
 
 const PopupAdd = () => {
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
     const notifySuccess = (message) => toast.success(message, {
         position: "bottom-right",
         autoClose: 2500,
@@ -50,7 +50,7 @@ const PopupAdd = () => {
     const fetchData = async () => {
         try {
 
-            const routerresp = await RoutesSV.getAllRoutes();
+            const routerresp = await RoutesSV.getAllRoutesByCompany();
             setRoute(routerresp.data.items)
 
         } catch (error) {
@@ -61,17 +61,18 @@ const PopupAdd = () => {
         fetchData()
 
     }, [])
-    const getItemValue = () => {
-        if (objectAdd.name === "" || objectAdd.description === "" || objectAdd.value <= 0) {
+    const getItemValue = async () => {
+        if (objectAdd.name === "" || objectAdd.description === "" || objectAdd.value < 0) {
             notifyWarning("Các trường không được bỏ trống và đơn giá không được bằng 0")
             return
         }
         setLoading(true)
         try {
-            const resp = PriceSV.createPrice(objectAdd);
+            const resp = await PriceSV.createPrice(objectAdd);
             setLoading(false)
             if (!resp.isError) {
                 notifySuccess("Thêm mới loại giá thành công")
+                setObjectAdd({ RouteId: 0, Surcharges: 0, Price: 0, })
             }
             else {
                 notifyError("Lỗi khi thêm")
@@ -109,25 +110,26 @@ const PopupAdd = () => {
                             loading &&
                             <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
                                 <ReactLoading
-                                    type="spinningBubbles" color="#e1e1e1"
+                                    type="spinningBubbles" color="#FFFF"
                                     height={'10%'} width={'10%'}
                                     className="absolute left-[50%] top-[40%]  "
                                 />
                             </div>
                         }
                         <p class='text-20 text-center font-bold'>Thêm mới bảng giá</p>
-                        <div class='w-full h-[1px] bg-txt my-sm' ></div>
+                        
 
                         <div class='w-full grid-flow-row grid grid-cols-12 '>
                             <p className="col-start-3 col-span-2">
                                 Lộ trình
                             </p>
-                            <select className="col-span-6 bg-bgPopup border-[1px] rounded-md ml-[-8px] p-sm"
+                            <select className="col-span-6 bg-bg border-[1px] rounded-md ml-[-8px] p-sm"
                                 onChange={(e) => onChange("RouteId", e.target.value)}
                             >
-                                <option>
+                                {objectAdd.RouteId === 0 && (<option>
                                     Chọn lộ trình
-                                </option>
+                                </option>)}
+                                
                                 {
                                     route.map(item =>
                                         <option value={item.id}>
@@ -140,13 +142,13 @@ const PopupAdd = () => {
                         <div class='flex items-center justify-center'>
                             <p class='w-[80px] shrink-0'>Giá</p>
                             <div class='w-1/2'>
-                                <InputConfirmInfo item={{ type: "number", placeholder: "Nhập giá", value: objectAdd.Price, spanWidth: 90, name: "Price", background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                <InputConfirmInfo item={{ type: "number", placeholder: "Nhập giá", value: objectAdd.Price, spanWidth: 90, name: "Price", background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
                             </div>
                         </div>
                         <div class='flex items-center justify-center'>
                             <p class='w-[80px] shrink-0'>Phụ phí</p>
                             <div class='w-1/2'>
-                                <InputConfirmInfo item={{ type: "number", placeholder: "Nhập phụ phí", value: objectAdd.Surcharges, spanWidth: 120, name: "Surcharges", background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo>
+                                <InputConfirmInfo item={{ type: "number", placeholder: "Nhập phụ phí", value: objectAdd.Surcharges, spanWidth: 120, name: "Surcharges", background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
                             </div>
                         </div>
 

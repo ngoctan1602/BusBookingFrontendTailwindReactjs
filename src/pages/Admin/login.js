@@ -49,7 +49,7 @@ const AdminLogin = () => {
                 localStorage.setItem('adminUsername', response.data.username);
                 notifySuccess()
                 setTimeout(() => {
-                    navigate('/manage-user-account');
+                    navigate('/admin/manage-user-account');
                 }, 1500);
 
             }
@@ -123,7 +123,7 @@ const AdminLogin = () => {
                     <p class='text-18 shrink-0'>
                         Đăng nhập để quản lý hệ thống
                     </p>
-                    <p class='text-14 m-md'>
+                    <p class='text-16 m-md'>
                         Những chuyến đi dài của bạn hãy để chúng mình lo nhé.
                         Chỉ cần một cú click chuột mọi thứ đều trong tầm tay
                     </p>
@@ -133,7 +133,7 @@ const AdminLogin = () => {
                 <div class='w-[60%] h-full text-txt flex items-center bg-[#e1e1e1]'>
                     <div class='w-full h-2/3 items-center flex flex-col'>
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-sm'>
-                            <p class='col-start-4 col-span-6 font-bold text-[26px]'>Đăng nhập vào hệ thống</p>
+                            <p class='col-start-4 col-span-6 font-bold text-[30px]'>Đăng nhập vào hệ thống</p>
                         </div>
                         {
                             item.map((item, index) => (

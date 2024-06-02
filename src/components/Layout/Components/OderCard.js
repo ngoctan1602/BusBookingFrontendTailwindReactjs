@@ -150,7 +150,7 @@ const OrderCard = ({ item }) => {
                                     </div>
                                 }
                                 <p class='text-20 text-center font-bold'>Đánh giá chuyến đi</p>
-                                <div class='w-full h-[1px] bg-txt my-sm' ></div>
+    
                                 {/* <div class='flex items-center justify-center'> */}
                                 <div class='grid w-full grid-cols-12 '>
                                     {/* <p class='w-[60px] shrink-0'>Bình luận</p> */}

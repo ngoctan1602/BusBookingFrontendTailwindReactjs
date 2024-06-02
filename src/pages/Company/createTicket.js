@@ -223,7 +223,7 @@ const Ticket = () => {
                             <th class='col-span-2'>Trạng thái</th>
                         </tr>
                     </thead>
-                    <tbody class='bg-[#e1e1e1]'>
+                    <tbody class='bg-[#FFFF]'>
                         {
                             loading ?
                                 <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
@@ -282,7 +282,7 @@ const Ticket = () => {
                             <th class='col-span-2'>Giá</th>
                         </tr>
                     </thead>
-                    <tbody class='bg-[#e1e1e1]'>
+                    <tbody class='bg-[#FFFF]'>
                         {
                             loading ?
                                 <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">

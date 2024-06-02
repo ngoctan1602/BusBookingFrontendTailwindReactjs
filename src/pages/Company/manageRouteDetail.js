@@ -111,7 +111,7 @@ const ManageRouteDetail = () => {
                         Cập nhật lộ trình
                     </option>
                 </select>
-                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
                 {/* <PopupAdd
                  items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}
                  ></PopupAdd> */}
@@ -131,13 +131,14 @@ const ManageRouteDetail = () => {
                     </div>
                 } */}
                 <thead>
-                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-sm'>
+                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-sm border-b-2'>
                         <th class='col-span-4'>Tên lộ trình</th>
                         <th class='col-span-3'>Điểm xuất phát</th>
                         <th class='col-span-3'>Điểm kết thúc</th>
                     </tr>
+                    
                 </thead>
-                <tbody class='bg-[#e1e1e1]'>
+                <tbody class='bg-bg'>
                     {loading ?
                         <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
                         </div>

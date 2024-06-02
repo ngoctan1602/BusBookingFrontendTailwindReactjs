@@ -30,22 +30,22 @@ const CompanyLayout = ({ children }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "400px" };
     const [info, setInfo] = useState([
         {
-            id: 1, content: "Quản lí lộ trình", icon: faRoute, active: false, path: '/company/route-detail',
+            id: 1, content: "Quản lí lộ trình", icon: faRoute, active: false, path: '/company/route-detail', color: '#1E3D73',
         },
         {
-            id: 2, content: "Quản lí giá/bảng giá", icon: faDollar, active: false, path: '/company/priceclassification',
+            id: 2, content: "Quản lí giá/bảng giá", icon: faDollar, active: false, path: '/company/priceclassification', color: '#FFBF43',
         },
         {
-            id: 3, content: "Quản lý xe", icon: faBus, active: false, path: '/company/bus',
+            id: 3, content: "Quản lý xe", icon: faBus, active: false, path: '/company/bus', color: '#FF72B9',
         },
         {
-            id: 4, content: "Tạo vé", icon: faTicket, active: false, path: '/company/create-ticket',
+            id: 4, content: "Tạo vé", icon: faTicket, active: false, path: '/company/create-ticket', color: '#28CFFE',
         },
         {
-            id: 5, content: "Quản lý chuyến đi", icon: faMapLocationDot, active: true, path: '/company/ticket',
+            id: 5, content: "Quản lý chuyến đi", icon: faMapLocationDot, active: true, path: '/company/ticket', color: '#FB766D',
         },
         {
-            id: 6, content: "Thống kê", icon: faChartLine, active: false, path: '/company/statistic',
+            id: 6, content: "Thống kê", icon: faChartLine, active: false, path: '/company/statistic', color: '#99F6CA',
         },
 
     ])
@@ -57,19 +57,18 @@ const CompanyLayout = ({ children }) => {
                 navigate("/company/login")
             }
         };
-        const updateSeats = seatActive();
+        seatActive(location.pathname)();
 
-        updateSeats();
         checkData();
     }, []);
 
     // let navigate = useNavigate();
     const location = useLocation()
     // const [content, setContent] = useState("Quản lý tài khoản người dùng")
-    const seatActive = useCallback(() => {
+    const seatActive = useCallback((path) => {
         return () => {
             const updatedItems = info.map(item => {
-                if (location.pathname === item.path) {
+                if (path === item.path) {
                     // setContent(item.content);
                     document.title = item.content
                     return { ...item, active: true };
@@ -80,15 +79,15 @@ const CompanyLayout = ({ children }) => {
             });
             setInfo(updatedItems);
         }
-    }, [info, location.pathname])
+    }, [info, setInfo])
 
 
     return (
 
-        <div class='flex flex-col w-full min-h-full bg-bg'>
+        <div class='w-full h-[100vh] bg-bg relative'>
 
 
-            <div class='h-[60px] shrink-0 bg-gradient-to-br from-button to-[#B0D9B1] grid grid-flow-row grid-cols-11 items-center text-txt text-16'>
+            <div class='w-full h-[60px] shrink-0 bg-bg shadow-xl grid grid-flow-row grid-cols-11 items-center text-txt text-16 fixed z-50 top-[0px] left-[0px] overflow-hidden'>
 
                 <div class='col-span-2 col-start-1 flex items-center ml-md'>
                     <img class='h-[40px] w-[100px]' src={adminlogo} >
@@ -136,7 +135,7 @@ const CompanyLayout = ({ children }) => {
                                     </div>
 
                                 </div>
-                                <div class='w-full h-[1px] bg-txt my-sm' ></div>
+    
                                 <div class='w-full my-md gap-sm grid grid-cols-10'>
                                     <button class='col-start-3 col-span-3 col confirm-button text-center' onClick={handleConfirmClick} >Xác nhận</button>
                                     <button class='col-span-3 confirm-button' onClick={close}>Hủy</button>
@@ -175,29 +174,29 @@ const CompanyLayout = ({ children }) => {
                 </div>
             </div> */}
 
-            <div className="w-full h-full grid grid-flow-row grid-cols-10 gap-sm">
-                <div className="col-span-2  h-full grid grid-cols-1 grid-flow-row ">
+            <div className="w-full h-full  grid-flow-row grid-cols-10 gap-sm mt-[60px]">
+                <div className="col-span-1 grid grid-cols-1 grid-flow-row fixed overflow-auto h-full shadow-2xl" >
                     <div className=" h-[400px] col-span-1 grid grid-cols-1 grid-flow-row  text-16">
                         {
                             info.map((item, index) => (
                                 <Link key={item.id}
-                                    onClick={seatActive()}
                                     to={item.path}
+                                    onClick={seatActive(item.path)}
                                 >
                                     {
                                         item.active ?
                                             <div
-                                                className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  border-[3px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
+                                            className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  border-[3px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
                                             >
-                                                <FontAwesomeIcon class='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color="#474E68"></FontAwesomeIcon>
-                                                <p class='mx-sm col-span-10'> {item.content}</p>
+                                                <FontAwesomeIcon class='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
+                                                <p class='mx-[40px] col-span-10'> {item.content}</p>
 
                                             </div> :
                                             <div className="
                                             hover:bg-bgPopup ease-in-out duration-150 hover:scale-[98%]
-                                            h-[60px] col-span-1 m-sm border-txt-final border-[1px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center">
-                                                <FontAwesomeIcon class='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color="#474E68"></FontAwesomeIcon>
-                                                <p class='mx-sm col-span-10'>  {item.content}</p>
+                                            h-[60px] col-span-1 m-sm border-txt-final rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-stretch items-center">
+                                                <FontAwesomeIcon class='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
+                                                <p class='mx-[40px] col-span-10'>  {item.content}</p>
 
                                             </div>
 
@@ -209,8 +208,8 @@ const CompanyLayout = ({ children }) => {
                     </div>
 
                 </div>
-                <div className="col-span-8 h-full">
-                    <div class='w-full p-md h-full'>
+                <div className="col-span-9 h-full ml-[366px]">
+                    <div class='w-full p-md h-full bg-bgContent'>
                         {children}
                     </div>
                 </div>

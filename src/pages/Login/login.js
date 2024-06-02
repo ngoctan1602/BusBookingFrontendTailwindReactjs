@@ -3,6 +3,8 @@ import Input from "../../components/Layout/Components/Input";
 import Button from "../../components/Layout/Components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import * as authServices from "../../services/AuthServices";
+import * as customerService from "../../services/CustomerServices";
+import {GoogleLogin} from "@react-oauth/google"
 
 import ReactLoading from 'react-loading';
 import { ToastContainer, toast } from 'react-toastify';
@@ -44,6 +46,33 @@ const Login = () => {
     }
     const onChangeConfirmPassword = (e) => {
         setConfirmPassword(e.target.value);
+    }
+    const loginOnGoogle = async(token)=>{
+        setLoading(true);
+        try{
+            const tokenGoogle ={
+                token: token
+            }
+            const response = await customerService.loginOnGoolge(tokenGoogle);
+            setLoading(false);
+            console.log("response google lgoin :" ,response)
+            if (!response.isError) {
+                setError('');
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('refreshToken', response.data.refreshToken);
+                localStorage.setItem('username', response.data.username);
+                localStorage.setItem('avatar', response.data.avatar);
+                notifySuccess();
+                setTimeout(() => navigate("/"), 1500)
+            }
+            else {
+                notifyError()
+            }
+        }
+        catch(error){
+            notifyError()
+            console.log(error)
+        }
     }
     const [loading, setLoading] = useState(false);
     const onSubmit = async (e) => {
@@ -100,9 +129,23 @@ const Login = () => {
             </form>
 
             <Button type="solid" content="Đăng nhập" onClick={onSubmit} />
-            <p className="w-[50%] m-md text-sm italic text-text font-bold text-14 text-center">
+            <div 
+                className="p-[20px]">
+                <GoogleLogin
+                scope="profile email https://www.googleapis.com/auth/userinfo.profile"
+                onSuccess={credentialResponse => {
+                    console.log(credentialResponse);
+                    loginOnGoogle(credentialResponse.credential)
+                }}
+                onError={() => {
+                    console.log('Login Failed');
+                }}
+                />
+            </div>
+            <p className="w-[50%] m-md text-sm italic text-text font-bold text-16 text-center">
                 Bạn chưa có tài khoản? <Link to="/register" className="text-button hover:underline">Đăng kí tài khoản</Link>
             </p>
+            
             <ToastContainer
                 position="bottom-right"
                 autoClose={2500}

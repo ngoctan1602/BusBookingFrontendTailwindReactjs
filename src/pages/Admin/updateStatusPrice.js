@@ -121,8 +121,8 @@ const UpdateStatusPrice = () => {
     return (
         <div class='w-full text-txt txt-16 '>
 
-            <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý bảng giá</p>
+            <div class='grid grid-cols-12 grid-flow-row gap-4 items-center mt-[20px]'>
+                <p class='col-span-2 font-bold text-20 font-black uppercase' >Quản lý bảng giá</p>
                 <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
                     onChange={(e) => navigate(e.target.value)}
                 >
@@ -133,12 +133,12 @@ const UpdateStatusPrice = () => {
                         Quản lý bảng giá
                     </option>
                 </select>
-                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
 
 
 
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
+            <table class="w-full my-md rounded-md border-collapse  text-txt-gray text-16 overflow-hidden relative">
                 {
                     updateLoading &&
                     <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
@@ -150,7 +150,7 @@ const UpdateStatusPrice = () => {
                     </div>
                 }
                 <thead>
-                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
+                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
                         <th class='col-span-3'>Công ty</th>
                         <th class='col-span-3'>Tuyến đi</th>
                         <th class='col-span-2'>Giá</th>
@@ -158,7 +158,7 @@ const UpdateStatusPrice = () => {
                         <th class='col-span-2'>Trạng thái</th>
                     </tr>
                 </thead>
-                <tbody class='bg-[#e1e1e1]'>
+                <tbody class='bg-bg'>
                     {
                         loading ?
                             <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">

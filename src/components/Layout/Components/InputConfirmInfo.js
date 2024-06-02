@@ -11,7 +11,7 @@ const InputConfirmInfo = ({ item, onChange, onChangeShowPassword }) => {
 
     const handleOutFocus = () => {
         setIsFocus(!isFocus)
-        if (!item.value || (item.type === "number" && item.value === 0))
+        if ((item.type === "number" && item.value <0))
             setCheckEmty(true)
         else
             setCheckEmty(false)

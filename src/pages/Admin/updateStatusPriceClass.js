@@ -123,8 +123,8 @@ const UpdateStatusPriceClass = () => {
     return (
         <div class='w-full text-txt txt-16 '>
 
-            <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý loại giá</p>
+            <div class='grid grid-cols-12 grid-flow-row gap-4 items-center mt-[20px]'>
+                <p class='col-span-2 font-bold text-20 font-black uppercase'>Quản lý loại giá</p>
                 <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
                     onChange={(e) => navigate(e.target.value)}
                 >
@@ -135,7 +135,7 @@ const UpdateStatusPriceClass = () => {
                         Quản lý bảng giá
                     </option>
                 </select>
-                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input>
+                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
 
 
 
@@ -152,7 +152,7 @@ const UpdateStatusPriceClass = () => {
                     </div>
                 }
                 <thead>
-                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
+                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
                         <th class='col-span-3'>Công ty</th>
                         <th class='col-span-3'>Tên loại giá</th>
                         <th class='col-span-2'>Giá trị (%)</th>
@@ -160,7 +160,7 @@ const UpdateStatusPriceClass = () => {
                         <th class='col-span-2'>Trạng thái</th>
                     </tr>
                 </thead>
-                <tbody class='bg-[#e1e1e1]'>
+                <tbody class='bg-bg'>
                     {
                         loading ?
                             <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
