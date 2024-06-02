@@ -26,8 +26,8 @@ const CheckoutWrapper = () => {
 function App() {
   return (
     <GoogleOAuthProvider clientId="1093428259628-jsr06bh2svkv118a34g8gkr6gknainqn.apps.googleusercontent.com">
-      <NotifcationProvider>
-      <Router>
+     <Router>
+        <NotifcationProvider>
         <div className="font-Amiro bg-bg h-screen overflow-auto text-16">
           <Routes>
             {
@@ -107,8 +107,8 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
+        </NotifcationProvider>
       </Router>
-    </NotifcationProvider>
     </GoogleOAuthProvider>
   );
 }

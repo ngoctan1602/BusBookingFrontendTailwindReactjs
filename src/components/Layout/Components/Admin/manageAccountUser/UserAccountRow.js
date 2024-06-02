@@ -47,7 +47,7 @@ const UserAccountRow = ({ item, onChangeStatus }) => {
             style={{ background: item.status === 0 ? "#75718a" : "", color: item.status === 0 ? "#F2ECFF" : "" }}
         >
 
-            <td class='col-span-2'>{item.username}</td>
+            <td class='col-span-2 break-words'>{item.username}</td>
             <td class='col-span-2'>{item.fullName}</td>
             <td class='col-span-2'><img class='w-[60px] h-[60px]' src={item.avatar ? item.avatar : avatar}></img></td>
             <td class='col-span-2 break-words'>{item.email}</td>

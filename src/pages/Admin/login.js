@@ -49,7 +49,7 @@ const AdminLogin = () => {
                 localStorage.setItem('adminUsername', response.data.username);
                 notifySuccess()
                 setTimeout(() => {
-                    navigate('/admin/manage-user-account');
+                    window.location.href = '/admin/manage-user-account';
                 }, 1500);
 
             }
