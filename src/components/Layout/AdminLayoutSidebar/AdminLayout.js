@@ -9,12 +9,31 @@ import { faBusinessTime } from "@fortawesome/free-solid-svg-icons";
 import avatar from "../../../assets/images/avatar.png"
 import logoTrip from "../../../assets/images/logotrip.png"
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import SignalRService from '../../../services/SignalRService'
+import { NotificationContext } from "../../../context/NotificationContext";
+import getConnection from '../../../services/SignalRService'
 import Popup from "reactjs-popup";
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/vi'; 
+
+
 const AdminLayout = ({ children }) => {
-    const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "400px", padding: "0"};
+    dayjs.extend(relativeTime);
+    dayjs.locale('vi');
+
+    const { counter } = useContext(NotificationContext);
+
+    const contentStyle = {
+        backgroundColor: '#FFFF',
+        borderRadius: "8px",
+        width: "400px",
+        padding: "0",
+        position: "absolute",
+        top: "65px",
+        right: "25px",
+      };
     const contentStyleNotification = { backgroundColor: '#FFFF', borderRadius: "8px", width: "400px", padding: "0"};
 
     const [info, setInfo] = useState([
@@ -44,19 +63,14 @@ const AdminLayout = ({ children }) => {
         },
     ])
 
-    const notifiData = [
-        {"id":1, "content": "Content thứ nhất", "seenByUser": 1, 'href': 'manage-typebus'},
-        {"id":2, "content": "Content thứ Hai", "seenByUser": 0, 'href': 'manage-company'},
-        {"id":3, "content": "Content thứ ba", "seenByUser": 1, 'href': 'manage-seattype'},
-        {"id":4, "content": "Content thứ tư", "seenByUser": 1, 'href': 'manage-typebus'},
-        {"id":5, "content": "Content thứ năm", "seenByUser": 0, 'href': 'prices'},
-        {"id":6, "content": "Content thứ sáu", "seenByUser": 1, 'href': 'routes'},
-        {"id":6, "content": "Content thứ sáu", "seenByUser": 1, 'href': 'routes'},
-        {"id":6, "content": "Content thứ sáu", "seenByUser": 1, 'href': 'routes'},
-        {"id":6, "content": "Content thứ sáu", "seenByUser": 1, 'href': 'routes'},
-
-
-    ]
+    const [notifiData, setNotifiData] = useState([])
+    const getNotifications = async () => {
+        const connection = await getConnection();
+        connection.invoke("GetNotifications");
+        connection.on("ReceiveNotifications", (notifications) => {
+            setNotifiData(notifications);
+        });
+    }
 
 
     let navigate = useNavigate();
@@ -64,20 +78,24 @@ const AdminLayout = ({ children }) => {
     // const [content, setContent] = useState("Quản lý tài khoản người dùng")
     const seatActive = useCallback((path) => {
         return () => {
-            const updatedItems = info.map(item => {
-                if (path === item.path) {
-                    // setContent(item.content);
-                    document.title = item.content
-                    return { ...item, active: true };
-                }
-
-                return { ...item, active: false };
-
-            });
-            setInfo(updatedItems);
+            StatusItem(path);
         }
     }, [info, location.pathname, setInfo] )
 
+    ///@this is function to set active item in sidebar
+    const StatusItem = (path) => {
+        const updatedItems = info.map(item => {
+            if (path === item.path) {
+                // setContent(item.content);
+                document.title = item.content
+                return { ...item, active: true };
+            }
+
+            return { ...item, active: false };
+
+        });
+        setInfo(updatedItems);
+    }
     useEffect(() => {
         const checkData = () => {
             if (localStorage.getItem("adminUsername") === null || localStorage.getItem("adminUsername") === '') {
@@ -94,21 +112,27 @@ const AdminLayout = ({ children }) => {
         navigate("/admin/login")
     }
 
+    const directNotification = async (item) => {
+        const connection = await getConnection();
+        connection.invoke("ReadNotification", item.id);
+        navigate('/admin' + item.href)
+        StatusItem('/admin' + item.href)
+    }
     return (
 
-        <div class='w-full h-[100vh] bg-bg absolute'>
+        <div className='w-full h-[100vh] bg-bg absolute'>
 
 
-            <div class='w-full h-[60px] shrink-0 bg-bg shadow-xl grid grid-flow-row grid-cols-12 items-center text-txt text-16 fixed z-50 top-[0px] left-[0px] overflow-hidden'>
+            <div className='w-full h-[60px] shrink-0 bg-bg shadow-xl grid grid-flow-row grid-cols-12 items-center text-txt text-16 fixed z-50 top-[0px] left-[0px] overflow-hidden'>
 
-                <div class='col-span-2 col-start-1 flex items-center ml-md'>
-                    <img class='h-[40px] w-[100px]' src={logoTrip} >
+                <div className='col-span-2 col-start-1 flex items-center ml-md'>
+                    <img className='h-[40px] w-[100px]' src={logoTrip} >
 
                     </img>
-                    <p class='ml-sm font-bold uppercase'>Admin Page</p>
+                    <p className='ml-sm font-bold uppercase'>Admin Page</p>
                 </div>
-                <div class='col-span-1 col-start-10 flex items-center'>
-                    <img class='h-[40px] w-[40px] rounded-full' src={avatar} >
+                <div className='col-span-1 col-start-10 flex items-center'>
+                    <img className='h-[40px] w-[40px] rounded-full' src={avatar} >
 
                     </img>
                     <p className="ml-sm">{localStorage.getItem("adminUsername")}</p>
@@ -118,51 +142,76 @@ const AdminLayout = ({ children }) => {
                 {/*@this is notification UI  --Start*/}
                 <div className="col-span-1 col-start-11">
 
-                <Popup trigger={<button class="flex justify-center cursor-default">
-                    <FontAwesomeIcon icon={faBell} color="#5C98FF"
-                        className='cursor-pointer w-[full] h-[20px] hover:text-[#307BFD] ease-in-out duration-200'>
-                    </FontAwesomeIcon></button>} 
-                    position="top right"
-                    modal
-                    nested
-                    closeOnDocumentClick={true}
+                <div
+                className="relative">
+                    <Popup 
+                    trigger={<button
+                        className="flex justify-center cursor-default"
+                        >
+                            <button
+                            className=""
+                            onClick={getNotifications}>
+                                <FontAwesomeIcon icon={faBell} color="#5C98FF"
+                                    className='cursor-pointer w-[full] h-[20px] hover:text-[#307BFD] ease-in-out duration-200'>
+                                </FontAwesomeIcon>
+                                <span className="text-text-red text-[14px] absolute top-[-50%] left-[10%]">{counter}</span>
+                            </button>
+                        </button>} 
+                        position="top right"
+                        modal
+                        nested
+                        closeOnDocumentClick={true}
+                        {... { contentStyle }}
+                    >
+                        {
+                            close => (
 
-                    {... { contentStyle }}
-                >
-                    {
-                        close => (
+                                <div className='text-16 text-txt min-h-[100px] relative'>
+                                <div className='bg-[#3F5F97] p-[10px] rounded-[8px] w-full h-[100px] text-center'>
+                                    <p className='text-20 text-txt-light p-[5px]'>Thông báo của bạn</p>
+                                    <p className='text-10 text-txt-light p-[5px]'>Bạn đang có <span className="font-bold">{counter}</span> thông báo chưa đọc</p>
 
-                            <div class=' text-16 text-txt min-h-[100px] relative '>
-                                <div class='bg-[#002666] p-[10px] rounded-[8px] w-full'>
-                                    <p class='text-20 text-left text-txt-light'>Thông báo của bạn</p>
                                 </div>
-    
-                                <div class='w-full my-md gap-sm grid max-h-[300px] overflow-auto'>
-                                    <div className="grid grid-rows-1">
-                                    {notifiData.map((item, index) => (
-                                        <a href={item.href} >
-                                            <div key={index} className={`p-[10px]  rounded-lg ${item.seenByUser === 0 ? 'bg-notification' : ''} hover:bg-notificationNotRead flex justify-between`} >
-                                            <div className="px-[5px]">{item.content}</div>
-                                            {item.seenByUser === 0 ? <div> <FontAwesomeIcon icon={faCircleDot} color="#419CC5" size="xs"/></div> : <div></div>}
-                                            </div>
-                                        </a>
-                                    ))}
-                                    </div>
+                            
+                                <div className='w-full my-md gap-sm grid max-h-[300px] min-h-[300px] overflow-auto'>
+                                    {notifiData.length > 0 ? ( 
+                                        <div className="grid h-[100px]">
+                                            {notifiData.map((item, index) => (
+                                                <button
+                                                    key={index}
+                                                    onClick={() => {
+                                                        directNotification(item);
+                                                        close();
+                                                    }}
+                                                    className={`p-[10px] rounded-lg ${item.status === 2 ? 'bg-notification' : ''} hover:bg-notificationNotRead flex justify-between`}
+                                                >
+                                                    <div className="px-[5px]">
+                                                        {item.content}
+                                                        <div className="text-[12px] ml-[20px] mt-[1px] text-left text-txt-final">
+                                                            {dayjs(item.dateCreate).from()}
+                                                        </div>
+                                                    </div>
+                                                    {item.status === 2 && <div><p className="text-text-red">*</p></div>}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="text-center text-txt"></div>
+                                    )}
                                 </div>
-
-
                             </div>
-                        )
-                    }
+                            )
+                        }
 
-                </Popup>
+                    </Popup>
                 </div>
+            </div>
 
                 {/*@this is notification UI  --End*/}
 
-                <Popup trigger={<button class="flex justify-center cursor-default">
+                <Popup trigger={<button className="flex justify-center cursor-default">
                     <FontAwesomeIcon icon={faRightFromBracket} color="#474554"
-                        class='cursor-pointer w-[full] h-[20px] hover:text-txt-gray ease-in-out duration-200"'>
+                        className='cursor-pointer w-[full] h-[20px] hover:text-txt-gray ease-in-out duration-200"'>
                     </FontAwesomeIcon></button>} position="right center"
                     modal
                     nested
@@ -172,11 +221,11 @@ const AdminLayout = ({ children }) => {
                     {
                         close => (
 
-                            <div class='p-md text-16 text-txt min-h-[100px]'>
-                                <div class='relative'>
-                                    <p class='text-20 text-center font-bold'>Bạn chắc chắn đăng xuất</p>
+                            <div className='p-md text-16 text-txt min-h-[100px]'>
+                                <div className='relative'>
+                                    <p className='text-20 text-center font-bold'>Bạn chắc chắn đăng xuất</p>
 
-                                    <div class='closeButton cursor-pointer '
+                                    <div className='closeButton cursor-pointer '
                                         onClick={close}
                                     >
                                         <FontAwesomeIcon icon={faXmark} />
@@ -184,10 +233,10 @@ const AdminLayout = ({ children }) => {
 
                                 </div>
     
-                                <div class='w-full my-md gap-sm grid grid-cols-10'>
-                                    {/* <Link class='col-start-3 col-span-3 col confirm-button text-center' to='/admin/login'>Xác nhận</Link> */}
-                                    <button class='col-span-4 col-start-2 confirm-button' onClick={signOut}>Xác nhận</button>
-                                    <button class='col-span-4 col-start-6 confirm-button' onClick={close}>Hủy</button>
+                                <div className='w-full my-md gap-sm grid grid-cols-10'>
+                                    {/* <Link className='col-start-3 col-span-3 col confirm-button text-center' to='/admin/login'>Xác nhận</Link> */}
+                                    <button className='col-span-4 col-start-2 confirm-button' onClick={signOut}>Xác nhận</button>
+                                    <button className='col-span-4 col-start-6 confirm-button' onClick={close}>Hủy</button>
 
                                 </div>
 
@@ -198,23 +247,23 @@ const AdminLayout = ({ children }) => {
 
                 </Popup>
             </div>
-            {/* <div class='flex w-full h-[100vh] bg-bg'>
+            {/* <div className='flex w-full h-[100vh] bg-bg'>
 
-                <div class='flex flex-col w-[20%] shrink-0 bg-txt text-bg'>
+                <div className='flex flex-col w-[20%] shrink-0 bg-txt text-bg'>
                     {
                         info.map((item, index) => (
                             <Link key={item.id}
                                 onClick={seatActive()}
                                 style={item.active ? { backgroundColor: "#75718a" } : { backgroundColor: "" }}
-                                class='px-md flex items-center w-full h-[50px] hover:bg-[#75718a] cursor-pointer ease-in-out duration-150' to={item.path}>
-                                <FontAwesomeIcon class='w-[20px] h-[20px] shrink-0' icon={item.icon}></FontAwesomeIcon>
-                                <p class='mx-sm shrink-0'> {item.content}</p>
+                                className='px-md flex items-center w-full h-[50px] hover:bg-[#75718a] cursor-pointer ease-in-out duration-150' to={item.path}>
+                                <FontAwesomeIcon className='w-[20px] h-[20px] shrink-0' icon={item.icon}></FontAwesomeIcon>
+                                <p className='mx-sm shrink-0'> {item.content}</p>
                             </Link>
                         ))
                     }
                 </div>
-                <div class='flex w-[80%] shrink-0 h-full' >
-                    <div class='w-full p-md h-full'>
+                <div className='flex w-[80%] shrink-0 h-full' >
+                    <div className='w-full p-md h-full'>
                         {children}
                     </div>
                 </div>
@@ -233,15 +282,15 @@ const AdminLayout = ({ children }) => {
                                             <div
                                             className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  border-[3px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
                                             >
-                                                <FontAwesomeIcon class='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
-                                                <p class='mx-[40px] col-span-10'> {item.content}</p>
+                                                <FontAwesomeIcon className='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
+                                                <p className='mx-[40px] col-span-10'> {item.content}</p>
 
                                             </div> :
                                             <div className="
                                             hover:bg-bgPopup ease-in-out duration-150 hover:scale-[98%]
                                             h-[60px] col-span-1 m-sm border-txt-final rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-stretch items-center">
-                                                <FontAwesomeIcon class='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
-                                                <p class='mx-[40px] col-span-10'>  {item.content}</p>
+                                                <FontAwesomeIcon className='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
+                                                <p className='mx-[40px] col-span-10'>  {item.content}</p>
 
                                             </div>
 
@@ -254,7 +303,7 @@ const AdminLayout = ({ children }) => {
 
                 </div>
                 <div className="col-span-9 h-full  ml-[366px]">
-                    <div class='w-full p-md h-full bg-bgContent'>
+                    <div className='w-full p-md h-full bg-bgContent'>
                         {children}
                     </div>
                 </div>

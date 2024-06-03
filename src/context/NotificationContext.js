@@ -1,57 +1,64 @@
 import React, { createContext, useEffect, useState } from 'react';
 import getConnection from '../services/SignalRService';
 import { toast } from 'react-toastify';
-
+import { useNavigate } from "react-router-dom";
 
 export const NotificationContext = createContext();
 
-function NotifcationProvider ({children}){
-    const [notification, setNotification] = useState([]);
-    const addNotification = (notification) => {
-    }
+function NotificationProvider ({ children }) {
+    const [notification, setNotification] = useState();
+    const [counter, setCounter] = useState(0);
+    const navigate = useNavigate();
 
-    const [counter, addCounter] = useState(0);
-
-    const notifySuccess = () => toast.success('thông báo', {
-        position: "bottom-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-    });
+    const notifySuccess = (message, href) => {
+        toast.info(message, {
+            position: "bottom-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            onClick: () => {
+                if (href) {
+                    navigate('/admin' + href);
+                }
+            }
+        });
+    };
 
     useEffect(() => {
-        (
-            async () => {
-                const connection = await getConnection();
-                connection.on('ReceiveNotification', (message, count, href) => {
-                    setNotification(message);
-                    addCounter(count);
-                    notifySuccess();
-                    console.log('Nhận thông báo:', message, count, href);
-                })
-                
-                connection.on("ReceiveCountUnReadingNotification", (count) => {
-                    // Xử lý số thông báo chưa đọc
-                    addCounter(count);
-                    console.log('Số thông báo chưa đọc:', count);
-                    // Hiển thị số thông báo chưa đọc cho admin
-                });
-            }
-        )();
+        const fetchData = async () => {
+            const connection = await getConnection();
+            connection.on('ReceiveNotification', (message, count, href) => {
+                setNotification(message);
+                setCounter(count);
+                notifySuccess(message, href);
+                console.log("Phảnhổi fdi: ", message)
+            });
+            
+            connection.on("ReceiveCountUnReadingNotification", (count) => {
+                // Xử lý số thông báo chưa đọc
+                setCounter(count);
+                console.log('Số thông báo chưa đọc:', count);
+                // Hiển thị số thông báo chưa đọc cho admin
+            });
+        };
+
+        fetchData();
+
+        return () => {
+            // Clean up khi component unmount
+            // Xóa các event listeners, subscriptions, vv.
+        };
     }, []);
+
     return (
-        <NotificationContext.Provider 
-        value={{
-            counter,
-            notification
-            }}>
+        <NotificationContext.Provider value={{ counter, notification }}>
             {children}
         </NotificationContext.Provider>
-    )
+    );
 }
 
-export default NotifcationProvider;
+export default NotificationProvider;

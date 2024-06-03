@@ -148,7 +148,7 @@ const ManageCompany = () => {
             </div>
             <table class="w-full my-md rounded-md border-collapse  text-txt-gray text-16 overflow-hidden">
                 <thead>
-                    <tr class='grid bg-bg grid-cols-12 p-sm text-center gap-md border-b-2'>
+                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
                         {/* <th class='col-span-1'>Id</th> */}
                         <th class='col-span-3'>Tên</th>
                         <th class='col-span-2'>Logo</th>
@@ -159,21 +159,19 @@ const ManageCompany = () => {
                         <th class='col-span-1'></th>
                     </tr>
                 </thead>
-                <tbody class='bg-bg'>
+                <tbody className='bg-bg'>
+    <tr>
+        {loading ?
+            <td className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center"></td>
+            :
+            !loading && company.length !== 0 ?
+                <Paginate itemsPerPage={5} items={company} componentToRender={CompanyRow} updateStatus={updateStatus}></Paginate>
+                :
+                <td colSpan="5">Không có nhà xe nào</td>
+        }
+    </tr>
+</tbody>
 
-                    {loading ?
-                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
-
-                        </div>
-
-                        :
-                        !loading && company.length != 0 ?
-                            <Paginate itemsPerPage={5} items={company} componentToRender={CompanyRow} updateStatus={updateStatus}/* emtyItemValue={emtyItemValue} */></Paginate>
-                            :
-                            "Không có nhà xe nào"
-
-                    }
-                </tbody>
             </table>
             <ToastContainer
                 position="bottom-right"
