@@ -5,6 +5,8 @@ import CardRenue from "./Cards/CardRunue";
 import CardTicket from "./Cards/CardTicket";
 import ChartVenueYear from "./Charts/ChartVenueYear";
 import ChartRoute from "./Charts/ChartRoutes";
+import ChartBusStop from "./Charts/ChartBusStop";
+import ChartBusType from "./Charts/ChartTypeBus";
 
 
 const DashBoardNew = () => {
@@ -27,6 +29,17 @@ const DashBoardNew = () => {
                 </Col>
                 <Col offset={1} span={11}>
                     <ChartRoute></ChartRoute>
+                </Col>
+            </Row>
+
+            <Row style={{ width: "100%", margin: "40px 0px" }}>
+                <Col offset={1} span={23}>
+                    <ChartBusStop></ChartBusStop>
+                </Col>
+            </Row>
+            <Row style={{ width: "100%", margin: "40px 0px" }}>
+                <Col offset={1} span={23}>
+                    <ChartBusType></ChartBusType>
                 </Col>
             </Row>
         </div>
