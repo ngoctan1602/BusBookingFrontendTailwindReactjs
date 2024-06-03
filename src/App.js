@@ -1,7 +1,7 @@
 import "normalize.css"
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, useLocation  } from "react-router-dom";
-import { publicRoutes, privateRoutes, adminRoutes, companyRoutes } from "./routers/router"
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { publicRoutes, privateRoutes, adminRoutes, companyRoutes, guestRoute } from "./routers/router"
 import DefaultLayout from './components/Layout/DefaultLayout/DefaultLayout';
 import InfoLayout from "./components/Layout/InfoLayout/Infolayout";
 import AdminLayoutSidebar from "./components/Layout/AdminLayoutSidebar/AdminLayout";
@@ -14,7 +14,8 @@ import CompanyRegister from "./pages/Company/register";
 import NotifcationProvider from "./context/NotificationContext";
 import { GoogleOAuthProvider } from "@react-oauth/google"
 import Checkout from "./pages/Checkout/Checkout";
-
+import "../src/styles/App.scss"
+import UserLayout from "./components/Layout/UserLayout/UserLayout";
 
 const CheckoutWrapper = () => {
   const { state } = useLocation();
@@ -27,88 +28,100 @@ function App() {
   return (
     <GoogleOAuthProvider clientId="1093428259628-jsr06bh2svkv118a34g8gkr6gknainqn.apps.googleusercontent.com">
       <NotifcationProvider>
-      <Router>
-        <div className="font-Amiro bg-bg h-screen overflow-auto text-16">
-          <Routes>
-            {
-              publicRoutes.map((route, index) => {
-                return <Route
-                  key={index}
-                  path={route.path}
+        <Router>
+          <div className="font-Amiro bg-bg h-screen overflow-auto text-16">
+            <Routes>
+              {
+                publicRoutes.map((route, index) => {
+                  return <Route
+                    key={index}
+                    path={route.path}
+                    element={
+                      <DefaultLayout>
+                        <route.component />
+                      </DefaultLayout>
+                    }
+                  />
+                })
+              }
+              {
+                guestRoute.map((route, index) => {
+                  return <Route
+                    key={index}
+                    path={route.path}
+                    element={
+                      <UserLayout>
+                        <route.component />
+                      </UserLayout>
+                    }
+                  />
+                })
+              }
+              {
+                privateRoutes.map((route, index) => {
+                  return <Route
+                    key={index}
+                    path={route.path}
+                    element={
+                      <InfoLayout>
+                        <route.component />
+                      </InfoLayout>
+                    }
+                  />
+                })
+              }
+
+              {
+                adminRoutes.map((route, index) => {
+                  return <Route
+                    key={index}
+                    path={route.path}
+                    element={
+                      route.path === "/admin/login" ?
+                        <AdminLogin></AdminLogin>
+                        :
+                        <AdminLayoutSidebar>
+                          <route.component />
+                        </AdminLayoutSidebar>
+                    }
+                  />
+                })
+              }
+
+              {
+                companyRoutes.map((route, index) => {
+                  return <Route
+                    key={index}
+                    path={route.path}
+                    element={
+                      route.path === "/company/login" ?
+                        <CompanyLogin></CompanyLogin> :
+                        route.path === "/company/register" ?
+                          <CompanyRegister></CompanyRegister> :
+                          <CompanyLayout>
+                            <route.component />
+                          </CompanyLayout>
+                    }
+                  />
+                })
+              }
+
+              {
+                <Route
+                  path="/checkout"
                   element={
                     <DefaultLayout>
-                      <route.component />
+                      <CheckoutWrapper />
                     </DefaultLayout>
                   }
                 />
-              })
-            }
-
-            {
-              privateRoutes.map((route, index) => {
-                return <Route
-                  key={index}
-                  path={route.path}
-                  element={
-                    <InfoLayout>
-                      <route.component />
-                    </InfoLayout>
-                  }
-                />
-              })
-            }
-
-            {
-              adminRoutes.map((route, index) => {
-                return <Route
-                  key={index}
-                  path={route.path}
-                  element={
-                    route.path === "/admin/login" ?
-                      <AdminLogin></AdminLogin>
-                      :
-                      <AdminLayoutSidebar>
-                        <route.component />
-                      </AdminLayoutSidebar>
-                  }
-                />
-              })
-            }
-
-            {
-              companyRoutes.map((route, index) => {
-                return <Route
-                  key={index}
-                  path={route.path}
-                  element={
-                    route.path === "/company/login" ?
-                      <CompanyLogin></CompanyLogin> :
-                      route.path === "/company/register" ?
-                        <CompanyRegister></CompanyRegister> :
-                        <CompanyLayout>
-                          <route.component />
-                        </CompanyLayout>
-                  }
-                />
-              })
-            }
-
-            {
-              <Route
-              path="/checkout"
-              element={
-                <DefaultLayout>
-                  <CheckoutWrapper />
-                </DefaultLayout>
               }
-            />
-            }
 
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </Router>
-    </NotifcationProvider>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </Router>
+      </NotifcationProvider>
     </GoogleOAuthProvider>
   );
 }

@@ -1,0 +1,97 @@
+// variable
+$width-full : 100%;
+$heigh-80 : 80px;
+$header-color: #77DD77;
+$color-header: #4B4B4B;
+$height-100: 100px;
+$radius-8: 8px;
+$height-60: 60px;
+$height-40: 40px;
+$orange-pattle: #FF8A08;
+$blue-pattle: #86A7FC;
+
+.margin-100 {
+    margin: 100px;
+}
+
+
+.box-shadow {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 8px;
+    border-radius: $radius-8;
+}
+
+.border-bottom {
+    border-bottom: 3px solid;
+
+    &.green {
+        border-color: $header-color;
+    }
+
+    &.orange {
+        border-color: $orange-pattle;
+    }
+
+    &.blue {
+        border-color: $blue-pattle;
+    }
+}
+
+.header-logo-user {
+    width: $height-40;
+    border-radius: 50%;
+    height: $height-40;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.item-header-margin {
+    margin: 0 4px;
+}
+
+.flex-colum {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+
+    :hover {
+        text-decoration: underline;
+        color: #ffff;
+    }
+}
+
+.flex-class {
+    display: flex;
+    flex-direction: column;
+}
+
+.guest-layout {
+    // background-color: red;
+    width: $width-full;
+    min-height: 100vh;
+}
+
+.width-full {
+    width: $width-full;
+}
+
+.heigh-80 {
+    height: $heigh-80;
+}
+
+.header-color {
+    display: flex;
+    font-weight: 500;
+    font-size: 16px;
+    color: $color-header;
+    background-color: $header-color;
+}
+
+.header-logo {
+    width: $height-100;
+    border-radius: $radius-8;
+    height: $height-60;
+    object-fit: cover;
+    cursor: pointer;
+}
