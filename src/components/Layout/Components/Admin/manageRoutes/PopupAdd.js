@@ -153,23 +153,23 @@ const PopupAdd = ({ fetch }) => {
                             </div> */}
                             <div className="col-span-6 my-lg grid grid-flow-row grid-cols-12">
                                 <p className="col-span-12 font-bold">Chọn điểm xuất phát</p>
-                                <input className="col-span-8 p-sm  rounded-md outline-none" placeholder="Tìm kiếm bến xuất phát"></input>
+                                {/* <input className="col-span-8 p-sm  rounded-md outline-none" placeholder="Tìm kiếm bến xuất phát"></input>
                                 <button className="col-span-3 col-start-10 border-[1px] rounded-md border-button
                                 hover:bg-button hover:text-bg ease-in-out duration-300 mr-sm
                                 ">
                                     Tìm kiếm
-                                </button>
+                                </button> */}
                             </div>
 
                             <div className="col-span-6 col-start-7 my-lg grid grid-flow-row grid-cols-12 ml-sm">
 
                                 <p className="col-span-12 font-bold">Chọn điểm đến</p>
-                                <input className="col-span-8 p-sm mr-sm rounded-md outline-none" placeholder="Tìm kiếm điểm đến"></input>
+                                {/* <input className="col-span-8 p-sm mr-sm rounded-md outline-none" placeholder="Tìm kiếm điểm đến"></input>
                                 <button className="col-span-3 col-start-10 border-[1px] rounded-md border-button
                                 hover:bg-button hover:text-bg ease-in-out duration-300
                                 ">
                                     Tìm kiếm
-                                </button>
+                                </button> */}
                             </div>
                             <div class='col-span-6 col-start-1 overflow-y-auto overflow-x-auto mb-lg h-[300px] relative'>
                                 {
@@ -237,7 +237,7 @@ const PopupAdd = ({ fetch }) => {
 
                         <div class='w-full my-md gap-sm grid grid-cols-10'>
                             <button class='col-start-4 col-span-3 col confirm-button ' onClick={() => getItemValue(close)}>Xác nhận</button>
-                            <button class='col-span-3  confirm-button' onClick={(e) => console.log(objectAdd)}>Hủy</button>
+                            <button class='col-span-3  confirm-button' onClick={() => close()}>Hủy</button>
                             <ToastContainer
                                 position="bottom-right"
                                 autoClose={2500}

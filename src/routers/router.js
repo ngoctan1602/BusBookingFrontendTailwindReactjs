@@ -35,6 +35,9 @@ import UpdateStatusPrice from "../pages/Admin/updateStatusPrice"
 import UpdateStatusPriceClass from "../pages/Admin/updateStatusPriceClass"
 import CompanyRegister from "../pages/Company/register"
 import Checkout from "../pages/Checkout/Checkout"
+import GuestHome from "../components/Guest/GuestHome"
+import GuestLogin from "../components/Guest/Login"
+import DashBoardNew from "../components/Layout/Components/DashBoard/Dashboard"
 
 
 
@@ -58,7 +61,19 @@ const publicRoutes = [
         path: "/search", component: Search
     },
 
+]
 
+const guestRoute = [
+
+    {
+        path: "/guest-home", component: GuestHome
+    },
+    {
+        path: "/guest-login", component: GuestLogin
+    },
+    {
+        path: "/guest-dashboard", component: DashBoardNew
+    },
 ]
 
 const privateRoutes = [
@@ -158,8 +173,9 @@ const companyRoutes = [
     {
         path: "/company/create-ticket", component: CreateTicketNew
     },
+
 ]
 
 
 
-export { publicRoutes, privateRoutes, adminRoutes, companyRoutes } 
+export { publicRoutes, privateRoutes, adminRoutes, companyRoutes, guestRoute } 
