@@ -74,7 +74,7 @@ export default class Example extends PureComponent {
 
     render() {
         return (
-            <div width={600} height={400} className="box-shadow" style={{ overflow: 'visible' }}>
+            <div width={700} height={400} className="box-shadow" style={{ overflow: 'visible' }}>
                 <p className='w-full text-center' style={{ fontWeight: "500", fontSize: 20 }}>Top 5 chuyến đi phổ biến nhất</p>
                 <PieChart width={600} height={400} >
                     <style>{`

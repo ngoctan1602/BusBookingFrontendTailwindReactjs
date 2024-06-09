@@ -70,10 +70,7 @@ const guestRoute = [
     },
     {
         path: "/guest-login", component: GuestLogin
-    },
-    {
-        path: "/guest-dashboard", component: DashBoardNew
-    },
+    }
 ]
 
 const privateRoutes = [
@@ -172,6 +169,9 @@ const companyRoutes = [
     },
     {
         path: "/company/create-ticket", component: CreateTicketNew
+    },
+    {
+        path: "/company/dashboard", component: DashBoardNew
     },
 
 ]

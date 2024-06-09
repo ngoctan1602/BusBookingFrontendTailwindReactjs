@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartArrowDown, faCartFlatbed, faCat, faChartColumn, faChartLine, faChevronDown, faDollar, faMapLocationDot, faRightFromBracket, faRoute, faTicket, faTurnDown, faUpDown, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCartArrowDown, faCartFlatbed, faCat, faChartColumn, faChartLine, faChevronDown, faDollar, faHouse, faMapLocationDot, faRightFromBracket, faRightToBracket, faRoute, faTicket, faTurnDown, faUpDown, faUser, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faBusSimple } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faMapLocation } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +12,7 @@ import SignOut from "../../../services/SignOut";
 import Popup from "reactjs-popup";
 
 import { useNavigate, useLocation } from "react-router-dom";
+import { Col, Divider, Modal, Row } from "antd";
 const CompanyLayout = ({ children }) => {
 
     // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,6 +48,9 @@ const CompanyLayout = ({ children }) => {
         {
             id: 6, content: "Thống kê", icon: faChartLine, active: false, path: '/company/statistic', color: '#99F6CA',
         },
+        {
+            id: 7, content: "Dashboard", icon: faHouse, active: false, path: '/company/dashboard', color: '#99F6CA',
+        },
 
     ])
     useEffect(() => {
@@ -81,141 +85,210 @@ const CompanyLayout = ({ children }) => {
         }
     }, [info, setInfo])
 
+    const [open, setOpen] = useState(false)
 
     return (
 
-        <div class='w-full h-[100vh] bg-bg relative'>
+        // <div class='w-full h-[100vh] bg-bg relative'>
 
 
-            <div class='w-full h-[60px] shrink-0 bg-bg shadow-xl grid grid-flow-row grid-cols-11 items-center text-txt text-16 fixed z-50 top-[0px] left-[0px] overflow-hidden'>
+        //     <div class='w-full h-[60px] shrink-0 bg-bg shadow-xl grid grid-flow-row grid-cols-11 items-center text-txt text-16 fixed z-50 top-[0px] left-[0px] overflow-hidden'>
 
-                <div class='col-span-2 col-start-1 flex items-center ml-md'>
-                    <img class='h-[40px] w-[100px]' src={adminlogo} >
+        //         <div class='col-span-2 col-start-1 flex items-center ml-md'>
+        //             <img class='h-[40px] w-[100px]' src={adminlogo} >
 
+        //             </img>
+        //             <p class='ml-sm font-bold uppercase'>Company Page</p>
+        //         </div>
+
+        //         {/* {isLoggedIn ? (
+        //             <div class='col-span-1 col-start-10 flex items-center'>
+        //                 <img class='h-[40px] w-[40px] rounded-full' src={avatar} >
+
+        //                 </img>
+        //                 <p className="p-[20px]">{username}</p>
+        //             </div>
+        //         ) : (
+        //             <Link to={"/login"} className="px-4" id="Login">
+        //                 <Button type="border" content="Đăng nhập">
+
+        //                 </Button>
+        //             </Link>
+        //         )} */}
+
+
+        //         <Popup trigger={<button class="flex justify-center cursor-default col-start-11 ">
+        //             <FontAwesomeIcon icon={faRightFromBracket} color="#474554"
+        //                 class='cursor-pointer w-[full] h-[20px] hover:text-bg ease-in-out duration-200'>
+        //             </FontAwesomeIcon></button>} position="right center"
+        //             modal
+        //             nested
+        //             closeOnDocumentClick={false}
+        //             {... { contentStyle }}
+        //         >
+        //             {
+        //                 close => (
+
+        //                     <div class='p-md text-16 text-txt min-h-[100px]'>
+        //                         <div class='relative'>
+        //                             <p class='text-20 text-center font-bold'>Bạn chắc chắn đăng xuất</p>
+
+        //                             <div class='closeButton cursor-pointer '
+        //                                 onClick={close}
+        //                             >
+        //                                 <FontAwesomeIcon icon={faXmark} />
+        //                             </div>
+
+        //                         </div>
+
+        //                         <div class='w-full my-md gap-sm grid grid-cols-10'>
+        //                             <button class='col-start-3 col-span-3 col confirm-button text-center' onClick={handleConfirmClick} >Xác nhận</button>
+        //                             <button class='col-span-3 confirm-button' onClick={close}>Hủy</button>
+
+        //                         </div>
+
+
+        //                     </div>
+        //                 )
+        //             }
+
+        //         </Popup>
+        //     </div>
+        //     {/* <div class='flex w-full h-[100vh] bg-bg'>
+
+        //         <div class='flex flex-col h-[830px] w-[20%] shrink-0 bg-txt text-bg'>
+        //             {
+        //                 info.map((item, index) => (
+        //                     <div>
+        //                         <Link key={item.id}
+        //                             class='px-md flex items-center w-full h-[50px] hover:bg-[#75718a] cursor-pointer ease-in-out duration-200' to={item.path}>
+        //                             <FontAwesomeIcon class='w-[20px] h-[20px] shrink-0' icon={item.icon}></FontAwesomeIcon>
+        //                             <p class='mx-sm shrink-0'> {item.content}</p>
+
+        //                         </Link>
+
+
+        //                     </div>
+        //                 ))
+        //             }
+        //         </div>
+        //         <div class='flex w-[80%] h-full shrink-0 ' >
+        //             <div class='w-full p-md h-full'>
+        //                 {children}
+        //             </div>
+        //         </div>
+        //     </div> */}
+
+        //     <div className="w-full h-full  grid-flow-row grid-cols-10 gap-sm mt-[60px]">
+        //         <div className="col-span-1 grid grid-cols-1 grid-flow-row fixed overflow-auto h-full shadow-2xl" >
+        //             <div className=" h-[400px] col-span-1 grid grid-cols-1 grid-flow-row  text-16">
+        //                 {
+        //                     info.map((item, index) => (
+        //                         <Link key={item.id}
+        //                             to={item.path}
+        //                             onClick={seatActive(item.path)}
+        //                         >
+        //                             {
+        //                                 item.active ?
+        //                                     <div
+        //                                         className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  border-[3px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
+        //                                     >
+        //                                         <FontAwesomeIcon class='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
+        //                                         <p class='mx-[40px] col-span-10'> {item.content}</p>
+
+        //                                     </div> :
+        //                                     <div className="
+        //                                     hover:bg-bgPopup ease-in-out duration-150 hover:scale-[98%]
+        //                                     h-[60px] col-span-1 m-sm border-txt-final rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-stretch items-center">
+        //                                         <FontAwesomeIcon class='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
+        //                                         <p class='mx-[40px] col-span-10'>  {item.content}</p>
+
+        //                                     </div>
+
+        //                             }
+        //                         </Link>
+        //                     ))
+        //                 }
+
+        //             </div>
+
+        //         </div>
+        //         <div className="col-span-9 h-full ml-[366px]">
+        //             <div class='w-full p-md h-full bg-bgContent'>
+        //                 {children}
+        //             </div>
+        //         </div>
+        //     </div>
+
+        // </div >
+        <Row>
+            <Row style={{ position: "fixed", width: "100%", height: "60px" }}>
+                <Col span={4} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+                    <img src={adminlogo} class='h-[40px] w-[100px]'>
                     </img>
                     <p class='ml-sm font-bold uppercase'>Company Page</p>
-                </div>
-
-                {/* {isLoggedIn ? (
-                    <div class='col-span-1 col-start-10 flex items-center'>
-                        <img class='h-[40px] w-[40px] rounded-full' src={avatar} >
-
+                    {/*
+                    <p class='ml-sm font-bold uppercase'>Company Page</p> */}
+                    {/* <div class='col-span-2 col-start-1 flex justify-center items-center ml-md'>
+                        <img class='h-[40px] w-[100px]' src={adminlogo} >
                         </img>
-                        <p className="p-[20px]">{username}</p>
+                       
+                    </div> */}
+                </Col>
+                <Col span={1} offset={18} style={{ height: "60px" }}>
+                    <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <FontAwesomeIcon style={{ cursor: "pointer" }} size="40px 40px" onClick={() => setOpen(true)} icon={faRightToBracket}>
+                        </FontAwesomeIcon>
                     </div>
-                ) : (
-                    <Link to={"/login"} className="px-4" id="Login">
-                        <Button type="border" content="Đăng nhập">
-
-                        </Button>
-                    </Link>
-                )} */}
-
-
-                <Popup trigger={<button class="flex justify-center cursor-default col-start-11 ">
-                    <FontAwesomeIcon icon={faRightFromBracket} color="#474554"
-                        class='cursor-pointer w-[full] h-[20px] hover:text-bg ease-in-out duration-200'>
-                    </FontAwesomeIcon></button>} position="right center"
-                    modal
-                    nested
-                    closeOnDocumentClick={false}
-                    {... { contentStyle }}
-                >
-                    {
-                        close => (
-
-                            <div class='p-md text-16 text-txt min-h-[100px]'>
-                                <div class='relative'>
-                                    <p class='text-20 text-center font-bold'>Bạn chắc chắn đăng xuất</p>
-
-                                    <div class='closeButton cursor-pointer '
-                                        onClick={close}
-                                    >
-                                        <FontAwesomeIcon icon={faXmark} />
-                                    </div>
-
-                                </div>
-    
-                                <div class='w-full my-md gap-sm grid grid-cols-10'>
-                                    <button class='col-start-3 col-span-3 col confirm-button text-center' onClick={handleConfirmClick} >Xác nhận</button>
-                                    <button class='col-span-3 confirm-button' onClick={close}>Hủy</button>
-
-                                </div>
-
-
-                            </div>
-                        )
-                    }
-
-                </Popup>
-            </div>
-            {/* <div class='flex w-full h-[100vh] bg-bg'>
-
-                <div class='flex flex-col h-[830px] w-[20%] shrink-0 bg-txt text-bg'>
+                    <Modal
+                        title="Bạn chắc chắn đăng xuất"
+                        open={open}
+                        onOk={handleConfirmClick}
+                        onCancel={() => setOpen(false)}
+                        className="custom-modal"
+                        okText="Ok"
+                        cancelText="Hủy bỏ"
+                    >
+                    </Modal>
+                </Col>
+            </Row>
+            <Divider style={{ position: "relative", top: "60px" }}></Divider>
+            <Row style={{ width: "100%", minHeight: "500px" }}>
+                <Col span={6} style={{ position: "fixed", top: "100px" }}>
                     {
                         info.map((item, index) => (
-                            <div>
-                                <Link key={item.id}
-                                    class='px-md flex items-center w-full h-[50px] hover:bg-[#75718a] cursor-pointer ease-in-out duration-200' to={item.path}>
-                                    <FontAwesomeIcon class='w-[20px] h-[20px] shrink-0' icon={item.icon}></FontAwesomeIcon>
-                                    <p class='mx-sm shrink-0'> {item.content}</p>
-
-                                </Link>
-
-
-                            </div>
-                        ))
-                    }
-                </div>
-                <div class='flex w-[80%] h-full shrink-0 ' >
-                    <div class='w-full p-md h-full'>
-                        {children}
-                    </div>
-                </div>
-            </div> */}
-
-            <div className="w-full h-full  grid-flow-row grid-cols-10 gap-sm mt-[60px]">
-                <div className="col-span-1 grid grid-cols-1 grid-flow-row fixed overflow-auto h-full shadow-2xl" >
-                    <div className=" h-[400px] col-span-1 grid grid-cols-1 grid-flow-row  text-16">
-                        {
-                            info.map((item, index) => (
-                                <Link key={item.id}
-                                    to={item.path}
-                                    onClick={seatActive(item.path)}
-                                >
-                                    {
-                                        item.active ?
-                                            <div
+                            <Link key={item.id}
+                                to={item.path}
+                                onClick={seatActive(item.path)}
+                            >
+                                {
+                                    item.active ?
+                                        <div
                                             className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  border-[3px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
-                                            >
-                                                <FontAwesomeIcon class='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
-                                                <p class='mx-[40px] col-span-10'> {item.content}</p>
+                                        >
+                                            <FontAwesomeIcon class='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
+                                            <p class='mx-[40px] col-span-10'> {item.content}</p>
 
-                                            </div> :
-                                            <div className="
+                                        </div> :
+                                        <div className="
                                             hover:bg-bgPopup ease-in-out duration-150 hover:scale-[98%]
                                             h-[60px] col-span-1 m-sm border-txt-final rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-stretch items-center">
-                                                <FontAwesomeIcon class='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
-                                                <p class='mx-[40px] col-span-10'>  {item.content}</p>
+                                            <FontAwesomeIcon class='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
+                                            <p class='mx-[40px] col-span-10'>  {item.content}</p>
 
-                                            </div>
+                                        </div>
 
-                                    }
-                                </Link>
-                            ))
-                        }
-
-                    </div>
-
-                </div>
-                <div className="col-span-9 h-full ml-[366px]">
-                    <div class='w-full p-md h-full bg-bgContent'>
-                        {children}
-                    </div>
-                </div>
-            </div>
-
-        </div >
+                                }
+                            </Link>
+                        ))
+                    }
+                </Col>
+                <Col span={16} offset={7} style={{ position: "relative", top: "100px" }}>
+                    {children}
+                </Col>
+            </Row>
+        </Row >
     );
 }
 

@@ -25,7 +25,7 @@ const ChartVenueYear = () => {
         <div className='box-shadow' >
             <p className='w-full text-center ' style={{ fontWeight: "500", fontSize: 20 }}>Thống kê doanh thu 3 năm gần nhất</p>
             <LineChart
-                width={600}
+                width={700}
                 height={400}
                 series={[
                     { data: y2023Data, label: '2023', curve: "catmullRom", showMark: false, },
