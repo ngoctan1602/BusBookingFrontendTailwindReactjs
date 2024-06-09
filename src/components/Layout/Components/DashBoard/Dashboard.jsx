@@ -23,22 +23,24 @@ const DashBoardNew = () => {
                     <CardTicket></CardTicket>
                 </Col>
             </Row>
-            <Row style={{ width: "100%", margin: "40px 0px" }}>
-                <Col offset={1} span={11}>
+            <Row style={{ width: "100%", margin: "20px 0px" }}>
+                <Col offset={1} span={20}>
                     <ChartVenueYear></ChartVenueYear>
                 </Col>
-                <Col offset={1} span={11}>
+            </Row>
+            <Row style={{ width: "100%", margin: "20px 0px" }}>
+                <Col offset={1} span={20}>
                     <ChartRoute></ChartRoute>
                 </Col>
             </Row>
 
-            <Row style={{ width: "100%", margin: "40px 0px" }}>
-                <Col offset={1} span={23}>
+            <Row style={{ width: "100%", margin: "20px 0px" }}>
+                <Col offset={1} span={20}>
                     <ChartBusStop></ChartBusStop>
                 </Col>
             </Row>
-            <Row style={{ width: "100%", margin: "40px 0px" }}>
-                <Col offset={1} span={23}>
+            <Row style={{ width: "100%", margin: "20px 0px" }}>
+                <Col offset={1} span={20}>
                     <ChartBusType></ChartBusType>
                 </Col>
             </Row>

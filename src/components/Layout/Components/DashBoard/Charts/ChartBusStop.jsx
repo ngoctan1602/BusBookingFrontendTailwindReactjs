@@ -136,7 +136,7 @@ const ChartBusStop = () => {
                     </Box>
                 </Box>
                 <Box height={400}>
-                    <Bar width={700} data={chartData} options={options} />
+                    <Bar height={300} width={800} data={chartData} options={options} />
                 </Box>
             </CardContent>
         </StyledCard>

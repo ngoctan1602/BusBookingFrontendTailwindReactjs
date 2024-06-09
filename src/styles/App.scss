@@ -10,6 +10,13 @@ $height-40: 40px;
 $orange-pattle: #FF8A08;
 $blue-pattle: #86A7FC;
 
+.custom-modal .ant-btn-primary {
+    background-color: #3ABEF9;
+    /* Custom button background */
+    border-color: #3ABEF9;
+    /* Custom button border */
+}
+
 .margin-100 {
     margin: 100px;
 }
