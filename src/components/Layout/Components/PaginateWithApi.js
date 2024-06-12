@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import ReactPaginate from 'react-paginate';
 
-const PaginatedItemsWithAPI = ({ pageCount, handleClick, items, componentToRender, updateStatus, onUpdate, fetchData, nameRadio, type, objectAdd }) => {
+const PaginatedItemsWithAPI = ({ pageCount, handleClick, items, componentToRender, updateStatus, onUpdate, fetchData, nameRadio, type, objectAdd, currentPage, selectedList, changeSelectedList }) => {
 
     const handlePageClick = (event) => {
+        // console.log(event.selected)
         handleClick(event.selected)
     };
 
@@ -15,7 +16,7 @@ const PaginatedItemsWithAPI = ({ pageCount, handleClick, items, componentToRende
                 items
                 &&
                 items.map((item, index) => {
-                    return React.createElement(componentToRender, { item: item, onChangeStatus: updateStatus, onUpdate: onUpdate, fetchData: fetchData, nameRadio, type, objectAdd });
+                    return React.createElement(componentToRender, { item: item, onChangeStatus: updateStatus, onUpdate: onUpdate, fetchData: fetchData, nameRadio, type, objectAdd, selectedList, changeSelectedList });
                 }
                 )
             }
@@ -30,6 +31,7 @@ const PaginatedItemsWithAPI = ({ pageCount, handleClick, items, componentToRende
                 pageLinkClassName="paginate-hover"
                 activeLinkClassName="active-link"
                 className="paginate-link"
+                forcePage={currentPage}
                 previousLinkClassName='paginate-hover'
                 nextLinkClassName='paginate-hover'
                 renderOnZeroPageCount={null}

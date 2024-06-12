@@ -38,6 +38,7 @@ import Checkout from "../pages/Checkout/Checkout"
 import GuestHome from "../components/Guest/GuestHome"
 import GuestLogin from "../components/Guest/Login"
 import DashBoardNew from "../components/Layout/Components/DashBoard/Dashboard"
+import CreateNewBus from "../pages/Company/Bus/createNewBus"
 
 
 
@@ -172,6 +173,9 @@ const companyRoutes = [
     },
     {
         path: "/company/dashboard", component: DashBoardNew
+    },
+    {
+        path: "/company/create-bus", component: CreateNewBus
     },
 
 ]
