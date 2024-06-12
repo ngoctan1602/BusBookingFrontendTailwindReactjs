@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Paginate from "../../components/Layout/Components/Paginate"
 import * as XLSX from 'xlsx'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileExcel, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faFileExcel, faMagnifyingGlass, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import OverviewRow from "../../components/Layout/Components/Company/Bus/OverviewRow";
 import PopupAdd from "../../components/Layout/Components/Company/Bus/PopupAdd";
@@ -11,17 +11,30 @@ import * as busServices from "../../services/Company/BusSV";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
+import Search from "antd/es/input/Search";
+import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
+import { Tooltip } from "antd";
+import { useNavigate } from "react-router-dom";
 const Overview = () => {
     document.title = "Quản lý xe";
     const [loading, setLoading] = useState(true);
-    const [bus, setBus] = useState(
-    )
+    const [bus, setBus] = useState([])
+
+    const [currentPage, setCurrentPage] = useState(0);
+    const [pageTotal, setPageTotal] = useState(0);
+    const handlePageClick = (selectedPage) => {
+        setCurrentPage(selectedPage);
+    };
 
     const fetchData = async () => {
         try {
-            const response = await busServices.getAllBusOfCompany();
+            const response = await busServices.getAllBusOfCompany({ pageSize: 10, pageIndex: currentPage });
             console.log(response.data)
-            setBus(response.data.items);
+            if (!response.isError && response.data.items !== undefined && response.data.items != null) {
+                setBus(response.data.items);
+                setPageTotal(response.data.pageTotal)
+            }
+
             setLoading(false)
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -30,18 +43,11 @@ const Overview = () => {
     };
 
     useEffect(() => {
-        // const fetchData = async () => {
-        //     try {
-        //         const response = await busServices.getAllBusOfCompany();
-        //         console.log(response.data)
-        //         setBus(response.data.items);
-        //         setLoading(false)
-        //     } catch (error) {
-        //         console.error('Error fetching data:', error);
-        //         setLoading(false)
-        //     }
-        // };
+        fetchData();
+    }, [currentPage]);
 
+
+    useEffect(() => {
         fetchData();
 
     }, []);
@@ -141,17 +147,31 @@ const Overview = () => {
         theme: "light",
     });
 
+    const navigate = useNavigate();
+
     return (
         <div class='w-full text-txt txt-16 '>
 
-            <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
+            <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
                 <p class='col-span-2 font-bold text-20'>Quản lý xe</p>
-                <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-[#ffff] outline-none border-none p-sm rounded-md'></input>
+                <Search
+                    placeholder="Tìm kiếm xe"
+                    allowClear
+                    className="col-start-3 col-span-8 p-md"
+                // onSearch={onSearch}
+                // style={{
+                //     width: 200,
+                // }}
+                />
+                {/* <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-[#ffff] outline-none border-none p-sm rounded-md'></input> */}
+
+                <FontAwesomeIcon onClick={() => navigate("/company/create-bus")} icon={faPlus} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]' />
+
                 <PopupAdd fetchData={fetchData} items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}></PopupAdd>
                 {/* <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation> */}
 
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
+            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative" style={{ minHeight: 250, boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px" }}>
                 {
                     isChange &&
                     <div class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
@@ -163,7 +183,7 @@ const Overview = () => {
                     </div>
                 }
                 <thead>
-                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
+                    <tr class='grid bg-hover-txt grid-cols-12 p-sm text-left gap-md border-b-2' style={{ borderBottom: "1px solid black" }}>
                         {/* <th class='col-span-2'>Id bus</th> */}
                         <th class='col-span-3'>Biển số xe</th>
                         <th class='col-span-3'>Loại xe</th>
@@ -171,7 +191,7 @@ const Overview = () => {
                         <th class='col-span-2'>Trạng thái</th>
                         <th class='col-span-2'></th>
                     </tr>
-                    
+
 
                 </thead>
                 <tbody class='bg-[#ffff]'>
@@ -179,9 +199,14 @@ const Overview = () => {
                         <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
                         </div>
                         :
-                        !loading && bus
+                        !loading && bus.length > 0 && bus !== undefined && bus !== null
                             ?
-                            <Paginate itemsPerPage={5} items={bus} componentToRender={OverviewRow} updateStatus={changeStatus} ></Paginate>
+                            // <tr>
+                            //     Có dữ liệu
+                            // </tr>
+                            <PaginatedItemsWithAPI handleClick={handlePageClick} updateStatus={changeStatus} componentToRender={OverviewRow} items={bus} pageCount={pageTotal} fetchData={fetchData} currentPage={currentPage}></PaginatedItemsWithAPI>
+
+                            // <Paginate itemsPerPage={5} items={bus} componentToRender={OverviewRow} updateStatus={changeStatus} ></Paginate>
                             :
                             <tr>
                                 Không có buýt nào

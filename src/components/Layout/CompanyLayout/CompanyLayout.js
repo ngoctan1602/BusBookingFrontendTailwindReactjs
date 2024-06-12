@@ -31,6 +31,9 @@ const CompanyLayout = ({ children }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "400px" };
     const [info, setInfo] = useState([
         {
+            id: 7, content: "Dashboard", icon: faHouse, active: true, path: '/company/dashboard', color: '#99F6CA',
+        },
+        {
             id: 1, content: "Quản lí lộ trình", icon: faRoute, active: false, path: '/company/route-detail', color: '#1E3D73',
         },
         {
@@ -43,14 +46,12 @@ const CompanyLayout = ({ children }) => {
             id: 4, content: "Tạo vé", icon: faTicket, active: false, path: '/company/create-ticket', color: '#28CFFE',
         },
         {
-            id: 5, content: "Quản lý chuyến đi", icon: faMapLocationDot, active: true, path: '/company/ticket', color: '#FB766D',
+            id: 5, content: "Quản lý chuyến đi", icon: faMapLocationDot, active: false, path: '/company/ticket', color: '#FB766D',
         },
         {
             id: 6, content: "Thống kê", icon: faChartLine, active: false, path: '/company/statistic', color: '#99F6CA',
         },
-        {
-            id: 7, content: "Dashboard", icon: faHouse, active: false, path: '/company/dashboard', color: '#99F6CA',
-        },
+
 
     ])
     useEffect(() => {
@@ -222,7 +223,7 @@ const CompanyLayout = ({ children }) => {
 
         // </div >
         <Row>
-            <Row style={{ position: "fixed", width: "100%", height: "60px" }}>
+            <Row style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", position: "fixed", width: "100%", height: "80px", background: "#ACD793", zIndex: 100, overflow: "hidden" }}>
                 <Col span={4} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
 
                     <img src={adminlogo} class='h-[40px] w-[100px]'>
@@ -253,9 +254,9 @@ const CompanyLayout = ({ children }) => {
                     </Modal>
                 </Col>
             </Row>
-            <Divider style={{ position: "relative", top: "60px" }}></Divider>
+            {/* <Divider style={{ position: "relative", top: "60px" }}></Divider> */}
             <Row style={{ width: "100%", minHeight: "500px" }}>
-                <Col span={6} style={{ position: "fixed", top: "100px" }}>
+                <Col span={6} style={{ paddingRight: 4, boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px", position: "fixed", top: "80px", fontSize: "16px", fontWeight: "500", height: "100%" }}>
                     {
                         info.map((item, index) => (
                             <Link key={item.id}
@@ -271,7 +272,9 @@ const CompanyLayout = ({ children }) => {
                                             <p class='mx-[40px] col-span-10'> {item.content}</p>
 
                                         </div> :
-                                        <div className="
+                                        <div
+                                            style={{ border: "1px solid #9CAFAA" }}
+                                            className="
                                             hover:bg-bgPopup ease-in-out duration-150 hover:scale-[98%]
                                             h-[60px] col-span-1 m-sm border-txt-final rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-stretch items-center">
                                             <FontAwesomeIcon class='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
@@ -284,8 +287,12 @@ const CompanyLayout = ({ children }) => {
                         ))
                     }
                 </Col>
-                <Col span={16} offset={7} style={{ position: "relative", top: "100px" }}>
-                    {children}
+                <Col span={18} offset={6} style={{ position: "relative", top: "80px" }}>
+                    <Row style={{ width: "100%", minHeight: "100vh" }}>
+                        <Col span={20} offset={2}>
+                            {children}
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </Row >

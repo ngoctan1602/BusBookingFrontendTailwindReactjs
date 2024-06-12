@@ -15,6 +15,7 @@ import PopupAdd from "../../components/Layout/Components/Company/PriceClass/Popu
 import { useNavigate } from "react-router-dom";
 import PriceClassRow from "../../components/Layout/Components/Company/PriceClass/PriceClassRow";
 import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
+import Search from "antd/es/input/Search";
 const ManagePriceClass = () => {
     let navigate = useNavigate();
     const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
@@ -50,9 +51,9 @@ const ManagePriceClass = () => {
     const fetchData = async () => {
         setLoading(true)
         try {
-            const response = await PriceClassSV.getAllInCompany({ pageSize: 200, pageIndex: currentPage + 1 });
-            console.log(response)
-            if (!response.isError) {
+            const response = await PriceClassSV.getAllInCompany({ pageSize: 10, pageIndex: currentPage + 1 });
+            // console.log(response)
+            if (!response.isError && response.data !== null && response.data !== undefined) {
                 setPriceClass(response.data.items);
                 setPageTotal(response.data.pageTotal)
             }
@@ -65,14 +66,21 @@ const ManagePriceClass = () => {
     };
 
     useEffect(() => {
+        fetchData();
+        return () => {
+            console.log("call api success")
+        }
+    }, [currentPage]);
 
-
+    useEffect(() => {
         fetchData();
         return () => {
             console.log("call api success")
         }
     }, []);
-
+    const onSearch = (prop) => {
+        alert("Search ở đây");
+    }
     return (
         <div class='w-full text-txt txt-16 '>
 
@@ -88,16 +96,25 @@ const ManagePriceClass = () => {
                         Quản lý bảng giá
                     </option>
                 </select>
-                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
+                <Search
+                    placeholder="Tìm kiếm theo tên/ giá trị loại giá"
+                    allowClear
+                    className="col-start-6 col-span-5 p-md"
+                    onSearch={onSearch}
+                // style={{
+                //     width: 200,
+                // }}
+                />
+                {/* <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input> */}
                 {/* <PopupAdd
                     items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}
                 ></PopupAdd> */}
                 <div className="col-span-1">
-                    <PopupAdd></PopupAdd>
+                    <PopupAdd fetchData={fetchData}></PopupAdd>
                 </div>
 
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
+            <table class="w-full my-md rounded-md border-collapse overflow-hidden text-txt text-16 relative" style={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px" }}>
                 {/* {
                     loading &&
                     <div class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
@@ -109,17 +126,17 @@ const ManagePriceClass = () => {
                     </div>
                 } */}
                 <thead>
-                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
+                    <tr class='grid bg-hover-txt grid-cols-12 p-sm text-left gap-md' style={{ borderBottom: "1px solid black" }}>
                         {/* <th class='col-span-2'>Id</th> */}
                         <th class='col-span-3'>Tên</th>
-                        <th class='col-span-3'>Mô tả</th>
-                        <th class='col-span-2 text-center'>Đơn giá</th>
+                        <th class='col-span-4'>Mô tả</th>
+                        <th class='col-span-3 text-center'>Đơn giá</th>
                         <th class='col-span-2'>Trạng thái</th>
                     </tr>
-                    
+
 
                 </thead>
-                <tbody class='bg-bg'>
+                <tbody class='bg-bg'   >
                     {
                         loading ?
                             <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
@@ -127,7 +144,7 @@ const ManagePriceClass = () => {
                             :
                             !loading && priceClass.length > 0
                                 ?
-                                <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={PriceClassRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData}></PaginatedItemsWithAPI>
+                                <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={PriceClassRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData} currentPage={currentPage}></PaginatedItemsWithAPI>
                                 :
                                 <tr>
                                     Không có chuyến đi nào

@@ -10,6 +10,20 @@ $height-40: 40px;
 $orange-pattle: #FF8A08;
 $blue-pattle: #86A7FC;
 
+.custom-form .ant-form-item-label>label {
+    font-size: 16px;
+    font-weight: 400;
+    /* Tùy chỉnh kích thước chữ của label */
+}
+
+.custom-form .ant-input {
+    height: 30px;
+    /* Tùy chỉnh chiều cao của Input */
+    font-size: 16px;
+    /* Tùy chỉnh kích thước chữ của Input */
+}
+
+
 .custom-modal .ant-btn-primary {
     background-color: #3ABEF9;
     /* Custom button background */

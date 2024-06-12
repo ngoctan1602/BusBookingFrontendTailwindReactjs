@@ -55,11 +55,11 @@ const ManagePrice = () => {
             // const response = await PriceClassSV.getAllInCompany({ pageSize: 200, pageIndex: currentPage + 1 });
             const response1 = await PriceSV.getAllInCompany({ pageSize: 200, pageIndex: currentPage + 1 });
 
-            console.log(response1)
-            if (!response1.isError) {
-                setPriceClass(response1.data.items);
-                setPageTotal(response1.data.pageTotal)
-            }
+            // console.log(response1)
+            // if (!response1.isError && response1.data !== null && response1.data !== undefined) {
+            //     setPriceClass(response1.data.items);
+            //     setPageTotal(response1.data.pageTotal)
+            // }
             setLoading(false)
 
         } catch (error) {
@@ -119,21 +119,22 @@ const ManagePrice = () => {
                         <th class='col-span-2'>Phụ phí</th>
                         <th class='col-span-2'>Trạng thái</th>
                     </tr>
-                    
+
                 </thead>
                 <tbody class='bg-bg'>
                     {
-                        loading ?
-                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
-                            </div>
-                            :
-                            !loading && priceClass.length > 0
-                                ?
-                                <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={PriceRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData}></PaginatedItemsWithAPI>
-                                :
-                                <tr>
-                                    Không có chuyến đi nào
-                                </tr>
+                        loading &&
+                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                        </div>
+                        // :
+                        // !loading ?
+                        //     (priceClass !== null && priceClass.length > 0 && priceClass !== undefined)
+                        //     &&
+                        //     <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={PriceRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData}></PaginatedItemsWithAPI>
+                        //     :
+                        //     <tr>
+                        //         Không có chuyến đi nào
+                        //     </tr>
                     }
 
                 </tbody>

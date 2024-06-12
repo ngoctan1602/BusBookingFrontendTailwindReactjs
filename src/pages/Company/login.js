@@ -51,7 +51,7 @@ const CompanyLogin = () => {
                 localStorage.setItem('avatar', response.data.avatar);
                 notifySuccess()
                 setTimeout(() => {
-                    navigate('/company/bus');
+                    navigate('/company/dashboard');
                 }, 1500);
             }
             else {
