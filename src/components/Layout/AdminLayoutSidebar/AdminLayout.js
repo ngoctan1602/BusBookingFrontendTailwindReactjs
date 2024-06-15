@@ -16,7 +16,7 @@ import getConnection from '../../../services/SignalRService'
 import Popup from "reactjs-popup";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/vi'; 
+import 'dayjs/locale/vi';
 
 
 const AdminLayout = ({ children }) => {
@@ -33,8 +33,8 @@ const AdminLayout = ({ children }) => {
         position: "absolute",
         top: "65px",
         right: "25px",
-      };
-    const contentStyleNotification = { backgroundColor: '#FFFF', borderRadius: "8px", width: "400px", padding: "0"};
+    };
+    const contentStyleNotification = { backgroundColor: '#FFFF', borderRadius: "8px", width: "400px", padding: "0" };
 
     const [info, setInfo] = useState([
         {
@@ -80,7 +80,7 @@ const AdminLayout = ({ children }) => {
         return () => {
             StatusItem(path);
         }
-    }, [info, location.pathname, setInfo] )
+    }, [info, location.pathname, setInfo])
 
     ///@this is function to set active item in sidebar
     const StatusItem = (path) => {
@@ -136,76 +136,76 @@ const AdminLayout = ({ children }) => {
 
                     </img>
                     <p className="ml-sm">{localStorage.getItem("adminUsername")}</p>
-                    
+
                 </div>
 
                 {/*@this is notification UI  --Start*/}
                 <div className="col-span-1 col-start-11">
 
-                <div
-                className="relative">
-                    <Popup 
-                    trigger={<button
-                        className="flex justify-center cursor-default"
+                    <div
+                        className="relative">
+                        <Popup
+                            trigger={<button
+                                className="flex justify-center cursor-default"
+                            >
+                                <button
+                                    className=""
+                                    onClick={getNotifications}>
+                                    <FontAwesomeIcon icon={faBell} color="#5C98FF"
+                                        className='cursor-pointer w-[full] h-[20px] hover:text-[#307BFD] ease-in-out duration-200'>
+                                    </FontAwesomeIcon>
+                                    <span className="text-text-red text-[14px] absolute top-[-50%] left-[10%]">{counter}</span>
+                                </button>
+                            </button>}
+                            position="top right"
+                            modal
+                            nested
+                            closeOnDocumentClick={true}
+                            {... { contentStyle }}
                         >
-                            <button
-                            className=""
-                            onClick={getNotifications}>
-                                <FontAwesomeIcon icon={faBell} color="#5C98FF"
-                                    className='cursor-pointer w-[full] h-[20px] hover:text-[#307BFD] ease-in-out duration-200'>
-                                </FontAwesomeIcon>
-                                <span className="text-text-red text-[14px] absolute top-[-50%] left-[10%]">{counter}</span>
-                            </button>
-                        </button>} 
-                        position="top right"
-                        modal
-                        nested
-                        closeOnDocumentClick={true}
-                        {... { contentStyle }}
-                    >
-                        {
-                            close => (
+                            {
+                                close => (
 
-                                <div className='text-16 text-txt min-h-[100px] relative'>
-                                <div className='bg-[#3F5F97] p-[10px] rounded-[8px] w-full h-[100px] text-center'>
-                                    <p className='text-20 text-txt-light p-[5px]'>Thông báo của bạn</p>
-                                    <p className='text-10 text-txt-light p-[5px]'>Bạn đang có <span className="font-bold">{counter}</span> thông báo chưa đọc</p>
+                                    <div className='text-16 text-txt min-h-[100px] relative'>
+                                        <div className='bg-[#3F5F97] p-[10px] rounded-[8px] w-full h-[100px] text-center'>
+                                            <p className='text-20 text-txt-light p-[5px]'>Thông báo của bạn</p>
+                                            <p className='text-10 text-txt-light p-[5px]'>Bạn đang có <span className="font-bold">{counter}</span> thông báo chưa đọc</p>
 
-                                </div>
-                            
-                                <div className='w-full my-md gap-sm grid max-h-[300px] min-h-[300px] overflow-auto'>
-                                    {notifiData.length > 0 ? ( 
-                                        <div className="grid h-[100px]">
-                                            {notifiData.map((item, index) => (
-                                                <button
-                                                    key={index}
-                                                    onClick={() => {
-                                                        directNotification(item);
-                                                        close();
-                                                    }}
-                                                    className={`p-[10px] rounded-lg ${item.status === 2 ? 'bg-notification' : ''} hover:bg-notificationNotRead flex justify-between`}
-                                                >
-                                                    <div className="px-[5px]">
-                                                        {item.content}
-                                                        <div className="text-[12px] ml-[20px] mt-[1px] text-left text-txt-final">
-                                                            {dayjs(item.dateCreate).from()}
-                                                        </div>
-                                                    </div>
-                                                    {item.status === 2 && <div><p className="text-text-red">*</p></div>}
-                                                </button>
-                                            ))}
                                         </div>
-                                    ) : (
-                                        <div className="text-center text-txt"></div>
-                                    )}
-                                </div>
-                            </div>
-                            )
-                        }
 
-                    </Popup>
+                                        <div className='w-full my-md gap-sm grid max-h-[300px] min-h-[300px] overflow-auto'>
+                                            {notifiData.length > 0 ? (
+                                                <div className="grid h-[100px]">
+                                                    {notifiData.map((item, index) => (
+                                                        <button
+                                                            key={index}
+                                                            onClick={() => {
+                                                                directNotification(item);
+                                                                close();
+                                                            }}
+                                                            className={`p-[10px] rounded-lg ${item.status === 2 ? 'bg-notification' : ''} hover:bg-notificationNotRead flex justify-between`}
+                                                        >
+                                                            <div className="px-[5px]">
+                                                                {item.content}
+                                                                <div className="text-[12px] ml-[20px] mt-[1px] text-left text-txt-final">
+                                                                    {dayjs(item.dateCreate).from()}
+                                                                </div>
+                                                            </div>
+                                                            {item.status === 2 && <div><p className="text-text-red">*</p></div>}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="text-center text-txt"></div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )
+                            }
+
+                        </Popup>
+                    </div>
                 </div>
-            </div>
 
                 {/*@this is notification UI  --End*/}
 
@@ -232,7 +232,7 @@ const AdminLayout = ({ children }) => {
                                     </div>
 
                                 </div>
-    
+
                                 <div className='w-full my-md gap-sm grid grid-cols-10'>
                                     {/* <Link className='col-start-3 col-span-3 col confirm-button text-center' to='/admin/login'>Xác nhận</Link> */}
                                     <button className='col-span-4 col-start-2 confirm-button' onClick={signOut}>Xác nhận</button>
@@ -280,7 +280,7 @@ const AdminLayout = ({ children }) => {
                                     {
                                         item.active ?
                                             <div
-                                            className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  border-[3px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
+                                                className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  border-[3px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
                                             >
                                                 <FontAwesomeIcon className='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
                                                 <p className='mx-[40px] col-span-10'> {item.content}</p>

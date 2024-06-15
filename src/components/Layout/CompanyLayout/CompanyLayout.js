@@ -48,11 +48,6 @@ const CompanyLayout = ({ children }) => {
         {
             id: 5, content: "Quản lý chuyến đi", icon: faMapLocationDot, active: false, path: '/company/ticket', color: '#FB766D',
         },
-        {
-            id: 6, content: "Thống kê", icon: faChartLine, active: false, path: '/company/statistic', color: '#99F6CA',
-        },
-
-
     ])
     useEffect(() => {
         // const token = localStorage.getItem('token');
@@ -75,7 +70,7 @@ const CompanyLayout = ({ children }) => {
             const updatedItems = info.map(item => {
                 if (path === item.path) {
                     // setContent(item.content);
-                    document.title = item.content
+                    document.title = item.content;
                     return { ...item, active: true };
                 }
 
@@ -222,9 +217,9 @@ const CompanyLayout = ({ children }) => {
         //     </div>
 
         // </div >
-        <Row>
-            <Row style={{ boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;", position: "fixed", width: "100%", height: "80px", background: "#ACD793", zIndex: 100, overflow: "hidden" }}>
-                <Col span={4} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Row style={{ position: "absolute", width: "100%" }}>
+            <Row style={{ boxShadow: " rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px", position: "fixed", width: "100%", height: "60px", background: "#fff", zIndex: 100, overflow: "auto" }}>
+                <Col span={4} style={{ display: "flex", justifyContent: "center", alignItems: "center", overflow: "hidden" }}>
 
                     <img src={adminlogo} class='h-[40px] w-[100px]'>
                     </img>
@@ -256,7 +251,7 @@ const CompanyLayout = ({ children }) => {
             </Row>
             {/* <Divider style={{ position: "relative", top: "60px" }}></Divider> */}
             <Row style={{ width: "100%", minHeight: "500px" }}>
-                <Col span={6} style={{ paddingRight: 4, boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px", position: "fixed", top: "80px", fontSize: "16px", fontWeight: "500", height: "100%" }}>
+                <Col span={6} style={{ overflow: "auto", paddingRight: 4, boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px", position: "fixed", top: "60px", fontSize: "16px", fontWeight: "500", height: "100%" }}>
                     {
                         info.map((item, index) => (
                             <Link key={item.id}
@@ -266,15 +261,19 @@ const CompanyLayout = ({ children }) => {
                                 {
                                     item.active ?
                                         <div
-                                            className=" h-[60px] col-span-1 m-sm border-button bg-bgPopup  border-[3px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
+                                            className=" h-[60px] col-span-1 m-sm border-button
+                                             bg-bgPopup 
+                                              hover:text-txt
+                                              border-[1px] rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-center"
                                         >
                                             <FontAwesomeIcon class='ml-sm col-span-2 h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
-                                            <p class='mx-[40px] col-span-10'> {item.content}</p>
+                                            <p class='mx-[40px] col-span-10 '> {item.content}</p>
 
                                         </div> :
                                         <div
-                                            style={{ border: "1px solid #9CAFAA" }}
+                                            // style={{ border: "1px solid #9CAFAA" }}
                                             className="
+                                            hover:text-txt
                                             hover:bg-bgPopup ease-in-out duration-150 hover:scale-[98%]
                                             h-[60px] col-span-1 m-sm border-txt-final rounded-md shadow-sm grid grid-cols-12 grid-flow-row place-items-stretch items-center">
                                             <FontAwesomeIcon class='ml-sm w-[20px] h-[20px] shrink-0' icon={item.icon} color={item.color}></FontAwesomeIcon>
@@ -287,9 +286,9 @@ const CompanyLayout = ({ children }) => {
                         ))
                     }
                 </Col>
-                <Col span={18} offset={6} style={{ position: "relative", top: "80px" }}>
-                    <Row style={{ width: "100%", minHeight: "100vh" }}>
-                        <Col span={20} offset={2}>
+                <Col span={18} offset={6} style={{ position: "relative", top: "60px" }}>
+                    <Row style={{ width: "100%", minHeight: "100vh" }} className="bg-bgContent">
+                        <Col className="mt-[30px] px-lg" span={24} >
                             {children}
                         </Col>
                     </Row>

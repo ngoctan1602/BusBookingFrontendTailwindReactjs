@@ -56,7 +56,7 @@ const PriceClassRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
     }, [updateTypeBus])
 
     return (
-        <tr class='grid grid-cols-12 p-sm my-[10px] items-center'
+        <tr class='grid grid-cols-12 p-sm py-lg items-center border-collapse border-t-[1px] border-border-top'
         >
             {/* <td class='col-span-2'>{item.id}</td> */}
             <td class='col-span-3'>{item.name}</td>
