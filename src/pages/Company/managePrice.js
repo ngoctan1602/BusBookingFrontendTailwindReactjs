@@ -81,7 +81,7 @@ const ManagePrice = () => {
         <div class='w-full text-txt txt-16 '>
 
             <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý bảng giá</p>
+                <p class='col-span-4 font-bold text-20 uppercase'>Quản lý bảng giá</p>
                 <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
                     onChange={(e) => navigate(e.target.value)}
                 >
@@ -92,7 +92,7 @@ const ManagePrice = () => {
                         Quản lý bảng giá
                     </option>
                 </select>
-                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
+                <input placeholder="Tìm kiếm" class='col-start-9 col-span-3 bg-bg outline-none border-none p-sm rounded-md'></input>
                 {/* <PopupAdd
                     items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}
                 ></PopupAdd> */}
