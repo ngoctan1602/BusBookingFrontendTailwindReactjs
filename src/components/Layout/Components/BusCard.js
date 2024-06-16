@@ -31,7 +31,7 @@ import Paypal from "../../Paypal/Paypal";
 const BusCard = ({ item }) => {
     // console.log(item.itemResponses.slice(0, item.itemResponses.length / 2))
     let navigate = useNavigate();
-    const notifySuccess = () => toast.success('Đặt vé xe thành công!', {
+    const notifySuccess = () => toast.success('Đặt chỗ thành công!', {
         position: "bottom-right",
         autoClose: 2500,
         hideProgressBar: false,
@@ -42,7 +42,7 @@ const BusCard = ({ item }) => {
         theme: "light",
     });
 
-    const notifyError = () => toast.error('Đặt vé xe thất bại', {
+    const notifyError = () => toast.error('Đặt chỗ thất bại', {
         position: "bottom-right",
         autoClose: 2500,
         hideProgressBar: false,
@@ -446,15 +446,11 @@ const BusCard = ({ item }) => {
 
         try {
             setLoading(true)
-            const resp = await BillSV.createBill(objectAdd);
+            //Reserve
+            const resp = await BillSV.reserve(objectAdd);
             if (!resp.isError && resp.isError !== undefined) {
-                notifySuccess()  
-                // setTimeout(
-                //     // () => navigate("/"), 2000
-                // )
-
+                notifySuccess()
                 setTimeout(() => navigate("/checkout", { state: { Order: objectAdd, TotalPrice: totalPrice1 + totalPrice2 } }), 2000);
-
             }
             else {
                 notifyError()
@@ -1025,7 +1021,7 @@ const BusCard = ({ item }) => {
                             ) : (
                                 <button
                                     onClick={() => {
-                                        setCheckout(true);
+                                        // setCheckout(true);
                                         createBill();
                                     }}
                                     className='w-[100px] button-position button-hover text-16 text-txt'

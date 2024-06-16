@@ -25,8 +25,9 @@ const CheckoutWrapper = () => {
 
 
 function App() {
+  console.log("ClientID", process.env.REACT_APP_GOOGLE_CLIENTID)
   return (
-    <GoogleOAuthProvider clientId="1093428259628-jsr06bh2svkv118a34g8gkr6gknainqn.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENTID}>
       <Router>
         <NotifcationProvider>
           <div className="font-Amiro bg-bg h-screen overflow-auto text-16">

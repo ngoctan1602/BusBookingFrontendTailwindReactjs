@@ -16,7 +16,7 @@ module.exports = {
       'button': '#C6C6C6',
       'bg': '#FFFFFF',
       'text-red': '#D90000',
-      'bgContent': '#EAEAEA',
+      'bgContent': '#FAFAFA',
       'bgPopup': '#C6C6C6',
       'hover-txt': '#A5A5A5',
       'txt-final': '#868686',

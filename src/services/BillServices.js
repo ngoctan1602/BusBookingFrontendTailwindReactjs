@@ -1,7 +1,7 @@
 import * as BaseAPI from './BaseAPI';
 
-export const createBill = async (data) => {
-    return await BaseAPI.postItem(billServices.createBill, data);
+export const reserve = async (data) => {
+    return await BaseAPI.postItem(billServices.reserve, data);
 }
 
 export const getAllBillinUser = async (pageSize) => {
@@ -27,12 +27,21 @@ export const getRevenueStatistics = async (year) => {
     return await BaseAPI.getItems(billServices.revenueStatistics, year);
 }
 
+export const paymentDirec = async (data) => {
+    return await BaseAPI.postItem(billServices.paymentDirect, data);
+}
+
+export const paymentPaypal = async (data) => {
+    return await BaseAPI.postItem(billServices.paymentPaypal, data);
+}
 const billServices = {
-    createBill: "bills/create",
+    reserve: "bills/reserve",
     getAll: "bills/getAll",
     changeIsDelete: 'bills/changeIsDelete',
     isDelete: "bills/getAllInDeleteStatus",
     isComplete: "bills/getAllInCompleteStatus",
     isWaiting: "bills/getAllInWaitingStatus",
-    revenueStatistics: "bills/RevenueStatistics"
+    revenueStatistics: "bills/RevenueStatistics",
+    paymentDirect: "bills/paymentDirect",
+    paymentPaypal: "bills/paymentPaypal",
 }

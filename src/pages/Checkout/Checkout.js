@@ -1,10 +1,20 @@
 import React, {useState} from 'react';
 import Paypal from '../../components/Paypal/Paypal';
+import * as BillService from '../../services/BillServices';
 
 export default function Checkout({ Order, TotalPrice }) {
   console.log("Order: ", Order);
   console.log("TotalPrice: ", TotalPrice);
   const [usePaypal, setUsePaypal] = useState(false);
+
+  const paymentDirection = async (order) => {
+    try {
+      const response = await BillService.paymentDirec(order);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div    
@@ -38,9 +48,7 @@ export default function Checkout({ Order, TotalPrice }) {
             className='p-[20px] '>
                 <button
                     className="w-[250px] button-hover text-16 text-txt place-items-center"
-                    onClick={() => {
-                    alert("Thanh toán bằng ví tiền mặt");
-                    }}
+                    onClick={paymentDirection}
                 >
                     Thanh toán bằng tiền mặt
                 </button>

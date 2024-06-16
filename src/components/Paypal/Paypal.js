@@ -1,5 +1,6 @@
 import React, { useRef,useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
+import BillService from '../../services/BillServices';
 
 export default function Paypal({order}) {
 
@@ -25,7 +26,8 @@ export default function Paypal({order}) {
         },
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
-          console.log(order);
+
+          console.log(order.id);
           navigate("/")
         },
         onError: (err) => {
