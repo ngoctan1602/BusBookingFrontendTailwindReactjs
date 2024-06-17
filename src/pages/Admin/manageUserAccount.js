@@ -160,7 +160,7 @@ const ManageUserAccount = () => {
                             </div>
 
                             :
-                            !loading && userAccount.length != 0 ?
+                            !loading && userAccount.length !== 0 ?
                                 < Paginate itemsPerPage={5} items={userAccount} componentToRender={UserAccountRow} updateStatus={updateStatus} />
                                 :
                                 "Không có người dùng nào"

@@ -197,7 +197,7 @@ const PopupAdd = ({ fetchData, items, propsAdd, onChange }) => {
 
                                     {
                                         propsAdd.item.map((item, index) => (
-                                            item.name != "seatTypeID" && item.name != "busTypeID" &&
+                                            item.name !== "seatTypeID" && item.name !== "busTypeID" &&
                                             <div class='grid grid-cols-12 w-full grid-flow-row'>
                                                 <p class='col-span-3 col-start-2 flex items-center font-bold '>
                                                     {item.content}

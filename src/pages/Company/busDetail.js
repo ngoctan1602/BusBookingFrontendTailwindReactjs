@@ -336,7 +336,7 @@ const BusDetail = () => {
                                                     <td class='col-span-8'>
                                                         {
                                                             items.routeDetailResponses.map((item, index) =>
-                                                                (item.busStationName + (index != (items.routeDetailResponses.length - 1) ? " => " : ""))
+                                                                (item.busStationName + (index !== (items.routeDetailResponses.length - 1) ? " => " : ""))
                                                             )
                                                         }
                                                     </td>

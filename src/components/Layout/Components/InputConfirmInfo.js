@@ -57,7 +57,7 @@ const InputConfirmInfo = ({ item, onChange, onChangeShowPassword }) => {
             {
                 <span
                     class={
-                        (isFocus || item.value != "") ?
+                        (isFocus || item.value !== "") ?
                             'absolute block  border-none outline-none bg-bg h-[20px] right-[94%] translate-x-[94%] top-[-20%] translate-y-[-20%] ease-in-out duration-200'
                             : (item.type === "text" || item.type === "password") ?
                                 'absolute  border-none outline-none h-[20px] bg-bg mx-[-8px] pointer-events-none top-1/2 right-full translate-x-full translate-y-[-50%] ease-in-out duration-200'

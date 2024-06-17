@@ -125,7 +125,7 @@ const CreateTicketNew = () => {
             const routeDetailResp = await RouteDetailSV.getInRoute({ routeId: id, pageSize: 200 });
             console.log(routeDetailResp)
             setRouteDetail(routeDetailResp.data.items)
-            const ids = routeDetailResp.data.items.map(item => item.id).filter(id => id != null);
+            const ids = routeDetailResp.data.items.map(item => item.id).filter(id => id !== null);
             setSelectedIds(ids)
             // setBusStationOfBus(response.data.items)
             // setLoading(false);

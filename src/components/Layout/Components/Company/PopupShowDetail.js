@@ -56,11 +56,11 @@ const PopUpShowDetail = ({ items, orderProps }) => {
                                         }
                                         {
                                             (
-                                                item.name != "status" &&
-                                                item.name != "logo" &&
-                                                item.name != "dateCreate" &&
-                                                item.name != "dateUpdate" &&
-                                                item.name != "dateDeparture"
+                                                item.name !== "status" &&
+                                                item.name !== "logo" &&
+                                                item.name !== "dateCreate" &&
+                                                item.name !== "dateUpdate" &&
+                                                item.name !== "dateDeparture"
 
                                             )
                                             &&

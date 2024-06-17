@@ -117,7 +117,7 @@ const Login = () => {
                 </div>
             }
             <div className="flex items-center flex-col p-md">
-                <p className="text-[30px] font-extrabold tracking-wider m-sm text-txt">Đăng nhập vào tài khoản của bạn</p>
+                <p className="text-[30px] font-extrabold tracking-wider m-sm text-txt">Đăng nhập vào tài khoản của bạn {process.env.REACT_APP_API_BASE_URL === undefined ? "null" : process.env.REACT_APP_API_BASE_URL}</p>
                 <p >Trải nghiệm dịch vụ đến từ Y-Trip</p>
             </div>
 

@@ -219,7 +219,7 @@ const ManageSeatsType = () => {
                         <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
                         </div>
                         :
-                        !loading && seatTypes.length != 0
+                        !loading && seatTypes.length !== 0
                             ?
                             <Paginate itemsPerPage={8} items={seatTypes} fetchData={fetchData} componentToRender={SeatTypeRow} updateStatus={changeStatus} emtyItemValue={emtyItemValue}></Paginate>
                             :

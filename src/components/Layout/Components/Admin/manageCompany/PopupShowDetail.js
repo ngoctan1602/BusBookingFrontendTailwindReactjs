@@ -48,8 +48,8 @@ const PopUpShowDetail = ({ items, companyProps }) => {
                                         }
                                         {
                                             (
-                                                item.name != "status" &&
-                                                item.name != "logo"
+                                                item.name !== "status" &&
+                                                item.name !== "logo"
 
                                             )
                                             &&

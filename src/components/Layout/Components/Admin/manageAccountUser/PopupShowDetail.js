@@ -52,9 +52,9 @@ const PopUpShowDetail = ({ items, userAccountProps }) => {
                                         }
                                         {
                                             (
-                                                item.name != "status" &&
-                                                item.name != "avatar" &&
-                                                item.name != "dateOfBirth"
+                                                item.name !== "status" &&
+                                                item.name !== "avatar" &&
+                                                item.name !== "dateOfBirth"
                                             )
                                             &&
                                             items[item.name]

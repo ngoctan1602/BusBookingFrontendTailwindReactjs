@@ -329,7 +329,7 @@ const BusCard = ({ item }) => {
                 setSelectedIdSeats(prevIds => prevIds.filter(prevId => prevId !== id));
                 return { ...item, status: 1 };
             }
-            if (item.status == 2) {
+            if (item.status === 2) {
 
                 total += item.price;
             }
