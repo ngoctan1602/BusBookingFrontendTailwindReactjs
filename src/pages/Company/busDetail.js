@@ -17,6 +17,7 @@ import CurrencyFormat from "react-currency-format";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleLeft } from "@fortawesome/free-regular-svg-icons";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { Breadcrumb } from "antd";
 
 const BusDetail = () => {
     let { id } = useParams();
@@ -143,14 +144,17 @@ const BusDetail = () => {
     })
     return (
         <div class='w-full h-full text-txt txt-16'>
-
+            <Breadcrumb style={{ margin: '16px 0', fontSize: 18, fontWeight: "500" }}>
+                <Breadcrumb.Item onClick={() => navigate("/company/bus")}>  <span style={{ cursor: "pointer", fontWeight: 500 }}>Quản lý xe</span></Breadcrumb.Item>
+                <Breadcrumb.Item>Chi tiết xe</Breadcrumb.Item>
+            </Breadcrumb>
             <div class='grid grid-cols-12 grid-flow-row w-1/2 items-center'>
                 {/* <div className="col-span-1"> */}
-                <FontAwesomeIcon className="cursor-pointer hover:text-button ease-in-out duration-150 h-[20px] w-[20px]" icon={faArrowLeft}
+                {/* <FontAwesomeIcon className="cursor-pointer hover:text-button ease-in-out duration-150 h-[20px] w-[20px]" icon={faArrowLeft}
                     onClick={() => navigate('/company/bus')}
-                ></FontAwesomeIcon>
+                ></FontAwesomeIcon> */}
                 {/* </div> */}
-                <p className="col-span-10 text-20">Chi tiết xe</p>
+                {/* <p className="col-span-10 text-20">Chi tiết xe</p> */}
 
 
             </div>
@@ -274,9 +278,9 @@ const BusDetail = () => {
                         {/* <PopupAddBusStation /> */}
                     </div>
                     <div class='w-full h-[250px] overflow-y-auto overflow-x-auto mb-md'>
-                        <table class="w-full my-sm rounded-md border-collapse  text-txt text-16 overflow-hidden">
+                        <table class="w-full my-sm rounded-md border-collapse  text-txt text-16 overflow-hidden" style={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px" }}>
                             <thead>
-                                <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md '>
+                                <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md ' style={{ borderBottom: "1px solid black" }}>
                                     {/* <th class='col-span-2'>Id</th> */}
                                     <th class='col-span-4 '>Tên tuyến</th>
                                     <th class='col-span-8'>Lộ trình</th>

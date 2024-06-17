@@ -50,9 +50,9 @@ const ManageRouteDetail = () => {
     };
     const fetchData = async () => {
         try {
-            const response = await RoutesSV.getAllRoutesByCompany({ pageSize: 200, pageIndex: currentPage + 1 });
+            const response = await RoutesSV.getAllRoutesByCompany({ pageSize: 10, pageIndex: currentPage + 1 });
             console.log(response)
-            if (!response.isError && response.data.items.length > 0) {
+            if (!response.isError && response.data.items.length !== null && response.data.items.length !== undefined) {
                 setRouteDetail(response.data.items);
                 setPageTotal(response.data.pageTotal)
             }
@@ -136,7 +136,7 @@ const ManageRouteDetail = () => {
                         <th class='col-span-3'>Điểm xuất phát</th>
                         <th class='col-span-3'>Điểm kết thúc</th>
                     </tr>
-                    
+
                 </thead>
                 <tbody class='bg-bg'>
                     {loading ?

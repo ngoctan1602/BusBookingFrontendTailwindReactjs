@@ -55,11 +55,11 @@ const ManagePrice = () => {
             // const response = await PriceClassSV.getAllInCompany({ pageSize: 200, pageIndex: currentPage + 1 });
             const response1 = await PriceSV.getAllInCompany({ pageSize: 200, pageIndex: currentPage + 1 });
 
-            console.log(response1)
-            if (!response1.isError) {
-                setPriceClass(response1.data.items);
-                setPageTotal(response1.data.pageTotal)
-            }
+            // console.log(response1)
+            // if (!response1.isError && response1.data !== null && response1.data !== undefined) {
+            //     setPriceClass(response1.data.items);
+            //     setPageTotal(response1.data.pageTotal)
+            // }
             setLoading(false)
 
         } catch (error) {
@@ -81,7 +81,7 @@ const ManagePrice = () => {
         <div class='w-full text-txt txt-16 '>
 
             <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý bảng giá</p>
+                <p class='col-span-4 font-bold text-20 uppercase'>Quản lý bảng giá</p>
                 <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
                     onChange={(e) => navigate(e.target.value)}
                 >
@@ -92,7 +92,7 @@ const ManagePrice = () => {
                         Quản lý bảng giá
                     </option>
                 </select>
-                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
+                <input placeholder="Tìm kiếm" class='col-start-9 col-span-3 bg-bg outline-none border-none p-sm rounded-md'></input>
                 {/* <PopupAdd
                     items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}
                 ></PopupAdd> */}
@@ -119,21 +119,22 @@ const ManagePrice = () => {
                         <th class='col-span-2'>Phụ phí</th>
                         <th class='col-span-2'>Trạng thái</th>
                     </tr>
-                    
+
                 </thead>
                 <tbody class='bg-bg'>
                     {
-                        loading ?
-                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
-                            </div>
-                            :
-                            !loading && priceClass.length > 0
-                                ?
-                                <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={PriceRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData}></PaginatedItemsWithAPI>
-                                :
-                                <tr>
-                                    Không có chuyến đi nào
-                                </tr>
+                        loading &&
+                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                        </div>
+                        // :
+                        // !loading ?
+                        //     (priceClass !== null && priceClass.length > 0 && priceClass !== undefined)
+                        //     &&
+                        //     <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={PriceRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData}></PaginatedItemsWithAPI>
+                        //     :
+                        //     <tr>
+                        //         Không có chuyến đi nào
+                        //     </tr>
                     }
 
                 </tbody>

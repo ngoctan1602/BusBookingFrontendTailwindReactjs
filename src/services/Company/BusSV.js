@@ -1,7 +1,7 @@
 import * as BaseAPI from '../BaseAPI';
 
-export const getAllBusOfCompany = async () => {
-    return await BaseAPI.getItems(busServices.allBusOfCompany);
+export const getAllBusOfCompany = async (params) => {
+    return await BaseAPI.getItems(busServices.allBusOfCompany, params);
 }
 
 

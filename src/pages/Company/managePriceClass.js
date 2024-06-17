@@ -15,6 +15,7 @@ import PopupAdd from "../../components/Layout/Components/Company/PriceClass/Popu
 import { useNavigate } from "react-router-dom";
 import PriceClassRow from "../../components/Layout/Components/Company/PriceClass/PriceClassRow";
 import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
+import Search from "antd/es/input/Search";
 const ManagePriceClass = () => {
     let navigate = useNavigate();
     const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
@@ -50,9 +51,9 @@ const ManagePriceClass = () => {
     const fetchData = async () => {
         setLoading(true)
         try {
-            const response = await PriceClassSV.getAllInCompany({ pageSize: 200, pageIndex: currentPage + 1 });
-            console.log(response)
-            if (!response.isError) {
+            const response = await PriceClassSV.getAllInCompany({ pageSize: 10, pageIndex: currentPage + 1 });
+            // console.log(response)
+            if (!response.isError && response.data !== null && response.data !== undefined) {
                 setPriceClass(response.data.items);
                 setPageTotal(response.data.pageTotal)
             }
@@ -65,90 +66,109 @@ const ManagePriceClass = () => {
     };
 
     useEffect(() => {
+        fetchData();
+        return () => {
+            console.log("call api success")
+        }
+    }, [currentPage]);
 
-
+    useEffect(() => {
         fetchData();
         return () => {
             console.log("call api success")
         }
     }, []);
-
+    const onSearch = (prop) => {
+        alert("Search ở đây");
+    }
     return (
-        <div class='w-full text-txt txt-16 '>
+        <div className="w-full h-full">
+            <div class='w-full text-txt txt-16 bg-bg py-[20px] px-[10px] rounded-md box-shadow-content mb-md' >
+                <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
+                    <p class='col-span-3 font-bold text-20 uppercase'>Quản lý loại giá</p>
+                    <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
+                        onChange={(e) => navigate(e.target.value)}
+                    >
+                        <option selected>
+                            Quản lý loại giá
+                        </option>
+                        <option value={'/company/prices'}>
+                            Quản lý bảng giá
+                        </option>
+                    </select>
+                    <Search
+                        placeholder="Tìm kiếm theo tên/ giá trị loại giá"
+                        allowClear
+                        className="col-start-7 col-span-5 p-md"
+                        onSearch={onSearch}
+                    // style={{
+                    //     width: 200,
+                    // }}
+                    />
+                    {/* <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input> */}
+                    {/* <PopupAdd
+        items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}
+    ></PopupAdd> */}
+                    <div className="col-span-1">
+                        <PopupAdd fetchData={fetchData}></PopupAdd>
+                    </div>
 
-            <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý loại giá</p>
-                <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
-                    onChange={(e) => navigate(e.target.value)}
-                >
-                    <option selected>
-                        Quản lý loại giá
-                    </option>
-                    <option value={'/company/prices'}>
-                        Quản lý bảng giá
-                    </option>
-                </select>
-                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
-                {/* <PopupAdd
-                    items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}
-                ></PopupAdd> */}
-                <div className="col-span-1">
-                    <PopupAdd></PopupAdd>
                 </div>
+                <table class="w-full my-md rounded-md border-collapse overflow-hidden text-txt text-16 relative" >
+                    {/* {
+        loading &&
+        <div class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
+            <ReactLoading
+                type="spinningBubbles" color="#ffffff"
+                height={'5%'} width={'5%'}
+                className="absolute bg-hover-txt left-1/2 top-[30%]"
+            />
+        </div>
+    } */}
+                    <thead>
+                        <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md'
+                        // style={{ borderBottom: "1px solid black" }}
+                        >
+                            {/* <th class='col-span-2'>Id</th> */}
+                            <th class='col-span-3'>Tên</th>
+                            <th class='col-span-4'>Mô tả</th>
+                            <th class='col-span-3 text-center'>Đơn giá</th>
+                            <th class='col-span-2'>Trạng thái</th>
+                        </tr>
+
+
+                    </thead>
+                    <tbody class='bg-bg'   >
+                        {
+                            loading ?
+                                <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                                </div>
+                                :
+                                !loading && priceClass.length > 0
+                                    ?
+                                    <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={PriceClassRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData} currentPage={currentPage}></PaginatedItemsWithAPI>
+                                    :
+                                    <tr>
+                                        Không có chuyến đi nào
+                                    </tr>
+                        }
+
+                    </tbody>
+                </table>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={2500}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover={false}
+                    theme="light"
+                />
 
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
-                {/* {
-                    loading &&
-                    <div class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
-                        <ReactLoading
-                            type="spinningBubbles" color="#ffffff"
-                            height={'5%'} width={'5%'}
-                            className="absolute bg-hover-txt left-1/2 top-[30%]"
-                        />
-                    </div>
-                } */}
-                <thead>
-                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
-                        {/* <th class='col-span-2'>Id</th> */}
-                        <th class='col-span-3'>Tên</th>
-                        <th class='col-span-3'>Mô tả</th>
-                        <th class='col-span-2 text-center'>Đơn giá</th>
-                        <th class='col-span-2'>Trạng thái</th>
-                    </tr>
-                    
-
-                </thead>
-                <tbody class='bg-bg'>
-                    {
-                        loading ?
-                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
-                            </div>
-                            :
-                            !loading && priceClass.length > 0
-                                ?
-                                <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={PriceClassRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData}></PaginatedItemsWithAPI>
-                                :
-                                <tr>
-                                    Không có chuyến đi nào
-                                </tr>
-                    }
-
-                </tbody>
-            </table>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={2500}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover={false}
-                theme="light"
-            />
-
         </div>
     );
 }
