@@ -1,17 +1,65 @@
 import React, {useState} from 'react';
 import Paypal from '../../components/Paypal/Paypal';
 import * as BillService from '../../services/BillServices';
+import { ToastContainer, toast } from 'react-toastify';
+import ReactLoading from 'react-loading';
+import { useNavigate } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Checkout({ Order, TotalPrice }) {
-  console.log("Order: ", Order);
-  console.log("TotalPrice: ", TotalPrice);
+  let navigate = useNavigate();
+  
+  const notifySuccess = () => toast.success('Đặt chỗ thành công!', {
+    position: "bottom-right",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+});
+
+const notifyError = () => toast.error('Đặt chỗ thất bại', {
+    position: "bottom-right",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+});
+const notifyWarning = (message) =>
+    toast.warning(message, {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+  });
+
+  const [loading, setLoading] = useState(false)
   const [usePaypal, setUsePaypal] = useState(false);
 
   const paymentDirection = async (order) => {
     try {
+      setLoading(true);
       const response = await BillService.paymentDirec(order);
+      setLoading(false);
+      if (!response.isError) {
+        notifySuccess();
+        setTimeout(() => navigate("/"), 2000);
+      }
+      else{
+        notifyWarning(response.data);
+      }
       console.log(response);
     } catch (error) {
+      notifyError();
       console.log(error);
     }
   }
@@ -19,6 +67,17 @@ export default function Checkout({ Order, TotalPrice }) {
   return (
     <div    
     className='min-h-[300px] w-[60%] flex flex-col justify-start pt-[50px]'>
+      {
+        loading &&
+
+        <div class='absolute  w-full h-[500px] z-20 opacity-40'>
+            <ReactLoading
+                type="spinningBubbles" color="black"
+                height={'5%'} width={'5%'}
+                className="absolute  left-1/2 top-[50%]  "
+            />
+        </div>
+      }
       <h1 className="text-[50px] uppercase text-center p-[20px]">Thanh toán</h1>
 
       <div className="flex flex-row justify-between p-[20px]">
@@ -30,7 +89,7 @@ export default function Checkout({ Order, TotalPrice }) {
                 {
                     usePaypal ? (
                         <>
-                            <Paypal order={TotalPrice} />
+                            <Paypal totalPrice={TotalPrice} order={Order}/>
                         </>
                     ) : (
                         <button
@@ -48,7 +107,7 @@ export default function Checkout({ Order, TotalPrice }) {
             className='p-[20px] '>
                 <button
                     className="w-[250px] button-hover text-16 text-txt place-items-center"
-                    onClick={paymentDirection}
+                    onClick={() => paymentDirection(Order)}
                 >
                     Thanh toán bằng tiền mặt
                 </button>
@@ -72,6 +131,18 @@ export default function Checkout({ Order, TotalPrice }) {
             )}
           </div>
         </div>
+        <ToastContainer
+                        position="bottom-right"
+                        autoClose={2500}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover={false}
+                        theme="light"
+                    />
       </div>
     </div>
   );

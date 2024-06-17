@@ -25,8 +25,6 @@ const CheckoutWrapper = () => {
 
 
 function App() {
-  console.log("ClientID", process.env.REACT_APP_GOOGLE_CLIENTID)
-  console.log("api ", process.env.REACT_APP_API_BASE_URL)
   return (
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENTID}>
       <Router>
