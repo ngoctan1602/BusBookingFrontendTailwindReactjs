@@ -13,6 +13,7 @@ import ReactLoading from 'react-loading';
 import RouteDetailRow from "../../components/Layout/Components/Company/RouteDetail/RouteDetailRow";
 import { useNavigate } from "react-router-dom";
 import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
+import Search from "antd/es/input/Search";
 
 const ManageRouteDetail = () => {
     let navigate = useNavigate();
@@ -97,30 +98,31 @@ const ManageRouteDetail = () => {
     // }
 
     return (
-        <div class='w-full text-txt txt-16 '>
+        <div className="w-full h-full">
+            <div class='w-full text-txt txt-16 bg-bg py-[20px] px-[10px] rounded-md box-shadow-content mb-md' >
 
-            <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý lộ trình</p>
-                <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
-                    onChange={(e) => navigate(e.target.value)}
-                >
-                    <option value={'/company/create-route-detail'}>
-                        Thêm mới lộ trình
-                    </option>
-                    <option selected>
-                        Cập nhật lộ trình
-                    </option>
-                </select>
-                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
-                {/* <PopupAdd
-                 items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}
-                 ></PopupAdd> */}
-                {/* <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation> */}
-
-                {/* <PopupAdd></PopupAdd> */}
-            </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
-                {/* {
+                <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
+                    <p class='col-span-2 font-bold text-20'>Quản lý lộ trình</p>
+                    <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
+                        onChange={(e) => navigate(e.target.value)}
+                    >
+                        <option value={'/company/create-route-detail'}>
+                            Thêm mới lộ trình
+                        </option>
+                        <option selected>
+                            Cập nhật lộ trình
+                        </option>
+                    </select>
+                    <Search
+                        placeholder="Tìm kiếm lộ trình"
+                        allowClear
+                        className="col-start-7 col-span-5 p-md"
+                    // onSearch={onSearch}
+                    >
+                    </Search>
+                </div>
+                <table class="min-h-[300px] w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
+                    {/* {
                     loading &&
                     <div class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
                         <ReactLoading
@@ -130,43 +132,44 @@ const ManageRouteDetail = () => {
                         />
                     </div>
                 } */}
-                <thead>
-                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-sm border-b-2'>
-                        <th class='col-span-4'>Tên lộ trình</th>
-                        <th class='col-span-3'>Điểm xuất phát</th>
-                        <th class='col-span-3'>Điểm kết thúc</th>
-                    </tr>
+                    <thead>
+                        <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md'>
+                            <th class='col-span-5'>Tên lộ trình</th>
+                            <th class='col-span-3'>Điểm xuất phát</th>
+                            <th class='col-span-3'>Điểm kết thúc</th>
+                        </tr>
 
-                </thead>
-                <tbody class='bg-bg'>
-                    {loading ?
-                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
-                        </div>
-                        :
-                        !loading && routeDetail.length > 0
-                            ?
-                            <PaginatedItemsWithAPI pageCount={pageTotal} handleClick={handlePageClick} items={routeDetail} componentToRender={RouteDetailRow} fetchData={fetchData}></PaginatedItemsWithAPI>
+                    </thead>
+                    <tbody class='bg-bg'>
+                        {loading ?
+                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                            </div>
                             :
-                            <tr>
-                                Không có chuyến đi nào
-                            </tr>
-                    }
+                            !loading && routeDetail.length > 0
+                                ?
+                                <PaginatedItemsWithAPI pageCount={pageTotal} handleClick={handlePageClick} items={routeDetail} componentToRender={RouteDetailRow} fetchData={fetchData}></PaginatedItemsWithAPI>
+                                :
+                                <tr>
+                                    Không có chuyến đi nào
+                                </tr>
+                        }
 
-                </tbody>
-            </table>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={2500}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover={false}
-                theme="light"
-            />
+                    </tbody>
+                </table>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={2500}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover={false}
+                    theme="light"
+                />
 
+            </div>
         </div>
     );
 }

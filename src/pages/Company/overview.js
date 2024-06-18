@@ -150,83 +150,86 @@ const Overview = () => {
     const navigate = useNavigate();
 
     return (
-        <div class='w-full text-txt txt-16 '>
+        <div className="w-full h-full">
+            <div class='w-full text-txt txt-16 bg-bg py-[20px] px-[10px] rounded-md box-shadow-content mb-md' >
 
-            <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý xe</p>
-                <Search
-                    placeholder="Tìm kiếm xe"
-                    allowClear
-                    className="col-start-3 col-span-8 p-md"
-                // onSearch={onSearch}
-                // style={{
-                //     width: 200,
-                // }}
+                <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
+                    <p class='col-span-2 font-bold text-20'>Quản lý xe</p>
+                    <Search
+                        placeholder="Tìm kiếm xe"
+                        allowClear
+                        className="col-start-3 col-span-8 p-md"
+                    // onSearch={onSearch}
+                    // style={{
+                    //     width: 200,
+                    // }}
+                    />
+                    {/* <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-[#ffff] outline-none border-none p-sm rounded-md'></input> */}
+
+                    <FontAwesomeIcon onClick={() => navigate("/company/create-bus")} icon={faPlus} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]' />
+
+                    {/* <PopupAdd fetchData={fetchData} items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}></PopupAdd> */}
+                    {/* <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation> */}
+
+                </div>
+                <table class="min-h-[300px] w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
+                    {
+                        isChange &&
+                        <div class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
+                            <ReactLoading
+                                type="spinningBubbles" color="#ffffff"
+                                height={'5%'} width={'5%'}
+                                className="absolute bg-hover-txt left-1/2 top-[30%]  "
+                            />
+                        </div>
+                    }
+                    <thead>
+                        <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md'>
+                            {/* <th class='col-span-2'>Id bus</th> */}
+                            <th class='col-span-3'>Biển số xe</th>
+                            <th class='col-span-3'>Loại xe</th>
+                            <th class='col-span-2'>Số chỗ ngồi</th>
+                            <th class='col-span-2'>Trạng thái</th>
+                            <th class='col-span-2'></th>
+                        </tr>
+
+
+                    </thead>
+                    <tbody class='bg-[#ffff]'>
+                        {loading ?
+                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                            </div>
+                            :
+                            !loading && bus.length > 0 && bus !== undefined && bus !== null
+                                ?
+                                // <tr>
+                                //     Có dữ liệu
+                                // </tr>
+                                <PaginatedItemsWithAPI handleClick={handlePageClick} updateStatus={changeStatus} componentToRender={OverviewRow} items={bus} pageCount={pageTotal} fetchData={fetchData} currentPage={currentPage}></PaginatedItemsWithAPI>
+
+                                // <Paginate itemsPerPage={5} items={bus} componentToRender={OverviewRow} updateStatus={changeStatus} ></Paginate>
+                                :
+                                <tr>
+                                    Không có buýt nào
+                                </tr>
+                        }
+
+                    </tbody>
+                </table>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={2500}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover={false}
+                    theme="light"
                 />
-                {/* <input placeholder="Tìm kiếm" class='col-start-4 col-span-5 bg-[#ffff] outline-none border-none p-sm rounded-md'></input> */}
-
-                <FontAwesomeIcon onClick={() => navigate("/company/create-bus")} icon={faPlus} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]' />
-
-                <PopupAdd fetchData={fetchData} items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}></PopupAdd>
-                {/* <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation> */}
 
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative" style={{ minHeight: 250, boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px" }}>
-                {
-                    isChange &&
-                    <div class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
-                        <ReactLoading
-                            type="spinningBubbles" color="#ffffff"
-                            height={'5%'} width={'5%'}
-                            className="absolute bg-hover-txt left-1/2 top-[30%]  "
-                        />
-                    </div>
-                }
-                <thead>
-                    <tr class='grid bg-hover-txt grid-cols-12 p-sm text-left gap-md border-b-2' style={{ borderBottom: "1px solid black" }}>
-                        {/* <th class='col-span-2'>Id bus</th> */}
-                        <th class='col-span-3'>Biển số xe</th>
-                        <th class='col-span-3'>Loại xe</th>
-                        <th class='col-span-2'>Số chỗ ngồi</th>
-                        <th class='col-span-2'>Trạng thái</th>
-                        <th class='col-span-2'></th>
-                    </tr>
-
-
-                </thead>
-                <tbody class='bg-[#ffff]'>
-                    {loading ?
-                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
-                        </div>
-                        :
-                        !loading && bus.length > 0 && bus !== undefined && bus !== null
-                            ?
-                            // <tr>
-                            //     Có dữ liệu
-                            // </tr>
-                            <PaginatedItemsWithAPI handleClick={handlePageClick} updateStatus={changeStatus} componentToRender={OverviewRow} items={bus} pageCount={pageTotal} fetchData={fetchData} currentPage={currentPage}></PaginatedItemsWithAPI>
-
-                            // <Paginate itemsPerPage={5} items={bus} componentToRender={OverviewRow} updateStatus={changeStatus} ></Paginate>
-                            :
-                            <tr>
-                                Không có buýt nào
-                            </tr>
-                    }
-
-                </tbody>
-            </table>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={2500}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover={false}
-                theme="light"
-            />
 
         </div>
     );

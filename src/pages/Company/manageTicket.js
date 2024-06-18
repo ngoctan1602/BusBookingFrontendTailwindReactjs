@@ -147,69 +147,73 @@ const Overview = () => {
         //Gọi api 
     }
     return (
-        <div class='w-full text-txt txt-16 '>
+        <div className="w-full h-full">
 
-            <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20'>Quản lý chuyến đi</p>
-               
-                <input type="month" class="col-span-2 rounded-md border border-solid border-button p-sm" 
-                value={selectedMonth} onChange={(e) => onChangeMonth(e.target.value)} />
+            <div class='w-full text-txt txt-16 bg-bg py-[20px] px-[10px] rounded-md box-shadow-content mb-md' >
+
+                <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
+                    <p class='col-span-2 font-bold text-20'>Quản lý chuyến đi</p>
+
+                    <input type="month" class="col-span-2 rounded-md border border-solid border-button p-sm"
+                        value={selectedMonth} onChange={(e) => onChangeMonth(e.target.value)} />
+
+                </div>
+                <table class="w-full min-h-[300px] my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
+                    {
+                        loading &&
+                        <div class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
+                            <ReactLoading
+                                type="spinningBubbles" color="#ffffff"
+                                height={'5%'} width={'5%'}
+                                className="absolute bg-hover-txt left-1/2 top-[30%]  "
+                            />
+                        </div>
+                    }
+                    <thead>
+                        <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md'>
+                            {/* <th class='col-span-1'>Id</th> */}
+                            <th class='col-span-2'>Biển số xe</th>
+                            <th class='col-span-3'>Loại xe</th>
+                            <th class='col-span-2'>Ngày khởi hành</th>
+                            <th class='col-span-2'>Số chỗ trống</th>
+                            <th class='col-span-2'>Trạng thái</th>
+                            {/* <th class='col-span-1'>Chi tiết</th> */}
+                        </tr>
+
+
+                    </thead>
+                    <tbody class='bg-[#FFFF] relative'>
+                        {loading ?
+                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                            </div>
+                            :
+                            !loading && tickets.length > 0
+                                ?
+                                <PaginatedItemsWithAPI handleClick={handlePageClick} pageCount={pageTotal} itemsPerPage={5} items={tickets} componentToRender={ManageTicketRow} updateStatus={changeStatus}></PaginatedItemsWithAPI>
+                                :
+                                <tr style={{ width: "100%", position: "absolute", top: 100, textAlign: "center" }}>
+                                    Chưa có chuyến đi nào trong tháng
+                                </tr>
+                        }
+
+                    </tbody>
+                </table>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={2500}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover={false}
+                    theme="light"
+                />
 
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
-                {
-                    loading &&
-                    <div class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
-                        <ReactLoading
-                            type="spinningBubbles" color="#ffffff"
-                            height={'5%'} width={'5%'}
-                            className="absolute bg-hover-txt left-1/2 top-[30%]  "
-                        />
-                    </div>
-                }
-                <thead>
-                    <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
-                        {/* <th class='col-span-1'>Id</th> */}
-                        <th class='col-span-2'>Biển số xe</th>
-                        <th class='col-span-3'>Loại xe</th>
-                        <th class='col-span-2'>Ngày khởi hành</th>
-                        <th class='col-span-2'>Số chỗ trống</th>
-                        <th class='col-span-2'>Trạng thái</th>
-                        {/* <th class='col-span-1'>Chi tiết</th> */}
-                    </tr>
-                    
-
-                </thead>
-                <tbody class='bg-[#FFFF]'>
-                    {loading ?
-                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
-                        </div>
-                        :
-                        !loading && tickets.length > 0
-                            ?
-                            <PaginatedItemsWithAPI handleClick={handlePageClick} pageCount={pageTotal} itemsPerPage={5} items={tickets} componentToRender={ManageTicketRow} updateStatus={changeStatus}></PaginatedItemsWithAPI>
-                            :
-                            <tr>
-                                Không có chuyến đi nào
-                            </tr>
-                    }
-
-                </tbody>
-            </table>
-            <ToastContainer
-                position="bottom-right"
-                autoClose={2500}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover={false}
-                theme="light"
-            />
-
         </div>
+
     );
 }
 
