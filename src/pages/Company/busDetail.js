@@ -143,237 +143,206 @@ const BusDetail = () => {
         ],
     })
     return (
-        <div class='w-full h-full text-txt txt-16'>
-            <Breadcrumb style={{ margin: '16px 0', fontSize: 18, fontWeight: "500" }}>
-                <Breadcrumb.Item onClick={() => navigate("/company/bus")}>  <span style={{ cursor: "pointer", fontWeight: 500 }}>Quản lý xe</span></Breadcrumb.Item>
-                <Breadcrumb.Item>Chi tiết xe</Breadcrumb.Item>
-            </Breadcrumb>
-            <div class='grid grid-cols-12 grid-flow-row w-1/2 items-center'>
-                {/* <div className="col-span-1"> */}
-                {/* <FontAwesomeIcon className="cursor-pointer hover:text-button ease-in-out duration-150 h-[20px] w-[20px]" icon={faArrowLeft}
+        <div className="w-full h-full">
+            <div class='w-full text-txt txt-16 bg-bg py-[20px] px-[10px] rounded-md box-shadow-content mb-md' >
+                <Breadcrumb style={{ margin: '16px 0', fontSize: 18, fontWeight: "500" }}>
+                    <Breadcrumb.Item onClick={() => navigate("/company/bus")}>  <span style={{ cursor: "pointer", fontWeight: 500 }}>Quản lý xe</span></Breadcrumb.Item>
+                    <Breadcrumb.Item>Chi tiết xe</Breadcrumb.Item>
+                </Breadcrumb>
+                <div class='grid grid-cols-12 grid-flow-row w-1/2 items-center'>
+                    {/* <div className="col-span-1"> */}
+                    {/* <FontAwesomeIcon className="cursor-pointer hover:text-button ease-in-out duration-150 h-[20px] w-[20px]" icon={faArrowLeft}
                     onClick={() => navigate('/company/bus')}
                 ></FontAwesomeIcon> */}
-                {/* </div> */}
-                {/* <p className="col-span-10 text-20">Chi tiết xe</p> */}
+                    {/* </div> */}
+                    {/* <p className="col-span-10 text-20">Chi tiết xe</p> */}
 
 
-            </div>
+                </div>
 
 
-            <div class=' w-full h-full grid grid-flow-row'>
-                <div class='grid grid-cols-12 gap-sm'>
-                    {/* Cập nhật thông tin chi tiết  */}
-                    <div class='text-16 w-full col-span-5'>
+                <div class=' w-full h-full grid grid-flow-row'>
+                    <div class='grid grid-cols-12 gap-sm '>
+                        {/* Cập nhật thông tin chi tiết  */}
+                        <div class='text-16 w-full col-span-5 '>
 
-                        {/* <div class='grid grid-cols-8 grid-flow-row w-full'>
+                            {/* <div class='grid grid-cols-8 grid-flow-row w-full'>
                                 <p class='col-span-3'>Mã xe:</p>
                                 <p class='col-span-5'>{id}</p>
                             </div> */}
-                        <p class='font-bold text-20'>Thông tin chi tiết</p>
+                            <p class='font-bold text-20'>Thông tin chi tiết</p>
 
-                        {loading ?
-                            <div className="animate-pulse bg-hover-txt col-span-5 h-[310px] text-bg text-center">
-                            </div> :
-                            bus &&
-                            <div>
+                            {loading ?
+                                <div className="animate-pulse bg-hover-txt col-span-5 h-[310px] text-bg text-center">
+                                </div> :
+                                !loading && bus !== null && bus !== undefined &&
+                                <div>
 
-                                <div class='grid grid-cols-8 grid-flow-row w-full'>
-                                    <p class='col-span-3'>Số xe:</p>
-                                    <p class='col-span-5'>{bus.busNumber}</p>
-                                </div>
-                                <div class='grid grid-cols-8 grid-flow-row w-full'>
-                                    <p class='col-span-3'>Mô tả:</p>
-                                    <p class='col-span-5'>{bus.description}</p>
-                                </div>
-                                <div class='grid grid-cols-8 grid-flow-row w-full'>
-                                    <p class='col-span-3'>Loại xe:</p>
-                                    <p class='col-span-5'>{bus.busType}</p>
-                                </div>
-                                <div class='grid grid-cols-8 grid-flow-row w-full'>
-                                    <p class='col-span-3'>Tổng chỗ:</p>
-                                    <p class='col-span-5'>{bus.totalSeat}</p>
-                                </div>
-                                <div class='grid grid-cols-8 grid-flow-row w-full'>
-                                    <p class='col-span-3'>Trạng thái:</p>
-                                    <p p class='col-span-5'>
-                                        {
-                                            bus.status === 0 ? "Ngưng hoạt động" : "Hoạt động"
-                                        }
-                                    </p>
-                                </div>
-                                <div class='grid grid-cols-8 grid-flow-row w-full'>
-                                    <PopupUpdate fetchData={fetchData} item={propUpdate} busUpdate={itemUpdate} onChange={updateItemValue} closePopup={closePopup} success={success} />
-                                </div>
-                            </div>
-                        }
-                    </div>
-                    {/* Cập nhật ghế ngồi */}
-
-                    <div class='col-span-7'>
-                        <p class='font-bold text-20'>Danh sách chỗ ngồi</p>
-                        {
-                            loading ?
-                                <div className="animate-pulse bg-hover-txt w-full h-[310px] text-bg text-center">
-                                </div>
-                                :
-                                <div class='grid-flow-row grid-cols-2 grid gap-md'>
-                                    <div class='rounded-lg col-span-1 bg-bgPopup h-[310px] overflow-y-auto'>
-                                        <img class='w-[50px] h-[50px] m-sm cursor-not-allowed' src={steeringWheel}></img>
-
-                                        <div class='grid-cols-3 grid grid-flow-row gap-sm my-lg mx-md'>
+                                    <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                        <p class='col-span-3'>Số xe:</p>
+                                        <p class='col-span-5'>{bus.busNumber}</p>
+                                    </div>
+                                    <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                        <p class='col-span-3'>Mô tả:</p>
+                                        <p class='col-span-5'>{bus.description}</p>
+                                    </div>
+                                    <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                        <p class='col-span-3'>Loại xe:</p>
+                                        <p class='col-span-5'>{bus.busType}</p>
+                                    </div>
+                                    <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                        <p class='col-span-3'>Tổng chỗ:</p>
+                                        <p class='col-span-5'>{bus.totalSeat}</p>
+                                    </div>
+                                    <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                        <p class='col-span-3'>Trạng thái:</p>
+                                        <p p class='col-span-5'>
                                             {
-                                                firstFloor &&
-                                                firstFloor.map((item, index) => (
-                                                    // <CurrencyFormat value={min} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
-
-                                                    <div
-                                                        onPointerOver={(e) => setContentTooltip({ id: item.id, price: item.price })}
-                                                        data-tooltip-id="my-tooltip"
-                                                    >
-                                                        <PopupUpdateSeat
-                                                            item={seatupdate}
-                                                            seatUpdate={item}>
-                                                        </PopupUpdateSeat>
-                                                    </div>
-                                                )
-                                                )
+                                                bus.status === 0 ? "Ngưng hoạt động" : "Hoạt động"
                                             }
+                                        </p>
+                                    </div>
+                                    <div class='grid grid-cols-8 grid-flow-row w-full'>
+                                        <PopupUpdate fetchData={fetchData} item={propUpdate} busUpdate={itemUpdate} onChange={updateItemValue} closePopup={closePopup} success={success} />
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        {/* Cập nhật ghế ngồi */}
+
+                        <div class='col-span-7'>
+                            <p class='font-bold text-20'>Danh sách chỗ ngồi</p>
+                            {
+                                loading ?
+                                    <div className="animate-pulse bg-hover-txt w-full h-[310px] text-bg text-center">
+                                    </div>
+                                    :
+                                    <div class='grid-flow-row grid-cols-2 grid gap-md'>
+                                        <div class='rounded-lg col-span-1 bg-bgPopup h-[310px] overflow-y-auto'>
+                                            <img class='w-[50px] h-[50px] m-sm cursor-not-allowed' src={steeringWheel}></img>
+
+                                            <div class='grid-cols-3 grid grid-flow-row gap-sm my-lg mx-md'>
+                                                {
+                                                    firstFloor &&
+                                                    firstFloor.map((item, index) => (
+                                                        // <CurrencyFormat value={min} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
+
+                                                        <div
+                                                            onPointerOver={(e) => setContentTooltip({ id: item.id, price: item.price })}
+                                                            data-tooltip-id="my-tooltip"
+                                                        >
+                                                            <PopupUpdateSeat
+                                                                item={seatupdate}
+                                                                seatUpdate={item}>
+                                                            </PopupUpdateSeat>
+                                                        </div>
+                                                    )
+                                                    )
+                                                }
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class='rounded-lg col-span-1 bg-bgPopup h-[310px] overflow-y-auto'>
+                                            <p class=' h-[50px] m-sm cursor-default'></p>
+
+                                            <div class='grid-cols-3 grid grid-flow-row gap-sm my-lg mx-md'>
+                                                {
+                                                    secondFloor &&
+                                                    secondFloor.map((item, index) => (
+                                                        <div
+                                                            onPointerOver={(e) => setContentTooltip({ id: item.id, price: item.price })}
+                                                            data-tooltip-id="my-tooltip"
+                                                        >
+                                                            <PopupUpdateSeat
+                                                                item={seatupdate}
+                                                                seatUpdate={item}>
+                                                            </PopupUpdateSeat>
+                                                        </div>
+                                                    )
+                                                    )
+                                                }
+                                            </div>
 
                                         </div>
 
                                     </div>
-
-                                    <div class='rounded-lg col-span-1 bg-bgPopup h-[310px] overflow-y-auto'>
-                                        <p class=' h-[50px] m-sm cursor-default'></p>
-
-                                        <div class='grid-cols-3 grid grid-flow-row gap-sm my-lg mx-md'>
-                                            {
-                                                secondFloor &&
-                                                secondFloor.map((item, index) => (
-                                                    <div
-                                                        onPointerOver={(e) => setContentTooltip({ id: item.id, price: item.price })}
-                                                        data-tooltip-id="my-tooltip"
-                                                    >
-                                                        <PopupUpdateSeat
-                                                            item={seatupdate}
-                                                            seatUpdate={item}>
-                                                        </PopupUpdateSeat>
-                                                    </div>
-                                                )
-                                                )
-                                            }
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                        }
+                            }
+                        </div>
                     </div>
-                </div>
 
-                <div class='my-sm'>
+                    <div class='my-sm'>
 
-                    <div class='grid grid-cols-12 grid-flow-row'>
-                        <p class='col-span-10 font-bold text-20'>Danh sách tuyến của xe:</p>
-                        {/* <PopupAddBusStation /> */}
-                    </div>
-                    <div class='w-full h-[250px] overflow-y-auto overflow-x-auto mb-md'>
-                        <table class="w-full my-sm rounded-md border-collapse  text-txt text-16 overflow-hidden" style={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px" }}>
-                            <thead>
-                                <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md ' style={{ borderBottom: "1px solid black" }}>
-                                    {/* <th class='col-span-2'>Id</th> */}
-                                    <th class='col-span-4 '>Tên tuyến</th>
-                                    <th class='col-span-8'>Lộ trình</th>
-                                    {/* <th class='col-span-2'>Trạng thái</th> */}
-                                </tr>
-                            </thead>
-                            <tbody class='bg-[#FFFF]'>
-                                {/* {
-                                    loading ?
-                                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
-                                        </div>
-                                        :
-                                        busStationOfBus &&
-                                        busStationOfBus.map((item, index) =>
-                                            <tr class='grid bg-bgPopup grid-cols-12 p-sm text-left gap-md'
-                                                style={{ backgroundColor: item.status === 0 ? "#75718a" : "" }}
+                        <div class='grid grid-cols-12 grid-flow-row'>
+                            <p class='col-span-10 font-bold text-20'>Danh sách tuyến của xe:</p>
+                            {/* <PopupAddBusStation /> */}
+                        </div>
+                        <div class='w-full h-[250px] overflow-y-auto overflow-x-auto mb-md'>
+                            <table class="w-full my-sm rounded-md border-collapse  text-txt text-16 overflow-hidden" style={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px" }}>
+                                <thead>
+                                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md ' style={{ borderBottom: "1px solid black" }}>
+                                        {/* <th class='col-span-2'>Id</th> */}
+                                        <th class='col-span-4 '>Tên tuyến</th>
+                                        <th class='col-span-8'>Lộ trình</th>
+                                        {/* <th class='col-span-2'>Trạng thái</th> */}
+                                    </tr>
+                                </thead>
+                                <tbody class='bg-[#FFFF]'>
 
-                                            >
-                                                <td class='col-span-2'>{item.id}</td>
-                                                <td class='col-span-4'>{item.name}</td>
-                                                <td class='col-span-4'>{item.addressDb}</td>
-                                                <td class='col-span-2'>
-                                                    {
-                                                        item.status === 1 ? "Hoạt động" : "Ngưng hoạt động"
-                                                    }
+                                    {
+                                        loading ?
+                                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                                            </div> :
+                                            routesOfBus.length > 0
+                                                ?
+                                                routesOfBus.map(items => (
+                                                    <tr class='grid  grid-cols-12 p-sm text-left gap-md'>
+                                                        {/* <th class='col-span-2'>Id</th> */}
+                                                        <td class='col-span-4 '>{items.stationStartName + " - " + items.stationEndName}</td>
 
-                                                    <select
-                                                        class='bg-bgPopup outline-none'
-
-                                                    >
-                                                        <option>
-                                                            Hoạt động
-                                                        </option>
-                                                        <option>
-                                                            Ngưng hoạt động
-                                                        </option>
-                                                    </select>
-                                                </td>
-                                            </tr>
-                                        )
-                                } */}
-                                {
-                                    loading ?
-                                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
-                                        </div> :
-                                        routesOfBus.length > 0
-                                            ?
-                                            routesOfBus.map(items => (
-                                                <tr class='grid  grid-cols-12 p-sm text-left gap-md'>
-                                                    {/* <th class='col-span-2'>Id</th> */}
-                                                    <td class='col-span-4 '>{items.stationStartName + " - " + items.stationEndName}</td>
-
-                                                    <td class='col-span-8'>
-                                                        {
-                                                            items.routeDetailResponses.map((item, index) =>
-                                                                (item.busStationName + (index !== (items.routeDetailResponses.length - 1) ? " => " : ""))
-                                                            )
-                                                        }
-                                                    </td>
-                                                    {/* <th class='col-span-2'>Trạng thái</th> */}
+                                                        <td class='col-span-8'>
+                                                            {
+                                                                items.routeDetailResponses.map((item, index) =>
+                                                                    (item.busStationName + (index !== (items.routeDetailResponses.length - 1) ? " => " : ""))
+                                                                )
+                                                            }
+                                                        </td>
+                                                        {/* <th class='col-span-2'>Trạng thái</th> */}
+                                                    </tr>
+                                                )) :
+                                                <tr>
+                                                    Không có chuyến đi
                                                 </tr>
-                                            )) :
-                                            <tr>
-                                                Không có chuyến đi
-                                            </tr>
 
-                                }
-                            </tbody>
-                        </table>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
 
 
 
-            <ReactTooltip
-                id="my-tooltip"
-                place="top"
-                variant="info"
-                style={{ backgroundColor: "#00B873", color: "white" }}
-                // content={contentTooltip}
-                content={
-                    <div>
-                        <p>
-                            Mã ghế: {contentTooltip.id}
-                        </p>
-                        <p> Giá tiền:
-                            <CurrencyFormat value={contentTooltip.price} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
-                        </p>
-                    </div>
-                }
-            />
-        </div >
+                <ReactTooltip
+                    id="my-tooltip"
+                    place="top"
+                    variant="info"
+                    style={{ backgroundColor: "#00B873", color: "white" }}
+                    // content={contentTooltip}
+                    content={
+                        <div>
+                            <p>
+                                Mã ghế: {contentTooltip.id}
+                            </p>
+                            <p> Giá tiền:
+                                <CurrencyFormat value={contentTooltip.price} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
+                            </p>
+                        </div>
+                    }
+                />
+            </div >
+        </div>
     );
 }
 

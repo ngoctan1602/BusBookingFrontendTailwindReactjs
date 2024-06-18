@@ -39,6 +39,7 @@ import GuestHome from "../components/Guest/GuestHome"
 import GuestLogin from "../components/Guest/Login"
 import DashBoardNew from "../components/Layout/Components/DashBoard/Dashboard"
 import CreateNewBus from "../pages/Company/Bus/createNewBus"
+import CreateTicket from "../pages/Company/Ticket/CreateTicket"
 
 
 
@@ -170,6 +171,9 @@ const companyRoutes = [
     },
     {
         path: "/company/create-ticket", component: CreateTicketNew
+    },
+    {
+        path: "/company/create-ticket-new", component: CreateTicket
     },
     {
         path: "/company/dashboard", component: DashBoardNew
