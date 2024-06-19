@@ -14,6 +14,7 @@ module.exports = {
       'txt-gray': '#4B4B4B',
       'txt-light': '#FFFFFF',
       'button': '#e3e1e1',
+      'button-confirm': "#C3DCC3",
       'bg': '#FFFFFF',
       'text-red': '#D90000',
       // 'bgContent': '#EAEAEA',

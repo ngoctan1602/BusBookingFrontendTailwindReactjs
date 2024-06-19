@@ -10,6 +10,7 @@ import PaginatedItems from "../../components/Layout/Components/Paginate";
 import SearchHeader from "../../components/Layout/Components/SearchHeader";
 import ticketService from "../../services/TicketService";
 import ReactLoading from 'react-loading';
+import { Carousel } from "antd";
 const Search = () => {
 
     const [sort, setSort] = useState([
@@ -291,14 +292,14 @@ const Search = () => {
             setCompany(companies)
             busInfo.forEach((item) => {
                 let isExist = false;
-            
+
                 for (const company of companies) {
                     if (company.companyId === item.companyId) {
                         isExist = true;
                         break;
                     }
                 }
-            
+
                 // Nếu chưa có, thêm vào mảng companies
                 if (!isExist) {
                     companies.push({
@@ -331,158 +332,144 @@ const Search = () => {
         // alert(selectedRadio)
     }
     const [selectedRadio, setSelectedRadio] = useState(1)
-
+    const contentStyle = {
+        margin: "0px 20px",
+        height: '300px',
+        color: '#fff',
+        width: "80%",
+        // lineHeight: '160px',
+        // textAlign: 'center',
+        background: '#364d79',
+    };
+    const imageStyle = {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+    };
     return (
-        <div class='min-h-[1000px] w-content flex flex-col items-center my-xl'>
-            {/* <div class='h-[120px] bg-[#e1e1e1] border-none outline-none w-search rounded-lg my-md grid items-center justify-items-center'>
+        <div className="w-full h-full  bg-[#F2F2F2] flex flex-col items-center">
+            <div class='min-h-[1000px] w-content flex flex-col items-center my-xl'>
+                {/* <div class='h-[120px] bg-[#e1e1e1] border-none outline-none w-search rounded-lg my-md grid items-center justify-items-center'>
                 <SearchHeader onSearch={handSearch} ></SearchHeader>
             </div> */}
-            <div className="h-[120px] grid grid-flow-row grid-cols-12 w-full">
-                <div className=" bg-bg shadow-2xl rounded-md col-span-8 col-start-4">
-                    <SearchHeader onSearch={handSearch} ></SearchHeader>
-                </div>
-            </div>
-            <div class='h-full w-full flex'>
-                <div class='sidebar m-sm'>
-
-                    {/* Đây là phần sắp xếp */}
-                    <div class='h-[220px] bg-transparent border-[1px] rounded-lg shadow-md'>
-                        <p class='text-txt text-18 font-bold mt-sm mx-md'>Sắp xếp</p>
-                        <div class='h-[160px] sort bg-transparent'>
-                            {
-                                sort.map((item, index) => (
-                                    // <Input type="radio" name="sort" id={item.id} content={item.content}>
-
-                                    // </Input>
-                                    <div className="grid grid-flow-row grid-cols-12 gap-sm my-sm">
-                                        <input type="radio" className="col-span-2" name="radiosort"
-                                            onChange={(e) => onChangeRadioSort(Number(e.target.value))}
-                                            value={item.id}
-                                            checked={selectedRadio === item.id}
-                                        >
-                                        </input>
-                                        <p className="col-span-10">
-                                            {item.content}
-                                        </p>
-                                    </div>
-
-                                ))
-                            }
-                        </div>
+                <div className="h-[120px] grid grid-flow-row grid-cols-12 w-full">
+                    <div className=" bg-bg shadow-2xl rounded-md col-span-8 col-start-4">
+                        <SearchHeader onSearch={handSearch} ></SearchHeader>
                     </div>
+                </div>
+                <div class='h-full w-full flex'>
+                    <div class='sidebar m-sm'>
 
-                    {/* Đây là phần lọc */}
-                    <div class='h-[500px] bg-transparent border-[1px] rounded-lg shadow-md my-lg'>
-                        {/* Đây là button xóa lọc */}
-                        <div class='flex justify-between items-center'>
-                            <p class='text-txt text-18 font-bold mt-sm mx-md'>Lọc</p>
-                            <button onClick={deleteSort} type="button" class='ease-in-out duration-500 border-[1px] font-bold rounded-md border-solid m-sm border-button hover:bg-button hover:text-bg p-sm'>Xóa lọc</button>
-                        </div>
-
-                        {/* Đây là giờ đi */}
-                        <div class='h-[180px] w-full'>
-                            <p class='text-txt text-16 mt-sm mx-md'>Giờ đi</p>
-                            <div class='w-full flex flex-wrap'>
+                        {/* Đây là phần sắp xếp */}
+                        <div class='h-[220px] bg-transparent  rounded-lg box-shadow-content  bg-bg'>
+                            <p class='text-txt text-18 font-bold mt-sm mx-md'>Sắp xếp</p>
+                            <div class='h-[160px] sort bg-transparent'>
                                 {
-                                    startTime.map((item, idex) => (
-                                        <button onClick={() => sortByTime(item.id)} class={item.checked ? 'border-button w-[42%] h-[70px] border-[2px] m-sm rounded-md text-txt text-16' : 'w-[42%] h-[70px] border-[1px] m-sm rounded-md text-txt text-16'}>
-                                            {item.name} <br></br>{item.from + " - " + item.to}
-                                        </button>)
-                                    )
-                                }
-                            </div>
-                        </div>
+                                    sort.map((item, index) => (
+                                        // <Input type="radio" name="sort" id={item.id} content={item.content}>
 
-                        {/* Đây là nhà xe */}
-                        <div class='h-[190px] overflow-auto w-full my-xl flex flex-col items-center'>
-                            <p class='text-txt text-16 mt-sm mx-md w-content'>Nhà xe</p>
-                            <input type='text' placeholder="Tìm trong danh sách"
-                                class='text-16 text-txt w-[90%] mx-sm bg-bg outline-none border-[1px] border-txt opacity-70 p-[4px] ease-in-out duration-300 rounded-md hover:border-button'>
-                            </input>
-                            <div class='w-full flex flex-wrap overflow-y-scroll'>
-                                {
-                                    company.map((item, index) => (
-                                        <Input type='checkbox' content={item.companyName}></Input>
+                                        // </Input>
+                                        <div className="grid grid-flow-row grid-cols-12 gap-sm my-sm">
+                                            <input type="radio" className="col-span-2" name="radiosort"
+                                                onChange={(e) => onChangeRadioSort(Number(e.target.value))}
+                                                value={item.id}
+                                                checked={selectedRadio === item.id}
+                                            >
+                                            </input>
+                                            <p className="col-span-10">
+                                                {item.content}
+                                            </p>
+                                        </div>
+
                                     ))
                                 }
                             </div>
                         </div>
 
-                        {/* Đây là giá vé */}
-                        {/* <div class='h-[100px] w-full my-xl flex flex-col items-center'>
-                            <p class='text-txt text-16 mt-sm mx-md w-content'>Giá vé</p>
-                         
-                            <MultiRangeSlider
-                                min={0}
-                                max={1000000}
-                                step={5}
-                                style={{ width: '90%', margin: '0 12px', boxShadow: 'none', border: 'none' }}
-                                label='false'
-                                ruler='false'
-                                barInnerColor='#00B873'
-                                minValue={min}
-                                maxValue={max}
-                                onInput={(e) => {
-                                    handleInput(e);
-                                }}
-                            />
-                            <div class='flex justify-between w-content'>
-                                <CurrencyFormat value={min} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
-                                <CurrencyFormat value={max} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
+                        {/* Đây là phần lọc */}
+                        <div class='h-[500px] bg-transparent rounded-lg box-shadow-content my-lg  bg-bg'>
+                            {/* Đây là button xóa lọc */}
+                            <div class='flex justify-between items-center'>
+                                <p class='text-txt text-18 font-bold mt-sm mx-md'>Lọc</p>
+                                <button onClick={deleteSort} type="button" class='ease-in-out duration-500 border-[1px] font-bold rounded-md border-solid m-sm border-button hover:bg-button hover:text-bg p-sm'>Xóa lọc</button>
                             </div>
 
-
-                        </div> */}
-
-                        {/* Đây là xếp hạng */}
-
-                        {/* <div class='w-full h-[100px] '>
-                            <p class='text-txt text-16 mt-sm mx-md w-content'>Đánh giá</p>
-                            <div class='w-content flex items-center m-sm'>
-                                {
-
-                                    <ReactStars
-                                        count={5}
-                                        onChange={ratingChanged}
-                                        size={30}
-                                        activeColor="#ffd700"
-                                    />
-
-                                }
-                                <p>({rating[1].sum})</p>
+                            {/* Đây là giờ đi */}
+                            <div class='h-[180px] w-full'>
+                                <p class='text-txt text-16 mt-sm mx-md'>Giờ đi</p>
+                                <div class='w-full flex flex-wrap'>
+                                    {
+                                        startTime.map((item, idex) => (
+                                            <button onClick={() => sortByTime(item.id)} class={item.checked ? 'border-button w-[42%] h-[70px] border-[2px] m-sm rounded-md text-txt text-16' : 'w-[42%] h-[70px] border-[1px] m-sm rounded-md text-txt text-16'}>
+                                                {item.name} <br></br>{item.from + " - " + item.to}
+                                            </button>)
+                                        )
+                                    }
+                                </div>
                             </div>
-                        </div> */}
 
+                            {/* Đây là nhà xe */}
+                            <div class='h-[190px] overflow-auto w-full my-xl flex flex-col items-center'>
+                                <p class='text-txt text-16 mt-sm mx-md w-content'>Nhà xe</p>
+                                <input type='text' placeholder="Tìm trong danh sách"
+                                    class='text-16 text-txt w-[90%] mx-sm bg-bg outline-none border-[1px] border-txt opacity-70 p-[4px] ease-in-out duration-300 rounded-md hover:border-button'>
+                                </input>
+                                <div class='w-full flex flex-wrap overflow-y-scroll'>
+                                    {
+                                        company.map((item, index) => (
+                                            <Input type='checkbox' content={item.companyName}></Input>
+                                        ))
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
 
                     </div>
-
-                </div>
-                <div class='content my-sm ml-0 mr-sm flex flex-col items-center'>
-                    {/* <div class='bg-bg w-content min-h-[10px] mx-sm'>
+                    <div class='content my-sm ml-0 mr-sm flex flex-col items-center'>
+                        {/* <div class='bg-bg w-content min-h-[10px] mx-sm'>
                         Kết quả
                     </div> */}
-                    <div class='w-content h-content mt-sm relative'>
-                        {
-                            loading ?
-                                <div class='absolute bg-hover-txt w-full h-[500px] z-20 opacity-40'>
-                                    <ReactLoading
-                                        type="spinningBubbles" color="#ffffff"
-                                        height={'5%'} width={'5%'}
-                                        className="absolute bg-hover-txt left-1/2 top-[50%]  "
-                                    />
-                                </div>
-                                :
-
-                                (!busInfo || busInfo.length === 0) && !loading ?
-                                    <p>Không tìm thấy chuyến đi</p>
+                        <div class='w-content h-content mt-sm relative'>
+                            {
+                                loading ?
+                                    <div class='absolute bg-hover-txt w-full h-[500px] z-20 opacity-40'>
+                                        <ReactLoading
+                                            type="spinningBubbles" color="#ffffff"
+                                            height={'5%'} width={'5%'}
+                                            className="absolute bg-hover-txt left-1/2 top-[50%]  "
+                                        />
+                                    </div>
                                     :
-                                    <PaginatedItems itemsPerPage={5} items={busInfo} componentToRender={BusCard} ></PaginatedItems>
-                        }
+
+                                    (!busInfo || busInfo.length === 0) && !loading ?
+                                        <div className="w-full h-full">
+
+                                            <Carousel autoplay autoplaySpeed={3000}>
+                                                <div className="rounded-md h-[150px] overflow-hidden">
+                                                    <img src="https://carshop.vn/wp-content/uploads/2022/07/images1151040_xekhach.jpg" alt="Ảnh 1" style={imageStyle} />
+                                                </div>
+                                                <div className="rounded-md h-[150px] overflow-hidden">
+                                                    <img src="https://carshop.vn/wp-content/uploads/2022/07/maxresdefault.jpg" alt="Ảnh 1" style={imageStyle} />
+                                                </div>
+                                                <div className="rounded-md h-[150px] overflow-hidden">
+                                                    <img src="https://carshop.vn/wp-content/uploads/2022/07/hyundai-universe-4-15466488907371579447485.jpg" alt="Ảnh 1" style={imageStyle} />
+                                                </div>
+                                                <div className="rounded-md h-[150px] overflow-hidden">
+                                                    <img src="https://carshop.vn/wp-content/uploads/2022/07/xe-vung-tau-bien-hoa-dong-nai-5.jpg" alt="Ảnh 1" style={imageStyle} />
+                                                </div>
+                                            </Carousel>
+                                            <p className="m-md text-center w-full text-20 font-medium">Không tìm thấy chuyến đi trong hôm nay. Vui lòng tìm kiếm ngày xuất phát muộn hơn</p>
+                                        </div>
+                                        :
+                                        <PaginatedItems itemsPerPage={5} items={busInfo} componentToRender={BusCard} ></PaginatedItems>
+                            }
+                        </div>
+
                     </div>
-
                 </div>
-            </div>
 
+            </div>
         </div>
     );
 }

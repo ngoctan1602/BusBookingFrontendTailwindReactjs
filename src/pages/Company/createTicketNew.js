@@ -22,7 +22,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import CurrencyFormat from 'react-currency-format';
 
 const CreateTicketNew = () => {
-    ;
     const notifySuccess = () => toast.success('Tạo vé thành công', {
         position: "bottom-right",
         autoClose: 1500,
@@ -162,6 +161,7 @@ const CreateTicketNew = () => {
             return { RouteDetailId: id };
         });
         const add = { ...objectAdd, TicketStations: TicketStations }
+        console.log(add)
         setLoadingCreate(true)
         try {
             const resp = await TicketSV.createTicket(add)

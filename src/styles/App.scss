@@ -10,6 +10,17 @@ $height-40: 40px;
 $orange-pattle: #FF8A08;
 $blue-pattle: #86A7FC;
 
+.button-confirm-green {
+    border: 1px solid $header-color;
+    border-radius: 6px;
+    padding: 8px;
+    transition: ease-in-out 0.3s;
+
+    &:hover {
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    }
+}
+
 .box-shadow-content {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }

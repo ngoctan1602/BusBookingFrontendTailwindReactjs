@@ -11,7 +11,7 @@ const InputConfirmInfo = ({ item, onChange, onChangeShowPassword }) => {
 
     const handleOutFocus = () => {
         setIsFocus(!isFocus)
-        if ((item.type === "number" && item.value <0))
+        if ((item.type === "number" && item.value < 0))
             setCheckEmty(true)
         else
             setCheckEmty(false)
@@ -26,7 +26,7 @@ const InputConfirmInfo = ({ item, onChange, onChangeShowPassword }) => {
         <div class='w-[full] h-[40px] relative my-md'>
             <input type={item.type} class='w-full h-[40px] p-sm border-[1px] outline-none rounded-md
                 ease-in-out duration-100
-                focus:border-[3px] focus:border-button focus:border-solid'
+                focus:border-[3px] focus:border-[#c4c4c4] focus:border-solid'
                 onFocus={() => setIsFocus(!isFocus)}
                 onBlur={handleOutFocus}
                 onChange={
