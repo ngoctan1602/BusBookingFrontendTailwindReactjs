@@ -362,7 +362,7 @@ const CompanyRegister = () => {
                             </select>
                         </div>
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-md'>
-                            <button class='confirm-button col-start-4 col-span-6' onClick={onSubmit}>
+                            <button class='button-confirm-green col-start-4 col-span-6' onClick={onSubmit}>
                                 Đăng ký
                             </button>
 
@@ -372,8 +372,8 @@ const CompanyRegister = () => {
 
                                 Bạn đã có tài khoản
                             </p>
-                            <Link class='col-start-9 col-span-2 italic text-button text-[16px] 
-                            hover:text-txt 
+                            <Link class='col-start-9 col-span-2 italic text-[16px] 
+                        text-txt hover:underline
                             ' to={'/company/login'}>
                                 Đăng nhập
                             </Link>

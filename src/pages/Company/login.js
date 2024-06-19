@@ -176,7 +176,7 @@ const CompanyLogin = () => {
                             ))
                         }
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-md'>
-                            <button class='confirm-button col-start-4 col-span-6' onClick={onSubmit}>
+                            <button class='button-confirm-green col-start-4 col-span-6' onClick={onSubmit}>
                                 Đăng nhập
                             </button>
 
@@ -184,10 +184,10 @@ const CompanyLogin = () => {
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-md'>
                             <p className="col-span-5 col-start-4 italic text-[16px] ">
 
-                                Bạn chưa có tài khoản quản trị
+                                Bạn chưa có tài khoản quản trị?
                             </p>
-                            <Link class='col-start-9 col-span-2 italic text-button text-[16px] 
-                            hover:text-txt hover:scale-[1.05]
+                            <Link class='col-start-9 col-span-2 italic text-txt text-[16px] 
+                                hover:underline
                             ' to={'/company/register'}>
                                 Đăng ký
                             </Link>

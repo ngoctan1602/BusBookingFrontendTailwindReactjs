@@ -5,9 +5,44 @@ import * as RoutesSV from "../../../services/RoutesSV";
 import * as BusSV from "../../../services/Company/BusSV";
 import * as PriceClassSV from "../../../services/PriceClassSV";
 import * as RouteDetailSV from "../../../services/Company/RouteDetailSV";
+import * as TicketSV from "../../../services/Company/Ticket";
 import RouteDetailInRouteRow from "../Bus/RouteInCompany/RouteDetailInRouteRow";
 import PaginatedItemsWithAPI from "../../../components/Layout/Components/PaginateWithApi";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const CreateTicket = () => {
+
+    const notifySuccess = (message) => toast.success(message, {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+    const notifyError = (message) => toast.error(message, {
+        position: "bottom-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+    const notifyWarning = (message) => toast.warning(message, {
+        position: "bottom-right",
+        autoClose: 300,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
     const [routeSelected, SetRoutSelected] = useState(0);
 
 
@@ -48,11 +83,13 @@ const CreateTicket = () => {
     const [currentPageRouteDetail, setCurrentRouteDetail] = useState(1);
     const [loadingPageRouteDetail, setLoadingPageRouteDetail] = useState(false);
     const [totalRouteDetail, setTotalRouteDetail] = useState(0);
+    const [totalItemRouteDetail, setTotalItemRouteDetail] = useState(0);
     const handleChangePageRouteDetail = (page) => {
         setLoadingPageRouteDetail(page);
     }
 
-    const fecthDataRouteDetail = async () => {
+
+    const fecthDataRouteDetailChangePage = async () => {
         try {
             setLoadingPageRouteDetail(true)
             const response = await RouteDetailSV.getInRoute({ routeId: routeSelected, pageSize: 10, pageIndex: currentPageRouteDetail });
@@ -61,6 +98,36 @@ const CreateTicket = () => {
             ) {
                 setRouteDetail(response.data.items);
                 setTotalRouteDetail(response.data.pageTotal)
+            }
+            setLoadingPageRouteDetail(false);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            // setLoading(false);
+        }
+    };
+    const [routeDetailSelected, setRouteDetailSelected] = useState([])
+    const fecthDataRouteDetail = async () => {
+        try {
+            setLoadingPageRouteDetail(true)
+            if (routeSelected === 0) {
+                setRouteDetail([])
+                setLoadingPageRouteDetail(false);
+                return
+            }
+            const response = await RouteDetailSV.getInRoute({ routeId: routeSelected, pageSize: 200 });
+            if (!response.isError && response.data !== null && response.data !== undefined
+                && response.data.items !== null && response.data.items !== undefined
+            ) {
+                let ids = response.data.items.map(item => item.id).filter(id => id !== null)
+                setRouteDetailSelected(ids);
+            }
+            const response1 = await RouteDetailSV.getInRoute({ routeId: routeSelected, pageSize: 10, pageIndex: currentPageRouteDetail });
+            if (!response1.isError && response1.data !== null && response1.data !== undefined
+                && response1.data.items !== null && response1.data.items !== undefined
+            ) {
+                setRouteDetail(response1.data.items);
+                setTotalRouteDetail(response1.data.pageTotal)
+                setTotalItemRouteDetail(response1.data.items.length)
             }
             setLoadingPageRouteDetail(false);
         } catch (error) {
@@ -161,7 +228,7 @@ const CreateTicket = () => {
     }
 
     const propPriceClass = {
-        name: "priceSelected",
+        name: "PriceClassificationId",
         label: "Chọn loại giá",
         message: "Không được bỏ trống loại giá",
         placeholder: "Vui lòng chọn loại giá",
@@ -175,6 +242,52 @@ const CreateTicket = () => {
         key: ["busNumber", "busType"]
     }
     const [formCreate] = Form.useForm();
+    const changeSelectedRouteDetail = (id) => {
+        if (routeDetailSelected.includes(id)) {
+            // Nếu không được chọn, loại bỏ ID khỏi mảng
+            setRouteDetailSelected(prevIds => prevIds.filter(prevId => prevId !== id));
+        }
+        else {
+            // Nếu được chọn, thêm ID vào mảng
+            setRouteDetailSelected(prevIds => [...prevIds, id]);
+        }
+
+    }
+    const [loadingCreate, setLoadingCreate] = useState(false);
+    const onSuccess = async () => {
+        setLoadingCreate(true)
+        notifyWarning("Đang tạo vé vui lòng không thoát khỏi trang.")
+        const TicketStations = routeDetailSelected.map((id) => {
+            return { RouteDetailId: id };
+        });
+        // const strDayOnly = formCreate.getFieldValue("DateOnly").format("YYYY-MM-DD");
+        const dateOnly = {
+            year: 2024,
+            month: 9,
+            day: 22,
+            dayOfWeek: 0
+        }
+        const objectAdd = {
+            dateOnly: dateOnly,
+            // dateOnly: formCreate.getFieldValue("DateOnly").format("YYYY-MM-DD"),
+            busId: formCreate.getFieldValue("busId"),
+            PriceClassificationId: formCreate.getFieldValue("PriceClassificationId"),
+            TicketStations: TicketStations
+        }
+        try {
+            const resp = await TicketSV.createTicket(objectAdd)
+            setLoadingCreate(false)
+            if (!resp.isError) {
+                notifySuccess("Tạo vé thành công");
+            }
+            else {
+                notifyError(resp.data)
+            }
+        } catch (error) {
+            notifyError(error)
+        }
+        console.log(objectAdd);
+    }
     return (
         <div className="w-full h-full">
             <div class='w-full min-h-[300px] text-txt txt-16 bg-bg py-[20px] px-[10px] rounded-md box-shadow-content mb-md' >
@@ -183,6 +296,7 @@ const CreateTicket = () => {
                 </Row>
                 <Form form={formCreate}
                     layout="horizontal"
+                    onFinish={onSuccess}
                     style={{
                         margin: "16px 0px",
                         width: "100%", minHeight: "300px",
@@ -203,7 +317,7 @@ const CreateTicket = () => {
                     }
                     <Col>
                         <Form.Item
-                            name="date"
+                            name="DateOnly"
                             label="Chọn ngày xuất bến"
                             rules={[
                                 {
@@ -256,10 +370,10 @@ const CreateTicket = () => {
                                         !loadingPageRouteDetail &&
                                             (routeDetail !== null && routeDetail.length > 0 && routeDetail !== undefined)
                                             ?
-                                            <PaginatedItemsWithAPI componentToRender={RouteDetailInRouteRow} items={routeDetail} pageCount={totalRouteDetail} fetchData={fecthDataRouteDetail}></PaginatedItemsWithAPI>
+                                            <PaginatedItemsWithAPI changeSelectedList={changeSelectedRouteDetail} totalItem={totalItemRouteDetail} selectedList={routeDetailSelected} componentToRender={RouteDetailInRouteRow} items={routeDetail} pageCount={totalRouteDetail} fetchData={fecthDataRouteDetail}></PaginatedItemsWithAPI>
                                             :
                                             <tr style={{ width: "100%", position: "absolute", top: 100, textAlign: "center" }}>
-                                                Chưa có chi tiết tuyến đi
+                                                Chưa có chi tiết tuyến đường. Vui lòng chọn tuyến đường
                                             </tr>
                                 }
                             </tbody>
@@ -267,12 +381,24 @@ const CreateTicket = () => {
                     </Row>
 
                     <Col offset={20} span={4}>
-                        <Button onClick={() => formCreate.submit()} style={
+                        <Button loading={loadingCreate ? true : false} onClick={() => formCreate.submit()} style={
                             { width: "100%" }
                         }>Tạo vé</Button>
                     </Col>
                 </Form>
             </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
         </div >
     );
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import ReactPaginate from 'react-paginate';
 
-const PaginatedItemsWithAPI = ({ pageCount, handleClick, items, componentToRender, updateStatus, onUpdate, fetchData, nameRadio, type, objectAdd, currentPage, selectedList, changeSelectedList }) => {
+const PaginatedItemsWithAPI = ({ pageCount, handleClick, items, componentToRender, updateStatus, onUpdate, fetchData, nameRadio, type, objectAdd, currentPage, selectedList, changeSelectedList, totalItem }) => {
 
     const handlePageClick = (event) => {
         // console.log(event.selected)
@@ -16,7 +16,7 @@ const PaginatedItemsWithAPI = ({ pageCount, handleClick, items, componentToRende
                 items
                 &&
                 items.map((item, index) => {
-                    return React.createElement(componentToRender, { item: item, onChangeStatus: updateStatus, onUpdate: onUpdate, fetchData: fetchData, nameRadio, type, objectAdd, selectedList, changeSelectedList });
+                    return React.createElement(componentToRender, { item: item, onChangeStatus: updateStatus, onUpdate: onUpdate, fetchData: fetchData, nameRadio, type, objectAdd, selectedList, changeSelectedList, totalItem });
                 }
                 )
             }

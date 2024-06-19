@@ -21,7 +21,7 @@ const Header = () => {
     const avatar = localStorage.getItem('avatar') === 'null' ? avatarDefault : localStorage.getItem('avatar');
     return (
 
-        <header className="flex justify-center bg-button">
+        <header className="flex justify-center bg-[#97D163]">
             <div className="w-100% h-[80px] flex items-center justify-between w-[90%]">
                 <Link className="hover:opacity-95" to="/">
                     <img src={logo} className="w-[120px] h-[60px] rounded-8 object-cover" />
