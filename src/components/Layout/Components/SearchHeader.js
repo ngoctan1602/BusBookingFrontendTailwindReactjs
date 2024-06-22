@@ -36,6 +36,12 @@ const SearchHeader = ({ onSearch }) => {
         dateTime: search ? moment(search.dateTime) : moment(),
     });
 
+    const [dateValue, setDateValue] = useState(search ? moment(search.dateTime) : moment());
+    const onChangeDate = (date, dateString) => {
+        setDateValue(date)
+        setFormSearch({ ...formSearch, ["dateTime"]: dateString })
+    }
+
     const onChange = (e) => {
         const { name, value } = e.target;
         setFormSearch({ ...formSearch, [name]: value });
@@ -101,9 +107,8 @@ const SearchHeader = ({ onSearch }) => {
                     <div>Chọn ngày xuất phát</div>
                     <DatePicker
                         placeholder="Chọn ngày xuất phát"
-                        // defaultValue={moment()}
-                        value={formSearch.dateTime}
-                        onChange={(value) => setFormSearch({ ...formSearch, ["dateTime"]: value })}
+                        value={dateValue}
+                        onChange={(date, dateString) => onChangeDate(date, dateString)}
                         name="dateTime"
                         format="YYYY-MM-DD"
                     >
