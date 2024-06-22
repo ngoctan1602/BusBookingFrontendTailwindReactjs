@@ -35,7 +35,7 @@ const HisReview = () => {
 
 
 
-        <div class='w-full h-full flex border-none outline-none  rounded-lg overflow-hidden text-txt text-16'>
+        <div class='w-full h-full flex border-none outline-none overflow-hidden text-txt text-16'>
             <div class='w-full shrink-0 bg-[#e1e1e1]'>
                 <div class='w-full min-h-[80px] flex flex-col items-center bg-button mb-md'>
 
@@ -55,7 +55,7 @@ const HisReview = () => {
                 </div>
 
                 <div class='flex justify-center'>
-                    <ReviewCard></ReviewCard>
+                    {/* <ReviewCard></ReviewCard> */}
                 </div>
 
             </div>

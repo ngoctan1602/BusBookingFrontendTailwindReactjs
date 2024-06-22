@@ -5,6 +5,8 @@ import OrderCard from "../../components/Layout/Components/OderCard";
 import * as BillSV from "../../services/BillServices"
 import ReactLoading from 'react-loading';
 import 'react-toastify/dist/ReactToastify.css';
+import Search from "antd/es/input/Search";
+import { Input } from "antd";
 const Order = () => {
     document.title = "Quản lý chuyến đi"
 
@@ -91,7 +93,7 @@ const Order = () => {
         setLoading(true)
     }
     return (
-        <div class='w-full h-full flex border-none outline-none  rounded-lg overflow-hidden text-txt text-16'>
+        <div class='w-full h-full flex border-none outline-none overflow-hidden text-txt text-16'>
             <div class='w-full shrink-0 bg-[#e1e1e1] flex flex-col items-center relative'>
                 {
                     loading &&
@@ -108,15 +110,15 @@ const Order = () => {
                     {
                         listAbout.map((item, index) => (
                             <div class='text-center border-b-[2px] border-txt cursor-pointer py-sm'
-                                style={{ color: item.active ? " #00B873" : "" }}
+                                style={{ color: item.active ? "#33475B" : "", fontWeight: item.active ? "700" : "" }}
                                 onClick={(e) => activeListAbout(e.target.offsetWidth, e.target.offsetLeft, item.id)}>
                                 {item.content}
                             </div>
                         ))
                     }
-                    <span class='h-[2px] bottom-position ease-in-out duration-500 bg-button' style={{ left: `${offsetLeft}px`, width: `${offsetWidth}px` }}></span>
+                    <span class='h-[2px] bottom-position ease-in-out duration-500 bg-[#97D163]' style={{ left: `${offsetLeft}px`, width: `${offsetWidth}px` }}></span>
                 </div>
-                <div class=' w-content my-md h-[50px] text-txt border-[1px] border-txt text-16 rounded-md overflow-hidden duration-75'
+                {/* <div class=' w-content my-md h-[50px] text-txt border-[1px] border-txt text-16 rounded-md overflow-hidden duration-75'
                     style={{ border: isFocus ? "2px solid #00B873" : "" }}>
                     <div class='grid grid-flow-row grid-cols-12 h-full rounded-md'>
                         <div class='col-span-1 text-center  flex items-center justify-center'>
@@ -136,9 +138,9 @@ const Order = () => {
                                 onClick={() => alert(search)}>Tìm kiếm</p>
                         </div>
                     </div>
-
-
-
+                </div> */}
+                <div className="my-md w-content h-[50px]">
+                    <Search placeholder="Tìm kiếm chuyến đi" allowClear onSearch={() => alert("Đã tìm kiếm")}></Search>
                 </div>
 
                 {loading ?
