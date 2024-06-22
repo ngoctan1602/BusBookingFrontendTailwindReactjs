@@ -37,7 +37,7 @@ const Info = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                
+
                 const response = await AddressSV.getAllProvinces();
 
                 setProvinces(response.data);
@@ -226,7 +226,7 @@ const Info = () => {
         setLoading(false)
     }
     return (
-        <div class='w-full h-full flex border-none outline-none  rounded-lg overflow-hidden relative'>
+        <div class='w-full h-full flex border-none outline-none  overflow-hidden relative'>
             {
                 loading &&
                 <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-10'>
@@ -398,8 +398,8 @@ const Info = () => {
                             </p>
                         </div>
                         <Popup trigger={<button class="confirm-button"> Cập nhật</button>} position="right center"
-                           
-                           modal
+
+                            modal
                             nested
                             closeOnDocumentClick={false}
                             {... { contentStyle }}
@@ -409,7 +409,7 @@ const Info = () => {
 
                                     <div class='p-md text-16 text-txt'>
                                         <p class='text-20 text-center font-bold'>Cập nhật số điện thoại</p>
-            
+
                                         <div class='grid grid-cols-12 w-full grid-flow-row'>
                                             <p class='col-span-3 col-start-2 flex items-center justify-center '>Số điện thoại</p>
                                             <div class='col-span-7'>
@@ -458,7 +458,7 @@ const Info = () => {
 
                                     <div class='p-md text-16 text-txt'>
                                         <p class='text-20 text-center font-bold'>Cập nhật email</p>
-            
+
                                         {/* <div class='flex items-center justify-center'>
                                             <p class='w-[60px] shrink-0'>Email</p>
                                             <div class='w-1/2'>
@@ -510,7 +510,7 @@ const Info = () => {
 
                                     <div class='p-md text-16 text-txt'>
                                         <p class='text-20 text-center font-bold'>  Thay đổi mật khẩu</p>
-            
+
                                         <div class='flex items-center'>
                                             <p class='w-[150px] shrink-0'>Mật khẩu cũ</p>
                                             <div class='w-1/2'>

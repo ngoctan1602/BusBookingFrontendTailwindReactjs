@@ -7,8 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import ReactLoading from 'react-loading';
 import { useState } from "react";
-import * as CustomerServices from "../../../services/CustomerServices"
-
+import * as CustomerServices from "../../../services/CustomerServices";
 const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
     let navigate = useNavigate();
@@ -60,7 +59,7 @@ const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
             setTimeout(() => navigate('/login'), 1500);
             onChangeOpen();
         }
-        else{
+        else {
             console.log(responseAuth.data)
         }
     }
@@ -78,12 +77,10 @@ const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
 
                     <div class='p-md text-16 text-txt'>
                         <p class='text-20 text-center font-bold'>Xác thực OTP</p>
-                        
 
-                        <div class='grid grid-cols-12 w-full grid-flow-row'>
+                        <div class='grid grid-cols-12  w-full grid-flow-row'>
                             <p class='col-span-3 col-start-2 flex items-center justify-center '>OTP</p>
-                            <div class='col-span-7'>
-
+                            <div class='col-span-9 col-start-5'>
                                 <InputConfirmInfo
                                     onChange={onChangeConfirm}
                                     item={{

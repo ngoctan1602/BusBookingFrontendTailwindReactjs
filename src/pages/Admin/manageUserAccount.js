@@ -9,6 +9,7 @@ import * as CustomerServices from "../../services/CustomerServices"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
+import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
 const ManageUserAccount = () => {
     const [updateLoading, setUpdateLoading] = useState(false)
     const exportToExcel = () => {
@@ -39,20 +40,41 @@ const ManageUserAccount = () => {
         progress: undefined,
         theme: "light",
     });
+    const notifyWarning = (message) => toast.warning(message, {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
 
     const [userAccount, setUserAccount] = useState([])
     const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0);
+    const handlePageClick = (selectedPage) => {
+        setCurrentPage(selectedPage);
+    };
     const fetchData = async () => {
         try {
             setLoading(true)
-            const response = await CustomerServices.GetAll();
+            const response = await CustomerServices.GetAll({ pageSize: 10, pageIndex: currentPage });
             setLoading(false)
-            if (!response.isError)
-                setUserAccount(response.data.items)
+            if (!response.isError) {
+                setTotalPage(response.data.pageTotal);
+                setUserAccount(response.data.items);
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
+    useEffect(() => {
+
+        fetchData();
+    }, [currentPage]);
     useEffect(() => {
 
         fetchData();
@@ -113,9 +135,6 @@ const ManageUserAccount = () => {
         } catch (error) {
             console.log(error)
         }
-
-        console.log(id, value)
-
     }
 
 
@@ -161,7 +180,8 @@ const ManageUserAccount = () => {
 
                             :
                             !loading && userAccount.length !== 0 ?
-                                < Paginate itemsPerPage={5} items={userAccount} componentToRender={UserAccountRow} updateStatus={updateStatus} />
+                                // < Paginate itemsPerPage={5} items={userAccount} componentToRender={UserAccountRow} updateStatus={updateStatus} />
+                                <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={UserAccountRow} items={userAccount} pageCount={totalPage} fetchData={fetchData} currentPage={currentPage} updateStatus={updateStatus}></PaginatedItemsWithAPI>
                                 :
                                 "Không có người dùng nào"
 

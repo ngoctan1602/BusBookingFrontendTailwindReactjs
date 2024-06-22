@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/images/logotrip.png"
 import Button from "./Button";
 import React, { useState, useEffect } from "react";
@@ -8,11 +8,28 @@ import { faPhone } from "@fortawesome/free-solid-svg-icons";
 // import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import avatarDefault from '../../../assets/images/avatar.png'
 import configs from "../../../configs";
+import { Icon } from "@mui/material";
+import { Menu, Modal } from "antd";
+const { SubMenu } = Menu;
 
 const Header = () => {
-
+    const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [logoutOpen, setLogoutOpen] = useState(false);
+    const logout = () => {
+        // setLogoutOpen(true)
+        localStorage.removeItem("token")
+        localStorage.removeItem("refreshToken")
+        localStorage.removeItem("avatar")
+        setLogoutOpen(false)
+        setTimeout(
+            () => {
 
+                navigate("/login")
+                window.location.reload();
+            }, 1000
+        )
+    }
     useEffect(() => {
         const token = localStorage.getItem('token');
         setIsLoggedIn((token === null || token === undefined) ? false : true);
@@ -45,12 +62,32 @@ const Header = () => {
                             <p className="hover:underline cursor-pointer">0923140493</p>
                         </Link>
 
+
+                        <Modal
+                            title="Bạn có muốn đăng xuất"
+                            open={logoutOpen}
+                            onOk={logout}
+                            onCancel={() => setLogoutOpen(false)}
+                            // okText="Ok"
+                            okButtonProps={{ style: { background: "#1677FF" } }}
+                            cancelText="Hủy"
+                        >
+
+                        </Modal>
                         {isLoggedIn ? (
-                            <Link to={configs.routers.profile} id="NotLogin" className="px-[10px]">
-                                <div class='w-[100px] h-[40px] shrink-0  overflow-hidden z-1 relative '>
-                                    <img class=' w-[40px] h-[40px] object-cover rounded-full' src={avatar} alt="Avatar"></img>
-                                </div>
-                            </Link>
+                            <Menu className="mx-md custom-menu">
+                                <SubMenu className="custom-submenu" >
+                                    <Menu.Item onClick={() => setLogoutOpen(true)} key="1">Đăng xuất</Menu.Item>
+                                    <Menu.Item onClick={() => navigate("/info")} key="2">Thông tin cá nhân</Menu.Item>
+                                    <Menu.Item onClick={() => navigate("/order")} key="3">Quản lý chuyến đi</Menu.Item>
+                                    <Menu.Item onClick={() => navigate("/his-review")} key="4">Đánh giá của tôi</Menu.Item>
+                                </SubMenu>
+                            </Menu>
+                            // <Link to={configs.routers.profile} id="NotLogin" className="px-[10px]">
+                            //     <div class='w-[100px] h-[40px] shrink-0  overflow-hidden z-1 relative '>
+                            //         <img class=' w-[40px] h-[40px] object-cover rounded-full' src={avatar} alt="Avatar"></img>
+                            //     </div>
+                            // </Link>
                         ) : (
                             <Link to={"/login"} className="px-4" id="Login">
                                 <Button type="border" content="Đăng nhập">

@@ -2,7 +2,7 @@ import bgSearch from "../../assets/images/bustrip.jpg"
 import discount from "../../assets/images/discount.jpg"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import { faBus } from "@fortawesome/free-solid-svg-icons";
 import { faTicket } from "@fortawesome/free-solid-svg-icons";

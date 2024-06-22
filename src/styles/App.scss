@@ -10,6 +10,40 @@ $height-40: 40px;
 $orange-pattle: #FF8A08;
 $blue-pattle: #86A7FC;
 
+$hover-color-new: #AF8260;
+
+
+.custom-menu {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-image: url('../assets/images/avatar.png');
+    /* Replace with your image path */
+    background-size: cover;
+    /* Ensures the image covers the whole menu area */
+    background-position: center;
+    /* Centers the image */
+}
+
+.custom-submenu .ant-menu-submenu-title:hover {
+    background-color: transparent !important;
+}
+
+.custom-submenu .ant-menu-submenu-arrow {
+    display: none;
+}
+
+.hover-link-new {
+
+    // background-color: $color-header;
+    transition-duration: 0.4s;
+
+    &:hover {
+        // background-color: $hover-color-new;
+        text-decoration: underline;
+    }
+}
+
 .button-confirm-green {
     border: 1px solid $header-color;
     border-radius: 6px;
