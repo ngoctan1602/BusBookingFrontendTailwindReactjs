@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import getConnection from '../services/SignalRService';
 import { toast } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation  } from "react-router-dom";
 
 export const NotificationContext = createContext();
 
@@ -9,8 +9,10 @@ function NotificationProvider ({ children }) {
     const [notification, setNotification] = useState();
     const [counter, setCounter] = useState(0);
     const navigate = useNavigate();
+    const location = useLocation();
 
-    const notifySuccess = (message, href) => {
+    const notifySuccess = (message, href, id) => {
+        const basePath = location.pathname.split('/')[1];
         toast.info(message, {
             position: "bottom-right",
             autoClose: 4000,
@@ -20,9 +22,15 @@ function NotificationProvider ({ children }) {
             draggable: true,
             progress: undefined,
             theme: "light",
-            onClick: () => {
+            onClick: async () => {
                 if (href) {
-                    navigate('/admin' + href);
+                    navigate(`/${basePath}${href}`);
+                    try {
+                        const connection = await getConnection();
+                        await connection.invoke("ReadNotification", id);
+                    } catch (error) {
+                        console.error('Failed to read notification:', error);
+                    }
                 }
             }
         });
@@ -31,10 +39,10 @@ function NotificationProvider ({ children }) {
     useEffect(() => {
         const fetchData = async () => {
             const connection = await getConnection();
-            connection.on('ReceiveNotification', (message, count, href) => {
+            connection.on('ReceiveNotification', (message, count, href, id) => {
                 setNotification(message);
                 setCounter(count);
-                notifySuccess(message, href);
+                notifySuccess(message, href, id);
                 console.log("Phảnhổi fdi: ", message)
             });
             
