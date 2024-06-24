@@ -1,11 +1,11 @@
 import Popup from "reactjs-popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faInfo, faMagnifyingGlass, faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
 const PopUpShowDetail = ({ items }) => {
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#fff', borderRadius: "8px", width: "40%" };
     console.log(items)
     return (
-        <Popup trigger={<button class="flex justify-center"> <FontAwesomeIcon icon={faMagnifyingGlass} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[34px] h-[34px] mr-sm'></FontAwesomeIcon></button>} position="right center"
+        <Popup trigger={<button class="flex justify-center"> <FontAwesomeIcon icon={faInfo} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[34px] h-[34px] mr-sm'></FontAwesomeIcon></button>} position="right center"
             modal
             nested
             closeOnDocumentClick={false}
@@ -25,7 +25,7 @@ const PopUpShowDetail = ({ items }) => {
                             </div>
                         </div>
 
-                        
+
 
                         {
                             items.map((item, index) => (

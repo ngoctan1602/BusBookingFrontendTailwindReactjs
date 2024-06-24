@@ -173,9 +173,10 @@ const Overview = () => {
                         <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md'>
                             {/* <th class='col-span-1'>Id</th> */}
                             <th class='col-span-2'>Biển số xe</th>
+                            <th class='col-span-2'>Tuyến đi</th>
                             <th class='col-span-3'>Loại xe</th>
                             <th class='col-span-2'>Ngày khởi hành</th>
-                            <th class='col-span-2'>Số chỗ trống</th>
+                            <th class='col-span-1'>Số chỗ trống</th>
                             <th class='col-span-2'>Trạng thái</th>
                             {/* <th class='col-span-1'>Chi tiết</th> */}
                         </tr>

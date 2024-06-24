@@ -462,7 +462,7 @@ const BusCard = ({ item }) => {
 
     }
     return (
-        <div class=' w-full flex flex-col my-md rounded-lg shadow-lg border-[1px] hover:shadow-xl hover:scale-[1.01] ease-in-out duration-150 '>
+        <div class='bg-[#e2e2e2] w-full flex flex-col my-md rounded-md box-shadow-content hover:shadow-xl hover:scale-[1.01] ease-in-out duration-150 '>
             {/* Đây là phần chính của card */}
 
             <div class='w-full h-[200px] flex'>
@@ -486,14 +486,14 @@ const BusCard = ({ item }) => {
                         <FontAwesomeIcon icon={faCircleDot} class='text-txt w-[14px] h-[14px]' />
                         <p class='mx-sm'>{item.listStation[0].station} - </p>
                         <p >{new Date(item.listStation[0].departureTime)
-                        .toLocaleString("en-CA",
-                            {
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                // second: 'numeric',
-                                hour12: false, // Use 24-hour format
-                            }
-                        )}</p>
+                            .toLocaleString("en-CA",
+                                {
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                    // second: 'numeric',
+                                    hour12: false, // Use 24-hour format
+                                }
+                            )}</p>
                     </div>
                     <div class='m-sm flex items-center'>
                         <div class=' mx-[6px] w-[1px] h-[30px] bg-txt'></div>
@@ -503,14 +503,14 @@ const BusCard = ({ item }) => {
                         <FontAwesomeIcon icon={faLocationDot} class='text-txt w-[16px] h-[16px]' />
                         <p class='mx-sm'>{item.listStation[item.listStation.length - 1].station} - </p>
                         <p>{new Date(item.listStation[item.listStation.length - 1].arrivalTime)
-                        .toLocaleString("en-CA",
-                            {
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                // second: 'numeric',
-                                hour12: false, // Use 24-hour format
-                            }
-                        )}</p>
+                            .toLocaleString("en-CA",
+                                {
+                                    hour: 'numeric',
+                                    minute: 'numeric',
+                                    // second: 'numeric',
+                                    hour12: false, // Use 24-hour format
+                                }
+                            )}</p>
                     </div>
                 </div>
 
@@ -835,8 +835,8 @@ const BusCard = ({ item }) => {
                                 <div class='h-[200px] flex flex-col overflow-x-hidden overflow-y-auto'>
                                     {
                                         startLocation.map((item, index) => (
-                                            index !== startLocation.length-1 && (
-                                            <Location item={item} onChange={onSelectBusStop} name={"busStationStartId"} selectedBusStop={selectedBusStop} isStart={true}></Location>
+                                            index !== startLocation.length - 1 && (
+                                                <Location item={item} onChange={onSelectBusStop} name={"busStationStartId"} selectedBusStop={selectedBusStop} isStart={true}></Location>
                                             )
                                         ))
                                     }
@@ -848,7 +848,7 @@ const BusCard = ({ item }) => {
                                     {
                                         endLocation.map((item, index) => (
                                             index !== 0 && (
-                                            <Location item={item} onChange={onSelectBusStop} name={"busStationEndId"} selectedBusStop={selectedBusStop} isStart = {false} ></Location>
+                                                <Location item={item} onChange={onSelectBusStop} name={"busStationEndId"} selectedBusStop={selectedBusStop} isStart={false} ></Location>
                                             )
                                         ))
                                     }

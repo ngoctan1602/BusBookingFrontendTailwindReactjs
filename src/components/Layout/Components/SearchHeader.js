@@ -112,15 +112,15 @@ const SearchHeader = ({ onSearch }) => {
                         name="dateTime"
                         format="YYYY-MM-DD"
                     >
-
                     </DatePicker>
                     {/* <Input type="date" placeholder={'01/01/2000'} content='Ngày xuất phát' onChange={onChange} name="dateTime" value={formSearch.dateTime}></Input> */}
                 </div>
             </div>
-            <div className='col-span-2 col-start-10 h-full text-hover-txt flex items-center'>
-                <button className='w-full button-hover ml-md text-txt' onClick={btnClick}>Tìm chuyến</button>
+            <div className='col-span-2 col-start-10 h-full text-hover-txt relative ml-sm'>
+                <button className='w-full p-[2px] absolute h-[30px] bottom-[16px] text-hover-txt border-hover-txt border-[1px] border-solid rounded-md' onClick={btnClick}>Tìm chuyến</button>
             </div>
         </div >
+
     );
 }
 
