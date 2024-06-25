@@ -390,14 +390,14 @@ const Search = () => {
 
         //     </div>
         // </div>
-        <div className="w-full min-h-[700px] bg-bg">
+        <div className="w-full min-h-[700px] bg-bgContent">
             <Row className="w-full my-md min-h-[80px]">
                 <Col className=" bg-bg box-shadow-content rounded-md" span={14} offset={6}>
                     <SearchHeader onSearch={handSearch} ></SearchHeader>
                 </Col>
             </Row>
-            <Row className="w-full min-h-[500px]">
-                <Col span={4} offset={1}>
+            <Row className="w-full min-h-[500px] ">
+                <Col span={4} offset={1} >
                     <div class='h-[220px] bg-transparent  rounded-lg box-shadow-content  bg-bg'>
                         <p class='text-txt text-18 font-bold mt-sm mx-md'>Sắp xếp</p>
                         <div class='h-[160px] sort bg-transparent'>
@@ -503,14 +503,29 @@ const Search = () => {
                                         <p className="m-md text-center w-full text-20 font-medium">Không tìm thấy chuyến đi trong hôm nay. Vui lòng tìm kiếm ngày xuất phát muộn hơn</p>
                                     </div>
                                     :
+                                    // <PaginatedItems itemsPerPage={5} items={busInfo} componentToRender={BusCardNew} ></PaginatedItems>
+
                                     <PaginatedItems itemsPerPage={5} items={busInfo} componentToRender={BusCard} ></PaginatedItems>
                         }
                     </div>
 
 
                 </Col>
-                <Col span={3} offset={1}>
-                    Thanh quảng cáo
+                <Col span={4} >
+                    <Carousel autoplay autoplaySpeed={3000} className="m-md">
+                        <div className="rounded-md h-[700px] overflow-hidden">
+                            <img src="https://carshop.vn/wp-content/uploads/2022/07/images1151040_xekhach.jpg" alt="Ảnh 1" style={imageStyle} />
+                        </div>
+                        <div className="rounded-md h-[700px] overflow-hidden">
+                            <img src="https://carshop.vn/wp-content/uploads/2022/07/maxresdefault.jpg" alt="Ảnh 1" style={imageStyle} />
+                        </div>
+                        <div className="rounded-md h-[700px] overflow-hidden">
+                            <img src="https://carshop.vn/wp-content/uploads/2022/07/hyundai-universe-4-15466488907371579447485.jpg" alt="Ảnh 1" style={imageStyle} />
+                        </div>
+                        <div className="rounded-md h-[700px] overflow-hidden">
+                            <img src="https://carshop.vn/wp-content/uploads/2022/07/xe-vung-tau-bien-hoa-dong-nai-5.jpg" alt="Ảnh 1" style={imageStyle} />
+                        </div>
+                    </Carousel>
                 </Col>
             </Row>
         </div>
