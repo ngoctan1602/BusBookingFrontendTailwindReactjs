@@ -6,6 +6,9 @@ export const createPriceSV = async (data) => {
 export const getAllInCompany = async (params) => {
     return await BaseAPI.getItems(priceClassSV.getInCompany, params);
 }
+export const getActiveInCompany = async (params) => {
+    return await BaseAPI.getItems(priceClassSV.getActiveInCompany, params);
+}
 export const getAll = async (params) => {
     return await BaseAPI.getItems(priceClassSV.getAll, params);
 }
@@ -20,6 +23,7 @@ const priceClassSV = {
     create: 'PriceClassifications/Create',
     getInCompany: 'PriceClassifications/getInCompany',
     getAll: 'PriceClassifications/GetAll', // của admin
+    getActiveInCompany: "PriceClassifications/getActiveInCompany",
     ChangeIsActive: 'PriceClassifications/ChangeIsActive',
     ChangeIsWaiting: 'PriceClassifications/ChangeIsWaiting'
 }

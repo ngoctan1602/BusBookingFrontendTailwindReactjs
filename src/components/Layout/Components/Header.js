@@ -38,6 +38,7 @@ const Header = () => {
         localStorage.removeItem("token")
         localStorage.removeItem("refreshToken")
         localStorage.removeItem("avatar")
+        localStorage.removeItem("roleName")
         setLogoutOpen(false)
         setTimeout(
             () => {
@@ -49,7 +50,7 @@ const Header = () => {
     }
     useEffect(() => {
         const token = localStorage.getItem('token');
-        setIsLoggedIn((token === null || token === undefined) ? false : true);
+        setIsLoggedIn((token === null || token === undefined || localStorage.getItem("roleName") !== "CUSTOMER") ? false : true);
     }, []);
 
     const avatar = localStorage.getItem('avatar') === 'null' ? avatarDefault : localStorage.getItem('avatar');

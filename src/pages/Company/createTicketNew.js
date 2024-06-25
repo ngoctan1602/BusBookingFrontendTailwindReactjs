@@ -94,7 +94,7 @@ const CreateTicketNew = () => {
                 setRoute(response.data.items)
             }
 
-            const priceClass = await PriceClassSV.getAllInCompany({ pageSize: 200 });
+            const priceClass = await PriceClassSV.getActiveInCompany({ pageSize: 200 });
             setPriceClass(priceClass.data.items)
             // setBusStationOfBus(response.data.items)
             // setLoading(false);
