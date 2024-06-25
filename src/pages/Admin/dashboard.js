@@ -1,4 +1,6 @@
 import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -111,10 +113,21 @@ const DashBoard = () => {
 
 
     return (
-        <div className='w-full h-full grid grid-cols-12 grid-rows-12 gap-xl'>
-            <div className=''>
+        <div className='w-full h-full'>
+            <div className='w-full text-txt txt-16 bg-bg py-[20px] px-[10px] rounded-md box-shadow-content mb-md min-h-[1000px]'>
             </div>
-
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
         </div>
     );
 };
