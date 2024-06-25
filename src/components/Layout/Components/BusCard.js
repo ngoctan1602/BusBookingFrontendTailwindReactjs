@@ -19,7 +19,7 @@ import { Tooltip as ReactTooltip, Tooltip } from "react-tooltip";
 import Location from "./Location";
 import Input from "./Input";
 import InputConfirmInfo from "./InputConfirmInfo";
-import LogoCompanyNull from "../../../../src/assets/images/logocompanynull.png"
+import LogoCompanyNull from "../../../../src/assets/images/defaultCompanyLogo.jpg"
 import * as BillSV from "../../../services/BillServices"
 import * as ReviewSV from "../../../services/ReviewSV"
 import { ToastContainer, toast } from 'react-toastify';
@@ -28,6 +28,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import ReviewCard from "./ReviewCard"
 import Paypal from "../../Paypal/Paypal";
+import { Button, Col, Divider, Row } from "antd";
+import PaginatedItemsWithAPI from "./PaginateWithApi";
+import BusReviewCard from "./Company/Bus/BusReview/BusReviewCard";
+import Seat from "./Company/Bus/Seat";
 const BusCard = ({ item }) => {
     // console.log(item.itemResponses.slice(0, item.itemResponses.length / 2))
     let navigate = useNavigate();
@@ -68,134 +72,10 @@ const BusCard = ({ item }) => {
     const [about, setAbout] = useState(false);
     const [checkout, setCheckout] = useState(false);
 
-    const [listAbout, setListAbout] = useState(
-        [
-            {
-                id: 1, content: "Hình ảnh", active: true
-            },
-            {
-                id: 2, content: "Tiện ích", active: false
-            },
-            {
-                id: 3, content: "Điểm đón trả", active: false
-            },
-            {
-                id: 4, content: "Chính sách", active: false
-            },
-            {
-                id: 5, content: "Đánh giá", active: false
-            }
-        ]
-    )
     const [loading, setLoading] = useState(false);
-    const [listImg, setListImg] = useState(
-        [
-            {
-                id: 1, img: "https://vcdn1-dulich.vnecdn.net/2022/07/04/11-5977-1656858349-1656932044-3356-1656932377.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=wlMP_C-PBfELkksQF0D3kQ"
-            },
-            {
-                id: 2, img: "https://tuart.net/wp-content/uploads/2023/06/z4476593426117_2098eb702b55775141c2afe719a0db24-scaled.jpg"
-            },
-            {
-                id: 3, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmNIz8BYRBKwkFRlYBR4DcmL74qYrSDKP0vw&usqp=CAU"
-            },
-            {
-                id: 4, img: "https://vcdn1-dulich.vnecdn.net/2022/07/04/11-5977-1656858349-1656932044-3356-1656932377.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=wlMP_C-PBfELkksQF0D3kQ"
-            },
-            {
-                id: 5, img: "https://tuart.net/wp-content/uploads/2023/06/z4476593426117_2098eb702b55775141c2afe719a0db24-scaled.jpg"
-            },
-            {
-                id: 6, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmNIz8BYRBKwkFRlYBR4DcmL74qYrSDKP0vw&usqp=CAU"
-            },
-            {
-                id: 7, img: "https://vcdn1-dulich.vnecdn.net/2022/07/04/11-5977-1656858349-1656932044-3356-1656932377.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=wlMP_C-PBfELkksQF0D3kQ"
-            },
-            {
-                id: 8, img: "https://tuart.net/wp-content/uploads/2023/06/z4476593426117_2098eb702b55775141c2afe719a0db24-scaled.jpg"
-            },
-            {
-                id: 9, img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmNIz8BYRBKwkFRlYBR4DcmL74qYrSDKP0vw&usqp=CAU"
-            }
-        ]
-    );
-
-    const [current, setCurrent] = useState(0);
-    const selectImg = (current, next) => {
-        if (!next && current >= 1)
-            setCurrent(current - 1);
-        else if (next && current < listImg.length - 1)
-            setCurrent(current + 1);
-        console.log(next + " " + current + " " + listImg.length)
-    }
-
-    const [imgId, setImgId] = useState(listImg[0].id);
-
-    const [curentImg, setCurrentImg] = useState(listImg[0]);
-    const [reviews, setReviews] = useState([])
-    const [isloading, setIsLoading] = useState(false)
-    useEffect(() => {
-        const ii = listImg.filter(item => item.id == imgId);
-        const params = {
-            busId: item.busId,
-            pageSize: 200,
-        }
-        setIsLoading(true)
-        try {
-            const resp = ReviewSV.getAllInBus({ busId: params.busId, pageSize: params.pageSize })
-            // alert(resp.data.items[1].reviews)
-            setIsLoading(false)
-            setReviews(resp.data.items)
-
-        } catch (error) {
-            console.log(error)
-        }
-        setCurrentImg(ii);
-        return () => {
-            console.log(ii[0])
-        };
-    }, [imgId]);
-
-    // useEffect(() => {
-
-
-    //     return () => {
-    //         console.log("Cal reviews")
-    //     };
-    // }, []);
-
     const openAbout = () => {
         setAbout(!about);
         setIsChooseTrip(false);
-    }
-
-
-
-    const [offsetLeft, setOffsetLeft] = useState(0);
-    const [offsetWidth, setOffsetWidth] = useState(0);
-
-    const [utilities, setUtilities] = useState([
-        {
-            id: 1, icon: faCakeCandles, content: "Bánh ngọt", description: "Xe có phục vụ bánh ngọt"
-        },
-        {
-            id: 2, icon: faHammer, content: "Búa phá kính", description: "Dùng để phá kính ô tô thoát hiểm trong trường hợp khẩn cấp."
-        }
-    ])
-
-    const activeListAbout = (offsetWidth, offsetLeft, id) => {
-        const updatedItems = listAbout.map(item => {
-            if (item.id === id) {
-                return { ...item, active: true };
-            }
-
-            return { ...item, active: false };
-
-        });
-
-        setOffsetLeft(offsetLeft);
-        setOffsetWidth(offsetWidth);
-        setListAbout(updatedItems);
     }
 
     const [isChooseTrip, setIsChooseTrip] = useState(false);
@@ -207,13 +87,13 @@ const BusCard = ({ item }) => {
     const [seatBooking, setSeatBooking] = useState(
         [
             {
-                id: 1, icon: seat, content: "Ghế trống"
+                id: 1, icon: seat, content: "Ghế trống", color: "black"
             },
             {
-                id: 2, icon: seatActive, content: "Ghế đang chọn"
+                id: 2, icon: seatActive, content: "Ghế đang chọn", color: "green"
             },
             {
-                id: 3, icon: seatError, content: "Ghế đã có người mua"
+                id: 3, icon: seatError, content: "Ghế đã có người mua", color: "red"
             }
         ]
     )
@@ -223,10 +103,6 @@ const BusCard = ({ item }) => {
     const [secondFloor, setSecond] = useState(
         item.itemResponses.slice(item.itemResponses.length / 2)
     )
-
-
-
-
     const [stepBooking, setStepBooking] = useState(
         [
             {
@@ -240,9 +116,7 @@ const BusCard = ({ item }) => {
             }
         ]
     );
-
     const [currentStepBooking, setCurrentStepBooking] = useState(1);
-
     const nextStateBooking = () => {
         if (currentStepBooking === 1 && selectedIdSeats.length === 0) {
 
@@ -254,9 +128,6 @@ const BusCard = ({ item }) => {
             notifyWarning("Vui lòng chọn điểm đón trả")
             return
         }
-
-
-
         if (currentStepBooking <= stepBooking.length - 1) {
 
             setCurrentStepBooking(currentStepBooking + 1);
@@ -264,14 +135,10 @@ const BusCard = ({ item }) => {
                 if (item.id === currentStepBooking + 1) {
                     return { ...item, active: true };
                 }
-
                 return { ...item, active: false };
             });
-
             setStepBooking(updatedItems);
         }
-
-
         console.log(stepBooking);
     }
     const prevStateBooking = () => {
@@ -282,9 +149,7 @@ const BusCard = ({ item }) => {
                 if (item.id === currentStepBooking - 1) {
                     return { ...item, active: true };
                 }
-
                 return { ...item, active: false };
-
             });
             setStepBooking(updatedItems);
         }
@@ -459,10 +324,78 @@ const BusCard = ({ item }) => {
         } catch (error) {
             notifyError()
         }
-
     }
+    const timeOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    };
+
+    const dateOptions = {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    };
+    const timeForecast = () => {
+        const arrivalTime = new Date(item.listStation[0].arrivalTime);
+        const lastStationTime = new Date(item.listStation[item.listStation.length - 1].departureTime);
+
+        const diffInMilliseconds = Math.abs(arrivalTime - lastStationTime);
+
+        const diffInSeconds = Math.floor(diffInMilliseconds / 1000);
+        const diffInMinutes = Math.floor(diffInSeconds / 60);
+        const diffInHours = Math.floor(diffInMinutes / 60);
+        const diffInDays = Math.floor(diffInHours / 24);
+
+        const remainingHours = diffInHours % 24;
+        const remainingMinutes = diffInMinutes % 60;
+        const remainingSeconds = diffInSeconds % 60;
+
+        return `Dự kiện: ${diffInDays} ngày, ${remainingHours} giờ, ${remainingMinutes} phút`;
+    }
+
+    const [timeExpect, setTimeExpect] = useState('');
+
+    useEffect(() => {
+        const resp = timeForecast();
+        setTimeExpect(resp);
+    }, [item]);
+
+    const [reviewBus, setReviewBus] = useState([]);
+    const [loadingReview, setLoadingReview] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0);
+    const fetchData = async () => {
+        try {
+            setLoadingReview(true);
+            const resp = await ReviewSV.getAllInBus({ busId: item.busId, pageIndex: currentPage });
+            console.log(resp);
+            if (!resp.isError && resp.data && resp.data.items) {
+                setReviewBus(resp.data.items);
+                setTotalPage(resp.data.pageTotal);
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoadingReview(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+
+        // Cleanup function (if needed)
+        // Example: cancel ongoing requests or subscriptions
+        return () => {
+            // Perform cleanup tasks here if necessary
+        };
+    }, [item, currentPage]);
+    const handlePageClick = (selectedPage) => {
+        setCurrentPage(selectedPage);
+    };
     return (
-        <div class=' w-full flex flex-col my-md rounded-lg shadow-lg border-[1px] hover:shadow-xl hover:scale-[1.01] ease-in-out duration-150 '>
+        <div class='bg-bg w-full flex flex-col my-md rounded-md box-shadow-content hover:shadow-xl hover:scale-[1.01] ease-in-out duration-150 '>
             {/* Đây là phần chính của card */}
 
             <div class='w-full h-[200px] flex'>
@@ -475,48 +408,46 @@ const BusCard = ({ item }) => {
                 <div class="m-sm w-[300px] text-txt">
                     <div class='flex items-center'>
                         <p class='mx-sm text-16 font-bold'>{item.company}</p>
-                        <button class='bg-button flex items-center justify-between w-[70px] text-bg'>
-                            <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
-                            <p>{item.star}</p>
-                            <p>({item.totalComment})</p>
-                        </button>
                     </div>
                     <p class='m-sm'>{item.busType}</p>
                     <div class='m-sm flex text-txt items-center'>
-                        <FontAwesomeIcon icon={faCircleDot} class='text-txt w-[14px] h-[14px]' />
+                        <FontAwesomeIcon icon={faCircleDot} class='text-hover-txt w-[14px] h-[14px]' />
                         <p class='mx-sm'>{item.listStation[0].station} - </p>
-                        <p >{new Date(item.listStation[0].departureTime)
-                        .toLocaleString("en-CA",
-                            {
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                // second: 'numeric',
-                                hour12: false, // Use 24-hour format
+                        <p >{new Date(item.listStation[0].arrivalTime)
+                            .toLocaleString("en-CA", timeOptions)
+
+                        }
+                            <span> </span>
+                            {new Date(item.listStation[0].arrivalTime).
+                                toLocaleString("en-CA", dateOptions).split('-').reverse().join('-')
                             }
-                        )}</p>
+
+                        </p>
                     </div>
                     <div class='m-sm flex items-center'>
-                        <div class=' mx-[6px] w-[1px] h-[30px] bg-txt'></div>
-                        {item.intendTime} tiếng
+                        <div class=' mx-[6px] w-[1px] h-[30px] bg-txt'>
+                        </div>
+                        {timeExpect}
                     </div>
                     <div class='m-sm flex items-center'>
-                        <FontAwesomeIcon icon={faLocationDot} class='text-txt w-[16px] h-[16px]' />
+                        <FontAwesomeIcon icon={faLocationDot} class='text-hover-txt w-[16px] h-[16px]' />
                         <p class='mx-sm'>{item.listStation[item.listStation.length - 1].station} - </p>
-                        <p>{new Date(item.listStation[item.listStation.length - 1].arrivalTime)
-                        .toLocaleString("en-CA",
-                            {
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                // second: 'numeric',
-                                hour12: false, // Use 24-hour format
+                        <p>
+                            {new Date(item.listStation[item.listStation.length - 1].departureTime)
+                                .toLocaleString("en-CA", timeOptions)
+
                             }
-                        )}</p>
+                            <span> </span>
+                            {new Date(item.listStation[item.listStation.length - 1].departureTime).
+                                toLocaleString("en-CA", dateOptions).split('-').reverse().join('-')
+                            }
+                        </p>
                     </div>
                 </div>
 
-                <div class='relative m-sm flex flex-grow'>
-                    <button class='about-position text-button font-bold underline cursor-pointer flex items-center ' onClick={() => openAbout()}>
-                        <p class='mr-sm'>Xem thông tin chi tiết</p>
+                <div class='relative flex flex-grow'>
+                    <button class='about-position text-txt-blue font-bold underline cursor-pointer flex items-center ' onClick={() => openAbout()}>
+                        <p class='mr-sm'>Xem đánh giá nhà xe</p>
                         {
                             about
                                 ?
@@ -526,7 +457,7 @@ const BusCard = ({ item }) => {
                         }
                     </button>
                     <div class='price-position flex flex-col items-end text-txt text-16'>
-                        <p class='text-button font-bold text-[20px] my-sm' >
+                        <p class='text-txt-blue font-bold text-[20px] my-sm' >
                             Chỉ từ <CurrencyFormat value={item.itemResponses[0].price} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
                         </p>
                         <CurrencyFormat class='line-through my-sm' value={item.price} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
@@ -541,153 +472,15 @@ const BusCard = ({ item }) => {
             {/* Đây là phần about */}
 
             {
-                about &&
+                about && !loadingReview && reviewBus.length > 0 &&
                 <div class='w-full min-h-[200px] flex flex-col items-center'>
                     <div class='w-content h-[1px] bg-txt'>
                     </div>
-                    <div class='w-content flex flex-col items-center'>
-                        <div class='flex items-center bg-bg relative'>
+                    <PaginatedItemsWithAPI handleClick={handlePageClick} items={reviewBus} componentToRender={BusReviewCard} currentPage={currentPage} pageCount={totalPage}>
 
-                            {
-                                listAbout.map((li, index) => (
-                                    <p key={li.id}
-                                        class={li.active ? 'box-border p-md text-button font-bold border-b-[1px] duration-500 '
-                                            : 'cursor-pointer p-md border-b-[1px] border-txt'}
-
-                                        onClick={(e) => activeListAbout(e.target.offsetWidth, e.target.offsetLeft, li.id)}
-                                    >
-                                        {li.content}
-
-                                    </p>
-
-                                ))
-
-                            }
-                            <span class='h-[3px] bottom-position ease-in-out duration-500 bg-button' style={{ left: `${offsetLeft}px`, width: `${offsetWidth}px` }}></span>
-                        </div>
-
-                        <div class='w-full min-h-[200px] my-md'>
-                            {
-                                listAbout[0].active
-                                    ?
-                                    <div class=' flex flex-col w-full items-center'>
-                                        <div class='flex w-content justify-center items-center'>
-                                            {
-                                                current === 0 ?
-                                                    <button onClick={() => selectImg(current, false)} class=' cursor-pointer'>
-
-                                                        < FontAwesomeIcon icon={faCaretLeft} size="xl" color="red"
-                                                        />
-                                                    </button>
-                                                    :
-                                                    <button onClick={() => selectImg(current, false)} class='cursor-pointer'>
-                                                        < FontAwesomeIcon icon={faCaretLeft} size="xl" color="white"
-                                                            onClick={() => selectImg(current, false)}
-                                                        />
-                                                    </button>
-                                            }
-                                            {
-
-                                                // < img src={listImg[current].img} class='animate-wiggle w-content h-[350px] object-cover' />
-                                                < img src={curentImg[0].img} class='w-content h-[350px] object-cover' />
-                                            }
-
-                                            {
-                                                current === listImg.length - 1 ?
-
-                                                    <button onClick={() => selectImg(current, true)} class=' cursor-pointer'>
-
-                                                        < FontAwesomeIcon icon={faCaretRight} size="xl" color="red"
-                                                        />
-                                                    </button>
-                                                    :
-                                                    <button onClick={() => selectImg(current, true)} class='cursor-pointer'>
-                                                        < FontAwesomeIcon icon={faCaretRight} size="xl" color="white"
-
-                                                        />
-                                                    </button>
-                                            }
-
-                                        </div>
-
-                                        {/* Đây là khu vực ảnh phụ */}
-                                        <div class='w-content min-h-[130px] grid grid-rows-1 grid-flow-col gap-4 overflow-auto justify-items-center'>
-
-                                            {
-                                                listImg.map((item, index) => (
-
-                                                    <>
-                                                        {
-                                                            item.id === imgId ?
-                                                                <div class='h-[130px] w-[130px]  m-sm border-button border-[2px] scale-105' onClick={() => setImgId(item.id)}>
-                                                                    <img src={item.img} class='h-full w-full object-cover'>
-                                                                    </img>
-
-                                                                </div>
-                                                                :
-                                                                <div class='h-[130px] w-[130px]  m-sm' onClick={() => setImgId(item.id)}>
-                                                                    <img src={item.img} class='h-full w-full object-cover'>
-                                                                    </img>
-
-                                                                </div>
-                                                        }
-                                                    </>
-                                                ))
-                                            }
-
-
-                                        </div>
-
-
-
-                                    </div>
-                                    :
-                                    listAbout[1].active
-                                        ?
-                                        <div class='w-full min-h-[200px] grid grid-cols-3 grid-flow-row gap-sm'>
-
-                                            {
-                                                utilities.map((item, index) => (
-                                                    <div key={item.id} class='h-[130px] bg-txt flex  text-16 text-bg opacity-80 rounded-md'>
-                                                        <div class='h-full m-sm'>
-                                                            <FontAwesomeIcon icon={item.icon} size="lg" />
-                                                        </div>
-                                                        <div class='h-[80px] m-sm relative'>
-                                                            <p class='font-bold'>{item.content}</p>
-                                                            <p class='h-[50px] w-fulltext-ellipsis overflow-hidden '>{item.description}  </p>
-                                                        </div>
-                                                    </div>
-                                                ))
-                                            }
-
-
-
-                                        </div>
-                                        :
-                                        listAbout[2].active
-                                            ?
-                                            <p>Nội dung Điểm đón, trả</p>
-                                            :
-                                            listAbout[3].active
-                                                ?
-                                                <p>Nội dung Chính sách</p>
-                                                :
-                                                <div className="w-full h-[200px] overflow-y-auto">
-                                                    {
-
-                                                        // (!isloading && reviews.length > 0) &&
-                                                        (!isloading) ?
-                                                            reviews.map((item) =>
-                                                                <ReviewCard item={item} />)
-                                                            :
-                                                            "Đang tải"
-                                                    }
-                                                </div>
-
-                            }
-                        </div>
-                    </div>
+                    </PaginatedItemsWithAPI>
                 </div>
+
             }
 
             {
@@ -698,9 +491,9 @@ const BusCard = ({ item }) => {
                         {
                             stepBooking.map((item, index) => (
                                 <div class={item.active ?
-                                    'flex items-center justify-center p-sm border-b-button border-b-[2px] text-button'
+                                    'flex items-center justify-center p-sm border-b-button-confirm border-b-[2px] text-button-confirm'
                                     :
-                                    'flex items-center justify-center p-sm border-b-txt border-b-[2px] text-txt'
+                                    'flex items-center justify-center p-sm border-b-txt-gray border-b-[2px] text-hover-gray'
                                 }
 
                                 >
@@ -733,7 +526,8 @@ const BusCard = ({ item }) => {
                                     seatBooking.map((item, index) =>
                                     (
                                         <div class='flex items-center my-lg'>
-                                            <img src={item.icon}></img>
+                                            <Seat color={item.color} select={index}></Seat>
+                                            {/* <img src={item.icon}></img> */}
                                             <p class='text-16 ml-sm'>{item.content}</p>
                                         </div>
                                     )
@@ -749,7 +543,7 @@ const BusCard = ({ item }) => {
                                         {
                                             oneStFloor.map((item, index) => (
                                                 <div
-                                                    onPointerOver={(e) => setSeatHover("Mã ghế: " + item.id + " ,Giá: " + item.price)}
+                                                    onPointerOver={(e) => setSeatHover("Mã ghế: " + item.seatNumber + " ,Giá: " + item.price)}
                                                     onClick={(e) => { (item.status === 1 || item.status === 2) && handleClickSeatOneFloor(item.id) }}
                                                     data-tooltip-id="my-tooltip"
                                                     class={item.status === 3 ?
@@ -758,13 +552,12 @@ const BusCard = ({ item }) => {
                                                     }
                                                 >
                                                     {
-                                                        item.status === 1
-                                                            ?
-                                                            <img class='' src={seatBooking[0].icon}></img>
+                                                        item.status === 1 ?
+                                                            <Seat color={seatBooking[0].color} select={0} />
                                                             : item.status === 2 ?
-                                                                <img class='' src={seatBooking[1].icon}></img>
+                                                                <Seat color={seatBooking[1].color} select={1} />
                                                                 :
-                                                                <img class='' src={seatBooking[2].icon}></img>
+                                                                <Seat color={seatBooking[2].color} select={2} />
                                                     }
 
 
@@ -791,7 +584,7 @@ const BusCard = ({ item }) => {
                                         {
                                             secondFloor.map((item, index) => (
                                                 <div
-                                                    onPointerOver={(e) => setSeatHover("Mã ghế: " + item.id + " ,Giá: " + item.price)}
+                                                    onPointerOver={(e) => setSeatHover("Mã ghế: " + item.seatNumber + " ,Giá: " + item.price)}
                                                     onClick={(e) => { (item.status === 1 || item.status === 2) && handleClickSeatSecondFloor(item.id) }}
                                                     data-tooltip-id="my-tooltip"
                                                     class={item.status === 3 ?
@@ -800,13 +593,12 @@ const BusCard = ({ item }) => {
                                                     }
                                                 >
                                                     {
-                                                        item.status === 1
-                                                            ?
-                                                            <img class='' src={seatBooking[0].icon}></img>
+                                                        item.status === 1 ?
+                                                            <Seat color={seatBooking[0].color} select={0} />
                                                             : item.status === 2 ?
-                                                                <img class='' src={seatBooking[1].icon}></img>
+                                                                <Seat color={seatBooking[1].color} select={1} />
                                                                 :
-                                                                <img class='' src={seatBooking[2].icon}></img>
+                                                                <Seat color={seatBooking[2].color} select={2} />
                                                     }
 
 
@@ -818,7 +610,7 @@ const BusCard = ({ item }) => {
                                             id="my-tooltip"
                                             place="top"
                                             variant="info"
-                                            style={{ backgroundColor: "#00B873", color: "#222" }}
+                                            style={{ backgroundColor: "#090808", color: "#fafafa" }}
                                             content={seatHover}
                                         />
                                     </div>
@@ -835,8 +627,8 @@ const BusCard = ({ item }) => {
                                 <div class='h-[200px] flex flex-col overflow-x-hidden overflow-y-auto'>
                                     {
                                         startLocation.map((item, index) => (
-                                            index !== startLocation.length-1 && (
-                                            <Location item={item} onChange={onSelectBusStop} name={"busStationStartId"} selectedBusStop={selectedBusStop} isStart={true}></Location>
+                                            index !== startLocation.length - 1 && (
+                                                <Location item={item} onChange={onSelectBusStop} name={"busStationStartId"} selectedBusStop={selectedBusStop} isStart={true}></Location>
                                             )
                                         ))
                                     }
@@ -848,7 +640,7 @@ const BusCard = ({ item }) => {
                                     {
                                         endLocation.map((item, index) => (
                                             index !== 0 && (
-                                            <Location item={item} onChange={onSelectBusStop} name={"busStationEndId"} selectedBusStop={selectedBusStop} isStart = {false} ></Location>
+                                                <Location item={item} onChange={onSelectBusStop} name={"busStationEndId"} selectedBusStop={selectedBusStop} isStart={false} ></Location>
                                             )
                                         ))
                                     }
@@ -859,91 +651,6 @@ const BusCard = ({ item }) => {
 
                     {
                         stepBooking[2].active &&
-                        // <div class=' mt-md mb-xl text-txt grid grid-flow-row grid-rows-1 grid-cols-2 justify-items-center w-content min-h-[400px]'>
-                        //     <div class='w-[300px] relative '>
-                        //         <p class='text-20 text-center font-bold'>Nhập thông tin xác nhận đặt vé xe</p>
-                        //         <div class='w-full flex-col'>
-                        //             <p class='text-16 font-bold'>Họ và tên (*)</p>
-                        //             <InputConfirmInfo item={inputName} onChange={ChangeName} />
-                        //         </div>
-                        //         <div class='w-full flex-col mt-[20px]'>
-                        //             <p class='text-16 mt-sm font-bold'>Số điện thoại (*)</p>
-                        //             <InputConfirmInfo item={inputPhone} onChange={ChangePhone} />
-                        //         </div>
-                        //         <div class='w-full flex-col my-[20px]'>
-                        //             <p class='text-16 font-bold'>Email (*)</p>
-                        //             <InputConfirmInfo item={inputEmail} onChange={ChangEmail} />
-                        //         </div>
-                        //         <p class='text-16 font-bold italic'>Các mục chứa (*) không được bỏ trống</p>
-                        //     </div>
-                        //     <div class='w-[300px] min-h-[400px]'>
-                        //         <p class='text-20 text-center font-bold'>Thông tin đặt vé xe</p>
-                        //         <div class='my-md text-16 text-txt'>
-                        //             <div class='flex my-sm'>
-                        //                 <p class='w-[40%] shrink-0 font-bold'>Ghế đã chọn: </p>
-                        //                 <p>A2,A3,A4</p>
-                        //             </div>
-                        //             <div class='flex my-sm ' >
-                        //                 <p class='w-[40%] shrink-0  font-bold'>Nơi xuất phát: </p>
-                        //                 <p>Thôn Tân Phú, Xã Vạn Phú, Huyện Vạn Ninh, tỉnh Khánh Hòa</p>
-                        //             </div>
-                        //             <div class='flex my-sm'>
-                        //                 <p class='w-[40%] shrink-0  font-bold'>Nơi đến: </p>
-                        //                 <p>Thôn Tân Phú, Xã Vạn Phú, Huyện Vạn Ninh, tỉnh Khánh Hòa</p>
-                        //             </div>
-                        //             <div class='flex my-sm'>
-                        //                 <p class='w-[40%] shrink-0  font-bold'>Giờ đi: </p>
-                        //                 <p>9 giờ 30 phút ngày 29/3/2023</p>
-                        //             </div>
-                        //         </div>
-
-                        //         <div>
-                        //             <p class='font-bold text-txt text-16'>Lựa chọn giảm giá</p>
-                        //             <div class=''>
-                        //                 <div class='flex items-center' onClick={(e) => setOpenVoucherYTrip(!isOpenVoucherYTrip)}>
-                        //                     <p class='pr-md' >Voucher của Y-Trip</p>
-                        //                     <FontAwesomeIcon icon={faCaretDown}></FontAwesomeIcon>
-                        //                 </div>
-                        //                 {
-
-                        //                     isOpenVoucherYTrip &&
-                        //                     <div class='h-[80px] overflow-x-hidden overflow-y-auto'>
-                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                        //                     </div>
-                        //                 }
-                        //             </div>
-                        //             <div class=' w-full mb-sm'>
-                        //                 <div class='flex items-center ' onClick={(e) => setOpenVoucher(!isOpenVoucher)}>
-                        //                     <p class='pr-md'>Voucher của nhà xe</p>
-                        //                     <FontAwesomeIcon icon={isOpenVoucher ? faCaretUp : faCaretDown}></FontAwesomeIcon>
-                        //                 </div>
-                        //                 {
-                        //                     isOpenVoucher &&
-                        //                     <div class='h-[80px] overflow-x-hidden overflow-y-auto'>
-                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 10%" name="voucher"></Input>
-                        //                         <Input type="radio" content="Giảm giá 20%" name="voucher"></Input>
-                        //                     </div>
-                        //                 }
-
-                        //             </div>
-
-
-                        //         </div>
-                        //     </div>
-                        // </div>
                         <div className='my-sm w-content min-h-[400px] grid grid-cols-10 grid-flow-row '>
 
                             <div className='col-span-8  col-start-2 shadow-lg relative'>

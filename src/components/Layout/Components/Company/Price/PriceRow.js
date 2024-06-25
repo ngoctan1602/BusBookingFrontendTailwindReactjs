@@ -68,7 +68,7 @@ const PriceRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
             </td>
             <td className="col-span-2">
                 <div>
-                    {item.status === 2 ? <span className="rounded-lg p-[5px] bg-danger">Đang chờ</span> : <span className="rounded-lg p-[5px] bg-success">Hoạt động</span>}
+                    {item.status === 2 ? <span className="rounded-lg p-[5px] bg-warning">Đang chờ</span> : <span className="rounded-lg p-[5px] bg-success">Hoạt động</span>}
                 </div>
             </td>
         </tr >

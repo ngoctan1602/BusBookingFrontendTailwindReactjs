@@ -9,8 +9,10 @@ import Header from "../Components/Header";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useCallback, useState } from "react";
 import avatarDefault from '../../../assets/images/avatar.png'
+import { useNavigate } from "react-router-dom";
 const InfoLayout = ({ children }) => {
     const location = useLocation()
+    const navigate = useNavigate();
     const [info, setInfo] = useState([
         {
             id: 1, content: "Thông tin tài khoản", icon: faUser, active: false, path: '/info', color: "#7EA1FF"
@@ -46,7 +48,11 @@ const InfoLayout = ({ children }) => {
             setInfo(updatedItems);
         };
     }, [info, location.pathname]); // Include location.pathname in the dependency array
-
+    useEffect(() => {
+        if (localStorage.getItem("roleName") !== "CUSTOMER" || localStorage.getItem("token") === null || localStorage.getItem("token") === undefined) {
+            navigate("/login")
+        }
+    }, [])
     useEffect(() => {
         const updateSeats = seatActive(); // Call the returned function
         updateSeats(); // Call the returned function to update seats

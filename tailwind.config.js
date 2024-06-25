@@ -10,6 +10,7 @@ module.exports = {
       'Amiro': ['Cabin', 'Comfortaa']
     },
     colors: {
+      'txt-blue': "#2474E5",
       'txt': '#090808',
       'txt-gray': '#4B4B4B',
       'txt-light': '#FFFFFF',
