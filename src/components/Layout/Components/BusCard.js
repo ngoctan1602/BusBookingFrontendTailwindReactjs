@@ -32,8 +32,14 @@ import { Button, Col, Divider, Row } from "antd";
 import PaginatedItemsWithAPI from "./PaginateWithApi";
 import BusReviewCard from "./Company/Bus/BusReview/BusReviewCard";
 import Seat from "./Company/Bus/Seat";
+import { useDispatch, useSelector } from 'react-redux';
+import { setPreviousUrl } from "../../../store/slice/userSlice"
+import { setDetail, setTotalPrice, setTimeCheckout } from "../../../store/slice/checkoutSlice"
 const BusCard = ({ item }) => {
     // console.log(item.itemResponses.slice(0, item.itemResponses.length / 2))
+    const dispatch = useDispatch();
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    console.log(isLoggedIn)
     let navigate = useNavigate();
     const notifySuccess = () => toast.success('Đặt chỗ thành công!', {
         position: "bottom-right",
@@ -46,7 +52,7 @@ const BusCard = ({ item }) => {
         theme: "light",
     });
 
-    const notifyError = () => toast.error('Đặt chỗ thất bại', {
+    const notifyError = (message) => toast.error(message, {
         position: "bottom-right",
         autoClose: 2500,
         hideProgressBar: false,
@@ -281,23 +287,7 @@ const BusCard = ({ item }) => {
     const [isOpenVoucher, setOpenVoucher] = useState(false);
     const [applyVoucher, setApplyVoucher] = useState({ active: false, value: 0 })
 
-
-
     const createBill = async () => {
-        if (
-            (
-                localStorage.getItem("token") === null ||
-                localStorage.getItem("token") === undefined
-            )) {
-            notifyWarning("Hãy đăng nhập")
-            setTimeout(
-                () =>
-                    navigate("/login")
-                , 2000
-            )
-            return
-
-        }
         const items =
             selectedIdSeats.map((item,) => {
                 return { ticketItemId: item }
@@ -308,21 +298,36 @@ const BusCard = ({ item }) => {
             TicketRouteDetailEndId: selectedBusStop.busStationEndId,
             itemsRequest: items
         }
+        if (!isLoggedIn) {
+            notifyWarning("Hãy đăng nhập")
+            dispatch(setPreviousUrl("/search"))
+            setTimeout(
+                () =>
+                    navigate("/login")
+                , 2000
+            )
+            return
+
+        }
 
         try {
             setLoading(true)
             //Reserve
             const resp = await BillSV.reserve(objectAdd);
             if (!resp.isError && resp.isError !== undefined) {
-                notifySuccess()
-                setTimeout(() => navigate("/checkout", { state: { Order: objectAdd, TotalPrice: totalPrice1 + totalPrice2 } }), 2000);
+                dispatch(setDetail(objectAdd))
+                dispatch(setTotalPrice(totalPrice1 + totalPrice2))
+                dispatch(setTimeCheckout(Date.now() + 1000 * 60 * 5))
+                // notifySuccess()
+                navigate("/checkout")
+                // setTimeout(() => navigate("/checkout", { state: { Order: objectAdd, TotalPrice: totalPrice1 + totalPrice2 } }), 2000);
             }
             else {
-                notifyError()
+                notifyError(resp.data)
             }
             setLoading(false)
         } catch (error) {
-            notifyError()
+            notifyError(error)
         }
     }
     const timeOptions = {
