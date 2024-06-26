@@ -9,9 +9,12 @@ import { GoogleLogin } from "@react-oauth/google"
 import ReactLoading from 'react-loading';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, setRole } from "../../store/slice/userSlice"
 
 const Login = () => {
-
+    const dispatch = useDispatch();
+    const previousUrl = useSelector((state) => state.user.previousUrl);
     const notifySuccess = () => toast.success('Đăng nhập thành công', {
         position: "bottom-right",
         autoClose: 1500,
@@ -98,9 +101,11 @@ const Login = () => {
                 localStorage.setItem('avatar', response.data.avatar);
                 localStorage.setItem('roleName', response.data.roleName);
                 notifySuccess();
+                dispatch(login());
+                dispatch(setRole(response.data.roleName));
                 setTimeout(() => {
-                    navigate("/");
-                    window.location.reload();
+                    navigate(previousUrl || "/");
+                    // window.location.reload();
                 }, 1000
                 )
             }

@@ -12,6 +12,15 @@
 
 @layer components {
 
+
+    /* App.css */
+    .custom-countdown .ant-statistic-content-value {
+        color: theme('colors.bg');
+        font-size: 16px;
+
+        /* Thay đổi màu sắc theo ý muốn */
+    }
+
     .hoverLink {
         transition: all ease-in-out 0.15s;
         position: relative;

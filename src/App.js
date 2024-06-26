@@ -16,6 +16,9 @@ import { GoogleOAuthProvider } from "@react-oauth/google"
 import Checkout from "./pages/Checkout/Checkout";
 import "../src/styles/App.scss"
 import UserLayout from "./components/Layout/UserLayout/UserLayout";
+import { Provider } from "react-redux";
+import { store, persistor } from '../src/store/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 const CheckoutWrapper = () => {
   const { state } = useLocation();
@@ -26,103 +29,107 @@ const CheckoutWrapper = () => {
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENTID}>
-      <Router>
-        <NotifcationProvider>
-          <div className="font-Amiro bg-bg h-screen overflow-auto text-16">
-            <Routes>
-              {
-                publicRoutes.map((route, index) => {
-                  return <Route
-                    key={index}
-                    path={route.path}
-                    element={
-                      <DefaultLayout>
-                        <route.component />
-                      </DefaultLayout>
-                    }
-                  />
-                })
-              }
-              {
-                guestRoute.map((route, index) => {
-                  return <Route
-                    key={index}
-                    path={route.path}
-                    element={
-                      <UserLayout>
-                        <route.component />
-                      </UserLayout>
-                    }
-                  />
-                })
-              }
-              {
-                privateRoutes.map((route, index) => {
-                  return <Route
-                    key={index}
-                    path={route.path}
-                    element={
-                      <InfoLayout>
-                        <route.component />
-                      </InfoLayout>
-                    }
-                  />
-                })
-              }
-
-              {
-                adminRoutes.map((route, index) => {
-                  return <Route
-                    key={index}
-                    path={route.path}
-                    element={
-                      route.path === "/admin/login" ?
-                        <AdminLogin></AdminLogin>
-                        :
-                        <AdminLayoutSidebar>
-                          <route.component />
-                        </AdminLayoutSidebar>
-                    }
-                  />
-                })
-              }
-
-              {
-                companyRoutes.map((route, index) => {
-                  return <Route
-                    key={index}
-                    path={route.path}
-                    element={
-                      route.path === "/company/login" ?
-                        <CompanyLogin></CompanyLogin> :
-                        route.path === "/company/register" ?
-                          <CompanyRegister></CompanyRegister> :
-                          <CompanyLayout>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENTID}>
+          <Router>
+            <NotifcationProvider>
+              <div className="font-Amiro bg-bg h-screen overflow-auto text-16">
+                <Routes>
+                  {
+                    publicRoutes.map((route, index) => {
+                      return <Route
+                        key={index}
+                        path={route.path}
+                        element={
+                          <DefaultLayout>
                             <route.component />
-                          </CompanyLayout>
-                    }
-                  />
-                })
-              }
-
-              {
-                <Route
-                  path="/checkout"
-                  element={
-                    <DefaultLayout>
-                      <CheckoutWrapper />
-                    </DefaultLayout>
+                          </DefaultLayout>
+                        }
+                      />
+                    })
                   }
-                />
-              }
+                  {
+                    guestRoute.map((route, index) => {
+                      return <Route
+                        key={index}
+                        path={route.path}
+                        element={
+                          <UserLayout>
+                            <route.component />
+                          </UserLayout>
+                        }
+                      />
+                    })
+                  }
+                  {
+                    privateRoutes.map((route, index) => {
+                      return <Route
+                        key={index}
+                        path={route.path}
+                        element={
+                          <InfoLayout>
+                            <route.component />
+                          </InfoLayout>
+                        }
+                      />
+                    })
+                  }
 
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </div>
-        </NotifcationProvider>
-      </Router>
-    </GoogleOAuthProvider>
+                  {
+                    adminRoutes.map((route, index) => {
+                      return <Route
+                        key={index}
+                        path={route.path}
+                        element={
+                          route.path === "/admin/login" ?
+                            <AdminLogin></AdminLogin>
+                            :
+                            <AdminLayoutSidebar>
+                              <route.component />
+                            </AdminLayoutSidebar>
+                        }
+                      />
+                    })
+                  }
+
+                  {
+                    companyRoutes.map((route, index) => {
+                      return <Route
+                        key={index}
+                        path={route.path}
+                        element={
+                          route.path === "/company/login" ?
+                            <CompanyLogin></CompanyLogin> :
+                            route.path === "/company/register" ?
+                              <CompanyRegister></CompanyRegister> :
+                              <CompanyLayout>
+                                <route.component />
+                              </CompanyLayout>
+                        }
+                      />
+                    })
+                  }
+
+                  {
+                    <Route
+                      path="/checkout"
+                      element={
+                        <DefaultLayout>
+                          <CheckoutWrapper />
+                        </DefaultLayout>
+                      }
+                    />
+                  }
+
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </div>
+            </NotifcationProvider>
+          </Router>
+        </GoogleOAuthProvider>
+      </PersistGate>
+    </Provider>
   );
 }
 
