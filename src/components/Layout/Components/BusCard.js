@@ -35,6 +35,7 @@ import Seat from "./Company/Bus/Seat";
 import { useDispatch, useSelector } from 'react-redux';
 import { setPreviousUrl } from "../../../store/slice/userSlice"
 import { setDetail, setTotalPrice, setTimeCheckout } from "../../../store/slice/checkoutSlice"
+import CheckCheckout from "./Common/CheckCheckout";
 const BusCard = ({ item }) => {
     // console.log(item.itemResponses.slice(0, item.itemResponses.length / 2))
     const dispatch = useDispatch();
@@ -86,6 +87,10 @@ const BusCard = ({ item }) => {
 
     const [isChooseTrip, setIsChooseTrip] = useState(false);
     const toggleChooseTrip = () => {
+        if (hasCheckout) {
+            notifyWarning("Bạn đang có hóa đơn cần thanh toán. Vui lòng thanh toán trước khi chọn chuyến đi")
+            return;
+        }
         setIsChooseTrip(!isChooseTrip);
         setAbout(false);
     }
@@ -164,7 +169,7 @@ const BusCard = ({ item }) => {
     const [totalPrice2, setTotalPrice2] = useState(0);
 
     const [selectedIdSeats, setSelectedIdSeats] = useState([]);
-
+    const hasCheckout = CheckCheckout();
     const handleClickSeatOneFloor = (id) => {
         let total = 0;
         const updatedItems = oneStFloor.map(item => {
@@ -286,7 +291,6 @@ const BusCard = ({ item }) => {
     const [isOpenVoucherYTrip, setOpenVoucherYTrip] = useState(false);
     const [isOpenVoucher, setOpenVoucher] = useState(false);
     const [applyVoucher, setApplyVoucher] = useState({ active: false, value: 0 })
-
     const createBill = async () => {
         const items =
             selectedIdSeats.map((item,) => {
@@ -297,6 +301,34 @@ const BusCard = ({ item }) => {
             TicketRouteDetailStartId: selectedBusStop.busStationStartId,
             TicketRouteDetailEndId: selectedBusStop.busStationEndId,
             itemsRequest: items
+        }
+        dispatch(setDetail(objectAdd))
+        dispatch(setTotalPrice(totalPrice1 + totalPrice2))
+        dispatch(setTimeCheckout())
+
+
+
+        if (isLoggedIn) {
+            try {
+                setLoading(true)
+                //Reserve
+                const resp = await BillSV.reserve(objectAdd);
+                if (!resp.isError && resp.isError !== undefined) {
+                    // const timeCheckoutValue = Date.now() + 1000 * 60 * 5;
+                    dispatch(setDetail(objectAdd))
+                    dispatch(setTotalPrice(totalPrice1 + totalPrice2))
+                    dispatch(setTimeCheckout())
+                    // notifySuccess()
+                    navigate("/checkout")
+                    // setTimeout(() => navigate("/checkout", { state: { Order: objectAdd, TotalPrice: totalPrice1 + totalPrice2 } }), 2000);
+                }
+                else {
+                    notifyError(resp.data)
+                }
+                setLoading(false)
+            } catch (error) {
+                notifyError(error)
+            }
         }
         if (!isLoggedIn) {
             notifyWarning("Hãy đăng nhập")
@@ -310,25 +342,7 @@ const BusCard = ({ item }) => {
 
         }
 
-        try {
-            setLoading(true)
-            //Reserve
-            const resp = await BillSV.reserve(objectAdd);
-            if (!resp.isError && resp.isError !== undefined) {
-                dispatch(setDetail(objectAdd))
-                dispatch(setTotalPrice(totalPrice1 + totalPrice2))
-                dispatch(setTimeCheckout(Date.now() + 1000 * 60 * 5))
-                // notifySuccess()
-                navigate("/checkout")
-                // setTimeout(() => navigate("/checkout", { state: { Order: objectAdd, TotalPrice: totalPrice1 + totalPrice2 } }), 2000);
-            }
-            else {
-                notifyError(resp.data)
-            }
-            setLoading(false)
-        } catch (error) {
-            notifyError(error)
-        }
+
     }
     const timeOptions = {
         hour: '2-digit',
@@ -386,7 +400,6 @@ const BusCard = ({ item }) => {
             setLoadingReview(false);
         }
     };
-
     useEffect(() => {
         fetchData();
 
@@ -400,7 +413,7 @@ const BusCard = ({ item }) => {
         setCurrentPage(selectedPage);
     };
     return (
-        <div class='bg-bg w-full flex flex-col my-md rounded-md box-shadow-content hover:shadow-xl hover:scale-[1.01] ease-in-out duration-150 '>
+        <div class='bg-bg w-full flex flex-col my-md rounded-md box-shadow-content hover:shadow-xl  ease-in-out duration-150 '>
             {/* Đây là phần chính của card */}
 
             <div class='w-full h-[200px] flex'>
@@ -752,20 +765,20 @@ const BusCard = ({ item }) => {
                     }
 
 
-                    <ToastContainer
-                        position="bottom-right"
-                        autoClose={2500}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover={false}
-                        theme="light"
-                    />
                 </div >
             }
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
 
         </div >
 

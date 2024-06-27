@@ -8,17 +8,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux';
 import purgeSpecificReducers from '../../store/purgeReducers';
 import { useEffect } from 'react';
+import CheckCheckout from '../../components/Layout/Components/Common/CheckCheckout';
 // { Order, TotalPrice }
 export default function Checkout() {
   let navigate = useNavigate();
   // console.log(Order, TotalPrice);
+  const isCheckout = CheckCheckout();
   const Order = useSelector((state) => state.checkout)
   const TotalPrice = useSelector((state) => state.checkout.ToltalPrice)
   useEffect(
     () => {
       const checkState = () => {
-        if (Order.TicketRouteDetailEndId === 0 || Order.TicketRouteDetailStartId === 0 || TotalPrice === 0
-          || Order.itemsRequest.length === 0
+        if (!isCheckout
         ) {
           notifyWarning(
             "Vui lòng chọn vé trước khi thanh toán"
@@ -29,6 +30,7 @@ export default function Checkout() {
             }, [2000]
           )
         }
+
       }
       checkState();
     }, []
@@ -121,6 +123,7 @@ export default function Checkout() {
                     onClick={() => {
                       setUsePaypal(true);
                     }}
+                    disabled={!isCheckout ? true : false}
                     className='w-[200px]  button-hover text-16 text-txt place-items-center'
                   >
                     Thanh toán bằng paypal
@@ -133,6 +136,7 @@ export default function Checkout() {
               <button
                 className="w-[250px] button-hover text-16 text-txt place-items-center"
                 onClick={() => paymentDirection(Order)}
+                disabled={!isCheckout ? true : false}
               >
                 Thanh toán bằng tiền mặt
               </button>

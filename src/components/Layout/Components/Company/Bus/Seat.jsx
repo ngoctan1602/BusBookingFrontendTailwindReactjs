@@ -2,7 +2,6 @@ import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Seat = ({ color, select }) => {
-    console.log(select)
     return (
         <div className="w-[24px] relative h-[30px] rounded-[3px]" style={{
             border: `1px solid ${color}`

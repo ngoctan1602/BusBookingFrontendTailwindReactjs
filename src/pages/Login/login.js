@@ -11,10 +11,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, setRole } from "../../store/slice/userSlice"
-
+import * as BillSV from "../../services/BillServices"
 const Login = () => {
     const dispatch = useDispatch();
     const previousUrl = useSelector((state) => state.user.previousUrl);
+    const Order = useSelector((state) => state.checkout);
     const notifySuccess = () => toast.success('Đăng nhập thành công', {
         position: "bottom-right",
         autoClose: 1500,
@@ -103,6 +104,23 @@ const Login = () => {
                 notifySuccess();
                 dispatch(login());
                 dispatch(setRole(response.data.roleName));
+                if (previousUrl === "/search") {
+                    try {
+                        const resp = await BillSV.reserve(Order);
+                        if (!resp.isError) {
+                            navigate("/checkout")
+                        }
+                        else {
+                            notifyError(resp.data)
+                            setTimeout(() => {
+                                navigate(previousUrl || "/");
+                            }, 1000
+                            )
+                        }
+                    } catch (error) {
+                        notifyError(error)
+                    }
+                }
                 setTimeout(() => {
                     navigate(previousUrl || "/");
                     // window.location.reload();
