@@ -19,17 +19,24 @@ import { useContext } from "react";
 import { faBell, faCircleDot } from '@fortawesome/free-solid-svg-icons'
 import { NotificationContext } from "../../../context/NotificationContext";
 import getConnection from '../../../services/SignalRService'
-import { setTimeCheckout } from "../../../store/slice/checkoutSlice";
+import { setTimeCheckoutPayload, resetCheckoutState } from "../../../store/slice/checkoutSlice";
 import purgeSpecificReducers from '../../../store/purgeReducers';
+import CheckCheckout from "./Common/CheckCheckout";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const { SubMenu } = Menu;
 const { Countdown } = Statistic;
-// const deadline = Date.now() + 1000 * 60 * 5;
+
 
 const Header = () => {
     const dispatch = useDispatch();
     const login = useSelector((state) => state.user.isLoggedIn)
     const role = useSelector((state) => state.user.role);
     const Order = useSelector((state) => state.checkout)
+    const timeCheckout = localStorage.getItem("TimeCheckout");
+    const isCheckout = CheckCheckout();
+    console.log(Order.timeCheckout, Date.now())
     const contentStyle = {
         backgroundColor: '#FFFF',
         borderRadius: "8px",
@@ -81,6 +88,24 @@ const Header = () => {
         connection.invoke("ReadNotification", item.id);
         navigate(item.href)
     }
+    const cancelCheckout = () => {
+        console.log(Date.now() > Number(timeCheckout))
+        if (Date.now() > Number(timeCheckout)) {
+            notifyWarning("Đã hết thời gian thanh toán. Hãy chọn lại vé nếu bạn vẫn còn nhu cầu")
+            navigate("/search")
+            purgeSpecificReducers(['checkout'])
+        }
+    }
+    const notifyWarning = (message) => toast.warning(message, {
+        position: "bottom-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
     return (
         <div className="flex justify-center bg-[#97D163] overflow-hidden  ">
             <div className="w-[90%] h-[80px] flex items-center justify-between ">
@@ -209,18 +234,33 @@ const Header = () => {
                             </div>
                         }
                         {
-                            login &&
-                            Order.TicketRouteDetailEndId !== 0 && Order.TicketRouteDetailStartId !== 0
-                            && Order.itemsRequest.length !== 0 && Order.timeCheckout !== 0
-                            &&
+                            // login &&
+                            // Order.TicketRouteDetailEndId !== 0 && Order.TicketRouteDetailStartId !== 0
+                            // && Order.itemsRequest.length !== 0
+                            // && timeCheckout > Date.now()
+                            // &&
+                            // checkCheckout() === true ?
+                            isCheckout &&
                             <div className="w-[60px] h-[60px] flex flex-col hover:cursor-pointer" onClick={() => navigate("/checkout")}>
-                                <Countdown className="w-[40px] custom-countdown " value={Order.timeCheckout} onChange={(value) => dispatch(setTimeCheckout(value))} />
+                                <Countdown className="w-[40px] custom-countdown " value={Number(timeCheckout)} onFinish={() => cancelCheckout()} />
                                 <FontAwesomeIcon size="lagre" icon={faCreditCard}></FontAwesomeIcon>
                             </div>
                         }
                     </div>
                 </div>
             </div >
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
         </div >
     );
 }

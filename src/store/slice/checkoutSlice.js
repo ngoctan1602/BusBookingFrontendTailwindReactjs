@@ -6,7 +6,7 @@ const initialState = {
     TicketRouteDetailStartId: 0,
     itemsRequest: [],
     ToltalPrice: 0,
-    timeCheckout: Date.now() + 1000 + 60 * 5,
+    timeCheckout: Date.now() + 1000 * 60 * 5,
 };
 
 const checkoutSlice = createSlice({
@@ -21,20 +21,25 @@ const checkoutSlice = createSlice({
         setTotalPrice: (state, action) => {
             state.ToltalPrice = action.payload;
         },
-        setTimeCheckout: (state, action) => {
+        setTimeCheckout: (state) => {
+            state.timeCheckout = Date.now() + 1000 * 60 * 5;
+            localStorage.setItem("TimeCheckout", Date.now() + + 1000 * 60 * 5);
+        },
+        setTimeCheckoutPayload: (state, action) => {
             state.timeCheckout = action.payload;
         },
         resetCheckoutState: (state) => {
+            localStorage.setItem("TimeCheckout", Date.now());
             return {
                 TicketRouteDetailEndId: 0,
                 TicketRouteDetailStartId: 0,
                 itemsRequest: [],
                 ToltalPrice: 0,
-                timeCheckout: Date.now() + 1000 + 60 * 5,
+                timeCheckout: Date.now(),
             };
         },
     },
 });
 
-export const { setDetail, setTotalPrice, setTimeCheckout, resetCheckoutState } = checkoutSlice.actions;
+export const { setDetail, setTotalPrice, setTimeCheckout, resetCheckoutState, setTimeCheckoutPayload } = checkoutSlice.actions;
 export default checkoutSlice.reducer;
