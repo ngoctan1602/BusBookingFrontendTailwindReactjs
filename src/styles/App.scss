@@ -9,9 +9,66 @@ $height-60: 60px;
 $height-40: 40px;
 $orange-pattle: #FF8A08;
 $blue-pattle: #86A7FC;
+$blue-active: #007bff;
 
 $hover-color-new: #AF8260;
 
+
+.confirm-button-new {
+    border: 1px solid $blue-pattle;
+    // color: theme('colors.bg');
+    // background-color: $blue-active;
+    border-radius: 6px;
+    padding: 8px;
+    transition: ease-in-out 0.3s;
+}
+
+.confirm-button-new:hover {
+    background-color: $blue-active;
+    text-decoration: underline;
+    color: theme('colors.bg');
+    /* border-radius: 8px; */
+}
+
+.paginate-disabled {
+    pointer-events: none;
+    /* Disable click events */
+    opacity: 0.5;
+    /* Reduce opacity to indicate disabled state */
+    cursor: not-allowed;
+    /* Change cursor to indicate disabled state */
+}
+
+.paginate-hover {
+    color: #000;
+    /* Text color */
+    background-color: #f0f0f0;
+    /* Background color */
+    border: 1px solid #ddd;
+    /* Border color */
+    padding: 8px 16px;
+    /* Padding */
+    margin: 0 4px;
+    /* Margin between buttons */
+    text-decoration: none;
+    /* Remove underline */
+    cursor: pointer;
+    /* Pointer cursor */
+}
+
+.paginate-hover:hover {
+    background-color: $blue-active;
+    /* Background color on hover */
+}
+
+.active-link {
+    background-color: $blue-active;
+    /* Background color for active page */
+    color: #fff;
+    /* Text color for active page */
+    border: 1px solid $blue-active;
+    /* Border color for active page */
+}
 
 .custom-menu {
     border-radius: 50%;

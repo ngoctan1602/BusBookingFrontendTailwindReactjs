@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 
 const PaginatedItemsWithAPI = ({ pageCount, handleClick, items, componentToRender, updateStatus, onUpdate, fetchData, nameRadio, type, objectAdd, currentPage, selectedList, changeSelectedList, totalItem }) => {
-
+    const isPrevDisable = currentPage + 1 === 1;
+    const isNextDisabled = pageCount === currentPage + 1;
     const handlePageClick = (event) => {
-        // console.log(event.selected)
         handleClick(event.selected)
     };
 
@@ -32,8 +32,8 @@ const PaginatedItemsWithAPI = ({ pageCount, handleClick, items, componentToRende
                 activeLinkClassName="active-link"
                 className="paginate-link"
                 forcePage={currentPage}
-                previousLinkClassName='paginate-hover'
-                nextLinkClassName='paginate-hover'
+                previousLinkClassName={`paginate-hover ${isPrevDisable ? 'paginate-disabled' : ''}`}
+                nextLinkClassName={`paginate-hover ${isNextDisabled ? 'paginate-disabled' : ''}`}
                 renderOnZeroPageCount={null}
             />
         </>

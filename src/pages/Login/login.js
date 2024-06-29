@@ -67,11 +67,31 @@ const Login = () => {
                 localStorage.setItem('username', response.data.username);
                 localStorage.setItem('avatar', response.data.avatar);
                 notifySuccess();
-                setTimeout(() => {
-                    navigate("/");
-                    window.location.reload();
-                }, 1000
-                )
+                dispatch(login());
+                dispatch(setRole(response.data.roleName));
+                if (previousUrl === "/search") {
+                    try {
+                        const resp = await BillSV.reserve(Order);
+                        if (!resp.isError) {
+                            navigate("/checkout")
+                        }
+                        else {
+                            notifyError(resp.data)
+                            setTimeout(() => {
+                                navigate(previousUrl || "/");
+                            }, 1000
+                            )
+                        }
+                    } catch (error) {
+                        notifyError(error)
+                    }
+                } else {
+
+                    setTimeout(() => {
+                        navigate("/");
+                    }, 1000
+                    )
+                }
             }
             else {
                 notifyError()
@@ -120,12 +140,13 @@ const Login = () => {
                     } catch (error) {
                         notifyError(error)
                     }
+                } else {
+                    setTimeout(() => {
+                        navigate(previousUrl || "/");
+                        // window.location.reload();
+                    }, 1000
+                    )
                 }
-                setTimeout(() => {
-                    navigate(previousUrl || "/");
-                    // window.location.reload();
-                }, 1000
-                )
             }
             else {
                 notifyError()
