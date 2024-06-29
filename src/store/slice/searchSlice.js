@@ -2,8 +2,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    stationStart: 0,
-    stationEnd: 0,
+    stationStart: "",
+    stationEnd: "",
     dateTime: null,
     companyIds: [],
     timeInDays: [],
@@ -29,8 +29,8 @@ const searchSlice = createSlice({
         },
         resetSearch: (state) => {
             return {
-                stationStart: 0,
-                stationEnd: 0,
+                stationStart: "",
+                stationEnd: "",
                 dateTime: null,
                 companyIds: [],
                 timeInDays: [],

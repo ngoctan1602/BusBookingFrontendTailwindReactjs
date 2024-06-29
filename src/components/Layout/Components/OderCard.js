@@ -11,13 +11,15 @@ import * as BillServices from "../../../services/BillServices"
 import ReactLoading from 'react-loading';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LogoCompanyNull from "../../../../src/assets/images/defaultCompanyLogo.jpg"
+import { Button } from "antd";
 const OrderCard = ({ item }) => {
     const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
 
     let seatItems = []
     item.items.map(
         (item) => {
-            seatItems.push(item.id)
+            seatItems.push(item.seatNumber)
         }
     )
     const notifySuccess = (message) => toast.success(message, {
@@ -47,11 +49,11 @@ const OrderCard = ({ item }) => {
             const resp = await BillServices.changeIsDelete({ id: item.id });
             if (resp.isError) {
                 notifyError(resp.data)
+                return
             }
-            notifySuccess("Thêm đánh giá thành công")
+            notifySuccess("Hủy chuyến đi thành công")
         } catch (error) {
             console.log(error.data)
-            // notifySuccess(error)
         }
     }
     const [rating, setRating] = useState();
@@ -108,7 +110,10 @@ const OrderCard = ({ item }) => {
 
 
                 <div class='col-span-1 flex items-center overflow-hidden'>
-                    <img class='w-[80px] h-[80px] object-cover rounded-md' src="https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg" />
+                    <img class='w-[80px] h-[80px] object-cover rounded-md'
+                        src={LogoCompanyNull}
+                    //  src="https://www.kkday.com/vi/blog/wp-content/uploads/chup-anh-dep-bang-dien-thoai-25.jpg" 
+                    />
                 </div>
                 <div class='col-span-4 flex justify-center flex-col min-h-[120px] px-sm'>
                     <p class='mx-md'>Nhà xe : {item.items[0].company}</p>
@@ -118,6 +123,7 @@ const OrderCard = ({ item }) => {
 
                 </div>
                 <div class='col-span-4 flex justify-center flex-col min-h-[120px] px-sm'>
+                    <p>Ngày mua vé: {new Date(item.dateCreate).toLocaleString()}</p>
                     <p>Điểm đón: {item.busStationStart}</p>
                     <p>Điểm đến: {item.busStationEnd}</p>
                     <p>Giờ khởi hành: {new Date(item.dateDeparture).toLocaleString()}</p>
@@ -129,7 +135,7 @@ const OrderCard = ({ item }) => {
             </div>
 
             <div class='flex items-center justify-end my-md '>
-                <Popup trigger={<button class={item.status === 7 ? "confirm-button mx-md" : "hidden"}> Đánh giá chuyến đi</button>} position="right center"
+                <Popup trigger={<button class={item.status === 7 ? "confirm-button-new mx-md" : "hidden"}> Đánh giá chuyến đi</button>} position="right center"
                     modal
                     nested
                     closeOnDocumentClick={false}
@@ -150,7 +156,7 @@ const OrderCard = ({ item }) => {
                                     </div>
                                 }
                                 <p class='text-20 text-center font-bold'>Đánh giá chuyến đi</p>
-    
+
                                 {/* <div class='flex items-center justify-center'> */}
                                 <div class='grid w-full grid-cols-12 '>
                                     {/* <p class='w-[60px] shrink-0'>Bình luận</p> */}
@@ -193,7 +199,7 @@ const OrderCard = ({ item }) => {
                 {
                     item.status === 5 &&
 
-                    <button class='confirm-button' onClick={cancelOrder} >Hủy chuyến đi</button>
+                    <button class='confirm-button-new' onClick={cancelOrder} >Hủy chuyến đi</button>
                 }
                 <ToastContainer
                     position="bottom-right"

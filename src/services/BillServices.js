@@ -4,8 +4,8 @@ export const reserve = async (data) => {
     return await BaseAPI.postItem(billServices.reserve, data);
 }
 
-export const getAllBillinUser = async (pageSize) => {
-    return await BaseAPI.getItems(billServices.getAll, pageSize);
+export const getAllBillinUser = async (data) => {
+    return await BaseAPI.getItems(billServices.getAll, data);
 }
 
 export const changeIsDelete = async (id) => {

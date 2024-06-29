@@ -7,6 +7,8 @@ import ReactLoading from 'react-loading';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from "antd/es/input/Search";
 import { Input } from "antd";
+import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
+
 const Order = () => {
     document.title = "Quản lý chuyến đi"
 
@@ -45,6 +47,8 @@ const Order = () => {
 
         setOffsetLeft(offsetLeft);
         setOffsetWidth(offsetWidth);
+        setTotalPage(0);
+        setPageCurrent(0);
         setListAbout(updatedItems);
         fetchData(id);
     }
@@ -54,38 +58,42 @@ const Order = () => {
         fetchData(getActiveItem());
 
     }, []);
-
+    const [pageCurrent, setPageCurrent] = useState(0)
+    const [totalPage, setTotalPage] = useState(0);
     const fetchData = async (id) => {
         setLoading(true)
         try {
             var response;
             if (id === 1) {
-                response = await BillSV.getAllBillinUser({ pageSize: 200 });
+                response = await BillSV.getAllBillinUser({ pageSize: 10, pageIndex: pageCurrent + 1 });
             }
             else if (id === 2) {
-                response = await BillSV.getAllInWaitingStatus({ pageSize: 200 });
+                response = await BillSV.getAllInWaitingStatus({ pageSize: 10, pageIndex: pageCurrent + 1 });
             }
             else if (id === 3) {
-                response = await BillSV.getAllInCompleteStatus({ pageSize: 200 });
+                response = await BillSV.getAllInCompleteStatus({ pageSize: 10, pageIndex: pageCurrent + 1 });
             }
             else if (id === 4) {
-                response = await BillSV.getAllInDeleteStatus({ pageSize: 200 });
+                response = await BillSV.getAllInDeleteStatus({ pageSize: 10, pageIndex: pageCurrent + 1 });
             }
 
             console.log(response.data.items)
-            setListOder(response.data.items)
+            if (!response.isError) {
+                setListOder(response.data.items)
+                setTotalPage(response.data.pageTotal)
+            }
             setLoading(false)
         } catch (error) {
             console.error('Error fetching data:', error);
             setLoading(false)
         }
     };
-
-    // const listOrderComplete = listOrder.filter((order) => order.status === "complete")
-
-    // const listOrderCancle = listOrder.filter((order) => order.status === "cancel")
-
-    // const listOrderConfirm = listOrder.filter((order) => order.status === "confirm")
+    useEffect(() => {
+        fetchData(getActiveItem());
+    }, [pageCurrent])
+    const handlePageClick = (selectedPage) => {
+        setPageCurrent(selectedPage);
+    };
 
 
     const [loading, setLoading] = useState(false);
@@ -118,70 +126,21 @@ const Order = () => {
                     }
                     <span class='h-[2px] bottom-position ease-in-out duration-500 bg-[#97D163]' style={{ left: `${offsetLeft}px`, width: `${offsetWidth}px` }}></span>
                 </div>
-                {/* <div class=' w-content my-md h-[50px] text-txt border-[1px] border-txt text-16 rounded-md overflow-hidden duration-75'
-                    style={{ border: isFocus ? "2px solid #00B873" : "" }}>
-                    <div class='grid grid-flow-row grid-cols-12 h-full rounded-md'>
-                        <div class='col-span-1 text-center  flex items-center justify-center'>
-                            <img class='w-[20px] h-[20px]' src={magnifyingGlass} />
-                        </div>
-                        <input placeholder="Tìm đơn hàng theo mã đơn hàng, nhà xe, ngày đi"
-                            class='bg-[#e1e1e1] col-span-10 focus:outline-none focus:border-none' onFocus={() => setIsFocus(!isFocus)}
-                            onBlur={() => setIsFocus(!isFocus)}
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                        >
-                        </input>
-                        <div class='col-span-1 text-center  flex items-center justify-center border-l-[2px]   
-                        my-sm   '
-                            style={{ borderLeft: isFocus ? "2px solid #00B873" : "" }}>
-                            <p class='col-span-1 text-center cursor-pointer hover:text-button hover:underline'
-                                onClick={() => alert(search)}>Tìm kiếm</p>
-                        </div>
-                    </div>
-                </div> */}
                 <div className="my-md w-content h-[50px]">
                     <Search placeholder="Tìm kiếm chuyến đi" allowClear onSearch={() => alert("Đã tìm kiếm")}></Search>
                 </div>
-
                 {loading ?
                     <div className="animate-pulse bg-hover-txt w-content h-[400px] text-bg text-center">
 
                     </div>
                     :
-                    listOrder.length !== 0 ?
-                        listOrder.map((item, index) => (
-                            <OrderCard item={item} ></OrderCard>
-                        ))
+
+                    !loading && listOrder.length > 0 ?
+
+                        <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={OrderCard} items={listOrder} pageCount={totalPage} currentPage={pageCurrent}></PaginatedItemsWithAPI>
                         :
                         "Không có chuyến đi nào"
                 }
-
-                {/* {
-                    listOrder &&
-                    listOrder.map((item, index) => (
-                        <OrderCard item={item}></OrderCard>
-                    ))
-                } */}
-                {/* {
-                    listAbout[0].active ?
-                        listOrder.map((item, index) => (
-                            <OrderCard item={item}></OrderCard>
-                        )) :
-                        listAbout[2].active ?
-                            listOrderComplete.map((item, index) => (
-                                <OrderCard item={item}></OrderCard>
-                            )) :
-                            listAbout[1].active ?
-                                listOrderConfirm.map((item, index) => (
-                                    <OrderCard item={item}></OrderCard>
-                                )) : listAbout[3].active &&
-                                listOrderCancle.map((item, index) => (
-                                    <OrderCard item={item}></OrderCard>
-                                ))
-
-                } */}
-
-
             </div>
 
         </div>

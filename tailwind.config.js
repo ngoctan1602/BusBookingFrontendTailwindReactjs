@@ -31,6 +31,7 @@ module.exports = {
       'disable': "#e1e1e1",
       'warning': "#FFC107",
       'border-top': "#0000001f",
+      'blueActive': " #007bff",
     },
     fontSize: {
       '12': '12px',
