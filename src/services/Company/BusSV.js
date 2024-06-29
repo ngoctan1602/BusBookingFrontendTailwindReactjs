@@ -36,6 +36,9 @@ export const getById = async (params) => {
 export const update = async (data) => {
     return await BaseAPI.putItem(busServices.update, data);
 }
+export const find = async(param) => {
+    return await BaseAPI.getItems(busServices.find, param);
+}
 const busServices = {
     allBusOfCompany: 'buses/getAll',
     getById: 'buses/get',
@@ -44,6 +47,6 @@ const busServices = {
     changeIsDisable: 'buses/changeIsDisable',
     changeIsActive: 'buses/changeIsActive',
     GetInRoute: 'buses/GetInRoute',
-    getById: 'buses/get',
-    update: 'buses/update'
+    update: 'buses/update',
+    find: "buses/find"
 }

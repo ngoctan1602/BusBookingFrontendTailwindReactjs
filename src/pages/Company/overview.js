@@ -147,6 +147,18 @@ const Overview = () => {
         theme: "light",
     });
 
+    const find = async(param) => {
+        try {
+            const response = await busServices.find({ param: param, pageSize: 10, pageIndex: currentPage });
+            if (!response.isError) {
+                setBus(response.data.items);
+                setPageTotal(response.data.pageTotal)
+            }
+        } catch (error) {
+            console.log('Error fetching data:', error);
+        }
+    }
+
     const navigate = useNavigate();
 
     return (
@@ -159,7 +171,7 @@ const Overview = () => {
                         placeholder="Tìm kiếm xe"
                         allowClear
                         className="col-start-3 col-span-8 p-md"
-                    // onSearch={onSearch}
+                    onSearch={find}
                     // style={{
                     //     width: 200,
                     // }}

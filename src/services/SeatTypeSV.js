@@ -15,11 +15,15 @@ export const changeIsActive = async (id) => {
 export const changeToDisable = async (id) => {
     return await BaseAPI.putItem(seatTypeSV.changeToDisable, null, id);
 }
+export const find = async(param) => {
+    return await BaseAPI.getItems(seatTypeSV.find, param);
+}
 
 const seatTypeSV = {
     getAllSeatTypes: 'seatTypes/getAll',
     createSeatType: 'seatTypes/admin/create',
     updateSeatTypesAdmin: 'seatTypes/admin/update',
     changeIsActive: 'seatTypes/changeIsActive',
-    changeToDisable: 'seatTypes/changeToDisable'
+    changeToDisable: 'seatTypes/changeToDisable',
+    find: 'seatTypes/find'
 }

@@ -15,11 +15,15 @@ export const ChangeIsActive = async (params) => {
 export const ChangeIsWaiting = async (params) => {
     return await BaseAPI.putItem(priceSV.ChangeIsWaiting, null, params);
 }
+export const Find = async (params) => {
+    return await BaseAPI.getItems(priceSV.find, params);
+}
 
 const priceSV = {
     create: 'Prices/Create',
     getInCompany: 'Prices/getInCompany',
     getAll: 'Prices/getAll',
     ChangeIsActive: 'Prices/ChangeIsActive',
-    ChangeIsWaiting: 'Prices/ChangeIsWaiting'
+    ChangeIsWaiting: 'Prices/ChangeIsWaiting',
+    find: "prices/find",
 }

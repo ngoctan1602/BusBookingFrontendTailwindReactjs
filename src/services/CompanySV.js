@@ -15,12 +15,17 @@ export const Delete = async (params) => {
 export const Register = async (data) => {
     return await BaseAPI.createFormData(API.register, data)
 }
+export const Find = async (param) =>{
+    return await BaseAPI.getItems(API.find, param)
+}
+
 const API = {
     register: 'companies/register',
     getAll: 'companies/admin/getAll',
     ChangIsActive: 'companies/admin/active',
     ChangeIsLock: 'companies/admin/ChangeIsLock',
-    delete: 'companies/delete'
+    delete: 'companies/delete',
+    find: 'companies/admin/find'
 }
 
 const companiesSV = {
@@ -28,7 +33,8 @@ const companiesSV = {
     ...ChangIsActive,
     ...ChangeIsLock,
     ...Delete,
-    ...Register
+    ...Register,
+    ...Find
 }
 
 export default companiesSV;

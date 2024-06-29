@@ -15,9 +15,13 @@ export const getAllRoutesByCompany = async (params) => {
 export const createRoute = async (data) => {
     return await BaseAPI.postItem(routes.createRoutes, data, null);
 }
+export const find = async (param) => {
+    return await BaseAPI.getItems(routes.find, param);
+}
 
 const routes = {
     getAllRoutes: 'routes/getAll',
     createRoutes: 'routes/create',
-    getByCompany: 'routes/getByCompany'
+    getByCompany: 'routes/getByCompany',
+    find: 'routes/find'
 }

@@ -10,6 +10,8 @@ import * as RoutesSV from "../../services/RoutesSV"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RoutesRow from '../../components/Layout/Components/Admin/manageRoutes/RouteRow';
+import Search from "antd/es/input/Search";
+
 
 const ManageRoutes = () => {
     const exportToExcel = () => {
@@ -115,6 +117,17 @@ const ManageRoutes = () => {
 
     // }
     const [updateLoading, setUpdateLoading] = useState(false)
+    const Find = async(param)=> {
+        setLoading(true)
+        try {
+            const response = await RoutesSV.find({ params: param, pageSize: 10, pageIndex: 1 });
+            setLoading(false)
+            if (!response.isError)
+                setRoutes(response.data.items)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
     return (
         <div class='w-full text-txt txt-16 min-h-[600px] relative mt-[20px]'>
             {
@@ -129,7 +142,12 @@ const ManageRoutes = () => {
             }
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                 <p class='col-span-2 font-bold text-20 font-black uppercase'>Quản lý tuyến đường</p>
-                <input placeholder="Tìm kiếm" class='col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
+                <Search
+                        placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
+                        allowClear
+                        className="col-start-7 col-span-5 p-md"
+                    onSearch={Find}
+                    />
                 <div class='flex col-span-1 col-start-8 justify-evenly'>
 
                     <PopupAdd fetchData={fetchData}></PopupAdd>

@@ -22,10 +22,16 @@ export const updateBusStation = async (data) => {
 export const createBusStation = async (data) => {
     return await BaseAPI.postItem(busStationSV.createBusStation, data)
 }
+export const find = async (param) => {
+    return await BaseAPI.getItems(busStationSV.find, param)
+
+}
+
 const busStationSV = {
     allBusStation: 'stations/getall',
     getByLocation: 'stations/getByLocation',
     updateBusStation: 'stations/admin/update',
     createBusStation: 'stations/admin/create',
-    getAllInBus: 'stations/getallinbus'
+    getAllInBus: 'stations/getallinbus',
+    find: 'stations/admin/find'
 }
