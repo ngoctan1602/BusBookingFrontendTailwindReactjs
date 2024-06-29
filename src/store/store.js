@@ -5,9 +5,11 @@ import storage from 'redux-persist/lib/storage';
 import userReducer from './slice/userSlice';
 import checkoutReducer from './slice/checkoutSlice';
 import { combineReducers } from 'redux';
+import searchReducer from './slice/searchSlice';
 const rootReducer = combineReducers({
     user: userReducer,
     checkout: checkoutReducer,
+    search: searchReducer
     // thêm các reducers khác ở đây nếu có
 });
 

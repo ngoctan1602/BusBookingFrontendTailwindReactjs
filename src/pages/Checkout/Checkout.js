@@ -9,6 +9,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import purgeSpecificReducers from '../../store/purgeReducers';
 import { useEffect } from 'react';
 import CheckCheckout from '../../components/Layout/Components/Common/CheckCheckout';
+import CurrencyFormat from 'react-currency-format';
+import { Button, Col, Row } from 'antd';
 // { Order, TotalPrice }
 export default function Checkout() {
   let navigate = useNavigate();
@@ -93,8 +95,8 @@ export default function Checkout() {
 
   return (
     <div
-      className='min-h-[300px] w-[60%] flex flex-col justify-start pt-[50px]'>
-      {
+      className='min-h-[300px] w-[60%] flex flex-col justify-start '>
+      {/* {
         loading &&
 
         <div class='absolute  w-full h-[500px] z-20 opacity-40'>
@@ -104,64 +106,92 @@ export default function Checkout() {
             className="absolute  left-1/2 top-[50%]  "
           />
         </div>
-      }
+      } */}
       <h1 className="text-[50px] uppercase text-center p-[20px]">Thanh toán</h1>
 
-      <div className="flex flex-row justify-between p-[20px]">
-        <div className="rounded-lg basis-2/3 drop-shadow-2xl border border-rose-[500] p-[50px]">
-          <h1 className="text-[30px] mb-[10px] text-center">Payment</h1>
+      <div className="flex flex-row justify-between p-[20px] w-full ">
+        <Col span={12} className="rounded-lg border border-rose-[500] p-[50px]">
+          <h1 className="text-[30px] mb-[10px] text-center">Chọn phương thức thanh toán</h1>
           <div
-            className='flex flex-wrap justify-between'>
-            <div className="p-[20px] ">
+            className='flex flex-wrap justify-between  min-w-[250px]'>
+            <div className="p-[20px] min-w-[250px]">
               {
                 usePaypal ? (
                   <>
                     <Paypal totalPrice={TotalPrice} order={Order} />
                   </>
                 ) : (
-                  <button
+                  <Button
+
                     onClick={() => {
                       setUsePaypal(true);
                     }}
-                    disabled={!isCheckout ? true : false}
-                    className='w-[200px]  button-hover text-16 text-txt place-items-center'
+                    disabled={!isCheckout ? true : false || loading ? true : false}
+                    className='w-[250px]  button-hover text-16 text-txt place-items-center'
                   >
                     Thanh toán bằng paypal
-                  </button>
+                  </Button>
                 )
               }
             </div>
             <div
               className='p-[20px] '>
-              <button
+              <Button
+                loading={loading}
                 className="w-[250px] button-hover text-16 text-txt place-items-center"
                 onClick={() => paymentDirection(Order)}
                 disabled={!isCheckout ? true : false}
               >
                 Thanh toán bằng tiền mặt
-              </button>
+              </Button>
             </div>
 
           </div>
-        </div>
-        <div className="rounded-lg basis-1/10 drop-shadow-2xl border border-rose-[500] p-[50px]">
-          <h1 className="text-[30px] mb-[10px] text-center">Order</h1>
-          <div className="p-[20px] ">
-            {Order && Order.itemsRequest ? (
-              <ul>
-                {Order.itemsRequest.map((item, index) => (
-                  <li key={index} className="mb-[10px]">
-                    {/* {item.name} - {item.quantity} x {item.price} VND */}
-                    Mã ghế: {item.ticketItemId}
-                  </li>
-                ))}
-                <p>Tổng tiền {TotalPrice}</p>
-              </ul>
-            ) : (
-              <p>No items in the order.</p>
-            )}
+        </Col>
+        <Col span={12} className="rounded-lg border border-rose-[500] p-[50px]">
+          <h1 className="text-[30px] mb-[10px] text-center">Hóa đơn</h1>
+          <div className='w-full min-h-[300px] '>
+            {isCheckout && Order.nameItems ? (
+              <Row >
+                <Row className='text-16'>
+                  <Col className='text-16 font-[500]'>
+                    Điểm đón:
+                  </Col>
+                  {new Date(Order.timeItems["busStationStartId"]).toLocaleString()} - {Order.nameStations["busStationStartId"]}
+                </Row>
+                <Row className='text-16'>
+                  <Col className='text-16 font-[500]'>
+                    Điểm đến:
+                  </Col>
+                  <Col className='text-16'>
+                    {new Date(Order.timeItems["busStationEndId"]).toLocaleString()} - {Order.nameStations["busStationStartId"]}
+                  </Col>
+                </Row>
+                <Row className='text-16'>
+                  <Col className='font-[500] text-16'>
+                    Ghế đã chọn :
+                  </Col>
+                  <Col className='ml-sm'>
+                    {Order.nameItems.map((item, index) => (
+                      <Col className='text-16'>
+                        {item}
+                      </Col>
+                    ))}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className='font-[500] my-sm text-16'>
+                    Tổng tiền: <span></span>
+                    <CurrencyFormat class='my-sm' value={TotalPrice} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
+                  </Col>
+                </Row>
+              </Row>
+            ) : <Row>
+              Chưa có hóa đơn
+            </Row>
+            }
           </div>
-        </div>
+        </Col>
         <ToastContainer
           position="bottom-right"
           autoClose={2500}

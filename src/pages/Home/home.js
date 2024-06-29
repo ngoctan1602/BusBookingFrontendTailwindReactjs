@@ -18,7 +18,12 @@ import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import ReactLoading from 'react-loading';
+import { useSelector, useDispatch } from "react-redux";
+import { setSearch } from "../../store/slice/searchSlice";
 const Home = () => {
+    const dispatch = useDispatch();
+    const searchSlice = useSelector((state) => state.search);
+    console.log(searchSlice)
     var settings = {
         dots: true,
         infinite: true,
@@ -86,12 +91,12 @@ const Home = () => {
         },
 
     ])
-    const search = JSON.parse(localStorage.getItem('formSearch'));
+    // const search = JSON.parse(localStorage.getItem('formSearch'));
     const [loading, setLoading] = useState(false)
     const [formSearch, setFormSearch] = useState({
-        stationStart: search ? search.stationStart : '',
-        stationEnd: search ? search.stationEnd : '',
-        dateTime: search ? search.dateTime : '',
+        stationStart: searchSlice ? searchSlice.stationStart : '',
+        stationEnd: searchSlice ? searchSlice.stationEnd : '',
+        dateTime: searchSlice ? searchSlice.dateTime : '',
     });
 
     const onChange = (e) => {
@@ -101,6 +106,7 @@ const Home = () => {
 
     const btnClick = () => {
         localStorage.setItem("formSearch", JSON.stringify(formSearch));
+        dispatch(setSearch(formSearch))
         setLoading(true)
         setTimeout(() => {
             setLoading(false)
@@ -213,7 +219,7 @@ const Home = () => {
                 </Slider>
             </div>
 
-            <div className='min-h-[420px] w-[60%] my-md pt-[50px] my-md flex flex-col'>
+            <div className='min-h-[420px] w-[60%] pt-[50px] my-md flex flex-col'>
                 <p className="font-bold text-[24px] my-md">Nền tảng kết nối người dùng và nhà xe</p>
                 <div className='flex justify-between w-full h-[80%]'>
                     {/* <Card type="introduce">

@@ -1,6 +1,8 @@
 import MultiRangeSlider from "multi-range-slider-react";
 import Input from "../../components/Layout/Components/Input";
 import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import CurrencyFormat from "react-currency-format";
 // import Rating from "../../components/Layout/Components/Rating";
 // import { Rating } from 'react-simple-star-rating';
@@ -11,8 +13,32 @@ import SearchHeader from "../../components/Layout/Components/SearchHeader";
 import ticketService from "../../services/TicketService";
 import ReactLoading from 'react-loading';
 import { Carousel, Col, Row, Skeleton } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { setSearch, setSort } from "../../store/slice/searchSlice";
 const Search = () => {
+    const dispatch = useDispatch();
+    const searchSlice = useSelector((state) => state.search);
+    const notifySuccess = (message) => toast.success(message, {
+        position: "bottom-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
 
+    const notifyError = (message) => toast.error(message, {
+        position: "bottom-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
     const [sort, setSort] = useState([
         { id: 3, content: 'Giá tăng dần', checked: true },
         { id: 4, content: 'Giá giảm dần', checked: false },
@@ -193,56 +219,71 @@ const Search = () => {
 
     const handSearch = async (search) => {
         // alert(selectedRadio)
-        search.companyIds = company.map((item) => item.companyId);
-        search.timeInDays = startTime.filter((item) => item.checked).map((item) => item.id);
-        search.priceIsDesc = selectedRadio === 4 ? true : false
-        console.log(search);
+        // const sort = {
+        //     companyIds: company.map((item) => item.companyId),
+        //     timeInDays: startTime.filter((item) => item.checked).map((item) => item.id),
+        //     priceIsDesc: selectedRadio === 4 ? true : false,
+        // }
+        const newSearch = {
+            ...search,
+            ["companyIds"]: company.map((item) => item.companyId),
+            ["timeInDays"]: startTime.filter((item) => item.checked).map((item) => item.id),
+            ["priceIsDesc"]: selectedRadio === 4 ? true : false,
+        }
+        // search.companyIds = company.map((item) => item.companyId);
+        // search.timeInDays = startTime.filter((item) => item.checked).map((item) => item.id);
+        // search.priceIsDesc = selectedRadio === 4 ? true : false
+        dispatch(setSearch(newSearch))
+        // dispatch(setSort(sort))
         setLoading(true)
         try {
-            const response = await ticketService.findTicket(search)
-            setBusInfo(response.data.items)
-            const companies = [];
-            setCompany(companies)
-            busInfo.forEach((item) => {
-                let isExist = false;
+            const response = await ticketService.findTicket(newSearch)
+            if (response.status === 400) {
+                setBusInfo([])
+                notifyError(response.title)
+                setLoading(false)
+                return
+            }
+            if (!response.isError) {
+                setBusInfo(response.data.items)
+                const companies = [];
+                setCompany(companies)
+                busInfo.forEach((item) => {
+                    let isExist = false;
 
-                for (const company of companies) {
-                    if (company.companyId === item.companyId) {
-                        isExist = true;
-                        break;
+                    for (const company of companies) {
+                        if (company.companyId === item.companyId) {
+                            isExist = true;
+                            break;
+                        }
                     }
-                }
 
-                // Nếu chưa có, thêm vào mảng companies
-                if (!isExist) {
-                    companies.push({
-                        companyId: item.companyId,
-                        companyName: item.company,
-                    });
-                }
-            });
+                    // Nếu chưa có, thêm vào mảng companies
+                    if (!isExist) {
+                        companies.push({
+                            companyId: item.companyId,
+                            companyName: item.company,
+                        });
+                    }
+                });
 
-            setCompany(companies)
-
-            console.log(response)
+                setCompany(companies)
+            }
+            else {
+                notifyError(response.data)
+                setBusInfo([])
+            }
             setLoading(false)
         }
         catch (error) {
             console.log(error)
+            notifyError(error)
             setLoading(false)
         }
 
     }
     const onChangeRadioSort = (value) => {
-        // const updatedItems = sort.map(item => {
-        //     if (item.id === id) {
-        //         return { ...item, checked: true }
-        //     }
-        //     return { ...item, checked: true };
-        // });
-        // setSort(updatedItems);
         setSelectedRadio(value)
-        // alert(selectedRadio)
     }
     const [selectedRadio, setSelectedRadio] = useState(1)
     const contentStyle = {
@@ -398,6 +439,19 @@ const Search = () => {
                     </Carousel>
                 </Col>
             </Row>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
+
         </div>
     );
 }

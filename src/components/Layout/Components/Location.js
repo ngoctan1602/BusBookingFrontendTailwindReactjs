@@ -12,9 +12,9 @@ const Location = ({ item, onChange, name, selectedBusStop, isStart }) => {
                         type="radio"
                         onClick={(e) => {
                             if (isStart && item.ticketRouteDetailId !== selectedBusStop.busStationEndId) {
-                                onChange(name, item.ticketRouteDetailId, item.address, item.departureTime);
-                            } else if (!isStart && item.ticketRouteDetailId !== selectedBusStop.busStationStartId) {
                                 onChange(name, item.ticketRouteDetailId, item.address, item.arrivalTime);
+                            } else if (!isStart && item.ticketRouteDetailId !== selectedBusStop.busStationStartId) {
+                                onChange(name, item.ticketRouteDetailId, item.address, item.departureTime);
                             }
                         }}
                         checked={item.ticketRouteDetailId === selectedBusStop[name]}
