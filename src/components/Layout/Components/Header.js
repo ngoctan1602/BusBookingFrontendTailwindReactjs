@@ -4,23 +4,39 @@ import Button from "./Button";
 import React, { useState, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faCreditCard, faPhone } from "@fortawesome/free-solid-svg-icons";
 // import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import avatarDefault from '../../../assets/images/avatar.png'
 import configs from "../../../configs";
 import { Icon } from "@mui/material";
-import { Menu, Modal } from "antd";
+import { Menu, Modal, Statistic } from "antd";
 import Popup from "reactjs-popup";
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/vi';
-import {useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useContext } from "react";
 import { faBell, faCircleDot } from '@fortawesome/free-solid-svg-icons'
 import { NotificationContext } from "../../../context/NotificationContext";
 import getConnection from '../../../services/SignalRService'
+import { setTimeCheckoutPayload, resetCheckoutState } from "../../../store/slice/checkoutSlice";
+import purgeSpecificReducers from '../../../store/purgeReducers';
+import CheckCheckout from "./Common/CheckCheckout";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const { SubMenu } = Menu;
+const { Countdown } = Statistic;
+
 
 const Header = () => {
+    const dispatch = useDispatch();
+    const login = useSelector((state) => state.user.isLoggedIn)
+    const role = useSelector((state) => state.user.role);
+    const Order = useSelector((state) => state.checkout)
+    const timeCheckout = localStorage.getItem("TimeCheckout");
+    const isCheckout = CheckCheckout();
+    console.log(Order.timeCheckout, Date.now())
     const contentStyle = {
         backgroundColor: '#FFFF',
         borderRadius: "8px",
@@ -42,9 +58,9 @@ const Header = () => {
         setLogoutOpen(false)
         setTimeout(
             () => {
-
+                purgeSpecificReducers(['user', 'checkout']);
                 navigate("/login")
-                window.location.reload();
+                // window.location.reload();
             }, 1000
         )
     }
@@ -72,10 +88,27 @@ const Header = () => {
         connection.invoke("ReadNotification", item.id);
         navigate(item.href)
     }
+    const cancelCheckout = () => {
+        console.log(Date.now() > Number(timeCheckout))
+        if (Date.now() > Number(timeCheckout)) {
+            notifyWarning("Đã hết thời gian thanh toán. Hãy chọn lại vé nếu bạn vẫn còn nhu cầu")
+            navigate("/search")
+            purgeSpecificReducers(['checkout'])
+        }
+    }
+    const notifyWarning = (message) => toast.warning(message, {
+        position: "bottom-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
     return (
-
-        <header className="flex justify-center bg-[#97D163]">
-            <div className="w-100% h-[80px] flex items-center justify-between w-[90%]">
+        <div className="flex justify-center bg-[#97D163] overflow-hidden  ">
+            <div className="w-[90%] h-[80px] flex items-center justify-between ">
                 <Link className="hover:opacity-95" to="/">
                     <img src={logo} className="w-[120px] h-[60px] rounded-8 object-cover" />
                 </Link>
@@ -110,7 +143,7 @@ const Header = () => {
                         >
 
                         </Modal>
-                        {isLoggedIn ? (
+                        {(login && role === "CUSTOMER") ? (
                             <Menu className="mx-md custom-menu">
                                 <SubMenu className="custom-submenu" >
                                     <Menu.Item onClick={() => setLogoutOpen(true)} key="1">Đăng xuất</Menu.Item>
@@ -131,80 +164,104 @@ const Header = () => {
                                 </Button>
                             </Link>
                         )}
-                    </div>
+                        {
+                            login && role === "CUSTOMER" &&
+                            <div className="w-[30px]">
 
-                    {/*@this is notification UI  --Start*/}
-                <div className="col-span-1 col-start-11">
-
-<div
-    className="relative">
-    <Popup
-        trigger={<button
-            className="flex justify-center cursor-default"
-        >
-            <button
-                className=""
-                onClick={getNotifications}>
-                <FontAwesomeIcon icon={faBell} color="#5C98FF"
-                    className='cursor-pointer w-[full] h-[20px] hover:text-[#307BFD] ease-in-out duration-200'>
-                </FontAwesomeIcon>
-                <span className="text-text-red text-[14px] absolute top-[-50%] left-[10%]">{counter}</span>
-            </button>
-        </button>}
-        position="top right"
-        modal
-        nested
-        closeOnDocumentClick={true}
-        {... { contentStyle }}
-    >
-        {
-            close => (
-
-                <div className='text-16 text-txt min-h-[100px] relative'>
-                    <div className='bg-[#3F5F97] p-[10px] rounded-[8px] w-full h-[100px] text-center'>
-                        <p className='text-20 text-txt-light p-[5px]'>Thông báo của bạn</p>
-                        <p className='text-10 text-txt-light p-[5px]'>Bạn đang có <span className="font-bold">{counter}</span> thông báo chưa đọc</p>
-
-                    </div>
-
-                    <div className='w-full my-md gap-sm grid max-h-[300px] min-h-[300px] overflow-auto'>
-                        {notifiData.length > 0 ? (
-                            <div className="grid h-[100px]">
-                                {notifiData.map((item, index) => (
-                                    <button
-                                        key={index}
-                                        onClick={() => {
-                                            directNotification(item);
-                                            close();
-                                        }}
-                                        className={`p-[10px] rounded-lg ${item.status === 2 ? 'bg-notification' : ''} hover:bg-notificationNotRead flex justify-between`}
+                                <div
+                                    className="relative">
+                                    <Popup
+                                        trigger={<button
+                                            className="flex justify-center cursor-default"
+                                        >
+                                            <button
+                                                className=""
+                                                onClick={getNotifications}>
+                                                <FontAwesomeIcon icon={faBell} color="#fff"
+                                                    className='cursor-pointer w-[full] h-[20px] hover:text-[#307BFD] ease-in-out duration-200'>
+                                                </FontAwesomeIcon>
+                                                <span className="text-text-red text-[14px] absolute top-[-50%] left-[38%]">{counter}</span>
+                                            </button>
+                                        </button>}
+                                        position="top right"
+                                        modal
+                                        nested
+                                        closeOnDocumentClick={true}
+                                        {... { contentStyle }}
                                     >
-                                        <div className="px-[5px]">
-                                            {item.content}
-                                            <div className="text-[12px] ml-[20px] mt-[1px] text-left text-txt-final">
-                                                {dayjs(item.dateCreate).from()}
-                                            </div>
-                                        </div>
-                                        {item.status === 2 && <div><p className="text-text-red">*</p></div>}
-                                    </button>
-                                ))}
+                                        {
+                                            close => (
+
+                                                <div className='text-16 text-txt min-h-[100px] relative'>
+                                                    <div className='bg-[#3F5F97] p-[10px] rounded-[8px] w-full h-[100px] text-center'>
+                                                        <p className='text-20 text-txt-light p-[5px]'>Thông báo của bạn</p>
+                                                        <p className='text-10 text-txt-light p-[5px]'>Bạn đang có <span className="font-bold">{counter}</span> thông báo chưa đọc</p>
+
+                                                    </div>
+
+                                                    <div className='w-full my-md gap-sm grid max-h-[300px] min-h-[300px] overflow-auto'>
+                                                        {notifiData.length > 0 ? (
+                                                            <div className="grid h-[100px]">
+                                                                {notifiData.map((item, index) => (
+                                                                    <button
+                                                                        key={index}
+                                                                        onClick={() => {
+                                                                            directNotification(item);
+                                                                            close();
+                                                                        }}
+                                                                        className={`p-[10px] rounded-lg ${item.status === 2 ? 'bg-notification' : ''} hover:bg-notificationNotRead flex justify-between`}
+                                                                    >
+                                                                        <div className="px-[5px]">
+                                                                            {item.content}
+                                                                            <div className="text-[12px] ml-[20px] mt-[1px] text-left text-txt-final">
+                                                                                {dayjs(item.dateCreate).from()}
+                                                                            </div>
+                                                                        </div>
+                                                                        {item.status === 2 && <div><p className="text-text-red">*</p></div>}
+                                                                    </button>
+                                                                ))}
+                                                            </div>
+                                                        ) : (
+                                                            <div className="text-center text-txt"></div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+
+                                    </Popup>
+                                </div>
                             </div>
-                        ) : (
-                            <div className="text-center text-txt"></div>
-                        )}
+                        }
+                        {
+                            // login &&
+                            // Order.TicketRouteDetailEndId !== 0 && Order.TicketRouteDetailStartId !== 0
+                            // && Order.itemsRequest.length !== 0
+                            // && timeCheckout > Date.now()
+                            // &&
+                            // checkCheckout() === true ?
+                            isCheckout &&
+                            <div className="w-[60px] h-[60px] flex flex-col hover:cursor-pointer" onClick={() => navigate("/checkout")}>
+                                <Countdown className="w-[40px] custom-countdown " value={Number(timeCheckout)} onFinish={() => cancelCheckout()} />
+                                <FontAwesomeIcon size="lagre" icon={faCreditCard}></FontAwesomeIcon>
+                            </div>
+                        }
                     </div>
-                </div>
-            )
-        }
-
-    </Popup>
-</div>
-</div>
-
-{/*@this is notification UI  --End*/}
                 </div>
             </div >
-        </header >
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
+        </div >
     );
 }
 
