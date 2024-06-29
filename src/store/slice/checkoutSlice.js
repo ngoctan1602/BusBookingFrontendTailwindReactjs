@@ -7,6 +7,9 @@ const initialState = {
     itemsRequest: [],
     ToltalPrice: 0,
     timeCheckout: Date.now() + 1000 * 60 * 5,
+    nameItems: [],
+    timeItems: [],
+    nameStations: [],
 };
 
 const checkoutSlice = createSlice({
@@ -17,6 +20,15 @@ const checkoutSlice = createSlice({
             state.TicketRouteDetailEndId = action.payload.TicketRouteDetailEndId;
             state.TicketRouteDetailStartId = action.payload.TicketRouteDetailStartId;
             state.itemsRequest = action.payload.itemsRequest;
+        },
+        setNameItem: (state, action) => {
+            state.nameItems = action.payload;
+        },
+        setTimeItem: (state, action) => {
+            state.timeItems = action.payload;
+        },
+        setNameStation: (state, action) => {
+            state.nameStations = action.payload;
         },
         setTotalPrice: (state, action) => {
             state.ToltalPrice = action.payload;
@@ -36,10 +48,13 @@ const checkoutSlice = createSlice({
                 itemsRequest: [],
                 ToltalPrice: 0,
                 timeCheckout: Date.now(),
+                nameItems: [],
+                nameStations: [],
+                timeItems: [],
             };
         },
     },
 });
 
-export const { setDetail, setTotalPrice, setTimeCheckout, resetCheckoutState, setTimeCheckoutPayload } = checkoutSlice.actions;
+export const { setDetail, setTotalPrice, setTimeCheckout, resetCheckoutState, setTimeCheckoutPayload, setNameItem, setTimeItem, setNameStation } = checkoutSlice.actions;
 export default checkoutSlice.reducer;

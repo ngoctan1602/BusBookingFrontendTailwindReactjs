@@ -7,9 +7,12 @@ import { useEffect, useState } from "react";
 import { AutoComplete, Col, DatePicker, Row } from "antd";
 import { Form } from "react-router-dom";
 import moment from "moment";
+import { useSelector, useDispatch } from "react-redux";
+import { setSearch } from "../../../../src/store/slice/searchSlice";
 const SearchHeader = ({ onSearch }) => {
-
-    const search = JSON.parse(localStorage.getItem('formSearch'));
+    const dispatch = useDispatch();
+    const searchSlice = useSelector((state) => state.search);
+    // const search = JSON.parse(localStorage.getItem('formSearch'));
     const [options, setOptions] = useState([
         { value: 'Nha Trang' },
         { value: 'Hải Phòng' },
@@ -21,22 +24,20 @@ const SearchHeader = ({ onSearch }) => {
 
     useEffect(() => {
         const fetchData = () => {
-            if (search)
-                onSearch(search)
+            if (searchSlice)
+                onSearch(searchSlice)
         };
 
         fetchData();
-
-
     }, []);
 
     const [formSearch, setFormSearch] = useState({
-        stationStart: search ? search.stationStart : '',
-        stationEnd: search ? search.stationEnd : '',
-        dateTime: search ? moment(search.dateTime) : moment(),
+        stationStart: searchSlice ? searchSlice.stationStart : '',
+        stationEnd: searchSlice ? searchSlice.stationEnd : '',
+        dateTime: searchSlice ? moment(searchSlice.dateTime) : moment(),
     });
 
-    const [dateValue, setDateValue] = useState(search ? moment(search.dateTime) : moment());
+    const [dateValue, setDateValue] = useState(searchSlice ? moment(searchSlice.dateTime) : moment());
     const onChangeDate = (date, dateString) => {
         setDateValue(date)
         setFormSearch({ ...formSearch, ["dateTime"]: dateString })
@@ -48,7 +49,8 @@ const SearchHeader = ({ onSearch }) => {
     }
 
     const btnClick = () => {
-        localStorage.setItem("formSearch", JSON.stringify(formSearch));
+        // localStorage.setItem("formSearch", JSON.stringify(formSearch));
+        // dispatch(setSearch(formSearch))
         onSearch(formSearch)
     }
 

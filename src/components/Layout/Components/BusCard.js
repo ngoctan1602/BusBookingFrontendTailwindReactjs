@@ -34,13 +34,12 @@ import BusReviewCard from "./Company/Bus/BusReview/BusReviewCard";
 import Seat from "./Company/Bus/Seat";
 import { useDispatch, useSelector } from 'react-redux';
 import { setPreviousUrl } from "../../../store/slice/userSlice"
-import { setDetail, setTotalPrice, setTimeCheckout } from "../../../store/slice/checkoutSlice"
+import { setDetail, setTotalPrice, setTimeCheckout, setNameItem, setTimeItem, setNameStation } from "../../../store/slice/checkoutSlice"
 import CheckCheckout from "./Common/CheckCheckout";
 const BusCard = ({ item }) => {
     // console.log(item.itemResponses.slice(0, item.itemResponses.length / 2))
     const dispatch = useDispatch();
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-    console.log(isLoggedIn)
     let navigate = useNavigate();
     const notifySuccess = () => toast.success('Đặt chỗ thành công!', {
         position: "bottom-right",
@@ -169,17 +168,20 @@ const BusCard = ({ item }) => {
     const [totalPrice2, setTotalPrice2] = useState(0);
 
     const [selectedIdSeats, setSelectedIdSeats] = useState([]);
+    const [nameSelectedSeat, setNameSeateSelected] = useState([]);
     const hasCheckout = CheckCheckout();
-    const handleClickSeatOneFloor = (id) => {
+    const handleClickSeatOneFloor = (id, name) => {
         let total = 0;
         const updatedItems = oneStFloor.map(item => {
             if (item.id === id) {
                 if (item.status === 1) { // 1 là đang trống
                     total += item.price;
                     setSelectedIdSeats(prevIds => [...prevIds, id]);
+                    setNameSeateSelected(prevNames => [...prevNames, name]);
                     return { ...item, status: 2 }; // 2 là đang chọn
                 }
                 setSelectedIdSeats(prevIds => prevIds.filter(prevId => prevId !== id));
+                setNameSeateSelected(prevNames => prevNames.filter(prevName => prevName !== name));
                 return { ...item, status: 1 };
             }
             if (item.status == 2) {
@@ -193,16 +195,18 @@ const BusCard = ({ item }) => {
 
     }
 
-    const handleClickSeatSecondFloor = (id) => {
+    const handleClickSeatSecondFloor = (id, name) => {
         let total = 0;
         const updatedItems = secondFloor.map(item => {
             if (item.id === id) {
                 if (item.status === 1) {
                     total += item.price;
                     setSelectedIdSeats(prevIds => [...prevIds, id]);
+                    setNameSeateSelected(prevNames => [...prevNames, name]);
                     return { ...item, status: 2 };
                 }
                 setSelectedIdSeats(prevIds => prevIds.filter(prevId => prevId !== id));
+                setNameSeateSelected(prevNames => prevNames.filter(prevName => prevName !== name));
                 return { ...item, status: 1 };
             }
             if (item.status === 2) {
@@ -252,42 +256,6 @@ const BusCard = ({ item }) => {
 
 
 
-    const [inputName, setInputName] = useState(
-        {
-            placeholder: "Nhập họ và tên",
-            value: "",
-            spanWidth: 110,
-            type: "text"
-        }
-    )
-    const [inputEmail, setInputEmail] = useState(
-        {
-            placeholder: "Nhập email",
-            value: "",
-            spanWidth: 88,
-            type: "text"
-        }
-    )
-    const [inputPhone, setInputPhone] = useState(
-        {
-            placeholder: "Nhập số điện thoại",
-            value: "",
-            spanWidth: 136,
-            type: "text"
-        }
-    )
-
-    const ChangeName = (value) => {
-        setInputName({ placeholder: inputName.placeholder, value: value, spanWidth: inputName.spanWidth });
-    }
-
-    const ChangEmail = (value) => {
-        setInputEmail({ placeholder: inputEmail.placeholder, value: value, spanWidth: inputEmail.spanWidth });
-    }
-    const ChangePhone = (value) => {
-        setInputPhone({ placeholder: inputPhone.placeholder, value: value, spanWidth: inputPhone.spanWidth });
-    }
-
     const [isOpenVoucherYTrip, setOpenVoucherYTrip] = useState(false);
     const [isOpenVoucher, setOpenVoucher] = useState(false);
     const [applyVoucher, setApplyVoucher] = useState({ active: false, value: 0 })
@@ -305,8 +273,9 @@ const BusCard = ({ item }) => {
         dispatch(setDetail(objectAdd))
         dispatch(setTotalPrice(totalPrice1 + totalPrice2))
         dispatch(setTimeCheckout())
-
-
+        dispatch(setNameItem(nameSelectedSeat))
+        dispatch(setTimeItem(timeDepature));
+        dispatch(setNameStation(nameSelectedBusStop))
 
         if (isLoggedIn) {
             try {
@@ -389,7 +358,6 @@ const BusCard = ({ item }) => {
         try {
             setLoadingReview(true);
             const resp = await ReviewSV.getAllInBus({ busId: item.busId, pageIndex: currentPage });
-            console.log(resp);
             if (!resp.isError && resp.data && resp.data.items) {
                 setReviewBus(resp.data.items);
                 setTotalPage(resp.data.pageTotal);
@@ -427,7 +395,7 @@ const BusCard = ({ item }) => {
                     <div class='flex items-center'>
                         <p class='mx-sm text-16 font-bold'>{item.company}</p>
                     </div>
-                    <p class='m-sm'>{item.busType}</p>
+                    <p class='m-sm'>{item.busNumber} - {item.busType}</p>
                     <div class='m-sm flex text-txt items-center'>
                         <FontAwesomeIcon icon={faCircleDot} class='text-hover-txt w-[14px] h-[14px]' />
                         <p class='mx-sm'>{item.listStation[0].station} - </p>
@@ -562,7 +530,7 @@ const BusCard = ({ item }) => {
                                             oneStFloor.map((item, index) => (
                                                 <div
                                                     onPointerOver={(e) => setSeatHover("Mã ghế: " + item.seatNumber + " ,Giá: " + item.price)}
-                                                    onClick={(e) => { (item.status === 1 || item.status === 2) && handleClickSeatOneFloor(item.id) }}
+                                                    onClick={(e) => { (item.status === 1 || item.status === 2) && handleClickSeatOneFloor(item.id, item.seatNumber) }}
                                                     data-tooltip-id="my-tooltip"
                                                     class={item.status === 3 ?
                                                         'flex justify-center items-center my-sm cursor-not-allowed hover:scale-105' :
@@ -603,7 +571,7 @@ const BusCard = ({ item }) => {
                                             secondFloor.map((item, index) => (
                                                 <div
                                                     onPointerOver={(e) => setSeatHover("Mã ghế: " + item.seatNumber + " ,Giá: " + item.price)}
-                                                    onClick={(e) => { (item.status === 1 || item.status === 2) && handleClickSeatSecondFloor(item.id) }}
+                                                    onClick={(e) => { (item.status === 1 || item.status === 2) && handleClickSeatSecondFloor(item.id, item.seatNumber) }}
                                                     data-tooltip-id="my-tooltip"
                                                     class={item.status === 3 ?
                                                         ' flex justify-center items-center my-sm cursor-not-allowed hover:scale-105' :
@@ -671,7 +639,7 @@ const BusCard = ({ item }) => {
                         stepBooking[2].active &&
                         <div className='my-sm w-content min-h-[400px] grid grid-cols-10 grid-flow-row '>
 
-                            <div className='col-span-8  col-start-2 shadow-lg relative'>
+                            <div className='col-span-8  col-start-2 relative'>
                                 {
                                     loading &&
 
@@ -686,10 +654,10 @@ const BusCard = ({ item }) => {
                                 <p class='text-20 text-center font-bold'>Thông tin đặt vé xe</p>
                                 <div className="grid h-[50px] grid-flow-row grid-col-12 w-full">
                                     <p className="col-span-5 col-start-1 p-md flex items-center ">
-                                        Họ và tên: {localStorage.getItem("username") ? localStorage.getItem("username") : ""}
+                                        Tài khoản: {localStorage.getItem("username") ? localStorage.getItem("username") : ""}
                                     </p>
                                     <p className="col-span-5 col-start-7 flex items-center ">
-                                        Mã ghế đã chọn: {selectedIdSeats && selectedIdSeats.join(",")}
+                                        Mã ghế đã chọn: {selectedIdSeats && selectedIdSeats.join(",") && nameSelectedSeat.join(',')}
                                     </p>
                                 </div>
                                 <p className="col-span-5 col-start-1 p-md flex items-center ">
