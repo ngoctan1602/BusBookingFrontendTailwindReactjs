@@ -26,23 +26,20 @@ const DashBoardNew = () => {
                     </Col>
                 </Row>
                 <Row style={{ width: "100%", margin: "24px 0px" }}>
-                    <Col span={24}>
+                    <Col className="p-sm" span={12}>
                         <ChartVenueYear></ChartVenueYear>
                     </Col>
-                </Row>
-                <Row style={{ width: "100%", margin: "24px 0px" }}>
-                    <Col span={24}>
+                    <Col className="p-sm" span={12} >
                         <ChartRoute></ChartRoute>
                     </Col>
                 </Row>
-
                 <Row style={{ width: "100%", margin: "24px 0px" }}>
-                    <Col span={24}>
+                    <Col className="p-sm" span={24}>
                         <ChartBusStop></ChartBusStop>
                     </Col>
                 </Row>
                 <Row style={{ width: "100%", margin: "24px 0px" }}>
-                    <Col span={24}>
+                    <Col className="p-sm" span={24}>
                         <ChartBusType></ChartBusType>
                     </Col>
                 </Row>

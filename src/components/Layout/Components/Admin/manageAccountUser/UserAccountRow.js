@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useState } from "react";
 import PopUpShowDetail from "./PopupShowDetail";
 import avatar from "../../../../../../src/assets/images/avatar.png"
+import { Tooltip } from "antd";
 
 const UserAccountRow = ({ item, onChangeStatus }) => {
 
@@ -45,13 +46,24 @@ const UserAccountRow = ({ item, onChangeStatus }) => {
 
     console.log(item)
     return (
-        <tr class='grid grid-cols-11 gap-md p-sm  border-txt my-[10px] items-center'
+        <tr class='grid grid-cols-11 gap-md p-sm  border-txt my-[10px]'
         >
-
-            <td class='col-span-2 break-words'>{item.username}</td>
-            <td class='col-span-2'>{item.fullName}</td>
+            <td class='col-span-2 truncate'>
+                <Tooltip title={item.username} class='col-span-2'>
+                    <p class='col-span-2 truncate'>{item.username}</p>
+                </Tooltip>
+            </td>
+            <td class='col-span-2 truncate'>
+                <Tooltip title={item.fullName} class='col-span-2'>
+                    <p class='col-span-2 truncate'> {item.fullName}</p>
+                </Tooltip>
+            </td>
             <td class='col-span-2'><img class='w-[60px] h-[60px]' src={item.avatar ? item.avatar : avatar}></img></td>
-            <td class='col-span-2 break-words'>{item.email}</td>
+            <td class='col-span-2 truncate'>
+                <Tooltip title={item.email} class='col-span-2'>
+                    <p class='col-span-2 truncate'>{item.email}</p>
+                </Tooltip>
+            </td>
             {/* <td class='col-span-1'>Hiển thị</td> */}
             <td class='col-span-2'>
 

@@ -1,7 +1,7 @@
 import * as BaseAPI from './BaseAPI';
 
-export const findTicket = async (data) => {
-    return await BaseAPI.postItem(ticketServicesAPI.findTicketAPI, data)
+export const findTicket = async (data, params) => {
+    return await BaseAPI.postItemParams(ticketServicesAPI.findTicketAPI, data, params)
 
 }
 

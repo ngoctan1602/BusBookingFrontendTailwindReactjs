@@ -74,9 +74,9 @@ export default class Example extends PureComponent {
 
     render() {
         return (
-            <div width={700} height={400} className="box-shadow" style={{ overflow: 'visible' }}>
+            <div width={450} height={400} className="bg-bgContent rounded-md" style={{ overflow: 'visible', boxShadow: " rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px" }}>
                 <p className='w-full text-center' style={{ fontWeight: "500", fontSize: 20 }}>Top 5 chuyến đi phổ biến nhất</p>
-                <PieChart width={600} height={400} >
+                <PieChart width={400} height={400} >
                     <style>{`
                     .recharts-wrapper .recharts-pie-sector {
                         outline: none;
@@ -91,8 +91,8 @@ export default class Example extends PureComponent {
                         animationDuration={800}
                         cx="50%"
                         cy="50%"
-                        innerRadius={120}
-                        outerRadius={160}
+                        innerRadius={80}
+                        outerRadius={100}
                         dataKey="value"
                         onMouseEnter={this.onPieEnter}
                     />

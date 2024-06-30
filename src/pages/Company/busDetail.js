@@ -217,8 +217,8 @@ const BusDetail = () => {
                                     <div className="animate-pulse bg-hover-txt w-full h-[310px] text-bg text-center">
                                     </div>
                                     :
-                                    <div class='grid-flow-row grid-cols-2 grid gap-md'>
-                                        <div class='rounded-lg col-span-1 bg-bgPopup h-[310px] overflow-y-auto'>
+                                    <div class='grid-flow-row grid-cols-2 grid gap-md w-[440px]'>
+                                        <div class='rounded-md col-span-1 bg-bgPopup h-[300px] w-[220px] overflow-y-scroll'>
                                             <img class='w-[50px] h-[50px] m-sm cursor-not-allowed' src={steeringWheel}></img>
 
                                             <div class='grid-cols-3 grid grid-flow-row gap-sm my-lg mx-md'>
@@ -228,7 +228,7 @@ const BusDetail = () => {
                                                         // <CurrencyFormat value={min} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
 
                                                         <div
-                                                            onPointerOver={(e) => setContentTooltip({ id: item.id, price: item.price })}
+                                                            onPointerOver={(e) => setContentTooltip({ id: item.seatNumber, price: item.price })}
                                                             data-tooltip-id="my-tooltip"
                                                         >
                                                             <PopupUpdateSeat
@@ -244,7 +244,7 @@ const BusDetail = () => {
 
                                         </div>
 
-                                        <div class='rounded-lg col-span-1 bg-bgPopup h-[310px] overflow-y-auto'>
+                                        <div class='rounded-md col-span-1 bg-bgPopup h-[300px] w-[220px] overflow-y-scroll'>
                                             <p class=' h-[50px] m-sm cursor-default'></p>
 
                                             <div class='grid-cols-3 grid grid-flow-row gap-sm my-lg mx-md'>
@@ -252,7 +252,7 @@ const BusDetail = () => {
                                                     secondFloor &&
                                                     secondFloor.map((item, index) => (
                                                         <div
-                                                            onPointerOver={(e) => setContentTooltip({ id: item.id, price: item.price })}
+                                                            onPointerOver={(e) => setContentTooltip({ id: item.seatNumber, price: item.price })}
                                                             data-tooltip-id="my-tooltip"
                                                         >
                                                             <PopupUpdateSeat
