@@ -1,6 +1,6 @@
 import MultiRangeSlider from "multi-range-slider-react";
 import Input from "../../components/Layout/Components/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CurrencyFormat from "react-currency-format";
@@ -15,6 +15,7 @@ import ReactLoading from 'react-loading';
 import { Carousel, Col, Row, Skeleton } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { setSearch, setSort } from "../../store/slice/searchSlice";
+import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
 const Search = () => {
     const dispatch = useDispatch();
     const searchSlice = useSelector((state) => state.search);
@@ -216,7 +217,11 @@ const Search = () => {
     const [loading, setLoading] = useState();
 
 
-
+    const [pageCurrent, setPageCurrent] = useState(0);
+    const [pageTotal, setPageTotal] = useState(0);
+    const handleChangePage = (pageSelected) => {
+        setPageCurrent(pageSelected)
+    }
     const handSearch = async (search) => {
         // alert(selectedRadio)
         // const sort = {
@@ -237,7 +242,7 @@ const Search = () => {
         // dispatch(setSort(sort))
         setLoading(true)
         try {
-            const params = { pageSize: 20, pageIndex: 1 }
+            const params = { pageSize: 10, pageIndex: pageCurrent + 1 }
             const response = await ticketService.findTicket(newSearch, params)
             if (response.status === 400) {
                 setBusInfo([])
@@ -247,6 +252,7 @@ const Search = () => {
             }
             if (!response.isError) {
                 setBusInfo(response.data.items)
+                setPageTotal(response.data.pageTotal)
                 const companies = [];
                 setCompany(companies)
                 busInfo.forEach((item) => {
@@ -283,6 +289,9 @@ const Search = () => {
         }
 
     }
+    useEffect(() => {
+        handSearch(searchSlice)
+    }, [pageCurrent])
     const onChangeRadioSort = (value) => {
         setSelectedRadio(value)
     }
@@ -417,7 +426,7 @@ const Search = () => {
                                     :
                                     // <PaginatedItems itemsPerPage={5} items={busInfo} componentToRender={BusCardNew} ></PaginatedItems>
 
-                                    <PaginatedItems itemsPerPage={5} items={busInfo} componentToRender={BusCard} ></PaginatedItems>
+                                    <PaginatedItemsWithAPI pageCount={pageTotal} currentPage={pageCurrent} items={busInfo} componentToRender={BusCard} ></PaginatedItemsWithAPI>
                         }
                     </div>
 

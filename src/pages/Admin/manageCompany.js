@@ -36,13 +36,24 @@ const ManageCompany = () => {
     });
     const [company, setCompany] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(0)
+    const [totalPage, setTotalPage] = useState(0);
+    const handleChangePage = (selectedPage) => {
+        setCurrentPage(selectedPage)
+    }
     const fetchData = async () => {
         try {
             setLoading(true)
-            const response = await CompanySV.GetAllCompany({ pageSize: 200 });
+            const response = await CompanySV.GetAllCompany({ pageSize: 10, pageIndex: currentPage + 1 });
             setLoading(false)
-            if (!response.isError)
+            if (!response.isError) {
                 setCompany(response.data.items)
+                setTotalPage(response.data.pageTotal)
+            }
+            else {
+                notifyError(response.data)
+            }
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -138,10 +149,13 @@ const ManageCompany = () => {
     const Find = async (param) => {
         setLoading(true)
         try {
-            const response = await CompanySV.Find({param: param, pageSize: 10, pageIndex: 1});
+            const response = await CompanySV.Find({ param: param, pageSize: 10, pageIndex: 1 });
             setLoading(false)
-            if (!response.isError)
+            if (!response.isError) {
                 setCompany(response.data.items)
+                setTotalPage(response.data.pageTotal)
+            }
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -151,19 +165,19 @@ const ManageCompany = () => {
         <div class='w-full text-txt txt-16 mt-[20px]'>
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20 font-black uppercase'>Quản lý nhà xe</p>
+                <p class='col-span-2  text-20 font-black uppercase'>Quản lý nhà xe</p>
                 <Search
-                        placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
-                        allowClear
-                        className="col-start-7 col-span-5 p-md"
+                    placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
+                    allowClear
+                    className="col-start-7 col-span-5 p-md"
                     onSearch={Find}
-                    />
+                />
                 {/* <button class="flex justify-center" onClick={exportToExcel}>
                     <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                     </FontAwesomeIcon>
                 </button> */}
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt-gray text-16 overflow-hidden">
+            <table class="box-shadow-content w-full my-md rounded-md border-collapse  text-txt-gray text-16 overflow-hidden">
                 <thead>
                     <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
                         {/* <th class='col-span-1'>Id</th> */}
@@ -177,17 +191,17 @@ const ManageCompany = () => {
                     </tr>
                 </thead>
                 <tbody className='bg-bg'>
-    <tr>
-        {loading ?
-            <td className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center"></td>
-            :
-            !loading && company.length !== 0 ?
-                <Paginate itemsPerPage={5} items={company} componentToRender={CompanyRow} updateStatus={updateStatus}></Paginate>
-                :
-                <td colSpan="5">Không có nhà xe nào</td>
-        }
-    </tr>
-</tbody>
+                    <tr>
+                        {loading ?
+                            <td className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center"></td>
+                            :
+                            !loading && company.length !== 0 ?
+                                <Paginate itemsPerPage={5} items={company} componentToRender={CompanyRow} updateStatus={updateStatus}></Paginate>
+                                :
+                                <td colSpan="5">Không có nhà xe nào</td>
+                        }
+                    </tr>
+                </tbody>
 
             </table>
             <ToastContainer

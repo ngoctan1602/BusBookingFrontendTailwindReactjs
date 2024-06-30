@@ -32,13 +32,22 @@ const PopUpShowDetail = ({ items, userAccountProps }) => {
                                 <div class='grid grid-cols-12 grid-flow-row p-sm'>
                                     <p class='col-span-4 col-start-2 font-semibold'>{item.content}</p>
                                     <div class='col-span-6'>
-                                        {
+                                        {/* {
                                             (item.name === "status" && items[item.name] === 1)
                                             && <p>Hoạt động</p>
                                         }
                                         {
                                             (item.name === "status" && items[item.name] === 0)
                                             && <p>Ngưng hoạt động</p>
+                                        } */}
+                                        {
+                                            item.name === "status" &&
+                                                items[item.name] === 1
+                                                ? <p>Hoạt động</p> :
+                                                items[item.name] === 0 ?
+                                                    <p>Ngưng hoạt động</p>
+                                                    : items[item.name] === 2 &&
+                                                    <p>Đang chờ</p>
                                         }
                                         {
                                             (item.name === "dateOfBirth")
