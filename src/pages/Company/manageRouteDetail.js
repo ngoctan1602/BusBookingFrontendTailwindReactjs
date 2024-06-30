@@ -147,7 +147,7 @@ const ManageRouteDetail = () => {
                             :
                             !loading && routeDetail.length > 0
                                 ?
-                                <PaginatedItemsWithAPI pageCount={pageTotal} handleClick={handlePageClick} items={routeDetail} componentToRender={RouteDetailRow} fetchData={fetchData}></PaginatedItemsWithAPI>
+                                <PaginatedItemsWithAPI currentPage={currentPage} pageCount={pageTotal} handleClick={handlePageClick} items={routeDetail} componentToRender={RouteDetailRow} fetchData={fetchData}></PaginatedItemsWithAPI>
                                 :
                                 <tr>
                                     Không có chuyến đi nào

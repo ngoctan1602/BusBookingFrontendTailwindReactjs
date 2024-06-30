@@ -22,10 +22,10 @@ const ChartVenueYear = () => {
     ];
 
     return (
-        <div className='box-shadow' >
+        <div className='bg-bgContent rounded-md w-full' style={{ boxShadow: " rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px" }}>
             <p className='w-full text-center ' style={{ fontWeight: "500", fontSize: 20 }}>Thống kê doanh thu 3 năm gần nhất</p>
             <LineChart
-                width={700}
+                width={450}
                 height={400}
                 series={[
                     { data: y2023Data, label: '2023', curve: "catmullRom", showMark: false, },

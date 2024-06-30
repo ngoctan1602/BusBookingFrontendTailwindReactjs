@@ -4,8 +4,8 @@ import { styled } from '@mui/system';
 import { Card, CardContent, Typography, Box, MenuItem } from '@mui/material';
 // Styled Card Component
 const StyledCard = styled(Card)(({ theme }) => ({
-    margin: theme.spacing(2),
-    padding: theme.spacing(2),
+    // margin: theme.spacing(2),
+    // padding: theme.spacing(2),
     backgroundColor: '#f9f9f9',
 }));
 

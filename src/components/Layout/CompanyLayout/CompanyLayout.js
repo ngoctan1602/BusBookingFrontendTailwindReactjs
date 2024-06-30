@@ -273,7 +273,8 @@ const CompanyLayout = ({ children }) => {
                 </Col>
 
                 {/*@this is notification UI  --Start*/}
-                <div className="col-span-1 col-start-11">
+
+                <Col offset={18} className=" flex items-center">
 
                     <div
                         className="relative">
@@ -284,10 +285,10 @@ const CompanyLayout = ({ children }) => {
                                 <button
                                     className=""
                                     onClick={getNotifications}>
-                                    <FontAwesomeIcon icon={faBell} color="#5C98FF"
+                                    <FontAwesomeIcon icon={faBell} color="#5e5757"
                                         className='cursor-pointer w-[full] h-[20px] hover:text-[#307BFD] ease-in-out duration-200'>
                                     </FontAwesomeIcon>
-                                    <span className="text-text-red text-[14px] absolute top-[-50%] left-[10%]">{counter}</span>
+                                    <span className="text-text-red text-[14px] absolute top-[-50%] left-[65%]">{counter}</span>
                                 </button>
                             </button>}
                             position="top right"
@@ -338,10 +339,10 @@ const CompanyLayout = ({ children }) => {
 
                         </Popup>
                     </div>
-                </div>
+                </Col>
 
                 {/*@this is notification UI  --End*/}
-                <Col span={1} offset={18} style={{ height: "60px" }}>
+                <Col span={1} style={{ height: "60px" }}>
                     <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <FontAwesomeIcon style={{ cursor: "pointer" }} size="40px 40px" onClick={() => setOpen(true)} icon={faRightToBracket}>
                         </FontAwesomeIcon>

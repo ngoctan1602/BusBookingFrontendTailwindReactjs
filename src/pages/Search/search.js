@@ -237,7 +237,8 @@ const Search = () => {
         // dispatch(setSort(sort))
         setLoading(true)
         try {
-            const response = await ticketService.findTicket(newSearch)
+            const params = { pageSize: 20, pageIndex: 1 }
+            const response = await ticketService.findTicket(newSearch, params)
             if (response.status === 400) {
                 setBusInfo([])
                 notifyError(response.title)

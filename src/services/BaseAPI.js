@@ -37,6 +37,18 @@ export const postItem = async (url, data) => {
     }
 }
 
+export const postItemParams = async (url, data, params) => {
+    try {
+        const response = await instance().post(url, data, {
+            params: params
+        })
+        return response
+    }
+    catch (error) {
+        return error;
+    }
+}
+
 export const putItem = async (url, data, params = null) => {
     try {
         const response = await instance().put(url, data, {

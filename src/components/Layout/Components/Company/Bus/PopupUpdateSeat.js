@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState, useCallback } from "react";
 import seat from "../../../../../assets/images/seat.png"
+import Seat from "./Seat";
 
 
 const PopupUpdateSeat = ({ item, seatUpdate }) => {
@@ -96,11 +97,12 @@ const PopupUpdateSeat = ({ item, seatUpdate }) => {
         <Popup trigger={<button class="w-[50px] span-col-1 mb-md hover:scale-105  items-center "
             disabled
         >
-            <img src={seat}
+            {/* <img src={seat}
 
                 class='h-[50px] '>
 
-            </img>
+            </img> */}
+            <Seat color="black"></Seat>
         </button>} position="right center"
             modal
             nested
@@ -112,7 +114,7 @@ const PopupUpdateSeat = ({ item, seatUpdate }) => {
 
                     <div class='p-md text-16 text-txt'>
                         <p class='text-20 text-center font-bold'>{item.title}</p>
-                        
+
 
                         {
                             (item.item).map((item, index) => (
