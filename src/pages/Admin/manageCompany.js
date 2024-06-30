@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import Paginate from "../../components/Layout/Components/Paginate"
+import PaginateWithApi from "../../components/Layout/Components/PaginateWithApi"
 import CompanyRow from "../../components/Layout/Components/Admin/manageCompany/CompanyRow";
 import * as XLSX from 'xlsx'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,6 +10,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
 import Search from "antd/es/input/Search";
+import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
+import { Empty } from "antd";
+import exportDataToExcel from "../../components/Common/exportExcel";
 
 const ManageCompany = () => {
 
@@ -62,13 +65,6 @@ const ManageCompany = () => {
 
         fetchData();
     }, []);
-    const exportToExcel = () => {
-        const ws = XLSX.utils.json_to_sheet(company);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-        XLSX.writeFile(wb, 'exported_data.xlsx');
-    };
 
 
 
@@ -165,19 +161,19 @@ const ManageCompany = () => {
         <div class='w-full text-txt txt-16 mt-[20px]'>
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2  text-20 font-black uppercase'>Quản lý nhà xe</p>
+                <p class='col-span-2 text-20 font-black uppercase'>Quản lý nhà xe</p>
                 <Search
-                    placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
+                    placeholder="Tìm kiếm nhà xe"
                     allowClear
-                    className="col-start-7 col-span-5 p-md"
+                    className="col-start-4 col-span-5 p-md"
                     onSearch={Find}
                 />
-                {/* <button class="flex justify-center" onClick={exportToExcel}>
+                <button class="flex justify-center" onClick={() => exportDataToExcel(company, notifySuccess, notifyError)}>
                     <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                     </FontAwesomeIcon>
-                </button> */}
+                </button>
             </div>
-            <table class="box-shadow-content w-full my-md rounded-md border-collapse  text-txt-gray text-16 overflow-hidden">
+            <table class="box-shadow-content min-h-[300px] w-full my-md rounded-md border-collapse  text-txt-gray text-16 overflow-hidden">
                 <thead>
                     <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md border-b-2'>
                         {/* <th class='col-span-1'>Id</th> */}
@@ -193,12 +189,15 @@ const ManageCompany = () => {
                 <tbody className='bg-bg'>
                     <tr>
                         {loading ?
-                            <td className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center"></td>
+                            <td className="animate-pulse bg-hover-txt w-full h-[300px] text-bg text-center"></td>
                             :
                             !loading && company.length !== 0 ?
-                                <Paginate itemsPerPage={5} items={company} componentToRender={CompanyRow} updateStatus={updateStatus}></Paginate>
+                                // <Paginate itemsPerPage={5} items={company} componentToRender={CompanyRow} updateStatus={updateStatus}></Paginate>
+                                // :
+                                // <td colSpan="5">Không có nhà xe nào</td>
+                                <PaginatedItemsWithAPI pageCount={totalPage} currentPage={currentPage} items={company} componentToRender={CompanyRow} updateStatus={updateStatus}></PaginatedItemsWithAPI>
                                 :
-                                <td colSpan="5">Không có nhà xe nào</td>
+                                <Empty description="Không có nhà xe nào"></Empty>
                         }
                     </tr>
                 </tbody>

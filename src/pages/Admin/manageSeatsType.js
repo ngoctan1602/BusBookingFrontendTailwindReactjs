@@ -1,8 +1,7 @@
 import ReactLoading from 'react-loading';
 import PopupAdd from "../../components/Layout/Components/Admin/manageSeatTypes/PopupAdd";
 import { useCallback, useEffect, useState } from "react";
-import Paginate from "../../components/Layout/Components/Paginate"
-import * as XLSX from 'xlsx'
+import PaginateWithApi from "../../components/Layout/Components/PaginateWithApi"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import * as SeatTypeSV from "../../services/SeatTypeSV"
@@ -10,16 +9,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SeatTypeRow from "../../components/Layout/Components/Admin/manageSeatTypes/SeatTypeRow";
 import Search from "antd/es/input/Search";
-
+import exportDataToExcel from "../../components/Common/exportExcel";
+import { Empty } from 'antd';
 const ManageSeatsType = () => {
-    const exportToExcel = () => {
-        const ws = XLSX.utils.json_to_sheet(seatTypes);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-        XLSX.writeFile(wb, 'exported_data.xlsx');
-    };
-
-    const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
+    const notifySuccess = (message) => toast.success(message, {
         position: "bottom-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -30,7 +23,7 @@ const ManageSeatsType = () => {
         theme: "light",
     });
 
-    const notifyError = () => toast.error('Cập nhật trạng thái thất bại', {
+    const notifyError = (message) => toast.error(message, {
         position: "bottom-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -114,6 +107,11 @@ const ManageSeatsType = () => {
     const [loading, setLoading] = useState(false);
 
     const [seatTypes, setTypeBus] = useState([]);
+    const [pageCurrent, setPageCurrent] = useState(0);
+    const [pageTotal, setPageTotal] = useState(0);
+    const handlePageClick = (pageSelected) => {
+        setPageCurrent(pageSelected)
+    }
     useEffect(() => {
 
         fetchData();
@@ -122,9 +120,12 @@ const ManageSeatsType = () => {
     const fetchData = async () => {
         setLoading(true)
         try {
-            const response = await SeatTypeSV.getAllSeatTypes({ pageSize: 200 });
+            const response = await SeatTypeSV.getAllSeatTypes({ pageSize: 10, pageIndex: pageCurrent + 1 });
             console.log(response.data)
-            setTypeBus(response.data.items);
+            if (!response.isError) {
+                setTypeBus(response.data.items);
+                setPageTotal(response.data.pageTotal);
+            }
             setLoading(false)
 
         } catch (error) {
@@ -142,7 +143,7 @@ const ManageSeatsType = () => {
                 setUpdateLoading(false)
                 console.log(resp)
                 if (!resp.isError) {
-                    notifySuccess()
+                    notifySuccess("Thay đổi trạng thái thành công")
                     setTimeout(
                         () =>
                             fetchData()
@@ -150,7 +151,7 @@ const ManageSeatsType = () => {
                     )
                 }
                 else {
-                    notifyError()
+                    notifyError("Cập nhật trạng thái thất bại")
                 }
             }
             else if (value === 1) {
@@ -159,7 +160,7 @@ const ManageSeatsType = () => {
                 setUpdateLoading(false)
                 console.log(resp)
                 if (!resp.isError) {
-                    notifySuccess()
+                    notifySuccess("Thay đổi trạng thái thành công")
                     setTimeout(
                         () =>
                             fetchData()
@@ -167,7 +168,7 @@ const ManageSeatsType = () => {
                     )
                 }
                 else {
-                    notifyError()
+                    notifyError("Cập nhật trạng thái thất bại")
                 }
             }
         } catch (error) {
@@ -202,24 +203,24 @@ const ManageSeatsType = () => {
             }
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
 
-                <p class='col-span-2 font-bold text-20 font-black uppercase'>Quản lý loại ghế</p>
+                <p class='col-span-2  text-20 font-black uppercase'>Quản lý loại ghế</p>
                 <Search
-                        placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
-                        allowClear
-                        className="col-start-7 col-span-5 p-md"
+                    placeholder="Tìm kiếm loại ghế"
+                    allowClear
+                    className="col-start-4 col-span-5 p-md"
                     onSearch={Find}
-                    />
+                />
 
-                <div class='flex col-span-1 col-start-8 justify-evenly'>
+                <div class='flex col-span-1 justify-evenly'>
 
                     <PopupAdd objectAdd={addSeatType} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue} fetchData={fetchData}></PopupAdd>
-                    {/* <button class="flex justify-center" onClick={exportToExcel}>
+                    <button class="flex justify-center" onClick={() => exportDataToExcel(seatTypes, notifySuccess, notifyError)}>
                         <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                         </FontAwesomeIcon>
-                    </button> */}
+                    </button>
                 </div>
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
+            <table class="w-full min-h-[300px] box-shadow-content my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
 
                 <thead>
                     <tr class='grid bg-bg grid-cols-12 p-sm text-left border-b-2'>
@@ -235,16 +236,14 @@ const ManageSeatsType = () => {
 
 
                     {loading ?
-                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                        <div className="animate-pulse bg-hover-txt w-full h-[300px] text-bg text-center">
                         </div>
                         :
-                        !loading && seatTypes.length !== 0
+                        !loading && seatTypes.length > 0
                             ?
-                            <Paginate itemsPerPage={8} items={seatTypes} fetchData={fetchData} componentToRender={SeatTypeRow} updateStatus={changeStatus} emtyItemValue={emtyItemValue}></Paginate>
+                            <PaginateWithApi currentPage={pageCurrent} handleClick={handlePageClick} pageCount={pageTotal} items={seatTypes} fetchData={fetchData} componentToRender={SeatTypeRow} updateStatus={changeStatus}></PaginateWithApi>
                             :
-                            <tr>
-                                Không có loại ghế nào
-                            </tr>
+                            <Empty description="Khong có loại ghế nào"></Empty>
                     }
                 </tbody>
             </table>

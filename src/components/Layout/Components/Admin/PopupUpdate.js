@@ -72,7 +72,7 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopu
 
                     <div class='p-md text-16 text-txt'>
                         <p class='text-20 text-center font-bold'>{item.title}</p>
-                        
+
 
                         {
                             (item.item).map((item, index) => (
@@ -84,6 +84,7 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopu
                                         }
                                         {
                                             item.id === 1 ?
+
                                                 <InputConfirmInfo item={{ disable: true, type: "text", placeholder: `${item.placeholder}`, id: updateTypeBus[item.name], value: updateTypeBus.id, spanWidth: Number(item.spanWidth), background: "#FFFF" }}></InputConfirmInfo>
                                                 : (item.name === "price")
                                                     ?
