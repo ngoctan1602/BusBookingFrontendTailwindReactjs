@@ -15,6 +15,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Skeleton from 'react-loading-skeleton';
 import BusStationRow from "../../components/Layout/Components/Admin/manageBusStation/BusStationRow";
+import Search from "antd/es/input/Search";
+
+
 const ManageBusStation = () => {
 
     const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
@@ -203,13 +206,37 @@ const ManageBusStation = () => {
 
         XLSX.writeFile(wb, 'exported_data.xlsx');
     };
+    const Find = async (param) => {
+        try {
+            const response = await BusStationSV.find({ param: param , pageSize: 10, pageIndex: 1});
+            setBusStations(response.data.items);
+            // const addressPromises = response.data.items.map(async (item) => {
+
+            //     const wa = await AddrressSV.getWardById({ id: item.wardId });
+            //     return wa.data;
+
+            // });
+
+            // const addresses = await Promise.all(addressPromises);
+            // setAddress(addresses);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoading(false);
+        }
+    }
     return (
         <div class='w-full text-txt txt-14 mt-[20px]'>
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
 
                 <p class='col-span-2 font-bold text-20 font-black uppercase'>Quản lý bến bãi</p>
-                <input placeholder="Tìm kiếm" class='col-span-5 bg-gb outline-none border-none p-sm rounded-md'></input>
+                <Search
+                        placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
+                        allowClear
+                        className="col-start-7 col-span-5 p-md"
+                    onSearch={Find}
+                    />
                 <div class='flex justify-evenly'>
 
                     <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation>

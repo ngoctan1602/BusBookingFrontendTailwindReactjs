@@ -81,6 +81,15 @@ const ManagePriceClass = () => {
     const onSearch = (prop) => {
         alert("Search ở đây");
     }
+    const Find = async(param) => {
+        setLoading(true)
+        var response = await PriceClassSV.Find({ param: param, pageSize: 10, pageIndex: currentPage });
+        if (!response.isError) {
+            setPriceClass(response.data.items);
+            setPageTotal(response.data.pageTotal)
+        }
+        setLoading(false)
+    }
     return (
         <div className="w-full h-full">
             <div class='w-full text-txt txt-16 bg-bg py-[20px] px-[10px] rounded-md box-shadow-content mb-md' >
@@ -100,7 +109,7 @@ const ManagePriceClass = () => {
                         placeholder="Tìm kiếm theo tên/ giá trị loại giá"
                         allowClear
                         className="col-start-7 col-span-5 p-md"
-                        onSearch={onSearch}
+                        onSearch={Find}
                     // style={{
                     //     width: 200,
                     // }}

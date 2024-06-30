@@ -78,6 +78,17 @@ const ManagePrice = () => {
         }
     }, []);
 
+    const Find = async(param) => {
+        setLoading(true)
+        var response = await PriceSV.Find({ param: param, pageSize: 10, pageIndex: currentPage });
+        if(!response.isError){
+            setPriceClass(response.data.items);
+            setPageTotal(response.data.pageTotal)
+            
+        }
+        setLoading(false)
+    }
+
     return (
 
         <div className="w-full h-full">
@@ -99,7 +110,7 @@ const ManagePrice = () => {
                         placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
                         allowClear
                         className="col-start-7 col-span-5 p-md"
-                    // onSearch={onSearch}
+                    onSearch={Find}
                     >
                     </Search>
                     {/* <input placeholder="Tìm kiếm" class='col-start-9 col-span-3 bg-bg outline-none border-none p-sm rounded-md'></input> */}

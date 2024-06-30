@@ -1,5 +1,6 @@
 
 import { Col, Row } from "antd";
+import { ToastContainer } from "react-toastify"; // Add this line
 import CardTotal from "./Cards/CardTotal";
 import CardRenue from "./Cards/CardRunue";
 import CardTicket from "./Cards/CardTicket";
@@ -43,6 +44,18 @@ const DashBoardNew = () => {
                     </Col>
                 </Row>
             </div>
+            <ToastContainer
+                    position="bottom-right"
+                    autoClose={2500}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover={false}
+                    theme="light"
+                />
         </div>
     )
 }

@@ -21,7 +21,10 @@ const createAxiosInstance = () => {
     );
 
     instance.interceptors.response.use(
-        (response) => response.data,
+        (response) => {
+            console.log("Response:", response.headers);
+            return response.data;
+        },
         async (error) => {
             if (!error.response) {
                 console.error("Network/Server error:", error);
@@ -70,7 +73,7 @@ const createAxiosInstance = () => {
             }
 
             return Promise.reject(error.response.data || error.message);
-        }
+        },
     );
 
     return instance;

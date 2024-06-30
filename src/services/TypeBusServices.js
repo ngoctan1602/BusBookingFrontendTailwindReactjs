@@ -14,9 +14,13 @@ export const createTypeBus = async (data) => {
 export const updateTypeBus = async (data) => {
     return await BaseAPI.putItem(typeBusServices.updateTypeBus, data);
 }
+export const find = async (params) => {
+    return await BaseAPI.getItems(typeBusServices.find, params);
+}
 
 const typeBusServices = {
     getAllTypeBus: 'bustypes/getAll',
     createTypeBus: 'bustypes/admin/create',
-    updateTypeBus: 'bustypes/admin/update'
+    updateTypeBus: 'bustypes/admin/update',
+    find: 'bustypes/find'
 }

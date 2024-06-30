@@ -9,6 +9,8 @@ import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import * as TypeBusSv from "../../services/TypeBusServices"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Search from "antd/es/input/Search";
+
 const ManageTypeBus = () => {
     const exportToExcel = () => {
         const ws = XLSX.utils.json_to_sheet(typeBus);
@@ -160,8 +162,20 @@ const ManageTypeBus = () => {
 
 
     //#region Call api paginate
-
+    const Find = async(param) => {
+        setLoading(true)
+        try {
+            const response = await TypeBusSv.find({param: param, pageSize:10, pageIndex: 1});
+            setLoading(false)
+            if (!response.isError)
+                setTypeBus(response.data.items)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
     //#endregion
+
+    
 
     return (
         <div class='w-full text-txt txt-16'>
@@ -169,7 +183,12 @@ const ManageTypeBus = () => {
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center mt-[20px]'>
                 <p class='col-span-2 font-bold text-20 font-black uppercase'>Quản lý loại xe</p>
-                <input placeholder="Tìm kiếm" class='col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
+                <Search
+                        placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
+                        allowClear
+                        className="col-start-7 col-span-5 p-md"
+                    onSearch={Find}
+                    />
 
                 <div class='flex col-span-1 col-start-8 justify-evenly'>
 

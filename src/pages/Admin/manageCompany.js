@@ -9,6 +9,8 @@ import * as CompanySV from "../../services/CompanySV"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
+import Search from "antd/es/input/Search";
+
 const ManageCompany = () => {
 
     const notifySuccess = (message) => toast.success(message, {
@@ -133,14 +135,29 @@ const ManageCompany = () => {
 
     }
 
+    const Find = async (param) => {
+        setLoading(true)
+        try {
+            const response = await CompanySV.Find({param: param, pageSize: 10, pageIndex: 1});
+            setLoading(false)
+            if (!response.isError)
+                setCompany(response.data.items)
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
     return (
         <div class='w-full text-txt txt-16 mt-[20px]'>
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                 <p class='col-span-2 font-bold text-20 font-black uppercase'>Quản lý nhà xe</p>
-                {/* <input placeholder="Tìm kiếm" class='
-                shadow-lg
-                col-start-4 col-span-5 bg-[#e1e1e1] outline-none border-none p-sm rounded-md'></input> */}
+                <Search
+                        placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
+                        allowClear
+                        className="col-start-7 col-span-5 p-md"
+                    onSearch={Find}
+                    />
                 {/* <button class="flex justify-center" onClick={exportToExcel}>
                     <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                     </FontAwesomeIcon>
