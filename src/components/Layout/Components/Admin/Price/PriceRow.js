@@ -56,7 +56,7 @@ const PriceRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
     }, [updateTypeBus])
 
     return (
-        <tr class='grid  grid-cols-12 p-sm  border-txt my-[10px] items-center'
+        <tr class='grid  grid-cols-12 p-sm  border-txt my-[10px]'
 
         >
             {/* <th class='col-span-3'>Công ty</th>
@@ -65,7 +65,7 @@ const PriceRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
                         <th class='col-span-2'>Phụ phí</th>
                         <th class='col-span-2'>Trạng thái</th> */}
             <td class='col-span-3'>{item.companyName}</td>
-            <td class='col-span-3'>{item.routeId}</td>
+            <td class='col-span-3'>{item.stationStart} - {item.stationEnd}</td>
             <td class='col-span-2'>
                 <CurrencyFormat value={item.price} displayType={'text'} thousandSeparator={true} suffix={' đ'} />
             </td>
@@ -78,12 +78,12 @@ const PriceRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
                     : <td class='col-span-2'>Hoạt động</td>
             } */}
             {
-                <select 
-                    className={`rounded-lg p-[5px] ${item.status === 3 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 2 ? "bg-warning" : ""}`} 
+                <select
+                    className={`col-span-2 max-h-[30px] rounded-lg p-[5px] ${item.status === 3 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 2 ? "bg-warning" : ""}`}
                     style={{ background: item.status === 3 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
                     <option className="bg-warning" selected={item.status === 2 ? true : false} value={2} >Ngưng hoạt động</option>
                     <option className="bg-success" selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
-            </select>
+                </select>
             }
         </tr >
     );
