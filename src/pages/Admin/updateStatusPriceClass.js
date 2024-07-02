@@ -17,9 +17,11 @@ import { useNavigate } from "react-router-dom";
 import PriceClassRow from "../../components/Layout/Components/Admin/PriceClass/PriceClassRow";
 import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
 import PriceRow from "../../components/Layout/Components/Admin/Price/PriceRow";
+import Search from "antd/es/input/Search";
+import exportDataToExcel from "../../components/Common/exportExcel";
 const UpdateStatusPriceClass = () => {
     let navigate = useNavigate();
-    const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
+    const notifySuccess = (message) => toast.success(message, {
         position: "bottom-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -30,7 +32,7 @@ const UpdateStatusPriceClass = () => {
         theme: "light",
     });
 
-    const notifyError = () => toast.error('Cập nhật trạng thái thất bại', {
+    const notifyError = (message) => toast.error(message, {
         position: "bottom-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -76,6 +78,12 @@ const UpdateStatusPriceClass = () => {
             console.log("call api success")
         }
     }, []);
+    useEffect(() => {
+        fetchData();
+        return () => {
+            console.log("call api success")
+        }
+    }, [currentPage]);
     const [updateLoading, setUpdateLoading] = useState(false)
     const changeStatus = (id, value) => {
         setUpdateLoading(true)
@@ -86,7 +94,7 @@ const UpdateStatusPriceClass = () => {
                 setUpdateLoading(false)
                 console.log(resp)
                 if (!resp.isError) {
-                    notifySuccess()
+                    notifySuccess("Cập nhật trạng thái thành công")
                     setTimeout(
                         () =>
                             fetchData()
@@ -94,7 +102,7 @@ const UpdateStatusPriceClass = () => {
                     )
                 }
                 else {
-                    notifyError()
+                    notifyError("Cập nhật trạng thái thất bại")
                 }
             }
             else if (value === 2) {
@@ -103,7 +111,7 @@ const UpdateStatusPriceClass = () => {
                 setUpdateLoading(false)
                 console.log(resp)
                 if (!resp.isError) {
-                    notifySuccess()
+                    notifySuccess("Cập nhật trạng thái thành công")
                     setTimeout(
                         () =>
                             fetchData()
@@ -111,7 +119,7 @@ const UpdateStatusPriceClass = () => {
                     )
                 }
                 else {
-                    notifyError()
+                    notifyError("Cập nhật trạng thái thất bại")
                 }
             }
         } catch (error) {
@@ -124,7 +132,7 @@ const UpdateStatusPriceClass = () => {
         <div class='w-full text-txt txt-16 '>
 
             <div class='grid grid-cols-12 grid-flow-row gap-4 items-center mt-[20px]'>
-                <p class='col-span-2 font-bold text-20 font-black uppercase'>Quản lý loại giá</p>
+                <p class='col-span-3 text-20 font-black uppercase'>Quản lý loại giá</p>
                 <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
                     onChange={(e) => navigate(e.target.value)}
                 >
@@ -135,12 +143,23 @@ const UpdateStatusPriceClass = () => {
                         Quản lý bảng giá
                     </option>
                 </select>
-                <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input>
-
+                {/* <input placeholder="Tìm kiếm" class='col-start-7 col-span-5 bg-bg outline-none border-none p-sm rounded-md'></input> */}
+                <Search
+                    placeholder="Tìm kiếm loại giá"
+                    allowClear
+                    className="col-span-5 p-md"
+                // onSearch={Find}
+                />
+                <button class="flex justify-center"
+                    onClick={() => exportDataToExcel(priceClass, notifySuccess, notifyError)}
+                >
+                    <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
+                    </FontAwesomeIcon>
+                </button>
 
 
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
+            <table class="box-shadow-content w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
                 {
                     updateLoading &&
                     <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
@@ -168,7 +187,7 @@ const UpdateStatusPriceClass = () => {
                             :
                             !loading && priceClass.length > 0
                                 ?
-                                <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={PriceClassRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData} updateStatus={changeStatus}></PaginatedItemsWithAPI>
+                                <PaginatedItemsWithAPI currentPage={currentPage} handleClick={handlePageClick} componentToRender={PriceClassRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData} updateStatus={changeStatus}></PaginatedItemsWithAPI>
                                 :
                                 <tr>
                                     Không có chuyến đi nào

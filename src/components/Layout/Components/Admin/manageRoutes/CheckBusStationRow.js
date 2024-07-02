@@ -6,7 +6,7 @@ const CheckBusStationRow = ({ item, nameRadio, onUpdate, objectAdd }) => {
         onUpdate(name, value);
     }
     return (
-        <tr class='grid  grid-cols-12 p-sm p-sm  border-txt my-[10px] items-center'
+        <tr class='grid  grid-cols-12 p-sm  border-txt my-[10px] '
             style={{ background: item.status === 0 ? "#75718a" : "", color: item.status === 0 ? "#F2ECFF" : "" }}
         >
             <td>
@@ -19,11 +19,11 @@ const CheckBusStationRow = ({ item, nameRadio, onUpdate, objectAdd }) => {
 
                 </input>
             </td>
-            <td class='col-span-1'>{item.id}</td>
+            {/* <td class='col-span-1'>{item.id}</td> */}
             <td class='col-span-3'>{item.name}</td>
             {/* <td class='col-span-3'>{item.description}</td> */}
 
-            <td class='col-span-6'>
+            <td class='col-span-6 text-left'>
                 {item.addressDb}
             </td>
 

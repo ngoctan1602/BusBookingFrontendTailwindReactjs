@@ -40,6 +40,7 @@ import GuestLogin from "../components/Guest/Login"
 import DashBoardNew from "../components/Layout/Components/DashBoard/Dashboard"
 import CreateNewBus from "../pages/Company/Bus/createNewBus"
 import CreateTicket from "../pages/Company/Ticket/CreateTicket"
+import CreateNewRoute from "../pages/Admin/createNewRoute"
 
 const publicRoutes = [
     //Không cần đăng nhập vẫn xem được
@@ -126,6 +127,9 @@ const adminRoutes = [
     },
     {
         path: "/admin/dashboard", component: DashBoard
+    },
+    {
+        path: "/admin/create-routes", component: CreateNewRoute
     }
 
 ]
