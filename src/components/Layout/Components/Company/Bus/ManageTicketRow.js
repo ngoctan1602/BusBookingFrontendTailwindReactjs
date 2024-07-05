@@ -5,7 +5,7 @@ const ManageTicketRow = ({ item, onChangeStatus }) => {
 
     return (
 
-        <tr class='grid grid-cols-12 p-sm py-lg items-center border-collapse border-t-[1px] border-border-top'
+        <tr class='grid grid-cols-12 p-sm py-lg  border-collapse border-t-[1px] border-border-top'
         >
             <td class='col-span-2'>{item.busNumber}</td>
             <td class='col-span-2'>{item.listStation[0].station} -{item.listStation[item.listStation.length - 1].station}</td>

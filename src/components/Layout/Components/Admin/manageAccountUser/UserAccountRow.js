@@ -68,7 +68,7 @@ const UserAccountRow = ({ item, onChangeStatus }) => {
             <td class='col-span-2'>
 
                 <select
-                    className={`rounded-lg p-[5px] ${item.status === 0 ? 'bg-danger text-txt-light' : item.status === 1 ? 'bg-success' : item.status === 4 ? "bg-disable" : ""}`} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}
+                    className={`rounded-lg p-[5px] ${item.status === 2 ? "bg-warning" : item.status === 0 ? 'bg-danger text-txt-light' : item.status === 1 ? 'bg-success' : item.status === 4 ? "bg-disable" : ""}`} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}
                 >
                     <option className="bg-success" selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
                     <option className="bg-danger" selected={item.status === 0 ? true : false} value={0} >Ngưng hoạt động</option>

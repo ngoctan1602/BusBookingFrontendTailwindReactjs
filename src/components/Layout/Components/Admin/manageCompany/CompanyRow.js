@@ -54,12 +54,12 @@ const CompanyRow = ({ item, onChangeStatus, onUpdate }) => {
             </td>
             <td className='col-span-2'>
                 <select
-                    className={`rounded-lg p-[5px] ${item.status === 0 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 4 ? "bg-warning" : ""}`}
+                    className={`rounded-lg p-[5px] ${item.status === 0 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 4 ? "bg-disable" : ""}`}
                     value={item.status} // Sử dụng value để xác định option được chọn
                     onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}
                 >
                     <option className="bg-danger" value={0}>Ngưng hoạt động</option>
-                    <option className="bg-warning" value={4}>Khoá</option>
+                    <option className="bg-disable" value={4}>Khoá</option>
                     <option className="bg-success" value={1}>Hoạt động</option>
                 </select>
             </td>

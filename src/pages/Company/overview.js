@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
 import Search from "antd/es/input/Search";
 import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
-import { Tooltip } from "antd";
+import { Empty, Tooltip } from "antd";
 import { useNavigate } from "react-router-dom";
 const Overview = () => {
     document.title = "Quản lý xe";
@@ -147,7 +147,7 @@ const Overview = () => {
         theme: "light",
     });
 
-    const find = async(param) => {
+    const find = async (param) => {
         try {
             const response = await busServices.find({ param: param, pageSize: 10, pageIndex: currentPage });
             if (!response.isError) {
@@ -171,7 +171,7 @@ const Overview = () => {
                         placeholder="Tìm kiếm xe"
                         allowClear
                         className="col-start-3 col-span-8 p-md"
-                    onSearch={find}
+                        onSearch={find}
                     // style={{
                     //     width: 200,
                     // }}
@@ -209,7 +209,7 @@ const Overview = () => {
                     </thead>
                     <tbody class='bg-[#ffff]'>
                         {loading ?
-                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                            <div className="animate-pulse bg-hover-txt w-full h-[300px] text-bg text-center">
                             </div>
                             :
                             !loading && bus.length > 0 && bus !== undefined && bus !== null
@@ -221,9 +221,7 @@ const Overview = () => {
 
                                 // <Paginate itemsPerPage={5} items={bus} componentToRender={OverviewRow} updateStatus={changeStatus} ></Paginate>
                                 :
-                                <tr>
-                                    Không có buýt nào
-                                </tr>
+                                <Empty description="Không có buýt nào" />
                         }
 
                     </tbody>

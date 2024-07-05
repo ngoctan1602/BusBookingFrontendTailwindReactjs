@@ -12,12 +12,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
 import ManageTicketRow from "../../components/Layout/Components/Company/Bus/ManageTicketRow";
-import PopupAdd from "../../components/Layout/Components/Company/Price/PopupAdd";
+import PopupAdd from "../../components/Layout/Components/Company/Price/PopupAdd.jsx";
 import { useNavigate } from "react-router-dom";
 import PriceClassRow from "../../components/Layout/Components/Company/PriceClass/PriceClassRow";
 import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
 import PriceRow from "../../components/Layout/Components/Company/Price/PriceRow";
 import Search from "antd/es/input/Search";
+import { Empty } from "antd";
 const ManagePrice = () => {
     let navigate = useNavigate();
     const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
@@ -50,6 +51,11 @@ const ManagePrice = () => {
     const [loading, setLoading] = useState(false);
     const [priceClass, setPriceClass] = useState([]);
 
+    const refetchData = async () => {
+        setCurrentPage(0);
+        fetchData();
+    }
+
     const fetchData = async () => {
         setLoading(true)
         try {
@@ -78,13 +84,23 @@ const ManagePrice = () => {
         }
     }, []);
 
-    const Find = async(param) => {
+    useEffect(() => {
+
+
+        fetchData();
+        return () => {
+            console.log("call api success")
+        }
+    }, [currentPage]);
+
+
+    const Find = async (param) => {
         setLoading(true)
         var response = await PriceSV.Find({ param: param, pageSize: 10, pageIndex: currentPage });
-        if(!response.isError){
+        if (!response.isError) {
             setPriceClass(response.data.items);
             setPageTotal(response.data.pageTotal)
-            
+
         }
         setLoading(false)
     }
@@ -110,7 +126,7 @@ const ManagePrice = () => {
                         placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
                         allowClear
                         className="col-start-7 col-span-5 p-md"
-                    onSearch={Find}
+                        onSearch={Find}
                     >
                     </Search>
                     {/* <input placeholder="Tìm kiếm" class='col-start-9 col-span-3 bg-bg outline-none border-none p-sm rounded-md'></input> */}
@@ -118,7 +134,7 @@ const ManagePrice = () => {
                     items={itemAdd} propsAdd={propsAdd} onChange={updateItemValue}
                 ></PopupAdd> */}
                     <div className="col-span-1">
-                        <PopupAdd></PopupAdd>
+                        <PopupAdd refetchData={refetchData}></PopupAdd>
                     </div>
 
                 </div>
@@ -137,25 +153,23 @@ const ManagePrice = () => {
                         <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md'>
                             <th class='col-span-6'>Tuyến đi</th>
                             <th class='col-span-2'>Giá</th>
-                            <th class='col-span-2'>Phụ phí</th>
-                            <th class='col-span-2'>Trạng thái</th>
+                            <th class='col-span-2 text-center'>Phụ phí</th>
+                            <th class='col-span-2 text-center'>Trạng thái</th>
                         </tr>
 
                     </thead>
                     <tbody class='bg-bg relative'>
                         {
                             loading ?
-                                <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                                <div className="animate-pulse bg-hover-txt w-full h-[300px] text-bg text-center">
                                 </div>
                                 :
                                 !loading &&
                                     (priceClass !== null && priceClass.length > 0 && priceClass !== undefined)
                                     ?
-                                    <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={PriceRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData}></PaginatedItemsWithAPI>
+                                    <PaginatedItemsWithAPI currentPage={currentPage} handleClick={handlePageClick} componentToRender={PriceRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData}></PaginatedItemsWithAPI>
                                     :
-                                    <tr style={{ width: "100%", position: "absolute", top: 100, textAlign: "center" }}>
-                                        Chưa có bảng giá nào.
-                                    </tr>
+                                    <Empty description="Chưa có bảng giá" />
                         }
 
                     </tbody>

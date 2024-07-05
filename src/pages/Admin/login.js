@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import * as authServices from "../../services/AuthServices";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Button, Row } from "antd";
 const AdminLogin = () => {
     const navigate = useNavigate();
     document.title = "Đăng nhập người quản trị"
@@ -158,7 +159,7 @@ const AdminLogin = () => {
                             ))
                         }
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-md'>
-                            <button class='confirm-button col-start-4 col-span-6' onClick={onSubmit}>
+                            <button class='confirm-button-new col-start-4 col-span-6' onClick={onSubmit}>
                                 Đăng nhập
                             </button>
 

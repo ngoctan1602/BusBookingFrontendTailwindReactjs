@@ -1,8 +1,17 @@
 
 import { useCallback, useState } from "react";
 import PopupUpdate from "./PopupUpdate";
+import PopupUpdateTypeBus from "./manageTypeBus/PopupUpdateTypeBus";
+
+import { setTypeBus } from "../../../../store/slice/typebusSlice"
+import { useSelector, useDispatch } from 'react-redux';
+import { Button } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenSquare } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
 const TypeBusRow = ({ item, onChangeStatus, onUpdate, fetchData }) => {
+    const dispatch = useDispatch();
 
     const [itemUpdate, setItemUpdate] = useState({
         title: "Cập nhật loại xe",
@@ -56,11 +65,18 @@ const TypeBusRow = ({ item, onChangeStatus, onUpdate, fetchData }) => {
         return isSuccess
     }, [updateTypeBus])
 
-
+    const dispatchUpdate = () => {
+        // console.log("set dispatch")
+        dispatch(setTypeBus(item))
+        changeOpen(true);
+    }
+    const [open, setOpen] = useState(false);
+    const changeOpen = (value) => {
+        setOpen(value)
+    }
 
     return (
         <tr class='grid  grid-cols-12 p-sm  border-txt my-[10px] items-center'
-            style={{ background: item.status === 0 ? "#75718a" : "", color: item.status === 0 ? "#F2ECFF" : "" }}
         >
             {/* <td class='col-span-1'>{item.id}</td> */}
             <td class='col-span-3'>{item.name}</td>
@@ -68,16 +84,26 @@ const TypeBusRow = ({ item, onChangeStatus, onUpdate, fetchData }) => {
             <td class='col-span-2'>{item.totalSeats}</td>
             <td class='col-span-2'>
                 {/* onChange={() => onChange(item.id, value)} */}
-                <select 
-                    className = {`rounded-lg p-[5px] ${item.status === 0 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 2 ? "bg-warning" : ""}`} 
-                    style={{ background: item.status === 0 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
-                    <option className="bg-danger"selected={item.status === 0 ? true : false} value={0} >Ngưng hoạt động</option>
-                    <option className="bg-success"selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
+                <select
+                    className={`rounded-lg p-[5px] ${item.status === 0 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 2 ? "bg-warning" : ""}`}
+                    onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
+                    <option className="bg-danger" selected={item.status === 0 ? true : false} value={0} >Ngưng hoạt động</option>
+                    <option className="bg-success" selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
                 </select>
             </td>
             {
-                <td class='col-span-1 text-center'>
-                    <PopupUpdate item={itemUpdate} status={item.status} onChange={updateItemValue} updateTypeBus={updateTypeBus} success={success} closePopup={closePopup} fetchData={fetchData} />
+                <td class='col-span-1 text-center' >
+                    {/* Chỉnh sửa */}
+                    {
+                        !open
+
+                        && <Button icon={<FontAwesomeIcon color="#00B873" icon={faPenToSquare}></FontAwesomeIcon>} onClick={dispatchUpdate} ></Button>
+                    }
+                    {
+                        open &&
+                        <PopupUpdateTypeBus changeOpen={changeOpen} refetchData={fetchData}></PopupUpdateTypeBus>
+                    }
+                    {/* <PopupUpdate item={itemUpdate} status={item.status} onChange={updateItemValue} updateTypeBus={updateTypeBus} success={success} closePopup={closePopup} fetchData={fetchData} /> */}
                 </td>
             }
         </tr >

@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
 import * as TypeBusServices from "../../../../services/TypeBusServices"
 import ReactLoading from 'react-loading';
+import { Form } from "antd";
 
 const PopupAdd = ({ objectAdd, item, onChange, success, emtyItemValue, fetchData }) => {
     const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
@@ -94,7 +95,7 @@ const PopupAdd = ({ objectAdd, item, onChange, success, emtyItemValue, fetchData
                             </div>
                         }
                         <p class='text-20 text-center font-bold'>{item.title}</p>
-                        
+
 
                         {
                             (item.item).map((item, index) => (
@@ -107,7 +108,6 @@ const PopupAdd = ({ objectAdd, item, onChange, success, emtyItemValue, fetchData
                                                 : <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#FFFF" }} onChange={onChange}></InputConfirmInfo>
 
                                         }
-                                        {/* <InputConfirmInfo item={{ type: "text", placeholder: `${item.placeholder}`, value: item.value, spanWidth: Number(item.spanWidth), id: item.id, background: "#e1e1e1" }} onChange={onChange}></InputConfirmInfo> */}
                                     </div>
                                 </div>
                             ))

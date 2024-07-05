@@ -59,7 +59,7 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopu
     }
     return (
 
-        <Popup trigger={<button class="w-full flex justify-center "> <FontAwesomeIcon icon={faPenToSquare} color="#00B873" class='cursor-pointer confirm-button w-[30px] h-[30px]'></FontAwesomeIcon></button>} position="right center"
+        <Popup trigger={<button class="outline-none w-full flex justify-center "> <FontAwesomeIcon icon={faPenToSquare} color="#00B873" class='cursor-pointer confirm-button w-[30px] h-[30px]'></FontAwesomeIcon></button>} position="right center"
             modal
             nested
             closeOnDocumentClick={false}
@@ -70,7 +70,7 @@ const PopupUpdate = ({ item, status, onChange, updateTypeBus, success, closePopu
 
                     <div class='p-md text-16 text-txt'>
                         <p class='text-20 text-center font-bold'>{item.title}</p>
-                        
+
 
                         {
                             (item.item).map((item, index) => (
