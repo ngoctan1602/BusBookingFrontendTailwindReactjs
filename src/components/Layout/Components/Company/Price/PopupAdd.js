@@ -117,7 +117,7 @@ const PopupAdd = () => {
                             </div>
                         }
                         <p class='text-20 text-center font-bold'>Thêm mới bảng giá</p>
-                        
+
 
                         <div class='w-full grid-flow-row grid grid-cols-12 '>
                             <p className="col-start-3 col-span-2">
@@ -129,7 +129,7 @@ const PopupAdd = () => {
                                 {objectAdd.RouteId === 0 && (<option>
                                     Chọn lộ trình
                                 </option>)}
-                                
+
                                 {
                                     route.map(item =>
                                         <option value={item.id}>
@@ -170,6 +170,7 @@ const PopupAdd = () => {
                             />
                         </div>
                     </div>
+
                 )
             }
 

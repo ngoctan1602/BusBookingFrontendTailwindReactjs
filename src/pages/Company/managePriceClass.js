@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import PriceClassRow from "../../components/Layout/Components/Company/PriceClass/PriceClassRow";
 import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
 import Search from "antd/es/input/Search";
+import { Empty } from "antd";
 const ManagePriceClass = () => {
     let navigate = useNavigate();
     const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
@@ -81,7 +82,7 @@ const ManagePriceClass = () => {
     const onSearch = (prop) => {
         alert("Search ở đây");
     }
-    const Find = async(param) => {
+    const Find = async (param) => {
         setLoading(true)
         var response = await PriceClassSV.Find({ param: param, pageSize: 10, pageIndex: currentPage });
         if (!response.isError) {
@@ -123,7 +124,7 @@ const ManagePriceClass = () => {
                     </div>
 
                 </div>
-                <table class="w-full my-md rounded-md border-collapse overflow-hidden text-txt text-16 relative" >
+                <table class="min-h-[300px] w-full my-md rounded-md border-collapse overflow-hidden text-txt text-16 relative" >
                     {/* {
         loading &&
         <div class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
@@ -142,7 +143,7 @@ const ManagePriceClass = () => {
                             <th class='col-span-3'>Tên</th>
                             <th class='col-span-4'>Mô tả</th>
                             <th class='col-span-3 text-center'>Đơn giá</th>
-                            <th class='col-span-2'>Trạng thái</th>
+                            <th class='col-span-2 text-center'>Trạng thái</th>
                         </tr>
 
 
@@ -150,16 +151,14 @@ const ManagePriceClass = () => {
                     <tbody class='bg-bg'   >
                         {
                             loading ?
-                                <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                                <div className="animate-pulse bg-hover-txt w-full h-[300px] text-bg text-center">
                                 </div>
                                 :
                                 !loading && priceClass.length > 0
                                     ?
                                     <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={PriceClassRow} items={priceClass} pageCount={pageTotal} fetchData={fetchData} currentPage={currentPage}></PaginatedItemsWithAPI>
                                     :
-                                    <tr>
-                                        Không có chuyến đi nào
-                                    </tr>
+                                    <Empty description="Không có loại giá nào" />
                         }
 
                     </tbody>

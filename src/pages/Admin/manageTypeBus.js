@@ -13,8 +13,9 @@ import Search from "antd/es/input/Search";
 import exportDataToExcel from "../../components/Common/exportExcel";
 import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
 import { Empty } from "antd";
-const ManageTypeBus = () => {
 
+import PopupAddTypeBus from "../../components/Layout/Components/Admin/manageTypeBus/PopupAddTypeBus";
+const ManageTypeBus = () => {
     //#region  Notify 
     const notifySuccess = (message) => toast.success(message, {
         position: "bottom-right",
@@ -64,53 +65,6 @@ const ManageTypeBus = () => {
         }
     )
 
-    const updateItemValue = (id, newValue) => {
-
-        const updatedItem = itemAdd.item.map(item => {
-            if (item.id === id) {
-                if (item.name === "totalSeats") {
-                    setAddTypeBus({ ...addTypeBus, [item.name]: parseInt(newValue) })
-                    return { ...item, value: parseInt(newValue) };
-                }
-
-                setAddTypeBus({ ...addTypeBus, [item.name]: newValue })
-                return { ...item, value: newValue };
-            }
-            return item;
-        });
-
-        setItemAdd({
-            ...itemAdd,
-            item: updatedItem
-        });
-    };
-
-    const success = useCallback(() => {
-        let isSuccess = true;
-        itemAdd.item.map(item => {
-            if (item.value === "" || (item.name === "totalSeats" && item.value === 0)) {
-                isSuccess = false
-            }
-
-        });
-        console.log(addTypeBus)
-        return isSuccess
-    }, [itemAdd])
-
-    const emtyItemValue = () => {
-
-        const updatedItem = itemAdd.item.map(item => {
-            if (item.name === "totalSeats")
-                return { ...item, value: 0 };
-            return { ...item, value: "" };
-
-        });
-        setItemAdd({
-            ...itemAdd,
-            item: updatedItem
-        });
-    };
-
     const [loading, setLoading] = useState(false);
 
     const [typeBus, setTypeBus] = useState([]);
@@ -124,6 +78,10 @@ const ManageTypeBus = () => {
     const [pageTotal, setTotalPage] = useState(0);
     const handlePageClick = (selectedPage) => {
         setCurrentPage(selectedPage);
+    }
+    const refetchData = async () => {
+        setCurrentPage(0);
+        fetchData()
     }
     const fetchData = async () => {
         setLoading(true)
@@ -200,8 +158,8 @@ const ManageTypeBus = () => {
                 />
 
                 <div class='flex col-span-1  justify-evenly'>
-
-                    <PopupAdd objectAdd={addTypeBus} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue} fetchData={fetchData}></PopupAdd>
+                    <PopupAddTypeBus refetchData={refetchData}></PopupAddTypeBus>
+                    {/* <PopupAdd objectAdd={addTypeBus} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue} fetchData={fetchData}></PopupAdd> */}
                     <button class="flex justify-center" onClick={() => exportDataToExcel(typeBus, notifySuccess, notifyError)}>
                         <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                         </FontAwesomeIcon>
@@ -228,9 +186,8 @@ const ManageTypeBus = () => {
                         :
                         !loading && typeBus.length > 0
                             ?
-                            <PaginatedItemsWithAPI handleClick={handlePageClick} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus} pageCount={pageTotal} currentPage={currentPage} fetchData={fetchData}>
+                            <PaginatedItemsWithAPI handleClick={handlePageClick} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus} pageCount={pageTotal} currentPage={currentPage} fetchData={refetchData}>
                             </PaginatedItemsWithAPI>
-                            // <Paginate itemsPerPage={5} items={typeBus} componentToRender={TypeBusRow} updateStatus={changeStatus} emtyItemValue={emtyItemValue} fetchData={fetchData}></Paginate>
                             :
                             <Empty description="Không có loại xe"></Empty>
                     }

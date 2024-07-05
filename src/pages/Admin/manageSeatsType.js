@@ -11,6 +11,7 @@ import SeatTypeRow from "../../components/Layout/Components/Admin/manageSeatType
 import Search from "antd/es/input/Search";
 import exportDataToExcel from "../../components/Common/exportExcel";
 import { Empty } from 'antd';
+import PopupAddSeatType from '../../components/Layout/Components/Admin/manageSeatTypes/PopupAddSeatType';
 const ManageSeatsType = () => {
     const notifySuccess = (message) => toast.success(message, {
         position: "bottom-right",
@@ -190,7 +191,7 @@ const ManageSeatsType = () => {
         }
     }
     return (
-        <div class='w-full text-txt txt-16 min-h-[600px] relative mt-[20px]'>
+        <div class='outline-none w-full text-txt txt-16 min-h-[600px] relative mt-[20px]'>
             {
                 updateLoading &&
                 <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
@@ -212,8 +213,8 @@ const ManageSeatsType = () => {
                 />
 
                 <div class='flex col-span-1 justify-evenly'>
-
-                    <PopupAdd objectAdd={addSeatType} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue} fetchData={fetchData}></PopupAdd>
+                    <PopupAddSeatType />
+                    {/* <PopupAdd objectAdd={addSeatType} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue} fetchData={fetchData}></PopupAdd> */}
                     <button class="flex justify-center" onClick={() => exportDataToExcel(seatTypes, notifySuccess, notifyError)}>
                         <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                         </FontAwesomeIcon>

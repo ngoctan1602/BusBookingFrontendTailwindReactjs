@@ -172,10 +172,7 @@ const companyRoutes = [
         path: "/company/prices", component: ManagePrice
     },
     {
-        path: "/company/create-ticket", component: CreateTicketNew
-    },
-    {
-        path: "/company/create-ticket-new", component: CreateTicket
+        path: "/company/create-ticket", component: CreateTicket
     },
     {
         path: "/company/dashboard", component: DashBoardNew

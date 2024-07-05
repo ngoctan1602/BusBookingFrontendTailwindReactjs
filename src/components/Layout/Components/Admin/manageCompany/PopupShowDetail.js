@@ -6,7 +6,7 @@ const PopUpShowDetail = ({ items, companyProps }) => {
     const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
 
     return (
-        <Popup trigger={<button class="flex justify-center "> <FontAwesomeIcon icon={faInfo} color="#00B873" class='cursor-pointer confirm-button border-button p-md border-[1px] w-[40px] h-[40px] mr-sm'></FontAwesomeIcon></button>} position="right center"
+        <Popup trigger={<button class="outline-none flex justify-center "> <FontAwesomeIcon icon={faInfo} color="#00B873" class='cursor-pointer confirm-button border-button p-md border-[1px] w-[40px] h-[40px] mr-sm'></FontAwesomeIcon></button>} position="right center"
             modal
             nested
             closeOnDocumentClick={false}
@@ -26,7 +26,7 @@ const PopUpShowDetail = ({ items, companyProps }) => {
                             </div>
                         </div>
 
-                        
+
 
                         {
                             companyProps.map((item, index) => (
