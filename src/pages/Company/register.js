@@ -267,7 +267,7 @@ const CompanyRegister = () => {
 
 
     return (
-        <div class='w-full h-[100vh] bg-gradient-to-br from-button to-[#B0D9B1] flex justify-center items-center'>
+        <div class='w-full min-h-[100vh] bg-gradient-to-br from-button to-[#B0D9B1] flex justify-center items-center'>
             {/* <div {...getRootProps()}>
                 <input {...getInputProps()} />
                 <button type="button" onClick={open}>
@@ -279,8 +279,8 @@ const CompanyRegister = () => {
                 <ImageUploadPopup isOpen={isImagePopupOpen} onClose={() => setImagePopupOpen(false)} onImageUpload={handleImageUpload} />
             </div> */}
 
-            <div class='w-[70%] h-[90%] border-none shadow-2xl rounded-md overflow-auto flex bg-[#e1e1e1]'>
-                <div class='w-[40%] h-[750px] bg-bgLogin bg-cover bg-no-repeat text-bg flex flex-col items-center'>
+            <div class='w-[70%] min-h-[90%] border-none shadow-2xl rounded-md overflow-auto flex bg-[#e1e1e1] my-[100px]'>
+                <div class='w-[40%] min-h-[750px] bg-bgLogin bg-cover bg-no-repeat text-bg flex flex-col items-center'>
                     <img src={adminlogo} class='mt-md shrink-0 w-[100px] h-[100px] rounded-full'></img>
                     <p class='text-[30px] font-semibold shrink-0'>
                         Chào mừng quay trở lại !
@@ -295,7 +295,7 @@ const CompanyRegister = () => {
 
                 </div>
 
-                <div class='w-[60%] h-[750px] text-txt flex items-center bg-[#e1e1e1]'>
+                <div class='w-[60%] min-h-[750px] text-txt flex items-center bg-[#e1e1e1]'>
                     <div class='w-full h-full items-center flex flex-col bg-[#e1e1e1] pb-md'>
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-sm'>
                             <p class='col-start-4 col-span-6 font-bold text-[20px] uppercase'>Đăng ký trở thành nhà xe</p>
@@ -322,8 +322,8 @@ const CompanyRegister = () => {
                                 </div>
                             ))
                         }
-                        <div className="w-[90%] grid grid-flow-row grid-cols-12 gap-sm items-center">
-                            <select class='col-span-4 p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getDistricts(Number(e.target.value))}>
+                        <div className="w-full grid grid-flow-row grid-cols-10 gap-sm items-center">
+                            <select class='col-start-4 col-span-6 p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getDistricts(Number(e.target.value))}>
                                 <option value={0} selected={(idProvince === 0) ? true : false}>
                                     Chọn tỉnh
                                 </option>
@@ -337,7 +337,7 @@ const CompanyRegister = () => {
                                 }
 
                             </select>
-                            <select class='col-span-4 col-start-5 mx-sm p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getWards(e.target.value)}>
+                            <select class='col-start-4 col-span-6  p-sm  bg-[#e1e1e1] border-txt border-[1px] rounded-md ' onChange={(e) => getWards(e.target.value)}>
                                 <option value={0} selected={idDistrict === 0 ? true : false}>Chọn huyện</option>
                                 {
                                     districts && districts.map((item, index) => (
@@ -348,7 +348,7 @@ const CompanyRegister = () => {
                                 }
                             </select>
 
-                            <select class='col-span-4 col-start-9 p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getIdWard(e.target.value)}>
+                            <select class='col-start-4 col-span-6 p-sm  bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getIdWard(e.target.value)}>
                                 <option value={0} selected={idWard === 0 ? true : false} >Chọn xã</option>
                                 {
                                     wards &&

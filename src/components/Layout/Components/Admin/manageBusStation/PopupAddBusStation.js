@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useCallback, useEffect, useState } from "react";
 import * as BusStationSV from "../../../../../services/BusStationSv"
 import * as AddressSV from "../../../../../services/AddressSv.js"
-const PopupAddBusStation = ({ objectAdd, item, onChange, success, emtyItemValue }) => {
+const PopupAddBusStation = ({ objectAdd, item, onChange, success, emtyItemValue, refetchData }) => {
     const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
 
     const notifySuccess = () => toast.success('Thêm thành công!', {
@@ -62,9 +62,8 @@ const PopupAddBusStation = ({ objectAdd, item, onChange, success, emtyItemValue 
             }
 
             notifySuccess()
-            setTimeout(() => {
-                close()
-            }, 1500);
+            refetchData()
+
 
             // emtyItemValue()
         }
@@ -129,7 +128,7 @@ const PopupAddBusStation = ({ objectAdd, item, onChange, success, emtyItemValue 
 
                     <div class='p-md text-16 text-txt'>
                         <p class='text-20 text-center font-bold'>{item.title}</p>
-                        
+
 
                         {
                             (item.item).map((item, index) => (

@@ -13,6 +13,8 @@ import * as RoutesSV from "../../services/RoutesSV"
 import * as RouteDetailSV from "../../services/Company/RouteDetailSV"
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Button, Empty } from "antd";
+import Search from "antd/es/input/Search";
 
 const CreateRouteDetail = () => {
     let navigate = useNavigate();
@@ -52,19 +54,25 @@ const CreateRouteDetail = () => {
     // }, [currentPage]);
 
     useEffect(() => {
+        fetchData()
+    }, [currentPage]);
+    useEffect(() => {
         getData()
     }, []);
 
     const [route, setRoute] = useState([])
 
     const [loading, setLoading] = useState(false)
+    // useEffect(() => {
+    //     fetchData();
+    // }, [currentPage])
     const fetchData = async (startId, endId) => {
         setLoading(true)
         try {
 
             // const routerresp = await RoutesSV.getAllRoutes();
             // setRoute(routerresp.data.items)
-            const respBusStation = await BusStationSv.getAllBusStationWithParams({ pageSize: 200, pageIndex: currentPage + 1 });
+            const respBusStation = await BusStationSv.getAllBusStationWithParams({ pageSize: 10, pageIndex: currentPage + 1 });
 
             if (!respBusStation.isError) {
 
@@ -131,7 +139,9 @@ const CreateRouteDetail = () => {
                 setRoute(filteredElements)
                 // setRoute(filter)
             }
-
+            setBusStation([])
+            setCurrentPage(0)
+            setSelectedIds([])
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -140,12 +150,13 @@ const CreateRouteDetail = () => {
     const [routeId, setRouteId] = useState(0)
     const handleChangeRoute = (value) => {
         const data = JSON.parse(value)
-        if (data.id > 0) {
+        // if (data.id > 0) {
 
-            console.log(data.stationStartId)
-            setRouteId(data.id)
-            fetchData(data.stationStartId, data.stationEndId)
-        }
+        console.log(data.stationStartId)
+        setRouteId(data.id)
+        setCurrentPage(0)
+        fetchData(data.stationStartId, data.stationEndId)
+        // }
         // fetchData(1, 3)
     }
     const [loadingCreate, setLoadingCreate] = useState(false);
@@ -254,21 +265,10 @@ const CreateRouteDetail = () => {
 
 
     return (
-        <div class='w-full text-txt txt-16 relative '>
-            {
-                loadingCreate &&
-                <div class='absolute bg-hover-txt opacity-40 rounded-md w-[100%] h-[100%] z-20 '>
-                    <ReactLoading
-                        type="spinningBubbles" color="#e1e1e1"
-                        height={'10%'} width={'10%'}
-                        className="absolute left-[50%] top-[50%]  "
-                    />
-                </div>
-            }
-
-            <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
+        <div class='w-full rounded-md bg-bg p-md text-txt txt-16 relative box-shadow-content min-h-[600px]'>
+            <div class='grid grid-cols-12 grid-flow-row gap-4 items-center mt-md'>
                 <p class='col-span-2 font-bold text-20'>Quản lý lộ trình</p>
-                <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
+                <select className="col-start-4 col-span-3 outline-none p-sm rounded-md border-[1px] border-hover-txt"
                     onChange={(e) => navigate(e.target.value)}
                 >
                     <option selected >
@@ -284,7 +284,7 @@ const CreateRouteDetail = () => {
                 <div className="col-span-2 col-start-1 flex items-center text-[18px]">
                     Chọn tuyến đi
                 </div>
-                <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
+                <select className="col-start-4  col-span-3 outline-none p-sm rounded-md border-[1px] border-hover-txt"
                     onChange={(e) => handleChangeRoute(e.target.value)}
                 >
                     <option value={0}>
@@ -298,79 +298,67 @@ const CreateRouteDetail = () => {
                         </option>))
                     }
                 </select>
-                <button className="col-span-3 col-start-9 border-[1px] rounded-md border-button
+                {/* <button className="col-span-3 col-start-9 border-[1px] rounded-md border-button
                                 hover:bg-button hover:text-bg ease-in-out duration-300 "
                     onClick={createRouteDetail}
                 >
                     Tạo lộ trình
-                </button>
+                </button> */}
             </div>
 
             <div className="w-full grid grid-flow-row grid-cols-12 mt-lg ">
-
-                <div class='col-span-12 col-start-1 text-[18px]'>Chọn các điểm đón trả: </div>
-                <div class='col-span-10 col-start-2 overflow-y-auto overflow-x-auto mb-lg h-[300px] shadow-lg'>
+                <div class='col-span-12 col-start-1 grid grid-flow-row grid-cols-12'>
+                    <p className="col-start-1 text-[18px] col-span-3">
+                        Chọn các điểm đón trả:
+                    </p>
+                    <div class='col-span-6 col-start-4'>
+                        <Search placeholder="Tìm kiếm điểm đón trả" className="w-full" />
+                    </div>
+                    <div class='col-span-2 col-start-11'>
+                        <Button className="w-full" onClick={createRouteDetail} >Tạo lộ trình </Button>
+                    </div>
+                </div>
+                <div class='col-span-12 col-start-1 mb-lg min-h-[300px] '>
                     <table class="w-full my-sm rounded-md border-collapse  text-txt text-16 relative">
                         {
                             loading &&
-                            <div class='absolute bg-hover-txt  w-[100%] h-[248px] z-20 '>
-                                <ReactLoading
-                                    type="spinningBubbles" color="#e1e1e1"
-                                    height={'10%'} width={'10%'}
-                                    className="absolute left-[50%] top-[30%]  "
-                                />
+                            <div className="animate-pulse bg-hover-txt w-full h-[300px] text-bg text-center">
                             </div>
                         }
                         <thead>
                             <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
-                                <th class='col-start-2 col-span-2'>Mã bến</th>
-                                <th class='col-span-4'>Tên bến xe</th>
+                                {/* <th class='col-start-2 col-span-2'>Mã bến</th> */}
+                                <th class='col-span-4 col-start-2'>Tên bến xe</th>
                                 <th class='col-span-5'>Địa chỉ</th>
                             </tr>
                         </thead>
-                        <tbody class='bg-[#e1e1e1] relative'>
+                        <tbody class='relative'>
                             {
-                                // loading &&
-                                // <div class='absolute  w-[100%] h-full z-20 '>
-                                //     <ReactLoading
-                                //         type="spinningBubbles" color="#090808"
-                                //         height={'10%'} width={'10%'}
-                                //         className="absolute left-[50%] top-[-50%]  "
-                                //     />
-                                // </div>
-                                // :
                                 !loading &&
                                     busStation.length > 0 ?
-                                    <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={BusStationRow} items={busStation} pageCount={pageTotal} fetchData={fetchData}
+                                    <PaginatedItemsWithAPI currentPage={currentPage} handleClick={handlePageClick} componentToRender={BusStationRow} items={busStation} pageCount={pageTotal} fetchData={fetchData}
                                         // nameRadio={"check"} type="checkbox"
                                         onUpdate={handleCheckboxChange}
                                     ></PaginatedItemsWithAPI>
                                     :
                                     (!loading &&
                                         busStation.length === 0) &&
-                                    <tr>
-                                        <td className="text-center h-[240px]">Không có bến nào</td>
-                                    </tr>
+                                    <Empty className="mt-sm" description="Không có tuyến đi nào" />
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <div className="w-full grid grid-flow-row grid-cols-12 mt-lg relative">
-                {
-                    loading &&
-                    <div class='absolute bg-hover-txt  w-[100%] h-[248px] z-20 '>
-                        <ReactLoading
-                            type="spinningBubbles" color="#e1e1e1"
-                            height={'10%'} width={'10%'}
-                            className="absolute left-[50%] top-[30%]  "
-                        />
-                    </div>
-                }
+            <div className="w-full grid grid-flow-row grid-cols-12 ">
                 <div class='col-span-12 col-start-1 text-[18px]'>Các điểm đón trả đã chọn:</div>
-                <div class='col-span-12 col-start-1 overflow-y-auto overflow-x-auto mb-lg max-h-[300px] shadow-lg'>
-                    <table class="w-full my-sm rounded-md border-collapse  text-txt text-16 ">
+                <div class='col-span-12 col-start-1 max-h-[800px]'>
+                    <table class="w-full my-sm border-collapse  text-txt text-16 max-h-[800px] overflow-y-auto">
+                        {
+                            loading &&
+                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                            </div>
+                        }
                         <thead>
                             <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md'>
                                 {/* <th class='col-span-1'>Mã bến</th> */}
@@ -382,63 +370,68 @@ const CreateRouteDetail = () => {
                                 <th class='col-span-2'>Ngày so với bến xuất phát</th>
                             </tr>
                         </thead>
-                        <tbody class='bg-[#e1e1e1]'>
+                        <tbody class=''>
                             {
-                                selectedItem.length > 0 &&
-                                selectedItem.map((item) => (
-                                    <tr className="grid grid-cols-12 p-sm text-left gap-md">
-                                        {/* <td class='col-span-1'>{item.BusStationId}</td> */}
-                                        <td class='col-span-1'>
-                                            <input className="w-full text-center rounded-sm outline-none px-sm bg-bgPopup border-[1px] border-hover-txt"
-                                                type="number"
-                                                min={2}
-                                                max={selectedItem.length - 1}
-                                                disabled={(item.IndexStation === 1 || item.IndexStation === selectedItem.length) ? true : false}
-                                                value={item.IndexStation}
-                                                // onChange={(e) => updateItems(item.BusStationId, "IndexStation", Number(e.target.value))}
-                                                onChange={(e) => handleSwap(Number(e.target.value - 1), Number(item.IndexStation - 1))}
-                                            >
-                                            </input>
-                                        </td>
-                                        <td class='col-span-2'>{item.NameBusStation}</td>
-                                        <td class='col-span-2'>
-                                            <input className="w-full text-center rounded-sm outline-none px-sm bg-bgPopup border-[1px] border-hover-txt"
-                                                type="time"
-                                                hidden={item.IndexStation === 1}
-                                                value={item.ArrivalTime}
-                                                onChange={(e) => updateItems(item.BusStationId, "ArrivalTime", e.target.value + ":00")}
-                                            >
-                                            </input>
-                                        </td>
-                                        <td class='col-span-2'>
-                                            <input className="w-full text-center rounded-sm outline-none px-sm bg-bgPopup border-[1px] border-hover-txt"
-                                                type="time"
-                                                hidden={item.IndexStation === (selectedItem.length)}
-                                                value={item.DepartureTime}
-                                                onChange={(e) => updateItems(item.BusStationId, "DepartureTime", e.target.value + ":00")}
-                                            >
-                                            </input>
-                                        </td>
-                                        <td class='col-span-2'>
-                                            <input className="w-full text-center rounded-sm outline-none px-sm bg-bgPopup border-[1px] border-hover-txt"
-                                                type="number"
-                                                min={0}
-                                                value={item.DiscountPrice}
-                                                onChange={(e) => updateItems(item.BusStationId, "DiscountPrice", Number(e.target.value))}
-                                            >
-                                            </input>
-                                        </td>
-                                        <td class='col-span-2'>
-                                            <input className="w-full text-center rounded-sm outline-none px-sm bg-bgPopup border-[1px] border-hover-txt"
-                                                type="number"
-                                                min={0}
-                                                value={item.AddDay}
-                                                onChange={(e) => updateItems(item.BusStationId, "AddDay", Number(e.target.value))}
-                                            >
-                                            </input>
-                                        </td>
-                                    </tr>
-                                ))
+                                loading ?
+                                    <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                                    </div> :
+                                    !loading &&
+                                        selectedItem.length > 0 ?
+                                        selectedItem.map((item) => (
+                                            <tr className="grid grid-cols-12 p-sm text-left gap-md">
+                                                {/* <td class='col-span-1'>{item.BusStationId}</td> */}
+                                                <td class='col-span-1'>
+                                                    <input className="w-full text-center rounded-sm outline-none px-sm  border-[1px] border-hover-txt"
+                                                        type="number"
+                                                        min={2}
+                                                        max={selectedItem.length - 1}
+                                                        disabled={(item.IndexStation === 1 || item.IndexStation === selectedItem.length) ? true : false}
+                                                        value={item.IndexStation}
+                                                        // onChange={(e) => updateItems(item.BusStationId, "IndexStation", Number(e.target.value))}
+                                                        onChange={(e) => handleSwap(Number(e.target.value - 1), Number(item.IndexStation - 1))}
+                                                    >
+                                                    </input>
+                                                </td>
+                                                <td class='col-span-2'>{item.NameBusStation}</td>
+                                                <td class='col-span-2'>
+                                                    <input className="w-full text-center rounded-sm outline-none px-sm  border-[1px] border-hover-txt"
+                                                        type="time"
+                                                        hidden={item.IndexStation === 1}
+                                                        value={item.ArrivalTime}
+                                                        onChange={(e) => updateItems(item.BusStationId, "ArrivalTime", e.target.value + ":00")}
+                                                    >
+                                                    </input>
+                                                </td>
+                                                <td class='col-span-2'>
+                                                    <input className="w-full text-center rounded-sm outline-none px-sm border-[1px] border-hover-txt"
+                                                        type="time"
+                                                        hidden={item.IndexStation === (selectedItem.length)}
+                                                        value={item.DepartureTime}
+                                                        onChange={(e) => updateItems(item.BusStationId, "DepartureTime", e.target.value + ":00")}
+                                                    >
+                                                    </input>
+                                                </td>
+                                                <td class='col-span-2'>
+                                                    <input className="w-full text-center rounded-sm outline-none px-sm  border-[1px] border-hover-txt"
+                                                        type="number"
+                                                        min={0}
+                                                        value={item.DiscountPrice}
+                                                        onChange={(e) => updateItems(item.BusStationId, "DiscountPrice", Number(e.target.value))}
+                                                    >
+                                                    </input>
+                                                </td>
+                                                <td class='col-span-2'>
+                                                    <input className="w-full text-center rounded-sm outline-none px-sm  border-[1px] border-hover-txt"
+                                                        type="number"
+                                                        min={0}
+                                                        value={item.AddDay}
+                                                        onChange={(e) => updateItems(item.BusStationId, "AddDay", Number(e.target.value))}
+                                                    >
+                                                    </input>
+                                                </td>
+                                            </tr>
+                                        ))
+                                        : <Empty className="mt-sm" description="Chưa chọn tuyến đi."></Empty>
                             }
                         </tbody>
                     </table>

@@ -134,6 +134,10 @@ const ManageSeatsType = () => {
             setLoading(false)
         }
     };
+    const refetchData = () => {
+        setPageCurrent(0);
+        fetchData();
+    }
     // Hàm cập nhật trạng thái item
     const changeStatus = (id, value) => {
         setUpdateLoading(true)
@@ -213,7 +217,7 @@ const ManageSeatsType = () => {
                 />
 
                 <div class='flex col-span-1 justify-evenly'>
-                    <PopupAddSeatType />
+                    <PopupAddSeatType refetchData={refetchData} />
                     {/* <PopupAdd objectAdd={addSeatType} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue} fetchData={fetchData}></PopupAdd> */}
                     <button class="flex justify-center" onClick={() => exportDataToExcel(seatTypes, notifySuccess, notifyError)}>
                         <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>

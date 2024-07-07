@@ -47,7 +47,12 @@ const PopupAddSeatType = ({ refetchData }) => {
     const addNewSeatType = async () => {
         setLoading(true)
         try {
-            const resp = await TypeBusServices.createSeatType(form.getFieldsValue());
+            const objectAdd = {
+                type: form.getFieldValue("type"),
+                Price: Number(form.getFieldValue("price")),
+                description: form.getFieldValue("description"),
+            }
+            const resp = await TypeBusServices.createSeatType(objectAdd);
             if (!resp.isError) {
                 notifySuccess("Thêm mới loại giá thành công")
                 form.resetFields()

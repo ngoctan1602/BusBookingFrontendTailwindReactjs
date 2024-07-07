@@ -10,6 +10,7 @@ import RouteDetailInRouteRow from "../Bus/RouteInCompany/RouteDetailInRouteRow";
 import PaginatedItemsWithAPI from "../../../components/Layout/Components/PaginateWithApi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import moment from "moment";
 const CreateTicket = () => {
 
     const notifySuccess = (message) => toast.success(message, {
@@ -236,6 +237,12 @@ const CreateTicket = () => {
 
     }
     const [loadingCreate, setLoadingCreate] = useState(false);
+    const [dateValue, setDateValue] = useState(moment());
+    const [dateString, setDateString] = useState("");
+    const onChangeDate = (date, dateString) => {
+        setDateValue(date)
+        setDateString(dateString)
+    }
     const onSuccess = async () => {
         setLoadingCreate(true)
         // notifyWarning("Đang tạo vé vui lòng không thoát khỏi trang.")
@@ -243,8 +250,8 @@ const CreateTicket = () => {
             return { RouteDetailId: id };
         });
         const objectAdd = {
-            dateOnly:
-                new Date(formCreate.getFieldValue("DateOnly")).toISOString().split('T')[0],
+            dateOnly: dateString,
+            // new Date(formCreate.getFieldValue("DateOnly")).toISOString().split('T')[0],
             busId: formCreate.getFieldValue("busId"),
             PriceClassificationId: formCreate.getFieldValue("PriceClassificationId"),
             TicketStations: TicketStations
@@ -265,8 +272,9 @@ const CreateTicket = () => {
         } catch (error) {
             notifyError(error)
         }
-        console.log(objectAdd);
+        // console.log(objectAdd);
     }
+
     return (
         <div className="w-full h-full">
             <div class='w-full min-h-[300px] text-txt txt-16 bg-bg py-[20px] px-[10px] rounded-md box-shadow-content mb-md' >
@@ -303,7 +311,10 @@ const CreateTicket = () => {
                                     }
                                 ]}
                             >
-                                <DatePicker placeholder="Vui lòng chọn ngày xuất bến" style={{ width: "100%" }} format={'DD/MM/YY'}></DatePicker>
+                                <DatePicker
+                                    value={dateValue}
+                                    onChange={(date, dateString) => onChangeDate(date, dateString)}
+                                    placeholder="Vui lòng chọn ngày xuất bến" style={{ width: "100%" }} format="YYYY-MM-DD"></DatePicker>
                             </Form.Item>
                         </Col>
                     </Row>

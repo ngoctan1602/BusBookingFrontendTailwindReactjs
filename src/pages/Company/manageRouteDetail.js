@@ -14,6 +14,7 @@ import RouteDetailRow from "../../components/Layout/Components/Company/RouteDeta
 import { useNavigate } from "react-router-dom";
 import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
 import Search from "antd/es/input/Search";
+import { Empty } from "antd";
 
 const ManageRouteDetail = () => {
     let navigate = useNavigate();
@@ -73,6 +74,10 @@ const ManageRouteDetail = () => {
         }
     }, []);
 
+    useEffect(() => {
+        fetchData();
+    }, [currentPage]);
+
 
     // const [isChange, setIsChange] = useState(false);
     // const changeStatus = (id, value) => {
@@ -103,7 +108,7 @@ const ManageRouteDetail = () => {
 
                 <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
                     <p class='col-span-2 font-bold text-20'>Quản lý lộ trình</p>
-                    <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
+                    <select className="col-span-3 outline-none p-sm rounded-md  border-[1px] border-hover-txt"
                         onChange={(e) => navigate(e.target.value)}
                     >
                         <option value={'/company/create-route-detail'}>
@@ -149,9 +154,7 @@ const ManageRouteDetail = () => {
                                 ?
                                 <PaginatedItemsWithAPI currentPage={currentPage} pageCount={pageTotal} handleClick={handlePageClick} items={routeDetail} componentToRender={RouteDetailRow} fetchData={fetchData}></PaginatedItemsWithAPI>
                                 :
-                                <tr>
-                                    Không có chuyến đi nào
-                                </tr>
+                                <Empty description="Không có lộ trình nào" />
                         }
 
                     </tbody>
