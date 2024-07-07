@@ -66,6 +66,7 @@ const Login = () => {
                 localStorage.setItem('refreshToken', response.data.refreshToken);
                 localStorage.setItem('username', response.data.username);
                 localStorage.setItem('avatar', response.data.avatar);
+                localStorage.setItem('roleName', response.data.roleName);
                 notifySuccess();
                 dispatch(login());
                 dispatch(setRole(response.data.roleName));

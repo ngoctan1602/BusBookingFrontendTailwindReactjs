@@ -6,7 +6,7 @@ const CheckBusStationRow = ({ item, onUpdate }) => {
     //     onUpdate(name, value);
     // }
     return (
-        <tr class='grid  grid-cols-12 p-sm border-t-[1px] border-txt'
+        <tr class='grid  grid-cols-12 p-sm'
             style={{ background: item.status === 0 ? "#75718a" : "", color: item.status === 0 ? "#F2ECFF" : "" }}
         >
             <td>
@@ -27,11 +27,11 @@ const CheckBusStationRow = ({ item, onUpdate }) => {
 
                 </input>
             </td>
-            <td class='col-span-1'>{item.id}</td>
-            <td class='col-span-3'>{item.name}</td>
+            {/* <td class='col-span-1'>{item.id}</td> */}
+            <td class='col-span-4'>{item.name}</td>
             {/* <td class='col-span-3'>{item.description}</td> */}
 
-            <td class='col-span-6'>
+            <td class='col-span-5'>
                 {item.addressDb}
             </td>
 

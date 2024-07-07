@@ -134,7 +134,7 @@ const UpdateStatusPrice = () => {
 
             <div class='grid grid-cols-12 grid-flow-row gap-4 items-center mt-[20px]'>
                 <p class='col-span-3 text-20 font-black uppercase' >Quản lý bảng giá</p>
-                <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
+                <select className="col-span-3 outline-none p-sm rounded-md border-[1px] border-hover-txt"
                     onChange={(e) => navigate(e.target.value)}
                 >
                     <option value={'/admin/priceclassification'} >
@@ -162,7 +162,7 @@ const UpdateStatusPrice = () => {
 
 
             </div>
-            <table class="box-shadow-content w-full my-md rounded-md border-collapse  text-txt-gray text-16 overflow-hidden relative">
+            <table class="min-h-[300px] box-shadow-content w-full my-md rounded-md border-collapse  text-txt-gray text-16 overflow-hidden relative">
                 {
                     updateLoading &&
                     <div class='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40'>
@@ -185,7 +185,7 @@ const UpdateStatusPrice = () => {
                 <tbody class='bg-bg'>
                     {
                         loading ?
-                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                            <div className="animate-pulse bg-hover-txt w-full h-[300px] text-bg text-center">
                             </div>
                             :
                             !loading && priceClass.length > 0

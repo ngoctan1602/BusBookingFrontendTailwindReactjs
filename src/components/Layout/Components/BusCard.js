@@ -252,6 +252,37 @@ const BusCard = ({ item }) => {
         setSelectedBusStop({ ...selectedBusStop, [name]: Number(id) })
         setNameSelectedBusStop({ ...nameSelectedBusStop, [name]: nameStop })
         settimeDepature({ ...timeDepature, [name]: time })
+        if (name === "busStationStartId") {
+            for (let i = 0; i < item.listStation.length; i++) {
+                // console.log(item.listStation[i])
+                if (item.listStation[i].ticketRouteDetailId === id) {
+                    let arr = [];
+                    item.listStation.map(
+                        (e, j) => {
+                            if (j >= i)
+                                arr.push(e)
+                        }
+                    )
+                    setEndLocation(arr)
+                }
+            }
+        }
+        else {
+            for (let i = 0; i < item.listStation.length; i++) {
+                // console.log(item.listStation[i])
+                if (item.listStation[i].ticketRouteDetailId === id) {
+                    let arr = [];
+                    item.listStation.map(
+                        (e, j) => {
+                            if (j <= i)
+                                arr.push(e)
+                        }
+                    )
+                    setStartLocation(arr)
+                }
+            }
+        }
+
     }
 
 
@@ -326,8 +357,8 @@ const BusCard = ({ item }) => {
         year: 'numeric'
     };
     const timeForecast = () => {
-        const arrivalTime = new Date(item.listStation[0].arrivalTime);
-        const lastStationTime = new Date(item.listStation[item.listStation.length - 1].departureTime);
+        const arrivalTime = new Date(item.listStation[0].departureTime);
+        const lastStationTime = new Date(item.listStation[item.listStation.length - 1].arrivalTime);
 
         const diffInMilliseconds = Math.abs(arrivalTime - lastStationTime);
 
@@ -399,12 +430,12 @@ const BusCard = ({ item }) => {
                     <div class='m-sm flex text-txt items-center'>
                         <FontAwesomeIcon icon={faCircleDot} class='text-hover-txt w-[14px] h-[14px]' />
                         <p class='mx-sm'>{item.listStation[0].station} - </p>
-                        <p >{new Date(item.listStation[0].arrivalTime)
+                        <p >{new Date(item.listStation[0].departureTime)
                             .toLocaleString("en-CA", timeOptions)
 
                         }
                             <span> </span>
-                            {new Date(item.listStation[0].arrivalTime).
+                            {new Date(item.listStation[0].departureTime).
                                 toLocaleString("en-CA", dateOptions).split('-').reverse().join('-')
                             }
 
@@ -419,12 +450,12 @@ const BusCard = ({ item }) => {
                         <FontAwesomeIcon icon={faLocationDot} class='text-hover-txt w-[16px] h-[16px]' />
                         <p class='mx-sm'>{item.listStation[item.listStation.length - 1].station} - </p>
                         <p>
-                            {new Date(item.listStation[item.listStation.length - 1].departureTime)
+                            {new Date(item.listStation[item.listStation.length - 1].arrivalTime)
                                 .toLocaleString("en-CA", timeOptions)
 
                             }
                             <span> </span>
-                            {new Date(item.listStation[item.listStation.length - 1].departureTime).
+                            {new Date(item.listStation[item.listStation.length - 1].arrivalTime).
                                 toLocaleString("en-CA", dateOptions).split('-').reverse().join('-')
                             }
                         </p>
@@ -566,7 +597,7 @@ const BusCard = ({ item }) => {
                                 <p class='font-bold text-16'>Tầng trên</p>
                                 <div class='border-[1px] rounded-md border-txt my-lg'>
                                     <div class='w-[40px] h-[40px] m-sm'></div>
-                                    <div class='min-h-[300px] m-sm justify-items-center grid grid-flow-row grid-rows-4 grid-cols-3'>
+                                    <div class='min-h-[200px] m-sm justify-items-center grid grid-flow-row grid-rows-4 grid-cols-3'>
                                         {
                                             secondFloor.map((item, index) => (
                                                 <div
@@ -607,10 +638,10 @@ const BusCard = ({ item }) => {
 
                     {
                         stepBooking[1].active &&
-                        <div class='my-md text-txt grid grid-flow-row grid-rows-1 grid-cols-2 justify-items-center w-search min-h-[200px] '>
+                        <div class='my-sm text-txt grid grid-flow-row grid-rows-1 grid-cols-2 justify-items-center w-search min-h-[200px] '>
                             <div class='w-[270px]'>
                                 <p class='font-bold  text-16'>Điểm đón</p>
-                                <div class='h-[200px] flex flex-col overflow-x-hidden overflow-y-auto'>
+                                <div class='h-[200px] flex flex-col overflow-x-hidden overflow-y-scroll'>
                                     {
                                         startLocation.map((item, index) => (
                                             index !== startLocation.length - 1 && (
@@ -620,9 +651,9 @@ const BusCard = ({ item }) => {
                                     }
                                 </div>
                             </div>
-                            <div class=' w-[270px]'>
+                            <div class='ml-[30px] w-[270px]'>
                                 <p class='font-bold  text-16'>Điểm trả</p>
-                                <div class='h-[200px] flex flex-col overflow-x-hidden overflow-y-auto'>
+                                <div class='h-[200px] flex flex-col overflow-x-hidden overflow-y-scroll'>
                                     {
                                         endLocation.map((item, index) => (
                                             index !== 0 && (

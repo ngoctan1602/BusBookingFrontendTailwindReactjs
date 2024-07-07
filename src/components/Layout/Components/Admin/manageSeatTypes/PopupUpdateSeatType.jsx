@@ -48,10 +48,19 @@ const PopupUpdateTypeSeat = ({ refetchData, open, changeOpen }) => {
         progress: undefined,
         theme: "light",
     });
+    const initialValues = {
+        type: typeseatupdate.type,
+        price: typeseatupdate.price,
+        description: typeseatupdate.description
+    };
     const updateBusType = async () => {
         setLoading(true)
         try {
-            const objectAdd = form.getFieldsValue();
+            const objectAdd = {
+                type: form.getFieldValue("type"),
+                Price: Number(form.getFieldValue("price")),
+                description: form.getFieldValue("description"),
+            }
             const newObjectAdd = {
                 id: typeseatupdate.id,
                 ...objectAdd,
@@ -111,6 +120,7 @@ const PopupUpdateTypeSeat = ({ refetchData, open, changeOpen }) => {
 
                             <Form
                                 form={form}
+                                initialValues={initialValues}
                                 layout="horizontal"
                                 style={{ maxWidth: '600px', margin: '0 auto' }}
                                 labelCol={{ span: 6 }}
@@ -166,6 +176,7 @@ const PopupUpdateTypeSeat = ({ refetchData, open, changeOpen }) => {
                                         defaultValue={typeseatupdate.price}
                                         thousandSeparator={true}
                                         suffix={' đ'}
+                                        onChange={(value) => console.log(value)}
                                         customInput={Input}
                                         style={{ width: '100%' }}
                                     />

@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import RoutesRow from '../../components/Layout/Components/Admin/manageRoutes/RouteRow';
 import Search from "antd/es/input/Search";
 import exportDataToExcel from "../../components/Common/exportExcel";
-import { Button } from 'antd';
+import { Button, Empty } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -119,7 +119,7 @@ const ManageRoutes = () => {
                     </button>
                 </div>
             </div>
-            <table class="box-shadow-content w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
+            <table class="min-h-[300px] box-shadow-content w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
 
                 <thead>
                     <tr class='grid bg-bg grid-cols-6 p-sm text-left border-b-2'>
@@ -132,14 +132,13 @@ const ManageRoutes = () => {
 
                     {
                         loading ?
-                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                            <div className="animate-pulse bg-hover-txt w-full h-[300px] text-bg text-center">
                             </div>
                             :
                             !loading &&
                                 routes.length > 0 ?
                                 <PaginateWithApi currentPage={currentPage} handleClick={handlePageClick} componentToRender={RoutesRow} items={routes} pageCount={pageTotal}></PaginateWithApi>
-                                : "Không có bến nào"
-
+                                : <Empty description="Không có tuyến đường nào"></Empty>
                     }
                 </tbody>
             </table>

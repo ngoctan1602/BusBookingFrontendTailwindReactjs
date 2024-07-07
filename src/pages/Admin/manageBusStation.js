@@ -59,24 +59,32 @@ const ManageBusStation = () => {
     const handlePageClick = (selectedPage) => {
         setPageCurrent(selectedPage)
     }
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await BusStationSV.getAllBusStation({ pageSize: 10, pageIndex: pageCurrent + 1 });
-                if (!response.isError) {
-                    setBusStations(response.data.items);
-                    setPageTotal(response.data.pageTotal);
-                }
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false);
+    const fetchData = async () => {
+        setLoading(true)
+        try {
+            const response = await BusStationSV.getAllBusStation({ pageSize: 10, pageIndex: pageCurrent + 1 });
+            if (!response.isError) {
+                setBusStations(response.data.items);
+                setPageTotal(response.data.pageTotal);
             }
-        };
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoading(false);
+        }
+    };
+    useEffect(() => {
 
         fetchData();
     }, []);
+    useEffect(() => {
 
+        fetchData();
+    }, [pageCurrent]);
+    const refetchData = () => {
+        setPageCurrent(0)
+        fetchData();
+    }
 
     const [itemAdd, setItemAdd] = useState({
         title: "Thêm mới bến bãi",
@@ -233,7 +241,7 @@ const ManageBusStation = () => {
                 />
                 <div class='flex justify-evenly'>
 
-                    <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation>
+                    <PopupAddBusStation refetchData={refetchData} objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation>
                     <button class="flex justify-center" onClick={() => exportDataToExcel(busStations, notifySuccess, notifyError)}>
                         <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                         </FontAwesomeIcon>
@@ -257,7 +265,7 @@ const ManageBusStation = () => {
                             :
                             !loading && busStations.length > 0 ?
                                 // <Paginate itemsPerPage={5} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus}></Paginate>
-                                <PaginatedItemsWithAPI currentPage={pageCurrent} pageCount={pageTotal} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus}></PaginatedItemsWithAPI>
+                                <PaginatedItemsWithAPI handleClick={handlePageClick} currentPage={pageCurrent} pageCount={pageTotal} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus}></PaginatedItemsWithAPI>
                                 : <Empty description="Không có bến bãi" />
                     }
                 </tbody>
