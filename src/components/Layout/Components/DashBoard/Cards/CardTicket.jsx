@@ -2,28 +2,49 @@ import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Row } from "antd";
 import { useSpring, animated } from 'react-spring';
+import { useEffect, useState } from "react";
+import * as TicketService from '../../../../../services/TicketService';
 const CardTicket = () => {
 
+    const [totalTicket, setTotalTicket] = useState(0);
+    const [rate, setRate] = useState(0);
     // Call api và gán số vào number = 50
     const propsNumber = useSpring({
         from: { number: 0 },
-        number: 50,
+        number: totalTicket,
         delay: 200,
         config: { duration: 2000 }
     });
 
     const propsPercent = useSpring({
         from: { number: 0 },
-        number: 20,
+        number: rate,
         delay: 200,
         config: { duration: 2000 }
     });
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await TicketService.totalTicket();
+            if (response.isError !== undefined && !response.isError) {
+                setTotalTicket(response.data.totalTicket.value);
+                setRate(response.data.totalTicket.rate);
+            }
+        } 
+        catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     return (
         <div className="box-shadow border-bottom blue" >
             <Row>
                 <p className="text-16 font-bold text-center" style={{ width: "100%" }}>
-                    Số lượng vé tháng này
+                    Số lượng vé tháng trước
                 </p>
             </Row>
             <Row>

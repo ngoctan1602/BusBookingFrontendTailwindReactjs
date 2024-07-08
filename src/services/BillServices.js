@@ -34,6 +34,22 @@ export const paymentDirec = async (data) => {
 export const paymentPaypal = async (data) => {
     return await BaseAPI.postItem(billServices.paymentPaypal, data);
 }
+
+export const statistical = async (data) => {
+    return await BaseAPI.getItems(billServices.statistical, data);
+}
+
+export const TotalBill = async () => {
+    return await BaseAPI.getItems(billServices.totalBill);
+}
+
+export const Sales = async () => {
+    return await BaseAPI.getItems(billServices.Sales);
+}
+export const TopRoute = async () => {
+    return await BaseAPI.getItems(billServices.topRoute);
+}
+
 const billServices = {
     reserve: "bills/reserve",
     getAll: "bills/getAll",
@@ -44,4 +60,8 @@ const billServices = {
     revenueStatistics: "bills/RevenueStatistics",
     paymentDirect: "bills/paymentDirect",
     paymentPaypal: "bills/paymentPaypal",
+    statistical: "bills/company/statistical",
+    totalBill: 'bills/totalBill',
+    Sales: 'bills/Sales',
+    topRoute: 'bills/topRoute',
 }

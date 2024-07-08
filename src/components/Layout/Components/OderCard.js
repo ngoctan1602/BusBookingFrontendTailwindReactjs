@@ -91,7 +91,7 @@ const OrderCard = ({ item }) => {
                         < FontAwesomeIcon icon={faTruckFast} />
                         <p class='p-sm'>Chuyến đi đã hoàn thành</p>
                     </div>
-                    : item.status === 5 ?
+                    : item.status === 5  || item.status === 6 ?
                         <div class='flex items-center text-[#071952]'>
                             < FontAwesomeIcon icon={faHourglassStart} />
                             <p class='p-sm'>Chuyến đi sắp tới</p>
@@ -197,7 +197,7 @@ const OrderCard = ({ item }) => {
                 </Popup>
 
                 {
-                    item.status === 5 &&
+                    (item.status === 5 || item.status === 6) &&
 
                     <button class='confirm-button-new' onClick={cancelOrder} >Hủy chuyến đi</button>
                 }
