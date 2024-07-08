@@ -79,12 +79,12 @@ const PriceClassRow = ({ item, onChangeStatus, onUpdate, fecthData }) => {
                     : <td class='col-span-2'>Hoạt động</td>
             } */}
             {
-              <select 
-              className={`rounded-lg p-[5px] ${item.status === 3 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 2 ? "bg-warning" : ""}`} 
-              style={{ background: item.status === 3 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
-              <option className="bg-warning" selected={item.status === 2 ? true : false} value={2} >Ngưng hoạt động</option>
-              <option className="bg-success" selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
-      </select>
+                <select
+                    className={` col-span-2 rounded-lg p-[5px] ${item.status === 3 ? 'bg-danger' : item.status === 1 ? 'bg-success' : item.status === 2 ? "bg-warning" : ""}`}
+                    onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
+                    <option className="bg-warning" selected={item.status === 2 ? true : false} value={2} >Đang chờ</option>
+                    <option className="bg-success" selected={item.status === 1 ? true : false} value={1} >Hoạt động</option>
+                </select>
             }
         </tr >
     );

@@ -12,16 +12,16 @@ const Location = ({ item, onChange, name, selectedBusStop, isStart }) => {
                         type="radio"
                         onClick={(e) => {
                             if (isStart && item.ticketRouteDetailId !== selectedBusStop.busStationEndId) {
-                                onChange(name, item.ticketRouteDetailId, item.address, item.arrivalTime);
-                            } else if (!isStart && item.ticketRouteDetailId !== selectedBusStop.busStationStartId) {
                                 onChange(name, item.ticketRouteDetailId, item.address, item.departureTime);
+                            } else if (!isStart && item.ticketRouteDetailId !== selectedBusStop.busStationStartId) {
+                                onChange(name, item.ticketRouteDetailId, item.address, item.arrivalTime);
                             }
                         }}
                         checked={item.ticketRouteDetailId === selectedBusStop[name]}
                     />
 
                     <p class='p-sm mx-sm text-16'>{
-                        isStart === true ? new Date(item.arrivalTime)
+                        isStart === true ? new Date(item.departureTime)
                             .toLocaleString("en-CA",
                                 {
                                     hour: 'numeric',
@@ -29,7 +29,7 @@ const Location = ({ item, onChange, name, selectedBusStop, isStart }) => {
                                     // second: 'numeric',
                                     hour12: false, // Use 24-hour format
                                 }
-                            ) : new Date(item.departureTime)
+                            ) : new Date(item.arrivalTime)
                                 .toLocaleString("en-CA",
                                     {
                                         hour: 'numeric',

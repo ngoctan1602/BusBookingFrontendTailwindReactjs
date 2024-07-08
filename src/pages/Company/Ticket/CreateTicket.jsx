@@ -10,6 +10,7 @@ import RouteDetailInRouteRow from "../Bus/RouteInCompany/RouteDetailInRouteRow";
 import PaginatedItemsWithAPI from "../../../components/Layout/Components/PaginateWithApi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import moment from "moment";
 const CreateTicket = () => {
 
     const notifySuccess = (message) => toast.success(message, {
@@ -80,31 +81,13 @@ const CreateTicket = () => {
 
 
     const [routeDetail, setRouteDetail] = useState(0);
-    const [currentPageRouteDetail, setCurrentRouteDetail] = useState(1);
+    const [currentPageRouteDetail, setCurrentRouteDetail] = useState(0);
     const [loadingPageRouteDetail, setLoadingPageRouteDetail] = useState(false);
     const [totalRouteDetail, setTotalRouteDetail] = useState(0);
     const [totalItemRouteDetail, setTotalItemRouteDetail] = useState(0);
     const handleChangePageRouteDetail = (page) => {
-        setLoadingPageRouteDetail(page);
+        setCurrentRouteDetail(page);
     }
-
-
-    const fecthDataRouteDetailChangePage = async () => {
-        try {
-            setLoadingPageRouteDetail(true)
-            const response = await RouteDetailSV.getInRoute({ routeId: routeSelected, pageSize: 10, pageIndex: currentPageRouteDetail });
-            if (!response.isError && response.data !== null && response.data !== undefined
-                && response.data.items !== null && response.data.items !== undefined
-            ) {
-                setRouteDetail(response.data.items);
-                setTotalRouteDetail(response.data.pageTotal)
-            }
-            setLoadingPageRouteDetail(false);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            // setLoading(false);
-        }
-    };
     const [routeDetailSelected, setRouteDetailSelected] = useState([])
     const fecthDataRouteDetail = async () => {
         try {
@@ -121,7 +104,7 @@ const CreateTicket = () => {
                 let ids = response.data.items.map(item => item.id).filter(id => id !== null)
                 setRouteDetailSelected(ids);
             }
-            const response1 = await RouteDetailSV.getInRoute({ routeId: routeSelected, pageSize: 10, pageIndex: currentPageRouteDetail });
+            const response1 = await RouteDetailSV.getInRoute({ routeId: routeSelected, pageSize: 10, pageIndex: currentPageRouteDetail + 1 });
             if (!response1.isError && response1.data !== null && response1.data !== undefined
                 && response1.data.items !== null && response1.data.items !== undefined
             ) {
@@ -175,7 +158,7 @@ const CreateTicket = () => {
     const fetchDataPriceClass = async () => {
         try {
             setLoadingPriceClass(true)
-            const response = await PriceClassSV.getAllInCompany({ pageSize: 10, pageIndex: currentPagePriceClass });
+            const response = await PriceClassSV.getActiveInCompany({ pageSize: 10, pageIndex: currentPagePriceClass });
             if (!response.isError && response.data !== null && response.data !== undefined
                 && response.data.items !== null && response.data.items !== undefined
             ) {
@@ -254,22 +237,21 @@ const CreateTicket = () => {
 
     }
     const [loadingCreate, setLoadingCreate] = useState(false);
+    const [dateValue, setDateValue] = useState(moment());
+    const [dateString, setDateString] = useState("");
+    const onChangeDate = (date, dateString) => {
+        setDateValue(date)
+        setDateString(dateString)
+    }
     const onSuccess = async () => {
         setLoadingCreate(true)
-        notifyWarning("Đang tạo vé vui lòng không thoát khỏi trang.")
+        // notifyWarning("Đang tạo vé vui lòng không thoát khỏi trang.")
         const TicketStations = routeDetailSelected.map((id) => {
             return { RouteDetailId: id };
         });
-        // const strDayOnly = formCreate.getFieldValue("DateOnly").format("YYYY-MM-DD");
-        const dateOnly = {
-            year: 2024,
-            month: 9,
-            day: 22,
-            dayOfWeek: 0
-        }
         const objectAdd = {
-            dateOnly: dateOnly,
-            // dateOnly: formCreate.getFieldValue("DateOnly").format("YYYY-MM-DD"),
+            dateOnly: dateString,
+            // new Date(formCreate.getFieldValue("DateOnly")).toISOString().split('T')[0],
             busId: formCreate.getFieldValue("busId"),
             PriceClassificationId: formCreate.getFieldValue("PriceClassificationId"),
             TicketStations: TicketStations
@@ -278,6 +260,10 @@ const CreateTicket = () => {
             const resp = await TicketSV.createTicket(objectAdd)
             setLoadingCreate(false)
             if (!resp.isError) {
+                formCreate.resetFields();
+                setRouteDetail([])
+                setTotalRouteDetail(0)
+                setRouteDetailSelected([])
                 notifySuccess("Tạo vé thành công");
             }
             else {
@@ -286,8 +272,9 @@ const CreateTicket = () => {
         } catch (error) {
             notifyError(error)
         }
-        console.log(objectAdd);
+        // console.log(objectAdd);
     }
+
     return (
         <div className="w-full h-full">
             <div class='w-full min-h-[300px] text-txt txt-16 bg-bg py-[20px] px-[10px] rounded-md box-shadow-content mb-md' >
@@ -300,59 +287,60 @@ const CreateTicket = () => {
                     style={{
                         margin: "16px 0px",
                         width: "100%", minHeight: "300px",
-                        // boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
                     }}
                     className="custom-form"
-                    labelCol={{ span: 4 }}
-                    wrapperCol={{ span: 20 }}
+                    labelCol={{ span: 10 }}
+                    wrapperCol={{ span: 14 }}
                 >
-                    {
-                        loadingRoute ? <Col>
-                            <SelectOption loading={true} props={propRouteOption}></SelectOption>
-                        </Col> :
-                            !loadingRoute &&
-                            <Col>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            {loadingRoute ? (
+                                <SelectOption loading={true} props={propRouteOption}></SelectOption>
+                            ) : (
                                 <SelectOption handleChangeSelected={handleChangeRoute} handleChangePage={handleChangePageRoute} loading={loadingRoute} props={propRouteOption} data={{ totalPage: totalRoute, pageCurrent: curentPageRoute, data: route }}></SelectOption>
-                            </Col>
-                    }
-                    <Col>
-                        <Form.Item
-                            name="DateOnly"
-                            label="Chọn ngày xuất bến"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Không được bỏ trống ngày xuất bến"
-                                }
-                            ]}
-                        >
-                            <DatePicker placeholder="Vui lòng chọn ngày xuất bến" style={{ width: "100%" }} format={'DD/MM/YY'}></DatePicker>
-                        </Form.Item>
-                    </Col>
-                    {
-                        loadingPriceClass ? <Col>
-                            <SelectOption loading={true} props={propPriceClass}></SelectOption>
-                        </Col> :
-                            !loadingPriceClass &&
-                            <Col>
+                            )}
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                name="DateOnly"
+                                label="Chọn ngày xuất bến"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Không được bỏ trống ngày xuất bến"
+                                    }
+                                ]}
+                            >
+                                <DatePicker
+                                    value={dateValue}
+                                    onChange={(date, dateString) => onChangeDate(date, dateString)}
+                                    placeholder="Vui lòng chọn ngày xuất bến" style={{ width: "100%" }} format="YYYY-MM-DD"></DatePicker>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            {loadingPriceClass ? (
+                                <SelectOption loading={true} props={propPriceClass}></SelectOption>
+                            ) : (
                                 <SelectOption handleChangePage={handleChangePagePriceClass} loading={loadingPriceClass} props={propPriceClass} data={{ totalPage: totalPriceClass, pageCurrent: currentPagePriceClass, data: PriceClass }}></SelectOption>
-                            </Col>
-                    }
-                    {
-                        (loadingPageBus && routeSelected !== 0) ? <Col>
-                            <SelectOption loading={true} props={propBus}></SelectOption>
-                        </Col> :
-                            (!loadingPageBus && routeSelected !== 0) &&
-                            <Col >
-                                <SelectOption handleChangePage={handleChangePageBus} loading={loadingPageBus} props={propBus} data={{ totalPage: totalBus, pageCurrent: currentPageBus, data: bus }}></SelectOption>
-                            </Col>
-                    }
-                    <Divider></Divider>
+                            )}
+                        </Col>
+                        <Col span={12}>
+                            {(loadingPageBus && routeSelected !== 0) ? (
+                                <SelectOption loading={true} props={propBus}></SelectOption>
+                            ) : (
+                                (!loadingPageBus && routeSelected !== 0) && (
+                                    <SelectOption handleChangePage={handleChangePageBus} loading={loadingPageBus} props={propBus} data={{ totalPage: totalBus, pageCurrent: currentPageBus, data: bus }}></SelectOption>
+                                )
+                            )}
+                        </Col>
+                    </Row>
+                    <Divider />
                     <Row>
                         <table class="w-full min-h-[200px] my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
                             <thead>
                                 <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md ' style={{ fontWeight: 400 }}>
-
                                     <th class='col-span-1 col-start-2 '>Thứ tự</th>
                                     <th class='col-span-2'>Tên bến xe</th>
                                     <th class='col-span-2'>Giờ cập bến</th>
@@ -362,30 +350,28 @@ const CreateTicket = () => {
                                 </tr>
                             </thead>
                             <tbody class='bg-[#FFFF]'>
-                                {
-                                    loadingPageRouteDetail ?
-                                        <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
-                                        </div>
-                                        :
-                                        !loadingPageRouteDetail &&
-                                            (routeDetail !== null && routeDetail.length > 0 && routeDetail !== undefined)
-                                            ?
-                                            <PaginatedItemsWithAPI changeSelectedList={changeSelectedRouteDetail} totalItem={totalItemRouteDetail} selectedList={routeDetailSelected} componentToRender={RouteDetailInRouteRow} items={routeDetail} pageCount={totalRouteDetail} fetchData={fecthDataRouteDetail}></PaginatedItemsWithAPI>
-                                            :
-                                            <tr style={{ width: "100%", position: "absolute", top: 100, textAlign: "center" }}>
-                                                Chưa có chi tiết tuyến đường. Vui lòng chọn tuyến đường
-                                            </tr>
-                                }
+                                {loadingPageRouteDetail ? (
+                                    <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center"></div>
+                                ) : (
+                                    !loadingPageRouteDetail &&
+                                        (routeDetail !== null && routeDetail.length > 0 && routeDetail !== undefined) ? (
+                                        <PaginatedItemsWithAPI currentPage={currentPageRouteDetail} handleClick={handleChangePageRouteDetail} changeSelectedList={changeSelectedRouteDetail} totalItem={totalItemRouteDetail} selectedList={routeDetailSelected} componentToRender={RouteDetailInRouteRow} items={routeDetail} pageCount={totalRouteDetail} fetchData={fecthDataRouteDetail}></PaginatedItemsWithAPI>
+                                    ) : (
+                                        <tr style={{ width: "100%", position: "absolute", top: 100, textAlign: "center" }}>
+                                            Chưa có chi tiết tuyến đường. Vui lòng chọn tuyến đường
+                                        </tr>
+                                    )
+                                )}
                             </tbody>
                         </table>
                     </Row>
-
                     <Col offset={20} span={4}>
-                        <Button loading={loadingCreate ? true : false} onClick={() => formCreate.submit()} style={
-                            { width: "100%" }
-                        }>Tạo vé</Button>
+                        <Button loading={loadingCreate ? true : false} onClick={() => formCreate.submit()} style={{ width: "100%" }}>
+                            Tạo vé
+                        </Button>
                     </Col>
                 </Form>
+
             </div>
             <ToastContainer
                 position="bottom-right"

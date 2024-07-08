@@ -6,10 +6,14 @@ import userReducer from './slice/userSlice';
 import checkoutReducer from './slice/checkoutSlice';
 import { combineReducers } from 'redux';
 import searchReducer from './slice/searchSlice';
+import typebusReduucer from './slice/typebusSlice';
+import typpeseatReducer from './slice/typeseatSlice';
 const rootReducer = combineReducers({
     user: userReducer,
     checkout: checkoutReducer,
-    search: searchReducer
+    search: searchReducer,
+    typebus: typebusReduucer,
+    typeseat: typpeseatReducer,
     // thêm các reducers khác ở đây nếu có
 });
 

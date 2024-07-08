@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
 import ManageTicketRow from "../../components/Layout/Components/Company/Bus/ManageTicketRow";
 import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
+import { Empty } from "antd";
 
 const Overview = () => {
 
@@ -84,6 +85,15 @@ const Overview = () => {
         }
     }, []);
 
+    useEffect(() => {
+
+
+        fetchData(selectedMonth);
+        return () => {
+            console.log("call api success")
+        }
+    }, [currentPage]);
+
 
     const [isChange, setIsChange] = useState(false);
     const changeStatus = async (id, value) => {
@@ -143,6 +153,8 @@ const Overview = () => {
     const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
     const onChangeMonth = async (month) => {
         setSelectedMonth(month)
+        setCurrentPage(0)
+        setPageTotal(0)
         fetchData(month)
         //Gọi api 
     }
@@ -158,17 +170,7 @@ const Overview = () => {
                         value={selectedMonth} onChange={(e) => onChangeMonth(e.target.value)} />
 
                 </div>
-                <table class="w-full min-h-[300px] my-md rounded-md border-collapse  text-txt text-16 overflow-hidden relative">
-                    {
-                        loading &&
-                        <div class='absolute bg-hover-txt w-full h-full z-20 opacity-40'>
-                            <ReactLoading
-                                type="spinningBubbles" color="#ffffff"
-                                height={'5%'} width={'5%'}
-                                className="absolute bg-hover-txt left-1/2 top-[30%]  "
-                            />
-                        </div>
-                    }
+                <table class="w-full min-h-[300px] my-md rounded-md border-collapse  text-txt-gray text-16 overflow-hidden relative">
                     <thead>
                         <tr class='grid bg-bg grid-cols-12 p-sm text-left gap-md'>
                             {/* <th class='col-span-1'>Id</th> */}
@@ -185,16 +187,17 @@ const Overview = () => {
                     </thead>
                     <tbody class='bg-[#FFFF] relative'>
                         {loading ?
-                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                            <div className="animate-pulse bg-hover-txt w-full h-[300px] text-bg text-center">
                             </div>
                             :
                             !loading && tickets.length > 0
                                 ?
-                                <PaginatedItemsWithAPI handleClick={handlePageClick} pageCount={pageTotal} itemsPerPage={5} items={tickets} componentToRender={ManageTicketRow} updateStatus={changeStatus}></PaginatedItemsWithAPI>
+                                <PaginatedItemsWithAPI currentPage={currentPage} handleClick={handlePageClick} pageCount={pageTotal} items={tickets} componentToRender={ManageTicketRow} updateStatus={changeStatus}></PaginatedItemsWithAPI>
                                 :
-                                <tr style={{ width: "100%", position: "absolute", top: 100, textAlign: "center" }}>
-                                    Chưa có chuyến đi nào trong tháng
-                                </tr>
+                                // <tr style={{ width: "100%", position: "absolute", top: 100, textAlign: "center" }}>
+                                //     Chưa có chuyến đi nào trong tháng
+                                // </tr>
+                                <Empty description="Chưa có chuyến đi nào trong tháng" />
                         }
 
                     </tbody>

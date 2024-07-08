@@ -5,7 +5,7 @@ import avatar from "../../../../../../src/assets/images/avatar.png"
 const PopUpShowDetail = ({ items, userAccountProps }) => {
     const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
     return (
-        <Popup trigger={<button class="flex justify-center"> <FontAwesomeIcon icon={faInfo} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[34px] h-[34px] mr-sm'></FontAwesomeIcon></button>} position="right center"
+        <Popup trigger={<button class="outline-none flex justify-center"> <FontAwesomeIcon icon={faInfo} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[34px] h-[34px] mr-sm'></FontAwesomeIcon></button>} position="right center"
             modal
             nested
             closeOnDocumentClick={false}

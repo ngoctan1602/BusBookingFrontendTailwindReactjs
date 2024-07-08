@@ -1,17 +1,17 @@
 import Popup from "reactjs-popup";
-import InputConfirmInfo from "../../InputConfirmInfo"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from "react";
-import * as PriceClassSV from "../../../../../services/PriceClassSV"
-import ReactLoading from 'react-loading';
-import { Button, Col, ConfigProvider, Form, Input, InputNumber, Row } from "antd";
-import FormItem from "antd/es/form/FormItem";
+import { useEffect, useState } from "react";
+import * as TypeBusServices from "../../../../../services/SeatTypeSV"
+
+
+import { Button, Col, ConfigProvider, Form, Input, Row, } from "antd";
+import { NumericFormat } from "react-number-format";
 import TextArea from "antd/es/input/TextArea";
 
-const PopupAdd = ({ fetchData }) => {
+const PopupAddSeatType = ({ refetchData }) => {
     const contentStyle = { backgroundColor: '#FFFF', borderRadius: "8px", width: "40%" };
     const notifySuccess = (message) => toast.success(message, {
         position: "bottom-right",
@@ -44,53 +44,37 @@ const PopupAdd = ({ fetchData }) => {
         progress: undefined,
         theme: "light",
     });
-    // const handleClose = (close) => {
-    //     close()
-    // }
-    // const getItemValue = async () => {
-    //     if (objectAdd.name === "" || objectAdd.description === "" || objectAdd.value < 0) {
-    //         notifyWarning("Các trường không được bỏ trống và đơn giá không được bé hơn 0")
-    //         return
-    //     }
-    //     setLoading(true)
-    //     try {
-    //         const resp = await PriceClassSV.createPriceSV(objectAdd);
-    //         setLoading(false)
-    //         if (!resp.isError) {
-    //             notifySuccess("Thêm mới loại giá thành công")
-    //             setObjectAdd({ name: '', description: '', value: 0 })
-    //         }
-    //         else {
-    //             notifyError("Lỗi khi thêm")
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    //     console.log(objectAdd);
-    // }
-    const addNewPriceClass = async () => {
-        // console.log(form.getFieldsValue())
+    const addNewSeatType = async () => {
         setLoading(true)
         try {
-            const resp = await PriceClassSV.createPriceSV(form.getFieldsValue());
+            const objectAdd = {
+                type: form.getFieldValue("type"),
+                Price: Number(form.getFieldValue("price")),
+                description: form.getFieldValue("description"),
+            }
+            const resp = await TypeBusServices.createSeatType(objectAdd);
             if (!resp.isError) {
                 notifySuccess("Thêm mới loại giá thành công")
-                // setObjectAdd({ name: '', description: '', value: 0 })
                 form.resetFields()
-                fetchData()
+                refetchData()
             }
             else {
-                notifyError("Lỗi khi thêm")
+                notifyError(resp.data)
             }
         } catch (error) {
             console.log(error);
         }
         setLoading(false)
-        // console.log(objectAdd);
+
     }
 
     const [loading, setLoading] = useState(false)
     const [form] = Form.useForm();
+
+    const getValueFromEvent = event => {
+        const { value } = event.target;
+        return value.replace(/[^\d]/g, '');
+    };
     return (
         <Popup trigger={<button class="flex justify-center"> <FontAwesomeIcon icon={faPlus} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'></FontAwesomeIcon></button>} position="right center"
             modal
@@ -102,7 +86,8 @@ const PopupAdd = ({ fetchData }) => {
                 close => (
 
                     <div class='text-16 text-txt relative'>
-                        <p class='text-20 text-center font-bold m-md'>Thêm mới loại giá</p>
+                        <p class='text-20 text-center font-bold m-md'>Thêm mới loại ghế</p>
+
                         <ConfigProvider
                             theme={{
                                 token: {
@@ -110,9 +95,7 @@ const PopupAdd = ({ fetchData }) => {
                                 },
                                 components: {
                                     Input: {
-                                        /* here is your component tokens */
                                         paddingBlock: 8,
-
                                     },
                                 },
                             }}
@@ -125,50 +108,59 @@ const PopupAdd = ({ fetchData }) => {
                                 style={{ maxWidth: '600px', margin: '0 auto' }}
                                 labelCol={{ span: 6 }}
                                 wrapperCol={{ span: 16 }}
-                                onFinish={() => addNewPriceClass()}
+                                onFinish={() => addNewSeatType()}
                                 onFinishFailed={() => notifyWarning("Vui lòng nhập đầy đủ các trường bắt buộc")}
                             >
                                 <Form.Item
-                                    name="name"
-                                    label="Tên"
                                     hasFeedback
+                                    name="type"
+                                    label="Tên loại ghế"
                                     rules={[
                                         {
                                             required: true,
-                                            message: "Vui lòng không bỏ trống tên"
+                                            message: "Vui lòng không bỏ trống tên loại buýt"
                                         },
-                                    ]}
-                                >
-                                    <Input allowClear placeholder="Nhập tên loại giá" />
-                                </Form.Item>
-                                <Form.Item
-                                    name="description"
-                                    label="Mô tả"
 
-                                >
-                                    <TextArea className="min-h-[100px] max-h-[200px]" allowClear placeholder="Nhập mô tả" />
-                                </Form.Item>
-                                <Form.Item
-                                    hasFeedback
-                                    name="value"
-                                    label="Phụ thu (%)"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: "Vui lòng không bỏ trống phụ thu"
-                                        },
-                                        {
-                                            type: 'number',
-                                            max: 100,
-                                            min: 0,
-                                            message: "Vui lòng nhập số trong khoảng 0 đến 100",
-                                            transform(value) {
-                                                return Number(value)
-                                            },
-                                        }
                                     ]}
                                 >
                                     < Input allowClear style={{ width: '100%' }} />
+                                </Form.Item>
+
+                                <Form.Item
+                                    name="description"
+                                    label="Mô tả"
+                                >
+                                    < TextArea allowClear className="w-full min-h-[100px] max-h-[200px]" />
+                                </Form.Item>
+
+                                <Form.Item
+                                    hasFeedback
+                                    name="price"
+                                    label="Giá"
+                                    getValueFromEvent={getValueFromEvent}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: "Vui lòng không bỏ trống giá"
+                                        },
+                                        {
+                                            validator: (_, value) => {
+                                                const numberValue = Number(value.replace(/[^\d]/g, ''));
+                                                if (isNaN(numberValue) || numberValue < 0) {
+                                                    return Promise.reject(new Error("Giá phải là số nguyên lớn hơn hoặc bằng 0"));
+                                                }
+                                                return Promise.resolve();
+                                            }
+                                        }
+                                    ]}
+                                >
+                                    <NumericFormat
+                                        allowEmptyFormatting
+                                        thousandSeparator={true}
+                                        suffix={' đ'}
+                                        customInput={Input}
+                                        style={{ width: '100%' }}
+                                    />
                                 </Form.Item>
                             </Form>
                         </ConfigProvider>
@@ -203,4 +195,4 @@ const PopupAdd = ({ fetchData }) => {
     );
 }
 
-export default PopupAdd;
+export default PopupAddSeatType;

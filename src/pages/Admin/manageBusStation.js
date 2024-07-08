@@ -16,11 +16,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import Skeleton from 'react-loading-skeleton';
 import BusStationRow from "../../components/Layout/Components/Admin/manageBusStation/BusStationRow";
 import Search from "antd/es/input/Search";
-
+import exportDataToExcel from "../../components/Common/exportExcel";
+import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
+import { Empty } from "antd";
 
 const ManageBusStation = () => {
 
-    const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
+    const notifySuccess = (message) => toast.success(message, {
         position: "bottom-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -31,7 +33,7 @@ const ManageBusStation = () => {
         theme: "light",
     });
 
-    const notifyError = () => toast.error('Cập nhật trạng thái thất bại', {
+    const notifyError = (message) => toast.error(message, {
         position: "bottom-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -52,30 +54,37 @@ const ManageBusStation = () => {
     const [busStations, setBusStations] = useState([])
     const [address, setAddress] = useState();
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await BusStationSV.getAllBusStation({ pageSize: 200 });
+    const [pageCurrent, setPageCurrent] = useState(0);
+    const [pageTotal, setPageTotal] = useState(0);
+    const handlePageClick = (selectedPage) => {
+        setPageCurrent(selectedPage)
+    }
+    const fetchData = async () => {
+        setLoading(true)
+        try {
+            const response = await BusStationSV.getAllBusStation({ pageSize: 10, pageIndex: pageCurrent + 1 });
+            if (!response.isError) {
                 setBusStations(response.data.items);
-                // const addressPromises = response.data.items.map(async (item) => {
-
-                //     const wa = await AddrressSV.getWardById({ id: item.wardId });
-                //     return wa.data;
-
-                // });
-
-                // const addresses = await Promise.all(addressPromises);
-                // setAddress(addresses);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false);
+                setPageTotal(response.data.pageTotal);
             }
-        };
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoading(false);
+        }
+    };
+    useEffect(() => {
 
         fetchData();
     }, []);
+    useEffect(() => {
 
+        fetchData();
+    }, [pageCurrent]);
+    const refetchData = () => {
+        setPageCurrent(0)
+        fetchData();
+    }
 
     const [itemAdd, setItemAdd] = useState({
         title: "Thêm mới bến bãi",
@@ -199,16 +208,9 @@ const ManageBusStation = () => {
     //     }
 
     // }
-    const exportToExcel = () => {
-        const ws = XLSX.utils.json_to_sheet(busStations);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-        XLSX.writeFile(wb, 'exported_data.xlsx');
-    };
     const Find = async (param) => {
         try {
-            const response = await BusStationSV.find({ param: param , pageSize: 10, pageIndex: 1});
+            const response = await BusStationSV.find({ param: param, pageSize: 10, pageIndex: 1 });
             setBusStations(response.data.items);
             // const addressPromises = response.data.items.map(async (item) => {
 
@@ -230,23 +232,23 @@ const ManageBusStation = () => {
 
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
 
-                <p class='col-span-2 font-bold text-20 font-black uppercase'>Quản lý bến bãi</p>
+                <p class='col-span-2 text-20 font-black uppercase'>Quản lý bến bãi</p>
                 <Search
-                        placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
-                        allowClear
-                        className="col-start-7 col-span-5 p-md"
+                    placeholder="Tìm kiếm bến bãi"
+                    allowClear
+                    className="col-start-4 col-span-5 p-md"
                     onSearch={Find}
-                    />
+                />
                 <div class='flex justify-evenly'>
 
-                    <PopupAddBusStation objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation>
-                    {/* <button class="flex justify-center" onClick={exportToExcel}>
+                    <PopupAddBusStation refetchData={refetchData} objectAdd={addBusStation} item={itemAdd} onChange={updateItemValue} success={success} emtyItemValue={emtyItemValue}></PopupAddBusStation>
+                    <button class="flex justify-center" onClick={() => exportDataToExcel(busStations, notifySuccess, notifyError)}>
                         <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                         </FontAwesomeIcon>
-                    </button> */}
+                    </button>
                 </div>
             </div>
-            <table class="w-full my-md rounded-md  text-txt-gray text-16 overflow-hidden">
+            <table class="min-h-[300px] box-shadow-content w-full my-md rounded-md  text-txt-gray text-16 overflow-hidden">
                 <thead>
                     <tr class='grid bg-bg grid-cols-12 p-sm text-left border-b-2'>
                         {/* <th class='col-span-1'>Id</th> */}
@@ -258,13 +260,13 @@ const ManageBusStation = () => {
                 </thead>
                 <tbody class='bg-bg ' >
                     {
-                        !loading && busStations &&
-                        <Paginate itemsPerPage={5} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus}></Paginate>
-                    }
-                    {loading &&
-                        <div className="animate-pulse bg-hveor-txt w-full h-[120px] text-bg text-center">
-
-                        </div>
+                        loading ?
+                            <td className="animate-pulse bg-hover-txt w-full h-[300px] text-bg text-center"></td>
+                            :
+                            !loading && busStations.length > 0 ?
+                                // <Paginate itemsPerPage={5} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus}></Paginate>
+                                <PaginatedItemsWithAPI handleClick={handlePageClick} currentPage={pageCurrent} pageCount={pageTotal} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus}></PaginatedItemsWithAPI>
+                                : <Empty description="Không có bến bãi" />
                     }
                 </tbody>
             </table>

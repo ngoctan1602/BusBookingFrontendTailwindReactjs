@@ -172,7 +172,7 @@ const ManageUserAccount = () => {
                         <th class='col-span-2'>Ảnh đại diện</th>
                         <th class='col-span-2'>Email</th>
                         <th class='col-span-2'>Trạng thái</th>
-                        <th class='col-span-1'>Thao tác</th>
+
                     </tr>
                 </thead>
                 <tbody class='bg-bg relative'>
@@ -194,7 +194,7 @@ const ManageUserAccount = () => {
                             </div>
 
                             :
-                            !loading && userAccount.length !== 0 ?
+                            !loading && userAccount.length > 0 ?
                                 <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={UserAccountRow} items={userAccount} pageCount={totalPage} fetchData={fetchData} currentPage={currentPage} updateStatus={updateStatus}></PaginatedItemsWithAPI>
                                 :
                                 <Empty description="Chưa có người dùng nào"></Empty>

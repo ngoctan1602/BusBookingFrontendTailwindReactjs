@@ -4,24 +4,22 @@ import { useCallback, useEffect, useState } from "react";
 import PaginateWithApi from "../../components/Layout/Components/PaginateWithApi"
 import * as XLSX from 'xlsx'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
+import { faFileExcel, faPlus } from "@fortawesome/free-solid-svg-icons";
 // import * as SeatTypeSV from "../../services/SeatTypeSV"
 import * as RoutesSV from "../../services/RoutesSV"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RoutesRow from '../../components/Layout/Components/Admin/manageRoutes/RouteRow';
 import Search from "antd/es/input/Search";
+import exportDataToExcel from "../../components/Common/exportExcel";
+import { Button, Empty } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 
 const ManageRoutes = () => {
-    const exportToExcel = () => {
-        const ws = XLSX.utils.json_to_sheet(routes);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-        XLSX.writeFile(wb, 'exported_data.xlsx');
-    };
 
-    const notifySuccess = () => toast.success('Cập nhật trạng thái thành công!', {
+    const navigate = useNavigate();
+    const notifySuccess = (message) => toast.success(message, {
         position: "bottom-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -32,7 +30,7 @@ const ManageRoutes = () => {
         theme: "light",
     });
 
-    const notifyError = () => toast.error('Cập nhật trạng thái thất bại', {
+    const notifyError = (message) => toast.error(message, {
         position: "bottom-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -57,6 +55,11 @@ const ManageRoutes = () => {
         fetchData();
 
     }, []);
+    useEffect(() => {
+
+        fetchData();
+
+    }, [currentPage]);
     const fetchData = async () => {
         setLoading(true)
         try {
@@ -73,51 +76,9 @@ const ManageRoutes = () => {
             setLoading(false)
         }
     };
-    // Hàm cập nhật trạng thái item
-    // const changeStatus = (id, value) => {
-    //     setUpdateLoading(true)
-    //     try {
-    //         if (value === 3) {
 
-    //             const resp = SeatTypeSV.changeToDisable({ id: id });
-    //             setUpdateLoading(false)
-    //             console.log(resp)
-    //             if (!resp.isError) {
-    //                 notifySuccess()
-    //                 setTimeout(
-    //                     () =>
-    //                         fetchData()
-    //                     , 2000
-    //                 )
-    //             }
-    //             else {
-    //                 notifyError()
-    //             }
-    //         }
-    //         else if (value === 1) {
-    //             setUpdateLoading(true)
-    //             const resp = SeatTypeSV.changeIsActive({ id: id });
-    //             setUpdateLoading(false)
-    //             console.log(resp)
-    //             if (!resp.isError) {
-    //                 notifySuccess()
-    //                 setTimeout(
-    //                     () =>
-    //                         fetchData()
-    //                     , 2000
-    //                 )
-    //             }
-    //             else {
-    //                 notifyError()
-    //             }
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-
-    // }
     const [updateLoading, setUpdateLoading] = useState(false)
-    const Find = async(param)=> {
+    const Find = async (param) => {
         setLoading(true)
         try {
             const response = await RoutesSV.find({ params: param, pageSize: 10, pageIndex: 1 });
@@ -141,23 +102,24 @@ const ManageRoutes = () => {
                 </div>
             }
             <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
-                <p class='col-span-2 font-bold text-20 font-black uppercase'>Quản lý tuyến đường</p>
+                <p class='col-span-3 text-20 font-black uppercase'>Quản lý tuyến đường</p>
                 <Search
-                        placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
-                        allowClear
-                        className="col-start-7 col-span-5 p-md"
+                    placeholder="Tìm kiếm theo tên/ giá trị bảng giá"
+                    allowClear
+                    className=" col-span-5 p-md"
                     onSearch={Find}
-                    />
-                <div class='flex col-span-1 col-start-8 justify-evenly'>
+                />
+                <div class='flex col-span-1 justify-evenly'>
 
-                    <PopupAdd fetchData={fetchData}></PopupAdd>
-                    <button class="flex justify-center" onClick={exportToExcel}>
+                    {/* <PopupAdd fetchData={fetchData}></PopupAdd> */}
+                    <Button onClick={() => navigate("/admin/create-routes")} style={{ width: 39, height: 39 }} icon={<FontAwesomeIcon icon={faPlus} color="#00B873" style={{ width: 20, height: 20 }}></FontAwesomeIcon>}></Button>
+                    <button class="flex justify-center" onClick={() => exportDataToExcel(routes, notifySuccess, notifyError)}>
                         <FontAwesomeIcon icon={faFileExcel} color="#00B873" class='cursor-pointer confirm-button border-button p-sm border-[1px] w-[40px] h-[40px]'>
                         </FontAwesomeIcon>
                     </button>
                 </div>
             </div>
-            <table class="w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
+            <table class="min-h-[300px] box-shadow-content w-full my-md rounded-md border-collapse  text-txt text-16 overflow-hidden">
 
                 <thead>
                     <tr class='grid bg-bg grid-cols-6 p-sm text-left border-b-2'>
@@ -170,14 +132,13 @@ const ManageRoutes = () => {
 
                     {
                         loading ?
-                            <div className="animate-pulse bg-hover-txt w-full h-[120px] text-bg text-center">
+                            <div className="animate-pulse bg-hover-txt w-full h-[300px] text-bg text-center">
                             </div>
                             :
                             !loading &&
                                 routes.length > 0 ?
-                                <PaginateWithApi handleClick={handlePageClick} componentToRender={RoutesRow} items={routes} pageCount={pageTotal}></PaginateWithApi>
-                                : "Không có bến nào"
-
+                                <PaginateWithApi currentPage={currentPage} handleClick={handlePageClick} componentToRender={RoutesRow} items={routes} pageCount={pageTotal}></PaginateWithApi>
+                                : <Empty description="Không có tuyến đường nào"></Empty>
                     }
                 </tbody>
             </table>
