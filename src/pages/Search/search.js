@@ -347,7 +347,7 @@ const Search = () => {
                         {/* Đây là button xóa lọc */}
                         <div class='flex justify-between items-center'>
                             <p class='text-txt text-18 font-bold mt-sm mx-md'>Lọc</p>
-                            <button onClick={deleteSort} type="button" class='ease-in-out duration-500 border-[1px] font-bold rounded-md border-solid m-sm border-button hover:bg-button hover:text-bg p-sm'>Xóa lọc</button>
+                            {/* <button onClick={deleteSort} type="button" class='ease-in-out duration-500 border-[1px] font-bold rounded-md border-solid m-sm border-button hover:bg-button hover:text-bg p-sm'>Xóa lọc</button> */}
                         </div>
 
                         {/* Đây là giờ đi */}
@@ -356,7 +356,7 @@ const Search = () => {
                             <div class='w-full flex flex-wrap'>
                                 {
                                     startTime.map((item, idex) => (
-                                        <button onClick={() => sortByTime(item.id)} class={item.checked ? 'border-button w-[42%] h-[70px] border-[2px] m-sm rounded-md text-txt text-16' : 'w-[42%] h-[70px] border-[1px] m-sm rounded-md text-txt text-16'}>
+                                        <button onClick={() => sortByTime(item.id)} class={item.checked ? 'border-[#629d2d]  w-[42%] h-[70px] border-[1px] m-sm rounded-md text-txt text-16' : 'border-button w-[42%] h-[70px] border-[1px] m-sm rounded-md text-txt text-16'}>
                                             {item.name} <br></br>{item.from + " - " + item.to}
                                         </button>)
                                     )
@@ -432,8 +432,8 @@ const Search = () => {
 
 
                 </Col>
-                <Col span={4} >
-                    <Carousel autoplay autoplaySpeed={3000} className="mx-md" >
+                <Col span={4} className="m-[10px]">
+                    <Carousel autoplay autoplaySpeed={3000} className="mx-md rounded-sm" >
                         <div className="rounded-md h-[700px] overflow-hidden ">
                             <img src="https://carshop.vn/wp-content/uploads/2022/07/images1151040_xekhach.jpg" alt="Ảnh 1" style={imageStyle} />
                         </div>

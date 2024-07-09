@@ -20,6 +20,10 @@ import { useNavigate } from "react-router-dom";
 import ReactLoading from 'react-loading';
 import { useSelector, useDispatch } from "react-redux";
 import { setSearch } from "../../store/slice/searchSlice";
+import { Col, Row } from "antd";
+import CardTotal from "../../components/Layout/Components/DashBoard/Cards/CardTotal";
+import CardPolicy from "./CardPolicy";
+import { orange } from "@mui/material/colors";
 const Home = () => {
     const dispatch = useDispatch();
     const searchSlice = useSelector((state) => state.search);
@@ -106,7 +110,12 @@ const Home = () => {
 
     const btnClick = () => {
         localStorage.setItem("formSearch", JSON.stringify(formSearch));
-        dispatch(setSearch(formSearch))
+        const objectSearch = {
+            ...formSearch,
+            ["dateTime"]: new Date(formSearch.dateTime).toISOString().split('T')[0],
+        }
+        // dispatch(setSearch(formSearch))
+        dispatch(setSearch(objectSearch))
         setLoading(true)
         setTimeout(() => {
             setLoading(false)
@@ -178,9 +187,45 @@ const Home = () => {
 
                 </img>
             </div>
+            <Row className="w-full min-h-[300px] ">
+                <Row className="w-full m-sm flex flex-col justify-center items-center">
+                    <p className="w-full text-center uppercase text-[20px] font-[400] mb-sm" >Chính sách của Y-trip</p>
+                    <Row className="w-[60%] mb-md">
+                        <Col span={12} className="px-sm">
 
+                            <CardPolicy content="Chỉ có thể hủy vé trước 3 ngày khi xe xuất phát" color="#9DDE8B" />
+                        </Col>
+                        <Col span={12} className="px-sm">
+                            <CardPolicy content="Cam kết xuất bến đúng giờ." color="#37B7C3" />
+                        </Col>
+                    </Row>
 
-            <div className="min-h-[300px] w-[60%] flex flex-col justify-between pt-[50px]">
+                    <Row className="w-[60%]">
+                        <Col span={12} className="px-sm">
+                            <CardPolicy content="Mọi hành khách đặt vé sẽ được giữ chỗ 100%, KHÔNG để khách nằm luồng." color="#006769" />
+                        </Col>
+                        <Col span={12} className="px-sm">
+                            <CardPolicy content="Mọi khiếu nại về nhà xe vui lòng liên hệ qua số điện thoại: 0334886974" color="#4793AF" />
+                        </Col>
+                    </Row>
+
+                </Row>
+                <Row className="w-[100%] m-sm flex flex-col justify-center items-center">
+                    <p className="w-full text-center uppercase text-[20px] font-[400] mb-sm" >Giới thiệu hệ thống Y-trip</p>
+
+                    <p className="w-[80%] text-justify  text-[16px]  mb-sm">Hệ thống đặt vé xe khách là một giải pháp tiện lợi và hiện đại, giúp hành khách dễ dàng lựa chọn và đặt vé cho các chuyến đi của mình. Với sự phát triển của công nghệ, hệ thống này mang lại nhiều lợi ích vượt trội, từ việc tiết kiệm thời gian, tối ưu hóa chi phí cho đến việc nâng cao trải nghiệm của khách hàng.
+
+                        Đầu tiên, hệ thống đặt vé xe khách cho phép người dùng tra cứu lịch trình, giá vé và các dịch vụ liên quan của nhiều hãng xe khác nhau. Nhờ đó, hành khách có thể so sánh và lựa chọn chuyến đi phù hợp nhất với nhu cầu và ngân sách của mình. Bên cạnh đó, việc đặt vé trực tuyến cũng giúp người dùng tránh được tình trạng xếp hàng mua vé tại các bến xe, tiết kiệm thời gian và công sức.
+
+                        Thứ hai, hệ thống này còn tích hợp nhiều phương thức thanh toán linh hoạt và an toàn, từ thanh toán qua thẻ ngân hàng, ví điện tử cho đến chuyển khoản trực tiếp. Điều này giúp khách hàng dễ dàng thực hiện giao dịch mọi lúc, mọi nơi mà không gặp bất kỳ trở ngại nào.
+
+                        Cuối cùng, hệ thống đặt vé xe khách còn cung cấp các tính năng hữu ích như cập nhật thông tin chuyến đi, thông báo lịch trình thay đổi hay hỗ trợ khách hàng 24/7. Những tính năng này giúp hành khách luôn nắm bắt được thông tin cần thiết và có trải nghiệm tốt hơn trong suốt quá trình di chuyển.
+
+                        Tóm lại, hệ thống đặt vé xe khách không chỉ đơn giản hóa quá trình mua vé mà còn mang lại nhiều lợi ích thiết thực, góp phần nâng cao chất lượng dịch vụ vận tải và sự hài lòng của khách hàng.</p>
+                </Row>
+            </Row >
+
+            {/* <div className="min-h-[300px] w-[60%] flex flex-col justify-between pt-[50px]">
                 <h4 className="font-[500] text-[24px] my-[20px]">Chuyến đi nổi bật</h4>
                 <div className="flex min-h-[80%] w-full justify-between">
 
@@ -191,10 +236,10 @@ const Home = () => {
                         ))
                     }
                 </div>
-            </div>
+            </div> */}
 
 
-            <div className="min-h-[300px] w-[60%] flex flex-col justify-between mt-md pt-[50px]">
+            {/* <div className="min-h-[300px] w-[60%] flex flex-col justify-between mt-md pt-[50px]">
                 <h4 className="font-[500] text-[24px] my-[20px] ">Ưu đãi nổi bật</h4>
                 <div className="flex min-h-[80%] w-full justify-between">
                     {
@@ -204,10 +249,10 @@ const Home = () => {
                         ))
                     }
                 </div>
-            </div>
+            </div> */}
 
 
-            <div className='min-h-[420px] w-[60%] my-md pt-[50px]'>
+            {/* <div className='min-h-[420px] w-[60%] my-md pt-[50px]'>
                 <p className='font-bold text-[24px] my-[20px]'>Khách hàng nói gì về Y-Trip</p>
                 <Slider {...settings}>
                     {
@@ -217,19 +262,12 @@ const Home = () => {
                         ))
                     }
                 </Slider>
-            </div>
+            </div> */}
 
-            <div className='min-h-[420px] w-[60%] pt-[50px] my-md flex flex-col'>
+            {/* <div className='min-h-[420px] w-[60%] pt-[50px] my-md flex flex-col'>
                 <p className="font-bold text-[24px] my-md">Nền tảng kết nối người dùng và nhà xe</p>
                 <div className='flex justify-between w-full h-[80%]'>
-                    {/* <Card type="introduce">
-                    </Card>
-                    <Card type="introduce">
-                    </Card>
-                    <Card type="introduce">
-                    </Card>
-                    <Card type="introduce">
-                    </Card> */}
+                
                     {
                         introduce.map((item, index) => (
                             <Card key={index} content={item.content} intro={item.intro} src={item.src} type={item.type}>
@@ -237,12 +275,12 @@ const Home = () => {
                         ))
                     }
                 </div>
-            </div>
+            </div> */}
 
 
 
 
-        </div>
+        </div >
     );
 }
 
