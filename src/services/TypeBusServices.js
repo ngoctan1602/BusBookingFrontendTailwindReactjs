@@ -18,9 +18,14 @@ export const find = async (params) => {
     return await BaseAPI.getItems(typeBusServices.find, params);
 }
 
+export const statistical = async () => {
+    return await BaseAPI.getItems(typeBusServices.statistical, null);
+}
+
 const typeBusServices = {
     getAllTypeBus: 'bustypes/getAll',
     createTypeBus: 'bustypes/admin/create',
     updateTypeBus: 'bustypes/admin/update',
-    find: 'bustypes/find'
+    find: 'bustypes/find',
+    statistical: 'bustypes/companies/statistical',
 }

@@ -2,22 +2,46 @@ import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Row } from "antd";
 import { useSpring, animated } from 'react-spring';
+import { useEffect, useState } from "react";
+import * as BillService from '../../../../../services/BillServices';
+
 const CardTotal = () => {
+
+    const [totalBill, setTotalBill] = useState(0);
+    const [rate, setRate] = useState(0);
 
     // Call api và gán số vào number = 50
     const propsNumber = useSpring({
         from: { number: 0 },
-        number: 50,
+        number: totalBill,
         delay: 200,
         config: { duration: 2000 }
     });
 
     const propsPercent = useSpring({
         from: { number: 0 },
-        number: 20,
+        number: rate,
         delay: 200,
         config: { duration: 2000 }
     });
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await BillService.TotalBill();
+            if (response.isError !== undefined && !response.isError) {
+                setTotalBill(response.data.totalBill.value);
+                setRate(response.data.totalBill.rate);
+            }
+        } 
+        catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+    
 
     return (
         <div className="box-shadow border-bottom green" >

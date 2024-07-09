@@ -2,27 +2,49 @@ import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Row } from "antd";
 import { useSpring, animated } from 'react-spring';
+import { useEffect, useState } from "react";
+import * as BillService from '../../../../../services/BillServices';
 const CardRenue = () => {
+
+    const [sales,setSales] = useState(0);
+    const [rate, setRate] = useState(0);
     const propsNumber = useSpring({
         from: { number: 0 },
-        number: 50,
+        number: sales,
         delay: 200,
         config: { duration: 2000 }
     });
 
     const propsPercent = useSpring({
         from: { number: 0 },
-        number: 20,
+        number: rate,
         delay: 200,
         config: { duration: 2000 }
     });
 
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await BillService.Sales();
+            if (response.isError !== undefined && !response.isError) {
+                setSales(response.data.revenue.value);
+                setRate(response.data.revenue.rate);
+            }
+        } 
+        catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+    
     return (
         <div className="box-shadow border-bottom orange" >
             <Row>
 
                 <p className="text-16 font-bold text-center" style={{ width: "100%" }}>
-                    Tổng doanh thu tháng này
+                    Tổng doanh thu tháng trước
                 </p>
             </Row>
             <Row>
