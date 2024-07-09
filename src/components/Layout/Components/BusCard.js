@@ -429,7 +429,7 @@ const BusCard = ({ item }) => {
                     <p class='m-sm'>{item.busNumber} - {item.busType}</p>
                     <div class='m-sm flex text-txt items-center'>
                         <FontAwesomeIcon icon={faCircleDot} class='text-hover-txt w-[14px] h-[14px]' />
-                        <p class='mx-sm'>{item.listStation[0].station} - </p>
+                        <p class='mx-sm'>{item.listStation[0].station} </p>
                         <p >{new Date(item.listStation[0].departureTime)
                             .toLocaleString("en-CA", timeOptions)
 
@@ -448,7 +448,7 @@ const BusCard = ({ item }) => {
                     </div>
                     <div class='m-sm flex items-center'>
                         <FontAwesomeIcon icon={faLocationDot} class='text-hover-txt w-[16px] h-[16px]' />
-                        <p class='mx-sm'>{item.listStation[item.listStation.length - 1].station} - </p>
+                        <p class='mx-sm'>{item.listStation[item.listStation.length - 1].station}</p>
                         <p>
                             {new Date(item.listStation[item.listStation.length - 1].arrivalTime)
                                 .toLocaleString("en-CA", timeOptions)

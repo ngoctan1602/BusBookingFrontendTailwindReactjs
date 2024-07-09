@@ -84,12 +84,12 @@ const privateRoutes = [
     {
         path: "/order", component: Order
     },
-    {
-        path: "/favourite", component: Favourite
-    },
-    {
-        path: "/his-review", component: HisReview
-    },
+    // {
+    //     path: "/favourite", component: Favourite
+    // },
+    // {
+    //     path: "/his-review", component: HisReview
+    // },
 ]
 
 

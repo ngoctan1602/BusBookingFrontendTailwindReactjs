@@ -182,7 +182,8 @@ const Login = () => {
                 <Input type="password" placeholder={'Nhập mật khẩu'} content='Mật khẩu' onChange={onChangePassword}></Input>
             </form>
 
-            <Button type="solid" content="Đăng nhập" onClick={onSubmit} />
+            {/* <Button type="solid" content="Đăng nhập" onClick={onSubmit} /> */}
+            <button className="confirm-button-new w-[16%]">Đăng nhập</button>
             <div
                 className="p-[20px]">
                 <GoogleLogin
@@ -197,7 +198,7 @@ const Login = () => {
                 />
             </div>
             <p className="w-[50%] m-md text-sm italic text-text font-bold text-16 text-center">
-                Bạn chưa có tài khoản? <Link to="/register" className="text-button hover:underline">Đăng kí tài khoản</Link>
+                Bạn chưa có tài khoản? <Link to="/register" className=" hover:underline">Đăng kí tài khoản</Link>
             </p>
 
             <ToastContainer

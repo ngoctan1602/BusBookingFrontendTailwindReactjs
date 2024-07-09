@@ -312,14 +312,14 @@ const Search = () => {
     };
     return (
         <div className="w-full min-h-[700px] bg-bgContent">
-            <Row className="w-full my-md min-h-[80px]">
-                <Col className=" bg-bg box-shadow-content rounded-md" span={14} offset={6}>
+            <Row className="w-full my-md min-h-[80px] mx-md">
+                <Col className=" bg-bg box-shadow-content rounded-md" span={14} offset={5}>
                     <SearchHeader onSearch={handSearch} ></SearchHeader>
                 </Col>
             </Row>
             <Row className="w-full min-h-[500px] ">
                 <Col span={4} offset={1} >
-                    <div class='h-[220px] bg-transparent  rounded-lg box-shadow-content  bg-bg'>
+                    <div class='h-[100px] bg-transparent  rounded-lg box-shadow-content  bg-bg'>
                         <p class='text-txt text-18 font-bold mt-sm mx-md'>Sắp xếp</p>
                         <div class='h-[160px] sort bg-transparent'>
                             {
@@ -347,7 +347,7 @@ const Search = () => {
                         {/* Đây là button xóa lọc */}
                         <div class='flex justify-between items-center'>
                             <p class='text-txt text-18 font-bold mt-sm mx-md'>Lọc</p>
-                            <button onClick={deleteSort} type="button" class='ease-in-out duration-500 border-[1px] font-bold rounded-md border-solid m-sm border-button hover:bg-button hover:text-bg p-sm'>Xóa lọc</button>
+                            {/* <button onClick={deleteSort} type="button" class='ease-in-out duration-500 border-[1px] font-bold rounded-md border-solid m-sm border-button hover:bg-button hover:text-bg p-sm'>Xóa lọc</button> */}
                         </div>
 
                         {/* Đây là giờ đi */}
@@ -356,7 +356,7 @@ const Search = () => {
                             <div class='w-full flex flex-wrap'>
                                 {
                                     startTime.map((item, idex) => (
-                                        <button onClick={() => sortByTime(item.id)} class={item.checked ? 'border-button w-[42%] h-[70px] border-[2px] m-sm rounded-md text-txt text-16' : 'w-[42%] h-[70px] border-[1px] m-sm rounded-md text-txt text-16'}>
+                                        <button onClick={() => sortByTime(item.id)} class={item.checked ? 'border-[#629d2d]  w-[42%] h-[70px] border-[1px] m-sm rounded-md text-txt text-16' : 'border-button w-[42%] h-[70px] border-[1px] m-sm rounded-md text-txt text-16'}>
                                             {item.name} <br></br>{item.from + " - " + item.to}
                                         </button>)
                                     )
@@ -381,12 +381,12 @@ const Search = () => {
 
                     </div>
                 </Col>
-                <Col offset={1} span={14} >
+                <Col span={14} >
 
                     {/* <div class='bg-bg w-content min-h-[10px] mx-sm'>
                         Kết quả
                     </div> */}
-                    <div class='w-full h-content mt-sm relative '>
+                    <div class='w-full h-content mx-md relative '>
                         {
                             loading ?
                                 // <div class='absolute bg-hover-txt w-full h-[500px] z-20 opacity-40'>
@@ -432,18 +432,18 @@ const Search = () => {
 
 
                 </Col>
-                <Col span={4} >
-                    <Carousel autoplay autoplaySpeed={3000} className="m-md">
-                        <div className="rounded-md h-[700px] overflow-hidden">
+                <Col span={4} className="m-[10px]">
+                    <Carousel autoplay autoplaySpeed={3000} className="mx-md rounded-sm" >
+                        <div className="rounded-md h-[700px] overflow-hidden ">
                             <img src="https://carshop.vn/wp-content/uploads/2022/07/images1151040_xekhach.jpg" alt="Ảnh 1" style={imageStyle} />
                         </div>
-                        <div className="rounded-md h-[700px] overflow-hidden">
+                        <div className="rounded-md h-[700px] overflow-hidden ">
                             <img src="https://carshop.vn/wp-content/uploads/2022/07/maxresdefault.jpg" alt="Ảnh 1" style={imageStyle} />
                         </div>
-                        <div className="rounded-md h-[700px] overflow-hidden">
+                        <div className="rounded-md h-[700px] overflow-hidden ">
                             <img src="https://carshop.vn/wp-content/uploads/2022/07/hyundai-universe-4-15466488907371579447485.jpg" alt="Ảnh 1" style={imageStyle} />
                         </div>
-                        <div className="rounded-md h-[700px] overflow-hidden">
+                        <div className="rounded-md h-[700px] overflow-hidden ">
                             <img src="https://carshop.vn/wp-content/uploads/2022/07/xe-vung-tau-bien-hoa-dong-nai-5.jpg" alt="Ảnh 1" style={imageStyle} />
                         </div>
                     </Carousel>

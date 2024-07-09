@@ -19,8 +19,8 @@ export default function ChartBusType() {
                 label: 'Xe (trăm chiếc) ',
             },
         ],
-        // width: 800,
-        // padding: { top: 20, right: 50, bottom: 20, left: 100 },
+        width: 1000,
+        padding: { top: 20, right: 50, bottom: 20, left: 100 },
         margin: { left: 100 },
         height: 300,
     };
@@ -60,7 +60,7 @@ export default function ChartBusType() {
                 if (response.isError !== undefined && !response.isError) {
                     setDataset(response.data)
                 }
-            } 
+            }
             catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -70,16 +70,20 @@ export default function ChartBusType() {
     }, []);
 
     const valueFormatter = (value) => `${value} chiếc`;
-
+    const formatXAxisValue = (value) => Math.round(value);
     return (
         <StyledCard>
             <CardContent>
                 <BarChart
+                    margin={{ top: 40, right: 100, bottom: 80, left: 200 }}
+                    width={1000}
+                    height={300}
                     dataset={dataset}
+                    xAxis={[{ label: 'Chiếc', tickFormatter: formatXAxisValue }]}
                     yAxis={[{ scaleType: 'band', dataKey: 'name' }]}
                     series={[{ dataKey: 'totalBus', label: 'Thống kê loại xe', valueFormatter }]}
                     layout="horizontal"
-                    {...chartSetting}
+                // {...chartSetting}
                 />
             </CardContent>
         </StyledCard>

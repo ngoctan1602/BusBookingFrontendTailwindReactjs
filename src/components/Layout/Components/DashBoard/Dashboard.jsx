@@ -33,11 +33,11 @@ const DashBoardNew = () => {
                         <ChartRoute></ChartRoute>
                     </Col>
                 </Row>
-                <Row style={{ width: "100%", margin: "24px 0px" }}>
+                {/* <Row style={{ width: "100%", margin: "24px 0px" }}>
                     <Col className="p-sm" span={24}>
                         <ChartBusStop></ChartBusStop>
                     </Col>
-                </Row>
+                </Row> */}
                 <Row style={{ width: "100%", margin: "24px 0px" }}>
                     <Col className="p-sm" span={24}>
                         <ChartBusType></ChartBusType>
@@ -45,17 +45,17 @@ const DashBoardNew = () => {
                 </Row>
             </div>
             <ToastContainer
-                    position="bottom-right"
-                    autoClose={2500}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover={false}
-                    theme="light"
-                />
+                position="bottom-right"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
         </div>
     )
 }

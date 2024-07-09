@@ -34,7 +34,7 @@ const SearchHeader = ({ onSearch }) => {
     const [formSearch, setFormSearch] = useState({
         stationStart: searchSlice ? searchSlice.stationStart : '',
         stationEnd: searchSlice ? searchSlice.stationEnd : '',
-        dateTime: searchSlice ? moment(searchSlice.dateTime) : moment(),
+        dateTime: searchSlice ? searchSlice.dateTime : moment(),
     });
 
     const [dateValue, setDateValue] = useState(searchSlice ? moment(searchSlice.dateTime) : moment());
