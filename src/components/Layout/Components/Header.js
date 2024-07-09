@@ -107,7 +107,7 @@ const Header = () => {
         theme: "light",
     });
     return (
-        <div className="flex justify-center bg-[#97D163] overflow-hidden  ">
+        <div className="flex justify-center bg-[#629d2d] overflow-hidden  ">
             <div className="w-[90%] h-[80px] flex items-center justify-between ">
                 <Link className="hover:opacity-95" to="/">
                     <img src={logo} className="w-[120px] h-[60px] rounded-8 object-cover" />
@@ -149,7 +149,7 @@ const Header = () => {
                                     <Menu.Item onClick={() => setLogoutOpen(true)} key="1">Đăng xuất</Menu.Item>
                                     <Menu.Item onClick={() => navigate("/info")} key="2">Thông tin cá nhân</Menu.Item>
                                     <Menu.Item onClick={() => navigate("/order")} key="3">Quản lý chuyến đi</Menu.Item>
-                                    <Menu.Item onClick={() => navigate("/his-review")} key="4">Đánh giá của tôi</Menu.Item>
+                                    {/* <Menu.Item onClick={() => navigate("/his-review")} key="4">Đánh giá của tôi</Menu.Item> */}
                                 </SubMenu>
                             </Menu>
                             // <Link to={configs.routers.profile} id="NotLogin" className="px-[10px]">

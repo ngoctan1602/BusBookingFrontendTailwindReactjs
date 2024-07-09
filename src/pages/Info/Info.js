@@ -148,7 +148,7 @@ const Info = () => {
         fetchData();
     }, [])
 
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#fff', borderRadius: "8px", width: "40%" };
 
 
     const [birthDate, setBirthDate] = useState("2023-09-16");
@@ -237,7 +237,7 @@ const Info = () => {
                     />
                 </div>
             }
-            <div class='w-1/2 shrink-0 bg-[#e1e1e1] '>
+            <div class='w-1/2 shrink-0 bg-bg'>
                 <p class='font-bold m-md'>Thông tin cá nhân</p>
                 <div class='flex my-lg items-center mx-md'>
                     <div class='w-[100px] h-[80px] shrink-0  overflow-hidden z-1 relative '>
@@ -267,7 +267,7 @@ const Info = () => {
                                 <InputConfirmInfo onChange={onChangeCustomer}
                                     item={{
                                         placeholder: "Họ và tên",
-                                        value: updateCustomer.fullName, spanWidth: 80, type: "text", background: "#e1e1e1",
+                                        value: updateCustomer.fullName, spanWidth: 80, type: "text", background: "#fff",
                                         name: "fullName"
                                     }}></InputConfirmInfo>
                             }
@@ -296,7 +296,7 @@ const Info = () => {
                     }
                 </div>
 
-                <div className=" relative w-content outline-none p-sm shadow-lg ml-sm mb-sm h-[300px] grid-cols-10 grid-rows-10 grid grid-flow-row border-[1px] border-txt rounded-md">
+                <div className=" relative w-content outline-none p-sm  ml-sm mb-sm h-[300px] grid-cols-10 grid-rows-10 grid grid-flow-row border-[1px] border-txt rounded-md">
                     {/* <div className=" ml-md col-span-10 grid grid-cols-10 mt-md ">
 
                         <p className="col-span-2 ">Địa chỉ</p>
@@ -312,21 +312,21 @@ const Info = () => {
                             }
                         </div>
                     </div> */}
-                    <p className="absolute z-10 bg-bgPopup top-[-12px] pr-md left-[6px]">Địa chỉ</p>
+                    <p className="absolute z-10 bg-bg top-[-12px] pr-md left-[6px]">Địa chỉ</p>
                     <div className="col-span-7 col-start-3 ml-sm">
                         {
                             !loading &&
                             <InputConfirmInfo onChange={onChangeCustomer}
                                 item={{
                                     placeholder: "Địa chỉ",
-                                    value: updateCustomer.address, spanWidth: 80, type: "text", background: "#e1e1e1",
+                                    value: updateCustomer.address, spanWidth: 80, type: "text", background: "#FFFFFF",
                                     name: "address"
                                 }}></InputConfirmInfo>
                         }
                     </div>
                     {/* <div className="col-start-4 col-span-8 grid-flow-row grid grid-cols-12 ml-[-50px] bg-button"> */}
                     <select class='
-                    row-start-2 col-span-7 col-start-3 mt-[-20px] ml-md pl-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md mb-md' onChange={(e) => getDistricts(e.target.value)}>
+                    row-start-2 col-span-7 col-start-3 mt-[-20px] ml-md pl-sm bg-bg border-txt border-[1px] rounded-md mb-md' onChange={(e) => getDistricts(e.target.value)}>
                         <option value={0} selected={(idProvince === 0) ? true : false}>
                             Chọn tỉnh
                         </option>
@@ -340,7 +340,7 @@ const Info = () => {
                         }
 
                     </select>
-                    <select class='col-start-3  col-span-7 ml-md pl-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md mb-md' onChange={(e) => getWards(e.target.value)}>
+                    <select class='col-start-3  col-span-7 ml-md pl-sm bg-bg border-txt border-[1px] rounded-md mb-md' onChange={(e) => getWards(e.target.value)}>
                         <option value={0} selected={idDistrict === 0 ? true : false}>Chọn huyện</option>
                         {
                             districts && districts.map((item, index) => (
@@ -351,7 +351,7 @@ const Info = () => {
                         }
                     </select>
 
-                    <select class='col-start-3 col-span-7 ml-md  pl-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md mb-lg' onChange={(e) => {
+                    <select class='col-start-3 col-span-7 ml-md  pl-sm bg-bg border-txt border-[1px] rounded-md mb-lg' onChange={(e) => {
                         getIdWard(e.target.value);
                         onChangeCustomer("wardId", e.target.value)
                     }}>
@@ -384,7 +384,7 @@ const Info = () => {
             </div> */}
 
 
-            <div class='w-1/2 shrink-0 bg-[#e1e1e1]'>
+            <div class='w-1/2 shrink-0 bg-bg'>
                 <div class='flex flex-col '>
                     <p class='font-bold m-md'>Số điện thoại và email</p>
                     <div class='flex justify-between w-content'>
@@ -408,7 +408,10 @@ const Info = () => {
                                 close => (
 
                                     <div class='p-md text-16 text-txt'>
-                                        <p class='text-20 text-center font-bold'>Cập nhật số điện thoại</p>
+                                        <div class='grid grid-cols-12 w-full grid-flow-row'>
+
+                                            <p class='col-span-7 col-start-5 text-20  font-bold'>Cập nhật số điện thoại</p>
+                                        </div>
 
                                         <div class='grid grid-cols-12 w-full grid-flow-row'>
                                             <p class='col-span-3 col-start-2 flex items-center justify-center '>Số điện thoại</p>
@@ -419,7 +422,7 @@ const Info = () => {
                                                     item={{
                                                         type: "text", placeholder: "Nhập số điện thoại",
                                                         name: "phoneNumber",
-                                                        value: updateCustomer.phoneNumber, spanWidth: 140, background: "#e1e1e1"
+                                                        value: updateCustomer.phoneNumber, spanWidth: 140, background: "#fff"
                                                     }}></InputConfirmInfo>
                                             </div>
                                         </div>
@@ -543,18 +546,18 @@ const Info = () => {
 
                     </div>
                     <div class='w-content h-[1px] bg-txt m-md opacity-30'></div>
-                    <div class='flex justify-between w-content'>
+                    {/* <div class='flex justify-between w-content'>
 
                         <div class='mx-md flex items-center text-txt text-16'>
                             <FontAwesomeIcon icon={faShieldBlank} ></FontAwesomeIcon>
                             <p class='mx-md'>Thiết lập mã pin</p>
                         </div>
                         <button class=' button-hover p-sm'>Thiết lập</button>
-                    </div>
+                    </div> */}
                 </div>
 
 
-                <div class='flex flex-col my-lg '>
+                {/* <div class='flex flex-col my-lg '>
                     <p class='font-bold m-md'>Liên kết mạng xã hội</p>
                     <div class='flex justify-between w-content'>
 
@@ -573,7 +576,7 @@ const Info = () => {
                         </div>
                         <button class=' button-hover p-sm'>Liên kết</button>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div >
     );

@@ -26,9 +26,9 @@ const InfoLayout = ({ children }) => {
         // {
         //     id: 4, content: "Chuyến đi yêu thích", icon: faHeart, active: false, path: '/favourite'
         // },
-        {
-            id: 5, content: "Đánh giá của tôi", icon: faStar, active: false, path: '/his-review', color: "#FF5F00"
-        }
+        // {
+        //     id: 5, content: "Đánh giá của tôi", icon: faStar, active: false, path: '/his-review', color: "#FF5F00"
+        // }
     ])
 
     const avatar = localStorage.getItem('avatar') === 'null' ? avatarDefault : localStorage.getItem('avatar');
@@ -63,7 +63,7 @@ const InfoLayout = ({ children }) => {
             <Header>
 
             </Header>
-            <div class='w-full min-h-[700px] flex flex-col items-center bg-[#F2F2F2] overflow-hidden'>
+            <div class='w-full min-h-[700px] flex flex-col items-center bg-bgContent overflow-hidden'>
                 <div class='w-full min-h-[700px]  flex text-txt text-16mx-sm '>
                     <div class='w-[20%] shrink-0 flex flex-col box-shadow-content'>
                         <div class='w-full min-h-[80px] flex justify-center items-center mb-md'>

@@ -9,7 +9,7 @@ import ReactLoading from 'react-loading';
 import { useState } from "react";
 import * as CustomerServices from "../../../services/CustomerServices";
 const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "40%" };
+    const contentStyle = { backgroundColor: '#fff', borderRadius: "8px", width: "40%" };
     let navigate = useNavigate();
     const notifySuccess = (message) => toast.success(message, {
         position: "bottom-right",
@@ -86,7 +86,7 @@ const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
                                     item={{
                                         type: "text", placeholder: "OTP",
                                         name: "code",
-                                        value: confirm.code, spanWidth: 60, background: "#e1e1e1"
+                                        value: confirm.code, spanWidth: 60, background: "#fff"
                                     }}></InputConfirmInfo>
                             </div>
                         </div>

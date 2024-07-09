@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Input from "../../components/Layout/Components/Input";
-import Button from "../../components/Layout/Components/Button";
+// import Button from "../../components/Layout/Components/Button";
 import PopupOTP from "../../components/Layout/Components/PopupOTP"
 import { Link } from "react-router-dom";
 import * as CustomerServices from "../../services/CustomerServices"
@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactLoading from 'react-loading';
 import { useNavigate } from "react-router-dom";
+import { Button, Col, Row } from "antd";
 const Register = () => {
     let navigate = useNavigate();
 
@@ -241,7 +242,7 @@ const Register = () => {
             <div className="w-full grid-cols-10 grid grid-flow-row">
                 <p className="col-start-4 flex items-center">Địa chỉ</p>
                 <div className="col-start-5 col-span-4 grid-flow-row grid grid-cols-12 ml-[-50px]">
-                    <select class='col-span-4 p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getDistricts(e.target.value)}>
+                    <select class='col-span-4 p-sm bg-bg border-txt border-[1px] rounded-md my-md' onChange={(e) => getDistricts(e.target.value)}>
                         <option value={0} selected={(idProvince === 0) ? true : false}>
                             Chọn tỉnh
                         </option>
@@ -255,7 +256,7 @@ const Register = () => {
                         }
 
                     </select>
-                    <select class='col-span-4 col-start-5 mx-sm p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getWards(e.target.value)}>
+                    <select class='col-span-4 col-start-5 mx-sm p-sm bg-bg border-txt border-[1px] rounded-md my-md' onChange={(e) => getWards(e.target.value)}>
                         <option value={0} selected={idDistrict === 0 ? true : false}>Chọn huyện</option>
                         {
                             districts && districts.map((item, index) => (
@@ -266,7 +267,7 @@ const Register = () => {
                         }
                     </select>
 
-                    <select class='col-span-4 col-start-9 p-sm bg-[#e1e1e1] border-txt border-[1px] rounded-md my-md' onChange={(e) => getIdWard(e.target.value)}>
+                    <select class='col-span-4 col-start-9 p-sm bg-bg border-txt border-[1px] rounded-md my-md' onChange={(e) => getIdWard(e.target.value)}>
                         <option value={0} selected={idWard === 0 ? true : false} >Chọn xã</option>
                         {
                             wards &&
@@ -282,10 +283,15 @@ const Register = () => {
             </div>
 
             <p className="w-[50%] m-md text-sm italic text-text font-bold text-16 text-center">
-                * Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với <Link to="/policy" className="text-button hover:underline">Chính sách bảo mật</Link>,
-                <Link className="text-button hover:underline"> Điều khoản dịch vụ và chính sách</Link> tư vấn của Y-Trip.
+                * Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với <Link to="/policy" className="text-danger hover:underline">Chính sách bảo mật</Link>,
+                <Link className="text-danger hover:underline"> Điều khoản dịch vụ và chính sách</Link> tư vấn của Y-Trip.
             </p>
-            <Button type="solid" content="Đăng ký" onClick={onSubmit} />
+            {/* <Button content="Đăng ký" onClick={onSubmit} /> */}
+            <Row className="w-full" >
+                <Col span={8} offset={9}>
+                    <button onClick={onSubmit} className="w-full confirm-button-new">Đăng kí</button>
+                </Col>
+            </Row>
             <br></br>
             <ToastContainer
                 position="bottom-right"

@@ -6,7 +6,7 @@ import * as BillSV from "../../services/BillServices"
 import ReactLoading from 'react-loading';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from "antd/es/input/Search";
-import { Input } from "antd";
+import { Empty, Input, Skeleton } from "antd";
 import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
 
 const Order = () => {
@@ -102,18 +102,8 @@ const Order = () => {
     }
     return (
         <div class='w-full h-full flex border-none outline-none overflow-hidden text-txt text-16'>
-            <div class='w-full shrink-0 bg-[#e1e1e1] flex flex-col items-center relative'>
-                {
-                    loading &&
-                    <div className='absolute w-[100%] h-full z-20 opacity-40'>
-                        <ReactLoading
-                            type="spinningBubbles" color="black"
-                            height={'5%'} width={'5%'}
-                            className="absolute left-1/2 top-1/2  "
-                        />
-                    </div>
-                }
-                <p class='font-bold p-lg text-center mx-md bg-button w-full'>Quản lý chuyến đi</p>
+            <div class='w-full shrink-0 bg-bg  flex flex-col items-center relative'>
+                <p class='font-bold p-lg text-center mx-md bg-bg w-full'>Quản lý chuyến đi</p>
                 <div class='w-content grid grid-flow-row grid-cols-4 relative'>
                     {
                         listAbout.map((item, index) => (
@@ -130,8 +120,13 @@ const Order = () => {
                     <Search placeholder="Tìm kiếm chuyến đi" allowClear onSearch={() => alert("Đã tìm kiếm")}></Search>
                 </div>
                 {loading ?
-                    <div className="animate-pulse bg-hover-txt w-content h-[400px] text-bg text-center">
+                    // <div className="animate-pulse bg-hover-txt w-content h-[400px] text-bg text-center">
 
+                    // </div>
+                    <div className="w-content h-[400px]">
+                        <Skeleton className="my-md" active></Skeleton>
+                        <Skeleton className="my-md" active></Skeleton>
+                        <Skeleton className="my-md" active></Skeleton>
                     </div>
                     :
 
@@ -139,7 +134,7 @@ const Order = () => {
 
                         <PaginatedItemsWithAPI handleClick={handlePageClick} componentToRender={OrderCard} items={listOrder} pageCount={totalPage} currentPage={pageCurrent}></PaginatedItemsWithAPI>
                         :
-                        "Không có chuyến đi nào"
+                        <Empty description="Không có chuyến đi nào"></Empty>
                 }
             </div>
 
