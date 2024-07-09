@@ -1,8 +1,9 @@
+import React, { useEffect, useState } from 'react';
+import { PieChart, Pie, Legend, Sector } from 'recharts';
+import * as BillServices from '../../../../../services/BillServices';
+import { Empty, Skeleton } from 'antd';
 
-
-import React, { PureComponent } from 'react';
-import { PieChart, Pie, Legend, ResponsiveContainer, Sector } from 'recharts';
-// call api => set data ở đây
+// Dummy data if needed
 const data = [
     { name: 'Hà Nội - Gia Lai', value: 10, fill: '#8884d8' },
     { name: 'Phú Thọ - Yên Bái', value: 20, fill: '#83a6ed' },
@@ -27,12 +28,11 @@ const renderActiveShape = (props) => {
 
     return (
         <g>
-            <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-                <tspan x={cx} dy={0}>{payload.name}</tspan>
+            <text x={cx} y={cy} dy={-20} textAnchor="middle" fill={fill}>
+                {/* <tspan x={cx} dy={0}>{payload.name}</tspan> */}
                 <tspan x={cx} dy={20}>{`Tổng cộng ${value} lượt`}</tspan>
                 <tspan x={cx} dy={20}>{`(Tổng ${(percent * 100).toFixed(2)}%)`}</tspan>
             </text>
-
             <Sector
                 cx={cx}
                 cy={cy}
@@ -51,42 +51,73 @@ const renderActiveShape = (props) => {
                 outerRadius={outerRadius + 10}
                 fill={fill}
             />
-            {/* <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" /> */}
-            {/* <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" /> */}
-            {/* <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`Tổng cộng ${value} lượt`}</text>
-            <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
-                {`(Tổng ${(percent * 100).toFixed(2)}%)`}
-            </text> */}
         </g>
     );
 };
 
-export default class Example extends PureComponent {
-    state = {
-        activeIndex: 0,
+const Example = () => {
+    const [loading, setLoading] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [dataSet, setDataSet] = useState([]);
+    const getRandomColor = () => {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
     };
 
-    onPieEnter = (_, index) => {
-        this.setState({
-            activeIndex: index,
-        });
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const resp = await BillServices.TopRoute();
+            if (!resp.isError) {
+                let newDatas = resp.data.map((item) => ({
+                    name: `${item.StationStart} - ${item.StationEnd}`,
+                    value: item.TOTAL,
+                    fill: getRandomColor(),
+                }));
+                setDataSet(newDatas);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+        setLoading(false);
     };
 
-    render() {
-        return (
-            <div width={450} height={400} className="bg-bgContent rounded-md" style={{ overflow: 'visible', boxShadow: " rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px" }}>
-                <p className='w-full text-center' style={{ fontWeight: "500", fontSize: 20 }}>Top 5 chuyến đi phổ biến nhất</p>
-                <PieChart width={400} height={400} >
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const onPieEnter = (_, index) => {
+        setActiveIndex(index);
+    };
+
+    return (
+        <div className="bg-bgContent rounded-md" style={{ width: 450, height: 486, overflow: 'visible', boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px" }}>
+            <p className='w-full text-center' style={{ fontWeight: "500", fontSize: 20 }}>Top 5 chuyến đi phổ biến nhất</p>
+            {
+                loading &&
+                <div className='w-full max-h-[400px] overflow-hidden'>
+                    <Skeleton active />
+                    <Skeleton active />
+                    <Skeleton active />
+                    <Skeleton active />
+                </div>
+            }
+            {!loading && dataSet.length > 0 && (
+                <PieChart width={450} height={400}>
                     <style>{`
-                    .recharts-wrapper .recharts-pie-sector {
-                        outline: none;
-                        cursor:pointer;
-                    }
-                `}</style>
+                        .recharts-wrapper .recharts-pie-sector {
+                            outline: none;
+                            cursor: pointer;
+                        }
+                    `}</style>
                     <Pie
-                        activeIndex={this.state.activeIndex}
+                        activeIndex={activeIndex}
                         activeShape={renderActiveShape}
-                        data={data}
+                        data={dataSet}
                         animationBegin={0}
                         animationDuration={800}
                         cx="50%"
@@ -94,24 +125,17 @@ export default class Example extends PureComponent {
                         innerRadius={80}
                         outerRadius={100}
                         dataKey="value"
-                        onMouseEnter={this.onPieEnter}
+                        onMouseEnter={onPieEnter}
                     />
-                    <Legend
-                        layout="vertical"
-                        align="right"
-                        verticalAlign="middle"
-                    // wrapperStyle={{
-                    //     right: 20,
-                    //     // top: 0,
-                    //     bottom: 30,
-                    //     lineHeight: '24px',
-                    // }}
-                    />
-
+                    <Legend layout="horizontal" align="center" verticalAlign="bottom" />
                 </PieChart>
+            )}
 
-            </div>
-        );
-    }
-}
+            {!loading && dataSet.length === 0 && (
+                <Empty className='w-full h-[400px]' description="Không có dữ liệu"></Empty>
+            )}
+        </div>
+    );
+};
 
+export default Example;
