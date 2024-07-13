@@ -218,7 +218,7 @@ const BusDetail = () => {
                                     </div>
                                     :
                                     <div class='grid-flow-row grid-cols-2 grid gap-md w-[440px]'>
-                                        <div class='rounded-md col-span-1 bg-bgPopup h-[300px] w-[220px] overflow-y-scroll'>
+                                        <div class='rounded-md col-span-1 bg-bgContent h-[300px] w-[220px] overflow-y-scroll'>
                                             <img class='w-[50px] h-[50px] m-sm cursor-not-allowed' src={steeringWheel}></img>
 
                                             <div class='grid-cols-3 grid grid-flow-row gap-sm my-lg mx-md'>
@@ -244,7 +244,7 @@ const BusDetail = () => {
 
                                         </div>
 
-                                        <div class='rounded-md col-span-1 bg-bgPopup h-[300px] w-[220px] overflow-y-scroll'>
+                                        <div class='rounded-md col-span-1 bg-bgContent h-[300px] w-[220px] overflow-y-scroll'>
                                             <p class=' h-[50px] m-sm cursor-default'></p>
 
                                             <div class='grid-cols-3 grid grid-flow-row gap-sm my-lg mx-md'>
@@ -279,13 +279,13 @@ const BusDetail = () => {
                             {/* <PopupAddBusStation /> */}
                         </div>
                         <div class='w-full h-[250px] overflow-y-auto overflow-x-auto mb-md'>
-                            <table class="w-full my-sm rounded-md border-collapse  text-txt text-16 overflow-hidden" style={{ boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px" }}>
+                            <table class="w-full my-sm rounded-md border-collapse  text-txt text-16 overflow-hidden" >
                                 <thead>
-                                    <tr class='grid bg-button grid-cols-12 p-sm text-left gap-md ' style={{ borderBottom: "1px solid black" }}>
-                                        {/* <th class='col-span-2'>Id</th> */}
+                                    <tr class='grid  grid-cols-12 p-sm text-left gap-md ' style={{ borderBottom: "1px solid black" }}>
+
                                         <th class='col-span-4 '>Tên tuyến</th>
                                         <th class='col-span-8'>Lộ trình</th>
-                                        {/* <th class='col-span-2'>Trạng thái</th> */}
+
                                     </tr>
                                 </thead>
                                 <tbody class='bg-[#FFFF]'>

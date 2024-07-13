@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-const CheckBusStationRow = ({ item, onUpdate }) => {
-
+const CheckBusStationRow = ({ item, onUpdate, selectedList }) => {
+    // console.log(selectedList)
     // const updateCheck = (name, value) => {
     //     onUpdate(name, value);
     // }
@@ -12,6 +12,7 @@ const CheckBusStationRow = ({ item, onUpdate }) => {
             <td>
                 <input className="w-[20px] h-[20px]"
                     type="checkbox" name="check"
+                    checked={selectedList.includes(item.id) ? true : false}
                     //  value={item.id}
                     //   onClick={() => updateCheck(nameRadio, item.id)} checked={item.id === objectAdd[nameRadio] ? true : false}
                     onClick={(e) => onUpdate(e, item.id, item = {

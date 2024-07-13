@@ -183,7 +183,7 @@ const Login = () => {
             </form>
 
             {/* <Button type="solid" content="Đăng nhập" onClick={onSubmit} /> */}
-            <button className="confirm-button-new w-[16%]">Đăng nhập</button>
+            <button onClick={onSubmit} className="confirm-button-new w-[16%]">Đăng nhập</button>
             <div
                 className="p-[20px]">
                 <GoogleLogin

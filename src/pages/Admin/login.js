@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import * as authServices from "../../services/AuthServices";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Button, Row } from "antd";
+import { Button, Col, Row } from "antd";
 const AdminLogin = () => {
     const navigate = useNavigate();
     document.title = "Đăng nhập người quản trị"
@@ -37,10 +37,11 @@ const AdminLogin = () => {
         progress: undefined,
         theme: "light",
     });
-
+    const [loading, setLoading] = useState(false)
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         try {
             const response = await authServices.adminLogin(account)
             if (!response.isError) {
@@ -48,6 +49,7 @@ const AdminLogin = () => {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem("refreshToken", response.data.refreshToken);
                 localStorage.setItem('adminUsername', response.data.username);
+                setLoading(false)
                 notifySuccess()
                 setTimeout(() => {
                     window.location.href = '/admin/manage-user-account';
@@ -55,9 +57,11 @@ const AdminLogin = () => {
 
             }
             else {
+                setLoading(false)
                 notifyError()
             }
         } catch (error) {
+            setLoading(false)
             notifyError()
         }
 
@@ -112,10 +116,11 @@ const AdminLogin = () => {
             }
         ]
     );
+    // bg-gradient-to-br from-button to-[#B0D9B1]
 
     return (
-        <div class='w-full h-[100vh] bg-gradient-to-br from-button to-[#B0D9B1] flex justify-center items-center'>
-            <div class='w-2/3 h-2/3 border-none shadow-2xl rounded-md overflow-hidden flex'>
+        <div class='w-full h-[100vh] bg-bgContent flex justify-center items-center'>
+            <div class='w-2/3 h-2/3 border-none box-shadow-content rounded-md overflow-hidden flex'>
                 <div class='w-[40%] h-full bg-bgLogin bg-cover bg-no-repeat text-bg flex flex-col items-center'>
                     <img src={adminlogo} class='mt-md shrink-0 w-[100px] h-[100px] rounded-full'></img>
                     <p class='text-[30px] font-semibold shrink-0'>
@@ -131,7 +136,7 @@ const AdminLogin = () => {
 
                 </div>
 
-                <div class='w-[60%] h-full text-txt flex items-center bg-[#e1e1e1]'>
+                <div class='w-[60%] h-full text-txt flex items-center bg-bg'>
                     <div class='w-full h-2/3 items-center flex flex-col'>
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-sm'>
                             <p class='col-start-4 col-span-6 font-bold text-[30px]'>Đăng nhập vào hệ thống</p>
@@ -149,7 +154,7 @@ const AdminLogin = () => {
                                                 spanWidth: item.spanWidth,
                                                 id: item.id,
                                                 pw: item.pw,
-                                                background: "#e1e1e1"
+                                                background: "#fff"
                                             }}
                                             onChange={onChange}
                                             onChangeShowPassword={onChangeShowPassword}
@@ -159,9 +164,13 @@ const AdminLogin = () => {
                             ))
                         }
                         <div class='w-full grid grid-flow-row grid-cols-10 gap-sm items-center my-md'>
-                            <button class='confirm-button-new col-start-4 col-span-6' onClick={onSubmit}>
-                                Đăng nhập
-                            </button>
+                            <div className="col-start-4 col-span-6 ">
+
+                                <Button loading={loading} style={{ width: "100%", height: 40, }} onClick={onSubmit}>
+                                    Đăng nhập
+                                </Button>
+
+                            </div>
 
                         </div>
 
