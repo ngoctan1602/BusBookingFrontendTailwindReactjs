@@ -20,7 +20,7 @@ const PopUpShowDetail = ({ items, companyProps }) => {
 
                     <div class='p-md text-16 text-txt min-h-[200px]'>
                         <div class='relative'>
-                            <p class='text-20 text-center font-bold'>Chi tiết nhà xe</p>
+                            <p class='text-20 text-center font-bold'>Chi tiết bến bãi</p>
 
                             <div class='closeButton cursor-pointer '
                                 onClick={close}

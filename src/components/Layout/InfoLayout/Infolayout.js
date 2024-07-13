@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faRoute, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -17,11 +17,11 @@ const InfoLayout = ({ children }) => {
         {
             id: 1, content: "Thông tin tài khoản", icon: faUser, active: false, path: '/info', color: "#7EA1FF"
         },
+        // {
+        //     id: 2, content: "Thông báo của tôi", icon: faBell, active: false, path: '/notification', color: "#FFF455"
+        // },
         {
-            id: 2, content: "Thông báo của tôi", icon: faBell, active: false, path: '/notification', color: "#FFF455"
-        },
-        {
-            id: 3, content: "Quản lý chuyến đi", icon: faCartShopping, active: false, path: '/order', color: "#06D001"
+            id: 3, content: "Quản lý chuyến đi", icon: faRoute, active: false, path: '/order', color: "#06D001"
         },
         // {
         //     id: 4, content: "Chuyến đi yêu thích", icon: faHeart, active: false, path: '/favourite'

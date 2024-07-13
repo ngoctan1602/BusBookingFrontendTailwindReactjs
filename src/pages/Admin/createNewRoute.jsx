@@ -168,7 +168,7 @@ const CreateNewRoute = () => {
                             Chọn điểm xuất phát
                         </Col>
                         <Col span={12}>
-                            <Search placeholder="Tìm kiếm điểm đến" allowClear>
+                            <Search placeholder="Tìm kiếm điểm xuất phát" allowClear>
 
                             </Search>
                         </Col>
@@ -206,7 +206,7 @@ const CreateNewRoute = () => {
                             Chọn điểm đến
                         </Col>
                         <Col span={12}>
-                            <Search placeholder="Tìm kiếm điểm xuất phát" allowClear>
+                            <Search placeholder="Tìm kiếm điểm đến" allowClear>
 
                             </Search>
                         </Col>

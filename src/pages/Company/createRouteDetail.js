@@ -54,7 +54,7 @@ const CreateRouteDetail = () => {
     // }, [currentPage]);
 
     useEffect(() => {
-        fetchData()
+        fetchData(stationRouteCheck.stationStartId, stationRouteCheck.stationEndId)
     }, [currentPage]);
     useEffect(() => {
         getData()
@@ -68,6 +68,13 @@ const CreateRouteDetail = () => {
     // }, [currentPage])
     const fetchData = async (startId, endId) => {
         setLoading(true)
+        if (startId === undefined || endId === undefined || startId === "" || endId === "") {
+            setBusStation([])
+            setSelectedIds([])
+            setItemSelected([])
+            setLoading(false)
+            return
+        }
         try {
 
             // const routerresp = await RoutesSV.getAllRoutes();
@@ -81,10 +88,53 @@ const CreateRouteDetail = () => {
                     return (item.id !== startId && item.id !== endId);
                 });
 
+                // const a = respBusStation.data.items.filter(item => { return (item.id === startId || item.id === endId) })
+                // const b = a.map(item => {
+                //     if (item.id === startId) {
+
+                //         return {
+                //             BusStationId: item.id,
+                //             NameBusStation: item.name,
+                //             IndexStation: 1,
+                //             ArrivalTime: '00:00:00',
+                //             DepartureTime: '00:00:00',
+                //             AddDay: 0,
+                //             DiscountPrice: 0
+                //         }
+                //     } else
+                //         return {
+                //             BusStationId: item.id,
+                //             NameBusStation: item.name,
+                //             IndexStation: 2,
+                //             ArrivalTime: '00:00:00',
+                //             DepartureTime: '00:00:00',
+                //             AddDay: 0,
+                //             DiscountPrice: 0
+                //         }
+                // })
+
+                setBusStation(filteredItems)
+                setPageTotal(respBusStation.data.pageTotal)
+                // setItemSelected(b.sort((a, b) => a.IndexStation - b.IndexStation))
+                // setSelectedIds([])
+            }
+            // console.log(filteredItems)
+            // console.log(a)
+            // console.log(b)
+            setLoading(false)
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+    const setStartEndRouteDetail = async (startId, endId) => {
+        try {
+
+            const respBusStation = await BusStationSv.getAllBusStationWithParams({ pageSize: 200 });
+            if (!respBusStation.isError) {
                 const a = respBusStation.data.items.filter(item => { return (item.id === startId || item.id === endId) })
                 const b = a.map(item => {
                     if (item.id === startId) {
-
                         return {
                             BusStationId: item.id,
                             NameBusStation: item.name,
@@ -105,22 +155,12 @@ const CreateRouteDetail = () => {
                             DiscountPrice: 0
                         }
                 })
-
-                setBusStation(filteredItems)
-                setPageTotal(respBusStation.data.pageTotal)
-                setItemSelected(b.sort((a, b) => a.IndexStation - b.IndexStation))
-                setSelectedIds([])
+                setItemSelected(b.sort((i, j) => i.IndexStation - j.IndexStation))
             }
-            // console.log(filteredItems)
-            // console.log(a)
-            // console.log(b)
-            setLoading(false)
-
         } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
 
+        }
+    }
     const filterElements = (tableA, tableB) => {
         const idsInB = new Set(tableB.map(itemB => itemB.id));
         return tableA.filter(itemA => !idsInB.has(itemA.id));
@@ -139,25 +179,36 @@ const CreateRouteDetail = () => {
                 setRoute(filteredElements)
                 // setRoute(filter)
             }
-            setBusStation([])
-            setCurrentPage(0)
-            setSelectedIds([])
+            // setBusStation([])
+            // setCurrentPage(0)
+            // setSelectedIds([])
 
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
     const [routeId, setRouteId] = useState(0)
+    const [stationRouteCheck, setBusStationRouteCheck] = useState({
+        stationStartId: '',
+        stationEndId: ''
+    })
     const handleChangeRoute = (value) => {
-        const data = JSON.parse(value)
-        // if (data.id > 0) {
+        if (Number(value) !== 0) {
 
-        console.log(data.stationStartId)
-        setRouteId(data.id)
-        setCurrentPage(0)
-        fetchData(data.stationStartId, data.stationEndId)
-        // }
-        // fetchData(1, 3)
+            const data = JSON.parse(value)
+            setBusStationRouteCheck({ stationStartId: data.stationStartId, stationEndId: data.stationEndId })
+            console.log(stationRouteCheck)
+            setRouteId(data.id)
+            setCurrentPage(0)
+            fetchData(data.stationStartId, data.stationEndId)
+            setStartEndRouteDetail(data.stationStartId, data.stationEndId)
+            setSelectedIds([])
+        }
+        else {
+            setBusStation([])
+            setSelectedIds([])
+            setItemSelected([])
+        }
     }
     const [loadingCreate, setLoadingCreate] = useState(false);
     const createRouteDetail = async () => {
@@ -336,7 +387,7 @@ const CreateRouteDetail = () => {
                             {
                                 !loading &&
                                     busStation.length > 0 ?
-                                    <PaginatedItemsWithAPI currentPage={currentPage} handleClick={handlePageClick} componentToRender={BusStationRow} items={busStation} pageCount={pageTotal} fetchData={fetchData}
+                                    <PaginatedItemsWithAPI currentPage={currentPage} handleClick={handlePageClick} componentToRender={BusStationRow} items={busStation} pageCount={pageTotal} fetchData={fetchData} selectedList={selectedIds}
                                         // nameRadio={"check"} type="checkbox"
                                         onUpdate={handleCheckboxChange}
                                     ></PaginatedItemsWithAPI>

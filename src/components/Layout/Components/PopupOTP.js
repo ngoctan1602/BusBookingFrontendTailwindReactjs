@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import ReactLoading from 'react-loading';
 import { useState } from "react";
 import * as CustomerServices from "../../../services/CustomerServices";
+import { Button, Col, Row } from "antd";
 const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
     const contentStyle = { backgroundColor: '#fff', borderRadius: "8px", width: "40%" };
     let navigate = useNavigate();
@@ -68,7 +69,7 @@ const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
         <Popup trigger={<button class="confirm-button"> Cập nhật</button>} position="right center"
             modal
             nested
-            open={open}
+            open={true}
             closeOnDocumentClick={false}
             {... { contentStyle }}
         >
@@ -80,7 +81,7 @@ const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
 
                         <div class='grid grid-cols-12  w-full grid-flow-row'>
                             <p class='col-span-3 col-start-2 flex items-center justify-center '>OTP</p>
-                            <div class='col-span-9 col-start-5'>
+                            <div class='col-span-7 col-start-5'>
                                 <InputConfirmInfo
                                     onChange={onChangeConfirm}
                                     item={{
@@ -90,12 +91,24 @@ const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
                                     }}></InputConfirmInfo>
                             </div>
                         </div>
-                        <div class='flex justify-center my-md'>
+                        {/* <div class='flex justify-center my-md'>
                             <button class='w-[100px] shrink-0 confirm-button mx-md'
                                 onClick={handleSubmit}
                             >Xác nhận</button>
                             <button class='w-[100px] shrink-0 confirm-button' onClick={onChangeOpen}>Hủy</button>
-                        </div>
+                        </div> */}
+                        <Row className="w-full" >
+                            <Col span={5} offset={8}>
+                                <Button className="w-full">
+                                    Xác nhận
+                                </Button>
+                            </Col>
+                            <Col span={5} offset={4}>
+                                <Button className="w-full">
+                                    Hủy
+                                </Button>
+                            </Col>
+                        </Row>
                     </div>
                 )
             }

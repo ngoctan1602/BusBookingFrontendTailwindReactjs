@@ -1,11 +1,11 @@
 import React, { createContext, useEffect, useState } from 'react';
 import getConnection from '../services/SignalRService';
 import { toast } from 'react-toastify';
-import { useNavigate, useLocation  } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const NotificationContext = createContext();
 
-function NotificationProvider ({ children }) {
+function NotificationProvider({ children }) {
     const [notification, setNotification] = useState();
     const [counter, setCounter] = useState(0);
     const navigate = useNavigate();
@@ -39,19 +39,23 @@ function NotificationProvider ({ children }) {
     useEffect(() => {
         const fetchData = async () => {
             const connection = await getConnection();
-            connection.on('ReceiveNotification', (message, count, href, id) => {
-                setNotification(message);
-                setCounter(count);
-                notifySuccess(message, href, id);
-                console.log("Phảnhổi fdi: ", message)
-            });
-            
-            connection.on("ReceiveCountUnReadingNotification", (count) => {
-                // Xử lý số thông báo chưa đọc
-                setCounter(count);
-                console.log('Số thông báo chưa đọc:', count);
-                // Hiển thị số thông báo chưa đọc cho admin
-            });
+            try {
+                connection.on('ReceiveNotification', (message, count, href, id) => {
+                    setNotification(message);
+                    setCounter(count);
+                    notifySuccess(message, href, id);
+                    console.log("Phảnhổi fdi: ", message)
+                });
+
+                connection.on("ReceiveCountUnReadingNotification", (count) => {
+                    // Xử lý số thông báo chưa đọc
+                    setCounter(count);
+                    console.log('Số thông báo chưa đọc:', count);
+                    // Hiển thị số thông báo chưa đọc cho admin
+                });
+            } catch (error) {
+                console.log(error)
+            }
         };
 
         fetchData();

@@ -112,7 +112,7 @@ const ManagePrice = () => {
 
                 <div class='grid grid-cols-12 grid-flow-row gap-4 items-center'>
                     <p class='col-span-3 font-bold text-20 uppercase'>Quản lý bảng giá</p>
-                    <select className="col-span-3 outline-none p-sm rounded-md bg-bgPopup border-[1px] border-hover-txt"
+                    <select className="col-span-3 outline-none p-sm rounded-md  border-[1px] border-hover-txt"
                         onChange={(e) => navigate(e.target.value)}
                     >
                         <option value={'/company/priceclassification'} >
