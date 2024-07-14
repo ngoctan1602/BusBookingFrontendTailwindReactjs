@@ -1,120 +1,32 @@
+import { Col, Row } from 'antd';
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Doughnut, Bar } from 'react-chartjs-2';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    BarElement,
-    LinearScale,
-    PointElement,
-    Legend,
-    ArcElement,
-    Tooltip
-} from 'chart.js'
+import CardTotalAccount from '../../components/Layout/Components/DashBoard/Cards/admin/CardToltalAccount';
+import CardTotalCompany from '../../components/Layout/Components/DashBoard/Cards/admin/CardTotalCompany';
+import BusTypeChartAdmin from '../../components/Layout/Components/DashBoard/Charts/admin/ChartBusType';
+import ChartBusStation from '../../components/Layout/Components/DashBoard/Charts/admin/ChartBusStation';
 
-ChartJS.register(
-    ArcElement,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    BarElement,
-    Tooltip,
-    Legend
-)
 const DashBoard = () => {
-    const data = {
-        labels: ['Khách hàng', 'Nhà xe'],
-        datasets: [
-            {
-                label: 'Thống kê tài khoản thiết lập',
-                backgroundColor: ['red', 'blue'],
-                borderColor: 'rgba(75,192,192,1)',
-                borderWidth: 1,
-                hoverBackgroundColor: 'rgba(75,192,192,0.4)',
-                hoverBorderColor: 'rgba(75,192,192,1)',
-                data: [20, 30],
-            },
-        ],
-    };
-
-    const options = {
-        scales: {
-            x: {
-                categoryPercentage: 0.2, // Thiết lập chiều rộng của cột (80% của khoảng trục x)
-                barPercentage: 0.2,
-                grid: {
-                    display: false, // Ẩn đường viền trục x
-                },
-                ticks: {
-                    display: true, // Hiển thị nhãn trục x
-
-                },
-            },
-            y: {
-
-                grid: {
-                    display: false, // Ẩn đường viền trục y
-                },
-                ticks: {
-                    display: true, // Hiển thị nhãn trục y
-
-                },
-            },
-        },
-        animation: {
-            duration: 2000,
-            easing: 'easeInOutQuart',
-        },
-        legend: {
-            display: true,
-            position: 'top',
-        },
-        indexAxis: 'y',
-
-    };
-
-    const option1 = {
-
-        plugins: {
-            legend: {
-                position: 'left', // Hiển thị hình chữ U ở bên phải
-            },
-            cutoutPercentage: 50,
-        },
-        rotation: -Math.PI, // Đặt góc quay để nhãn nằm bên phải
-        animation: {
-            duration: 2000,
-            easing: 'easeInOutQuart',
-        },
-        legend: {
-            display: true,
-            position: 'end',
-        },
-
-
-    };
-
-    const top5TypeBus = {
-        labels: ['Xe 12 chỗ', 'Xe 20 chỗ', 'Xe 32 chỗ', 'Xe 46 chỗ', 'Xe 36 chỗ'],
-        datasets: [
-            {
-                label: 'Thống kê loại xe được sử dụng',
-                backgroundColor: ['red', 'blue', 'orange', 'yellow', 'pink'],
-                borderColor: 'rgba(75,192,192,1)',
-                borderWidth: 1,
-                hoverBackgroundColor: 'rgba(75,192,192,0.4)',
-                hoverBorderColor: 'rgba(75,192,192,1)',
-                data: [20, 30, 40, 50, 10],
-            },
-        ],
-    };
-
-
 
     return (
         <div className='w-full h-full'>
             <div className='w-full text-txt txt-16 bg-bg py-[20px] px-[10px] rounded-md box-shadow-content mb-md min-h-[1000px]'>
+                <Row className='w-full'>
+                    <Col offset={1} span={10}>
+                        <CardTotalAccount></CardTotalAccount>
+                    </Col>
+                    <Col offset={1} span={10}>
+                        <CardTotalCompany></CardTotalCompany>
+                    </Col>
+                </Row>
+                <Row className='w-full my-[40px]'>
+                    <Col span={12} className=''>
+                        <BusTypeChartAdmin />
+                    </Col>
+                    <Col span={12} className=''>
+                        <ChartBusStation />
+                    </Col>
+                </Row>
             </div>
             <ToastContainer
                 position="bottom-right"
@@ -128,7 +40,7 @@ const DashBoard = () => {
                 pauseOnHover={false}
                 theme="light"
             />
-        </div>
+        </div >
     );
 };
 
