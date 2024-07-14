@@ -261,6 +261,8 @@ const CreateTicket = () => {
             setLoadingCreate(false)
             if (!resp.isError) {
                 formCreate.resetFields();
+                setBus([])
+                SetRoutSelected(0);
                 setRouteDetail([])
                 setTotalRouteDetail(0)
                 setRouteDetailSelected([])
@@ -274,7 +276,7 @@ const CreateTicket = () => {
         }
         // console.log(objectAdd);
     }
-
+    const [itemSelected, setItemSelected] = useState([])
     return (
         <div className="w-full h-full">
             <div class='w-full min-h-[300px] text-txt txt-16 bg-bg py-[20px] px-[10px] rounded-md box-shadow-content mb-md' >
@@ -323,7 +325,7 @@ const CreateTicket = () => {
                             {loadingPriceClass ? (
                                 <SelectOption loading={true} props={propPriceClass}></SelectOption>
                             ) : (
-                                <SelectOption handleChangePage={handleChangePagePriceClass} loading={loadingPriceClass} props={propPriceClass} data={{ totalPage: totalPriceClass, pageCurrent: currentPagePriceClass, data: PriceClass }}></SelectOption>
+                                <SelectOption itemSelected={itemSelected} handleChangePage={handleChangePagePriceClass} loading={loadingPriceClass} props={propPriceClass} data={{ totalPage: totalPriceClass, pageCurrent: currentPagePriceClass, data: PriceClass }}></SelectOption>
                             )}
                         </Col>
                         <Col span={12}>

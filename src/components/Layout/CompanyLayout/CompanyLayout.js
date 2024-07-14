@@ -285,13 +285,13 @@ const CompanyLayout = ({ children }) => {
                                 <button
                                     className=""
                                     onClick={getNotifications}>
-                                    <FontAwesomeIcon icon={faBell} color="#5e5757"
+                                    <FontAwesomeIcon icon={faBell} color="#307BFD"
                                         className='cursor-pointer w-[full] h-[20px] hover:text-[#307BFD] ease-in-out duration-200'>
                                     </FontAwesomeIcon>
                                     <span className="text-text-red text-[14px] absolute top-[-50%] left-[65%]">{counter}</span>
                                 </button>
                             </button>}
-                            position="top right"
+                            position="right bottom"
                             modal
                             nested
                             closeOnDocumentClick={true}
@@ -299,7 +299,6 @@ const CompanyLayout = ({ children }) => {
                         >
                             {
                                 close => (
-
                                     <div className='text-16 text-txt min-h-[100px] relative'>
                                         <div className='bg-[#3F5F97] p-[10px] rounded-[8px] w-full h-[100px] text-center'>
                                             <p className='text-20 text-txt-light p-[5px]'>Thông báo của bạn</p>
