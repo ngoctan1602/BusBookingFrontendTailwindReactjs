@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Row } from "antd";
 import { useSpring, animated } from 'react-spring';
 import { useEffect, useState } from "react";
-// import * as BillService from '../../../../../services/BillServices';
+import * as CustomerService from "../../../../../../services/CustomerServices";
 const CardTotalAccount = () => {
 
     const [accounts, setAccount] = useState(0);
@@ -12,7 +12,7 @@ const CardTotalAccount = () => {
         from: { number: 0 },
         number: accounts,
         delay: 200,
-        config: { duration: 2000 }
+        config: { duration: 100 }
     });
 
     const propsPercent = useSpring({
@@ -29,11 +29,11 @@ const CardTotalAccount = () => {
     const fetchData = async () => {
         setLoading(true)
         try {
-            // const response = await BillService.Sales();
-            // if (response.isError !== undefined && !response.isError) {
-            //     setSales(response.data.revenue.value);
-            //     setRate(response.data.revenue.rate);
-            // }
+            const response = await CustomerService.StatisticalCustomer();
+            if (response.isError !== undefined && !response.isError) {
+                setAccount(response.data.totalCustomer);
+                setRate(response.data.rateCustomer);
+            }
         }
         catch (error) {
             console.error('Error fetching data:', error);
@@ -72,7 +72,7 @@ const CardTotalAccount = () => {
                         <animated.span>
                             {propsPercent.number.to(n => n.toFixed(0))}
                         </animated.span> %
-                        so với tháng trước
+                        Người dùng không hoạt động
                     </p>
                 </Row>
             }

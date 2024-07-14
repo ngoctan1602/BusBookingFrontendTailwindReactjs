@@ -50,6 +50,10 @@ export const TopRoute = async () => {
     return await BaseAPI.getItems(billServices.topRoute);
 }
 
+export const TopRouteByAdmin = async () => {
+    return await BaseAPI.getItems(billServices.topRouteByAdmin);
+}
+
 const billServices = {
     reserve: "bills/reserve",
     getAll: "bills/getAll",
@@ -64,4 +68,5 @@ const billServices = {
     totalBill: 'bills/totalBill',
     Sales: 'bills/Sales',
     topRoute: 'bills/topRoute',
+    topRouteByAdmin: 'bills/admin/TopRoute'
 }

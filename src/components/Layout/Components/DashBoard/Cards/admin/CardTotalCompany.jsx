@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Row } from "antd";
 import { useSpring, animated } from 'react-spring';
 import { useEffect, useState } from "react";
-// import * as BillService from '../../../../../services/BillServices';
+import * as CompanyService from "../../../../../../services/CompanySV"
 const CardTotalCompany = () => {
 
     const [company, setCompany] = useState(0);
@@ -29,11 +29,11 @@ const CardTotalCompany = () => {
     const fetchData = async () => {
         setLoading(true)
         try {
-            // const response = await BillService.Sales();
-            // if (response.isError !== undefined && !response.isError) {
-            //     setSales(response.data.revenue.value);
-            //     setRate(response.data.revenue.rate);
-            // }
+            const response = await CompanyService.StatisticalCompany();
+            if (response.isError !== undefined && !response.isError) {
+                setCompany(response.data.totalCompany);
+                setRate(response.data.rate);
+            }
         }
         catch (error) {
             console.error('Error fetching data:', error);
@@ -72,7 +72,7 @@ const CardTotalCompany = () => {
                         <animated.span>
                             {propsPercent.number.to(n => n.toFixed(0))}
                         </animated.span> %
-                        so với tháng trước
+                        Công ty không hoặt động
                     </p>
                 </Row>
             }

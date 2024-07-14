@@ -22,10 +22,14 @@ export const statistical = async () => {
     return await BaseAPI.getItems(typeBusServices.statistical, null);
 }
 
+export const statisticalByAdmin = async () => {
+    return await BaseAPI.getItems(typeBusServices.statisticalByAdmin, null);
+}
 const typeBusServices = {
     getAllTypeBus: 'bustypes/getAll',
     createTypeBus: 'bustypes/admin/create',
     updateTypeBus: 'bustypes/admin/update',
     find: 'bustypes/find',
     statistical: 'bustypes/companies/statistical',
+    statisticalByAdmin: 'bustypes/admin/statistical',
 }

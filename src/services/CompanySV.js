@@ -18,6 +18,9 @@ export const Register = async (data) => {
 export const Find = async (param) =>{
     return await BaseAPI.getItems(API.find, param)
 }
+export const StatisticalCompany = async () => {
+    return await BaseAPI.getItems(API.StatisticalCompany)
+}
 
 const API = {
     register: 'companies/register',
@@ -25,7 +28,8 @@ const API = {
     ChangIsActive: 'companies/admin/active',
     ChangeIsLock: 'companies/admin/ChangeIsLock',
     delete: 'companies/delete',
-    find: 'companies/admin/find'
+    find: 'companies/admin/find',
+    StatisticalCompany:'companies/StatisticalCompany'
 }
 
 const companiesSV = {

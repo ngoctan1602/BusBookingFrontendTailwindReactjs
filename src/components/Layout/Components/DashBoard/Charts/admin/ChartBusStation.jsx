@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, Legend, Sector } from 'recharts';
-import * as BillServices from '../../../../../../services/BillServices';
 import { Empty, Skeleton } from 'antd';
+import * as BillService from '../../../../../../services/BillServices';
 
 // Dummy data if needed
 const data = [
@@ -71,8 +71,8 @@ const Example = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const resp = await BillServices.TopRoute();
-            if (!resp.isError) {
+            const resp = await BillService.TopRouteByAdmin();
+            if (resp.isError !== undefined && !resp.isError) {
                 let newDatas = resp.data.map((item) => ({
                     name: `${item.StationStart} - ${item.StationEnd}`,
                     value: item.TOTAL,

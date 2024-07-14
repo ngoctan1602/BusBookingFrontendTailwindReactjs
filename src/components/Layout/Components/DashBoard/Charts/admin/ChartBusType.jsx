@@ -1,61 +1,23 @@
 import { Empty, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import { Bar, BarChart, Legend, Tooltip, XAxis, YAxis, CartesianGrid, LabelList, Label } from "recharts";
+import * as BusTypeService from "../../../../../../services/TypeBusServices"
 
 const BusTypeChartAdmin = () => {
     const [data, setData] = useState([
-        {
-            "name": "Xe 22 chỗ",
-            "value": 1000,
-        },
-
-        {
-            "name": "Xe 33 chỗ",
-            "value": 4000,
-        },
-        {
-            "name": "Xe 44 chỗ",
-            "value": 3000,
-        },
-        {
-            "name": "Xe 44 chỗ",
-            "value": 1000,
-        },
-        {
-            "name": "Xe 66 chỗ",
-            "value": 3000,
-        },
-
+       
     ])
     const [loading, setLoading] = useState(false);
     const fetchData = async () => {
         try {
             // call api ở đây
-            setData([
-                {
-                    "name": "Xe 22 chỗ",
-                    "value": 1000,
-                },
-
-                {
-                    "name": "Xe 33 chỗ",
-                    "value": 4000,
-                },
-                {
-                    "name": "Xe 44 chỗ",
-                    "value": 3000,
-                },
-                {
-                    "name": "Xe 44 chỗ",
-                    "value": 1000,
-                },
-                {
-                    "name": "Xe 66 chỗ",
-                    "value": 3000,
-                },
-
-            ])
-            // setData([])
+            const resp = await BusTypeService.statisticalByAdmin();
+            if (resp.isError !== undefined && resp.isError === false )
+            {
+                setData(resp.data);
+            }
+            else
+                setData([]);
         } catch (error) {
 
         }
@@ -89,11 +51,11 @@ const BusTypeChartAdmin = () => {
                             data={data}
                             margin={{ top: 15, right: 30, left: 20, bottom: 5 }}
                         >
-                            <XAxis dataKey="name">
+                            <XAxis dataKey="TotalSeats">
                             </XAxis>
                             <YAxis label={{ value: 'Xe', angle: -90, position: 'insideLeft' }} />
                             <Tooltip formatter={(value) => `${value} xe`} />
-                            <Bar dataKey="value" fill={color} maxBarSize={40}>
+                            <Bar dataKey="Total" fill={color} maxBarSize={40}>
 
                             </Bar>
                         </BarChart>

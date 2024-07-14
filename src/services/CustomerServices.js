@@ -36,6 +36,9 @@ export const loginOnGoolge = async (token) => {
 export const find = async (param) => {
     return await BaseAPI.getItems(API.find, param)
 }
+export const StatisticalCustomer = async () => {
+    return await BaseAPI.getItems(API.totalCustomer)
+}
 
 const API = {
     getAll: 'customers/getAll',
@@ -48,6 +51,7 @@ const API = {
     changeIsDelete: 'customers/changeIsDelete',
     loginOnGoolge: 'customers/loginOnGoogle',
     find: 'customers/find',
+    totalCustomer: 'customers/StatisticalCustomer',
 }
 
 const customerServices = {
@@ -56,7 +60,8 @@ const customerServices = {
     ...UpdateProfile,
     ...GetAll,
     ...AuthOTP,
-    ...find
+    ...find,
+    ...StatisticalCustomer,
 }
 
 export default customerServices;

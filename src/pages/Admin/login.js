@@ -52,7 +52,7 @@ const AdminLogin = () => {
                 setLoading(false)
                 notifySuccess()
                 setTimeout(() => {
-                    window.location.href = '/admin/manage-user-account';
+                    window.location.href = '/admin/dashboard';
                 }, 1500);
 
             }
