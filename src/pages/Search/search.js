@@ -222,6 +222,28 @@ const Search = () => {
     const handleChangePage = (pageSelected) => {
         setPageCurrent(pageSelected)
     }
+    const [loadingCompany, setLoadingCompany] = useState(false);
+    const [idCompanySelected, setIdCompanySelected] = useState([])
+    const changeSelectedId = (idCompany) => {
+        console.log(idCompany)
+        setIdCompanySelected((prevSelected) =>
+            prevSelected.includes(idCompany)
+                ? prevSelected.filter((id) => id !== idCompany)
+                : [...prevSelected, idCompany]
+        );
+    }
+    const checkDifferenceSearch = (search, searchSlice) => {
+        console.log(search.stationStart !== searchSlice.stationStart)
+        console.log(search.stationEnd !== searchSlice.stationEnd)
+        console.log(search.dateTime !== searchSlice.dateTime)
+        if (search.stationStart !== searchSlice.stationStart ||
+            search.stationEnd !== searchSlice.stationEnd
+            || search.dateTime !== searchSlice.dateTime
+        ) {
+            return true
+        }
+        return false
+    }
     const handSearch = async (search) => {
         // alert(selectedRadio)
         // const sort = {
@@ -229,9 +251,12 @@ const Search = () => {
         //     timeInDays: startTime.filter((item) => item.checked).map((item) => item.id),
         //     priceIsDesc: selectedRadio === 4 ? true : false,
         // }
+        const change = checkDifferenceSearch(search, searchSlice)
+
         const newSearch = {
             ...search,
-            ["companyIds"]: company.map((item) => item.companyId),
+            // ["companyIds"]: company.map((item) => item.companyId),
+            ["companyIds"]: idCompanySelected,
             ["timeInDays"]: startTime.filter((item) => item.checked).map((item) => item.id),
             ["priceIsDesc"]: selectedRadio === 4 ? true : false,
         }
@@ -253,32 +278,42 @@ const Search = () => {
             if (!response.isError) {
                 setBusInfo(response.data.items)
                 setPageTotal(response.data.pageTotal)
-                const companies = [];
-                setCompany(companies)
-                busInfo.forEach((item) => {
-                    let isExist = false;
+                const companies = change ? [] : company;
+                // setCompany(companies)
+                setLoadingCompany(true)
+                try {
+                    response.data.items.forEach((item) => {
+                        let isExist = false;
 
-                    for (const company of companies) {
-                        if (company.companyId === item.companyId) {
-                            isExist = true;
-                            break;
+                        for (const com of company) {
+                            if (com.companyId === item.companyId) {
+                                isExist = true;
+                                break;
+                            }
                         }
-                    }
 
-                    // Nếu chưa có, thêm vào mảng companies
-                    if (!isExist) {
-                        companies.push({
-                            companyId: item.companyId,
-                            companyName: item.company,
-                        });
-                    }
-                });
+                        // Nếu chưa có, thêm vào mảng companies
+                        if (!isExist) {
+                            companies.push({
+                                companyId: item.companyId,
+                                companyName: item.company,
+                            });
 
+                        }
+
+                    });
+                } catch (error) {
+                    notifyError(error)
+                }
                 setCompany(companies)
+
+
+                setLoadingCompany(false)
             }
             else {
                 notifyError(response.data)
                 setBusInfo([])
+                setCompany([])
             }
             setLoading(false)
         }
@@ -289,6 +324,9 @@ const Search = () => {
         }
 
     }
+    useEffect(() => {
+        setCompany([])
+    }, [])
     useEffect(() => {
         handSearch(searchSlice)
     }, [pageCurrent])
@@ -370,11 +408,18 @@ const Search = () => {
                             <input type='text' placeholder="Tìm trong danh sách"
                                 class='text-16 text-txt w-[90%] mx-sm bg-bg outline-none border-[1px] border-txt opacity-70 p-[4px] ease-in-out duration-300 rounded-md hover:border-button'>
                             </input>
-                            <div class='w-full flex flex-wrap overflow-y-scroll'>
+                            <div class='w-full min-h-[80px] flex flex-wrap overflow-y-auto'>
                                 {
-                                    company.map((item, index) => (
-                                        <Input type='checkbox' content={item.companyName}></Input>
-                                    ))
+                                    loadingCompany ?
+                                        <Skeleton active></Skeleton> :
+                                        !loadingCompany && company.length > 0 &&
+                                        company.map((item, index) => (
+                                            // <Input type='checkbox' content={item.companyName}></Input>
+                                            <div className="w-full flex mt-[4px] ml-md items-center">
+                                                <input type="checkbox" checked={idCompanySelected.includes(item.companyId)} onChange={() => changeSelectedId(item.companyId)}></input>
+                                                <label htmlFor={item.companyName} class='text-txt text-16 mx-sm'>{item.companyName}</label>
+                                            </div>
+                                        ))
                                 }
                             </div>
                         </div>
@@ -426,7 +471,7 @@ const Search = () => {
                                     :
                                     // <PaginatedItems itemsPerPage={5} items={busInfo} componentToRender={BusCardNew} ></PaginatedItems>
 
-                                    <PaginatedItemsWithAPI pageCount={pageTotal} currentPage={pageCurrent} items={busInfo} componentToRender={BusCard} ></PaginatedItemsWithAPI>
+                                    <PaginatedItemsWithAPI handleClick={handleChangePage} pageCount={pageTotal} currentPage={pageCurrent} items={busInfo} componentToRender={BusCard} ></PaginatedItemsWithAPI>
                         }
                     </div>
 
