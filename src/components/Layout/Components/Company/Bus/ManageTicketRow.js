@@ -18,7 +18,7 @@ const ManageTicketRow = ({ item, onChangeStatus }) => {
                     <td class='col-span-1'>{item.totalEmptySeat}</td>
                     <td class='col-span-2'>
                         <select
-                            className={`rounded-lg p-[5px] ${item.status === 0 ? 'bg-danger' : item.status === 7 ? 'bg-success' : item.status === 1 ? "bg-warning" : ""}`} style={{ background: item.status === 0 ? "#75718a" : "" }} onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
+                            className={`rounded-lg p-[5px] ${item.status === 0 ? 'bg-danger text-txt-light' : item.status === 7 ? 'bg-success' : item.status === 1 ? "bg-warning" : ""}`}  onChange={(e) => onChangeStatus(item.id, Number(e.target.value))}>
                             <option className="bg-warning" selected={item.status === 1 ? true : false} value={1} >Chờ xuất bến</option>
                             <option className="bg-danger" selected={item.status === 0 ? true : false} value={0} >Hủy</option>
                             <option className="bg-success" selected={item.status === 7 ? true : false} value={7} >Đã hoàn thành</option>
