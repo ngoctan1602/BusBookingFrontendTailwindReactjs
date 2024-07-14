@@ -51,9 +51,13 @@ const BusTypeChartAdmin = () => {
                             data={data}
                             margin={{ top: 15, right: 30, left: 20, bottom: 5 }}
                         >
-                            <XAxis dataKey="TotalSeats">
+                            <XAxis dataKey="TotalSeats"
+                                    label={{ value: 'Loại xe', position: 'insideBottom', offset: -5 }}>
                             </XAxis>
-                            <YAxis label={{ value: 'Xe', angle: -90, position: 'insideLeft' }} />
+                            <YAxis 
+                                label={{ value: 'Xe', angle: -90, position: 'insideLeft' }}
+                                tickFormatter={(tick) => Number.isInteger(tick) ? tick : ''}
+                                allowDecimals = {false} />
                             <Tooltip formatter={(value) => `${value} xe`} />
                             <Bar dataKey="Total" fill={color} maxBarSize={40}>
 

@@ -12,7 +12,13 @@ const ManageTicketRow = ({ item, onChangeStatus }) => {
                 <tr class='grid grid-cols-12 p-sm py-lg  border-collapse border-t-[1px] border-border-top'
                 >
                     <td class='col-span-2'>{item.busNumber}</td>
-                    <td class='col-span-2'>{item.listStation[0].station} -{item.listStation[item.listStation.length - 1].station}</td>
+                    <td class='col-span-2'>
+                        <p> {item.listStation[0].station} - 
+                        </p>
+                        
+                        <p>
+                        {item.listStation[item.listStation.length - 1].station}
+                        </p></td>
                     <td class='col-span-3'>{item.busType}</td>
                     <td class='col-span-2'>{new Date(item.date).toLocaleString()}</td>
                     <td class='col-span-1'>{item.totalEmptySeat}</td>
