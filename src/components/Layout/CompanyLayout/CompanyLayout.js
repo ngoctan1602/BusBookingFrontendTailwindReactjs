@@ -38,7 +38,15 @@ const CompanyLayout = ({ children }) => {
     };
 
     const navigate = useNavigate();
-    const contentStyle = { backgroundColor: '#e1e1e1', borderRadius: "8px", width: "400px" };
+    const contentStyle = {
+        backgroundColor: '#FFFF',
+        borderRadius: "8px",
+        width: "400px",
+        padding: "0",
+        position: "absolute",
+        top: "65px",
+        right: "25px",
+    };
     const [info, setInfo] = useState([
         {
             id: 7, content: "Dashboard", icon: faHouse, active: true, path: '/company/dashboard', color: '#99F6CA',
@@ -299,7 +307,7 @@ const CompanyLayout = ({ children }) => {
                         >
                             {
                                 close => (
-                                    <div className='text-16 text-txt min-h-[100px] relative'>
+                                    <div className='text-16 text-txt min-h-[100px] '>
                                         <div className='bg-[#3F5F97] p-[10px] rounded-[8px] w-full h-[100px] text-center'>
                                             <p className='text-20 text-txt-light p-[5px]'>Thông báo của bạn</p>
                                             <p className='text-10 text-txt-light p-[5px]'>Bạn đang có <span className="font-bold">{counter}</span> thông báo chưa đọc</p>
