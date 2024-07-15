@@ -69,7 +69,7 @@ const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
         <Popup trigger={<button class="confirm-button"> Cập nhật</button>} position="right center"
             modal
             nested
-            open={true}
+            open={open}
             closeOnDocumentClick={false}
             {... { contentStyle }}
         >
@@ -99,12 +99,12 @@ const PopupOTP = ({ open, confirm, onChangeConfirm, onChangeOpen }) => {
                         </div> */}
                         <Row className="w-full" >
                             <Col span={5} offset={8}>
-                                <Button className="w-full">
+                                <Button className="w-full"  onClick={handleSubmit}>
                                     Xác nhận
                                 </Button>
                             </Col>
                             <Col span={5} offset={4}>
-                                <Button className="w-full">
+                                <Button className="w-full" onClick={onChangeOpen}>
                                     Hủy
                                 </Button>
                             </Col>

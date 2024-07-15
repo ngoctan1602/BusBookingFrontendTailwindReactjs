@@ -285,7 +285,7 @@ const Search = () => {
                     response.data.items.forEach((item) => {
                         let isExist = false;
 
-                        for (const com of company) {
+                        for (const com of companies) {
                             if (com.companyId === item.companyId) {
                                 isExist = true;
                                 break;
