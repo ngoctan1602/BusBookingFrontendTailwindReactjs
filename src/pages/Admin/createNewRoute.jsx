@@ -57,20 +57,44 @@ const CreateNewRoute = () => {
             StationEndId: 0,
         }
     )
-    const fetchDataBusStationStart = async () => {
+    const fetchDataBusStationOnce = async () => {
         setLoading(true);
         try {
-            const respBusStation = await BusStationSv.getAllBusStationWithParams({ pageSize: 10, pageIndex: currentPageStart + 1 });
+            const respBusStation = await BusStationSv.getAllBusStationWithParams({ pageSize: 10, pageIndex: 1 });
             if (!respBusStation.isError) {
-                const filteredItems = respBusStation.data.items.filter(item => item.id !== objectAdd.StationEndId);
-                setBusStationStart(filteredItems)
+                setBusStationStart(respBusStation.data.items)
+                setBusStationEnd(respBusStation.data.items)
                 setPageTotal(respBusStation.data.pageTotal)
+                setPageTotalEnd(respBusStation.data.pageTotal)
             } else {
                 notifyError(respBusStation.data)
             }
             setLoading(false)
 
         } catch (error) {
+            setLoading(false)
+            notifyError(error)
+        }
+    }
+    const fetchDataBusStationStart = async () => {
+        setLoading(true);
+        try {
+            const respBusStation = await BusStationSv.getAllBusStationWithParams({ pageSize: 10, pageIndex: currentPageStart + 1 });
+            if (!respBusStation.isError) {
+                // const filteredItems = respBusStation.data.items.filter(item => item.id !== objectAdd.StationEndId);
+                const filteredItems = respBusStation.data.items.map(item => ({ ...item, isChoose: item.id !== objectAdd.StationEndId ? false : true }));
+
+                setBusStationStart(filteredItems)
+                setPageTotal(respBusStation.data.pageTotal)
+                setLoading(false)
+            } else {
+                notifyError(respBusStation.data)
+                setLoading(false)
+            }
+            setLoading(false)
+
+        } catch (error) {
+            setLoading(false)
             notifyError(error)
         }
     }
@@ -79,7 +103,8 @@ const CreateNewRoute = () => {
         try {
             const respBusStationEnd = await BusStationSv.getAllBusStationWithParams({ pageSize: 10, pageIndex: currentPageEnd + 1 });
             if (!respBusStationEnd.isError) {
-                const filteredItems = respBusStationEnd.data.items.filter(item => item.id !== objectAdd.StationStartId);
+                // const filteredItems = respBusStationEnd.data.items.filter(item => item.id !== objectAdd.StationStartId);
+                const filteredItems = respBusStationEnd.data.items.map(item => ({ ...item, isChoose: item.id !== objectAdd.StationStartId ? false : true }));
                 setBusStationEnd(filteredItems)
                 setPageTotalEnd(respBusStationEnd.data.pageTotal)
             } else {
@@ -88,19 +113,27 @@ const CreateNewRoute = () => {
             setLoadingEnd(false)
 
         } catch (error) {
+            setLoadingEnd(false)
             notifyError(error)
         }
     }
     useEffect(() => {
-        fetchDataBusStationStart();
-        fetchDataBusStationEnd();
+        // fetchDataBusStationStart();
+        // fetchDataBusStationEnd();
+        fetchDataBusStationOnce();
     }, [])
+    // useEffect(() => {
+    //     fetchDataBusStationEnd();
+    // }, [objectAdd.StationStartId, currentPageEnd])
+    // useEffect(() => {
+    //     fetchDataBusStationStart();
+    // }, [objectAdd.StationEndId, currentPageStart])
     useEffect(() => {
         fetchDataBusStationEnd();
-    }, [objectAdd.StationStartId, currentPageEnd])
+    }, [currentPageEnd])
     useEffect(() => {
         fetchDataBusStationStart();
-    }, [objectAdd.StationEndId, currentPageStart])
+    }, [currentPageStart])
     const [loadingCreate, setLoadingCreate] = useState(false)
     const checkObjectAdd = () => {
         if (objectAdd.StationEndId <= 0 || objectAdd.StationStartId <= 0 || objectAdd.StationStartId === undefined || objectAdd.StationStartId === undefined
@@ -133,6 +166,24 @@ const CreateNewRoute = () => {
         }
 
     }
+    const filterCheckedStationStart = async () => {
+        const filteredItems = busStationStart
+            // .filter(item => item.id !== objectAdd.StationEndId)
+            .map(item => ({ ...item, isChoose: item.id !== objectAdd.StationEndId ? false : true }));
+        setBusStationStart(filteredItems);
+    }
+    const filterCheckedStationEnd = async () => {
+        const filteredItems = busStationEnd
+            // .filter(item => item.id !== objectAdd.StationStartId)
+            .map(item => ({ ...item, isChoose: item.id !== objectAdd.StationStartId ? false : true }));
+        setBusStationEnd(filteredItems);
+    }
+    useEffect(() => {
+        filterCheckedStationStart()
+    }, [objectAdd.StationEndId])
+    useEffect(() => {
+        filterCheckedStationEnd()
+    }, [objectAdd.StationStartId])
     const onChangeName = (name, value) => {
         setObjectAdd({ ...objectAdd, [name]: value })
     }

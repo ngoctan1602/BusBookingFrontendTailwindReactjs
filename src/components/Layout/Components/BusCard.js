@@ -383,12 +383,12 @@ const BusCard = ({ item }) => {
 
     const [reviewBus, setReviewBus] = useState([]);
     const [loadingReview, setLoadingReview] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
     const fetchData = async () => {
         try {
             setLoadingReview(true);
-            const resp = await ReviewSV.getAllInBus({ busId: item.busId, pageIndex: currentPage });
+            const resp = await ReviewSV.getAllInBus({ busId: item.busId, pageIndex: currentPage + 1 });
             if (!resp.isError && resp.data && resp.data.items) {
                 setReviewBus(resp.data.items);
                 setTotalPage(resp.data.pageTotal);

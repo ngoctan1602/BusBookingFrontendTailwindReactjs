@@ -71,7 +71,7 @@ const OrderCard = ({ item }) => {
             setLoading(true)
             const resp = await ReviewSV.createReview(objectCancel)
             setLoading(false)
-            notifySuccess()
+            notifySuccess("Thêm đánh giá thành công")
             setTimeout(
                 () => close(), 2000
             )
@@ -91,7 +91,7 @@ const OrderCard = ({ item }) => {
                         < FontAwesomeIcon icon={faTruckFast} />
                         <p class='p-sm'>Chuyến đi đã hoàn thành</p>
                     </div>
-                    : item.status === 5  || item.status === 6 ?
+                    : item.status === 5 || item.status === 6 ?
                         <div class='flex items-center text-[#071952]'>
                             < FontAwesomeIcon icon={faHourglassStart} />
                             <p class='p-sm'>Chuyến đi sắp tới</p>
@@ -147,7 +147,7 @@ const OrderCard = ({ item }) => {
                             <div class='text-16 text-txt relative'>
                                 {
                                     loading &&
-                                    <div className='absolute bg-hover-txt w-[100%] h-full z-20 opacity-40 '>
+                                    <div className='absolute bg-bgContent w-[100%] h-full z-20 opacity-40 '>
                                         <ReactLoading
                                             type="spinningBubbles" color="#e1e1e1e1"
                                             height={'5%'} width={'5%'}
@@ -184,10 +184,10 @@ const OrderCard = ({ item }) => {
                                 </div>
 
                                 <div class='flex justify-center my-md'>
-                                    <button class='w-[100px] shrink-0 confirm-button mx-md'
+                                    <button class='w-[100px] shrink-0 confirm-button-new mx-md'
                                         onClick={(e) => submitReview(close)}
                                     >Xác nhận</button>
-                                    <button class='w-[100px] shrink-0 confirm-button' onClick={close}>Hủy</button>
+                                    <button class='w-[100px] shrink-0 confirm-button-new' onClick={close}>Hủy</button>
 
                                 </div>
 
