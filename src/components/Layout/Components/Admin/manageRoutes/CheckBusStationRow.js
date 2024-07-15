@@ -12,6 +12,7 @@ const CheckBusStationRow = ({ item, nameRadio, onUpdate, objectAdd }) => {
             <td>
                 <input className="w-[20px] h-[20px]"
                     type="radio"
+                    disabled={item.isChoose ? true : false}
                     name={nameRadio} value={item.id}
                     onClick={() => updateCheck(nameRadio, item.id)}
                     checked={item.id === objectAdd[nameRadio] ? true : false}
