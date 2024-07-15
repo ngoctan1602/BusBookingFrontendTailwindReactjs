@@ -31,7 +31,7 @@ const BusReviewCard = ({ item }) => {
                     {item.fullName}
                 </Row>
                 <Row className="w-full">
-                    <Col span={3}>
+                    <Col span={3} className="flex">
                         <div>
                             {
 
