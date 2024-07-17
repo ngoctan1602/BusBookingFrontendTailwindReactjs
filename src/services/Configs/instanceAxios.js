@@ -2,7 +2,7 @@ import axios from "axios";
 
 const createAxiosInstance = () => {
     const instance = axios.create({
-        baseURL: process.env.REACT_APP_API_BASE_URL || "https://localhost:5107/api/",
+        baseURL:"http://ngoctan1602-001-site1.ktempurl.com/api/"|| process.env.REACT_APP_API_BASE_URL || "https://localhost:5107/api/",
         timeout: 100000, // 10 seconds timeout
     });
 
