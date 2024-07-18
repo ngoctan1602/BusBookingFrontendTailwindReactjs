@@ -26,12 +26,21 @@ export const find = async (param) => {
     return await BaseAPI.getItems(busStationSV.find, param)
 
 }
+export const changeActive = async (param) => {
+    return await BaseAPI.getItems(busStationSV.changeActive, param)
 
+}
+export const changeDiasable = async (param) => {
+    return await BaseAPI.getItems(busStationSV.changeDisable, param)
+
+}
 const busStationSV = {
     allBusStation: 'stations/getall',
     getByLocation: 'stations/getByLocation',
     updateBusStation: 'stations/admin/update',
     createBusStation: 'stations/admin/create',
     getAllInBus: 'stations/getallinbus',
-    find: 'stations/admin/find'
+    find: 'stations/admin/find',
+    changeActive: "stations/admin/active",
+    changeDisable: "stations/admin/disable"
 }

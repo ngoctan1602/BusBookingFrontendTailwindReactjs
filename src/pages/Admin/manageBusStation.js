@@ -150,64 +150,64 @@ const ManageBusStation = () => {
         });
     };
 
+    // const changeStatus = (id, value) => {
+    //     busStations.map(async (item, index) => {
+    //         if (item.id === id) {
+    //             const a = {
+    //                 ...item,
+    //                 status: value
+    //             }
+    //             const update = await BusStationSV.updateBusStation(a)
+    //             if (!update.isError) {
+    //                 notifySuccess()
+    //                 fetchData()
+    //                 return
+    //             }
+    //             else {
+    //                 notifyError()
+    //                 return
+    //             }
+    //         }
+    //     });
+    // }
     const changeStatus = (id, value) => {
-        busStations.map(async (item, index) => {
-            if (item.id === id) {
-                const a = {
-                    ...item,
-                    status: value
-                }
-                const update = await BusStationSV.updateBusStation(a)
-                if (!update.isError) {
+        try {
+            if (value === 1) {
+
+                const resp = BusStationSV.changeActive({ id: id });
+                console.log(resp)
+                if (!resp.isError) {
                     notifySuccess()
-                    return
+                    setTimeout(
+                        () =>
+                            fetchData()
+                        , 2000
+                    )
                 }
                 else {
                     notifyError()
-                    return
                 }
             }
-        });
+            else if (value === 0) {
+                const resp = BusStationSV.changeDiasable({ id: id });
+                console.log(resp)
+                if (!resp.isError) {
+                    notifySuccess()
+                    setTimeout(
+                        () =>
+                            fetchData()
+                        , 2000
+                    )
+                }
+                else {
+                    notifyError()
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
     }
-    // const updateStatus = (id, value) => {
-    //     try {
-    //         if (value === 3) {
-
-    //             const resp = SeatTypeSV.changeToDisable({ id: id });
-    //             console.log(resp)
-    //             if (!resp.isError) {
-    //                 notifySuccess()
-    //                 setTimeout(
-    //                     () =>
-    //                         fetchData()
-    //                     , 2000
-    //                 )
-    //             }
-    //             else {
-    //                 notifyError()
-    //             }
-    //         }
-    //         else if (value === 1) {
-    //             const resp = SeatTypeSV.changeIsActive({ id: id });
-    //             setUpdateLoading(false)
-    //             console.log(resp)
-    //             if (!resp.isError) {
-    //                 notifySuccess()
-    //                 setTimeout(
-    //                     () =>
-    //                         fetchData()
-    //                     , 2000
-    //                 )
-    //             }
-    //             else {
-    //                 notifyError()
-    //             }
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-
-    // }
     const Find = async (param) => {
         try {
             const response = await BusStationSV.find({ param: param, pageSize: 10, pageIndex: 1 });
@@ -265,7 +265,7 @@ const ManageBusStation = () => {
                             :
                             !loading && busStations.length > 0 ?
                                 // <Paginate itemsPerPage={5} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus}></Paginate>
-                                <PaginatedItemsWithAPI handleClick={handlePageClick} currentPage={pageCurrent} pageCount={pageTotal} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus}></PaginatedItemsWithAPI>
+                                <PaginatedItemsWithAPI handleClick={handlePageClick} currentPage={pageCurrent} pageCount={pageTotal} items={busStations} componentToRender={BusStationRow} updateStatus={changeStatus} fetchData={fetchData}></PaginatedItemsWithAPI>
                                 : <Empty description="Không có bến bãi" />
                     }
                 </tbody>

@@ -67,12 +67,16 @@ const CompanyLayout = ({ children }) => {
             id: 5, content: "Quản lý chuyến đi", icon: faMapLocationDot, active: false, path: '/company/ticket', color: '#FB766D',
         },
     ])
+    const [username, setUsername] = useState("")
     useEffect(() => {
         // const token = localStorage.getItem('token');
         // setIsLoggedIn(token !== null);
         const checkData = () => {
             if (localStorage.getItem("usernameCompany") === null || localStorage.getItem("usernameCompany") === '') {
                 navigate("/company/login")
+            }
+            else {
+                setUsername(localStorage.getItem("usernameCompany"));
             }
         };
         seatActive(location.pathname)();
@@ -281,8 +285,10 @@ const CompanyLayout = ({ children }) => {
                 </Col>
 
                 {/*@this is notification UI  --Start*/}
-
-                <Col offset={18} className=" flex items-center">
+                <Col className="flex items-center" offset={16} span={1} style={{ height: "60px" }}>
+                    <p>Xin chào {username}</p>
+                </Col>
+                <Col offset={1} className=" flex items-center">
 
                     <div
                         className="relative">
