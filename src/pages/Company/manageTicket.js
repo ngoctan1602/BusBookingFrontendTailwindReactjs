@@ -15,6 +15,7 @@ import ReactLoading from 'react-loading';
 import ManageTicketRow from "../../components/Layout/Components/Company/Bus/ManageTicketRow";
 import PaginatedItemsWithAPI from "../../components/Layout/Components/PaginateWithApi";
 import { Empty } from "antd";
+import { now } from "moment";
 
 const Overview = () => {
 
@@ -59,10 +60,10 @@ const Overview = () => {
         []
     )
 
-    const fetchData = async (month) => {
+    const fetchData = async () => {
         setLoading(true)
         try {
-            const response = await ticketSV.getAllTicketInCompany({ pageSize: 10, pageIndex: currentPage + 1, month: month });
+            const response = await ticketSV.getAllTicketInCompany({ pageSize: 10, pageIndex: currentPage + 1, month: selectedMonth });
             console.log(response)
             if (!response.isError && response.data.items) {
                 setTickets([])
@@ -77,22 +78,20 @@ const Overview = () => {
     };
 
     useEffect(() => {
-
-
-        fetchData(selectedMonth);
+        fetchData();
         return () => {
             console.log("call api success")
         }
     }, []);
 
-    useEffect(() => {
+    // useEffect(() => {
 
 
-        fetchData(selectedMonth);
-        return () => {
-            console.log("call api success")
-        }
-    }, [currentPage]);
+    //     fetchData();
+    //     return () => {
+    //         console.log("call api success")
+    //     }
+    // }, [currentPage]);
 
 
     const [isChange, setIsChange] = useState(false);
@@ -107,7 +106,8 @@ const Overview = () => {
                     notifySuccess()
                     setTimeout(
                         () =>
-                            fetchData()
+                            setCurrentPage(prevState => prevState - 1)
+                        // fetchData()
                         , 2000
                     )
                 }
@@ -124,7 +124,8 @@ const Overview = () => {
                     notifySuccess()
                     setTimeout(
                         () =>
-                            fetchData()
+                            setCurrentPage(prevState => prevState - 1)
+                        // fetchData()
                         , 2000
                     )
                 }
@@ -150,14 +151,16 @@ const Overview = () => {
         //     }
         console.log(id, value)
     }
-    const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 7));
+    const [selectedMonth, setSelectedMonth] = useState(new Date().toISOString().slice(0, 10));
     const onChangeMonth = async (month) => {
         setSelectedMonth(month)
         setCurrentPage(0)
         setPageTotal(0)
-        fetchData(month)
         //Gọi api 
     }
+    useEffect(() => {
+        fetchData();
+    }, [selectedMonth, currentPage])
     return (
         <div className="w-full h-full">
 
