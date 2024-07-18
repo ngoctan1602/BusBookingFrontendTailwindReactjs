@@ -166,7 +166,7 @@ const Overview = () => {
                 <div class='grid grid-cols-9 grid-flow-row gap-4 items-center'>
                     <p class='col-span-2 font-bold text-20'>Quản lý chuyến đi</p>
 
-                    <input type="month" class="col-span-2 rounded-md border border-solid border-button p-sm"
+                    <input type="date" class="col-span-2 rounded-md border border-solid border-button p-sm"
                         value={selectedMonth} onChange={(e) => onChangeMonth(e.target.value)} />
 
                 </div>
